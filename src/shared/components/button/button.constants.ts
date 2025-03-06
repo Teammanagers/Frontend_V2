@@ -1,6 +1,6 @@
-import { IButtonStyle } from '../../types/button.types.ts';
+import { IButtonStyle } from '@/shared/types/button.types.ts';
 
-// 크기
+// 일반 버튼 크기
 export const buttonSizes = {
   tiny: { width: 28, height: 24, fontSize: 10 },
   mini: { width: 96, height: 36, fontSize: 12 },
@@ -10,6 +10,12 @@ export const buttonSizes = {
   long: { width: 472, height: 36, fontSize: 12 },
   xl: { width: 472, height: 48, fontSize: 16 },
   xxl: { width: 664, height: 48, fontSize: 16 },
+};
+
+// 수직 버튼 크기
+export const verticalButtonSizes = {
+  small: { width: 78, height: 66, gap: 6 },
+  large: { width: 80, height: 68, gap: 7 },
 };
 
 // 스타일

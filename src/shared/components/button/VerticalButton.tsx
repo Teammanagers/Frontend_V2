@@ -1,18 +1,6 @@
 import styled from 'styled-components';
-
-interface VerticalButtonProps {
-  size: keyof typeof buttonSizes;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-  onClick?: () => void;
-  disabled?: boolean;
-}
-
-// 사이즈
-const buttonSizes = {
-  small: { width: 78, height: 66, gap: 6 },
-  large: { width: 80, height: 68, gap: 7 },
-};
+import { verticalButtonSizes } from '@/shared/components/button/button.constants.ts';
+import { IVerticalButtonProps } from '@/shared/components/button/button.types.ts';
 
 export const VerticalButton = ({
   size,
@@ -20,8 +8,8 @@ export const VerticalButton = ({
   children,
   onClick,
   disabled = false,
-}: VerticalButtonProps) => {
-  const selectedSize = buttonSizes[size];
+}: IVerticalButtonProps) => {
+  const selectedSize = verticalButtonSizes[size];
 
   return (
     <ButtonContainer
