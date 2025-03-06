@@ -1,0 +1,164 @@
+{
+  "code": 200,
+  "message": "성공입니다.",
+  "result": {
+    "ownerTeamManageId": 4,
+    "teamTodoList": [
+      {
+        "teamManageId": 2,
+        "name": "이희수",
+        "roleTagList": [
+          {
+            "tagId": 2,
+            "name": "백엔드"
+          }
+        ],
+        "todoList": [
+          {
+            "todoId": 6,
+            "title": "캘린더 구현",
+            "status": "PROCEEDING"
+          },
+          {
+            "todoId": 7,
+            "title": "API 명세",
+            "status": "COMPLETED"
+          }
+        ]
+      },
+      {
+        "teamManageId": 4,
+        "name": "김예안",
+        "roleTagList": [
+          {
+            "tagId": 3,
+            "name": "프론트엔드"
+          }
+        ],
+        "todoList": [
+          {
+            "todoId": 8,
+            "title": "투두리스트 퍼블리싱",
+            "status": "PROCEEDING"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          }
+        ]
+      },
+      {
+        "teamManageId": 5,
+        "name": "김지나",
+        "roleTagList": [
+          {
+            "tagId": 3,
+            "name": "프론트엔드"
+          }
+        ],
+        "todoList": [
+          {
+            "todoId": 8,
+            "title": "투두리스트 퍼블리싱",
+            "status": "PROCEEDING"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          }
+        ]
+      },
+      {
+        "teamManageId": 5,
+        "name": "김지나",
+        "roleTagList": [
+          {
+            "tagId": 3,
+            "name": "프론트엔드"
+          },
+          {
+            "tagId": 3,
+            "name": "기획자"
+          }
+        ],
+        "todoList": [
+          {
+            "todoId": 8,
+            "title": "투두리스트 퍼블리싱",
+            "status": "PROCEEDING"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          }
+        ]
+      },
+      {
+        "teamManageId": 5,
+        "name": "김지나",
+        "roleTagList": [
+          {
+            "tagId": 3,
+            "name": "프론트엔드"
+          }
+        ],
+        "todoList": [
+          {
+            "todoId": 8,
+            "title": "투두리스트 퍼블리싱",
+            "status": "PROCEEDING"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          },
+          {
+            "todoId": 9,
+            "title": "명세서 분석",
+            "status": "COMPLETED"
+          }
+        ]
+      }
+    ],
+    "progress": 50
+  }
+}

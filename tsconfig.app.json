@@ -20,17 +20,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/app/*": ["src/app/*"],
+      "@/entities/*": ["src/entities/*"],
+      "@/pages/*": ["src/pages/*"],
+      "@/shared/*": ["src/shared/*"],
+      "@/widgets/*": ["src/widgets/*"]
+    }
   },
-  "paths": {
-    "@/apis/*": ["src/apis/*"],
-    "@/assets/*": ["src/utils/*"],
-    "@/commons/*": ["src/commons/*"],
-    "@/components/*": ["src/components/*"],
-    "@/hooks/*": ["src/hooks/*"],
-    "@/pages/*": ["src/pages/*"],
-    "@/store/*": ["src/store/*"],
-    "@/utils/*": ["src/utils/*"]
-  },
-  "include": ["src"]
+
+  "include": ["src", "**/*.ts", "**/*.tsx"]
 }
