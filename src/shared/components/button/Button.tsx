@@ -1,6 +1,9 @@
 import styled from 'styled-components';
+import {
+  buttonSizes,
+  buttonStyles,
+} from '@/shared/config/constants/button.constants.ts';
 import { IButtonProps } from '@/shared/types/button.types.ts';
-import { buttonSizes, buttonStyles } from './button.constants.ts';
 
 /**
  * 일반 버튼(가로) 컴포넌트입니다.

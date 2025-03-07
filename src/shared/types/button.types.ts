@@ -2,7 +2,7 @@ import {
   buttonSizes,
   verticalButtonSizes,
   buttonStyles,
-} from '@/shared/components/button/button.constants.ts';
+} from '@/shared/config/constants/button.constants.ts';
 
 export interface IButtonStyle {
   backgroundColor: string;

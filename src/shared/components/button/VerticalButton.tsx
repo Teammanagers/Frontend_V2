@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { verticalButtonSizes } from '@/shared/components/button/button.constants.ts';
+import { verticalButtonSizes } from '@/shared/config/constants/button.constants.ts';
 import { IVerticalButtonProps } from '@/shared/types/button.types.ts';
 
 /**
