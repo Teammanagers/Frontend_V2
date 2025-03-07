@@ -1,27 +1,39 @@
 import styled from 'styled-components';
+import { verticalButtonSizes } from '@/shared/config/constants/button.constants.ts';
+import { IVerticalButtonProps } from '@/shared/types/button.types.ts';
 
-interface VerticalButtonProps {
-  size: keyof typeof buttonSizes;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-  onClick?: () => void;
-  disabled?: boolean;
-}
-
-// 사이즈
-const buttonSizes = {
-  small: { width: 78, height: 66, gap: 6 },
-  large: { width: 80, height: 68, gap: 7 },
-};
+/**
+ * 수직 버튼 컴포넌트입니다.
+ *
+ * @example
+ * ```tsx
+ * <VerticalButton size="large" onClick={() => console.log("Click!")} icon={<img src={testIcon} />}>
+ *   클릭!
+ * </VerticalButton>
+ *  ```
+ *
+ * @param {'small' | 'large'} size - 버튼 크기
+ * @param {React.ReactNode} children - 버튼 내부의 텍스트
+ * @param {() => void} onClick - 버튼 클릭 이벤트핸들러
+ * @param {boolean} disabled=false - 버튼 비활성화 여부
+ * @param {React.ReactNode} icon - 버튼 상단에 표시할 아이콘
+ *
+ * @description 버튼의 크기 정보 (size props)
+ * ```
+ *   small: { width: 78, height: 66, gap: 6 },
+ *   large: { width: 80, height: 68, gap: 7 }
+ * ```
+ *
+ */
 
 export const VerticalButton = ({
   size,
-  icon,
-  children,
   onClick,
   disabled = false,
-}: VerticalButtonProps) => {
-  const selectedSize = buttonSizes[size];
+  icon,
+  children,
+}: IVerticalButtonProps) => {
+  const selectedSize = verticalButtonSizes[size];
 
   return (
     <ButtonContainer
@@ -29,7 +41,7 @@ export const VerticalButton = ({
       onClick={onClick}
       disabled={disabled}
     >
-      <IconWrapper>{icon}</IconWrapper>
+      {icon && <IconWrapper>{icon}</IconWrapper>}
       {children}
     </ButtonContainer>
   );
@@ -45,7 +57,7 @@ const ButtonContainer = styled.button<{
   justify-content: center;
   font-size: 10px;
   background: #ffffff;
-  border: 1px solid ${({ disabled }) => (disabled ? '#F0F0F0' : '#F0F0F0')};
+  border: 1px solid #f0f0f0;
   border-radius: 6px;
   font-weight: 500;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};

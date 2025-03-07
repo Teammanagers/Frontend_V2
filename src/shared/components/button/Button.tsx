@@ -1,57 +1,66 @@
 import styled from 'styled-components';
+import {
+  buttonSizes,
+  buttonStyles,
+} from '@/shared/config/constants/button.constants.ts';
+import { IButtonProps } from '@/shared/types/button.types.ts';
 
-interface ButtonStyle {
-  backgroundColor: string;
-  textColor: string;
-  hoverBackgroundColor?: string;
-  borderColor?: string;
-}
-
-interface ButtonProps {
-  size: keyof typeof buttonSizes;
-  style: keyof typeof buttonStyles;
-  children: React.ReactNode;
-  onClick?: () => void;
-  disabled?: boolean;
-  icon?: React.ReactNode;
-}
-
-// 크기
-const buttonSizes = {
-  tiny: { width: 28, height: 24, fontSize: 10 },
-  mini: { width: 96, height: 36, fontSize: 12 },
-  small: { width: 158, height: 36, fontSize: 12 },
-  medium: { width: 332, height: 36, fontSize: 12 },
-  large: { width: 350, height: 48, fontSize: 16 },
-  long: { width: 472, height: 36, fontSize: 12 },
-  xl: { width: 472, height: 48, fontSize: 16 },
-  xxl: { width: 664, height: 48, fontSize: 16 },
-};
-
-// 스타일
-const buttonStyles: Record<string, ButtonStyle> = {
-  main: {
-    backgroundColor: '#5C9EFF',
-    textColor: '#FFFFFF',
-    hoverBackgroundColor: '#3C8BFF',
-  },
-  sub: {
-    backgroundColor: '#FFFFFF',
-    textColor: '#5C9EFF',
-    hoverBackgroundColor: '#DDEBFF',
-    borderColor: '#5C9EFF',
-  },
-  red: {
-    backgroundColor: '#FFFFFF',
-    textColor: '#FF0000',
-    hoverBackgroundColor: '#FFE9E9',
-    borderColor: '#FF0000',
-  },
-  disabled: {
-    backgroundColor: '#CCCCCC',
-    textColor: '#FFFFFF',
-  },
-};
+/**
+ * 일반 버튼(가로) 컴포넌트입니다.
+ *
+ * `disabled` 속성을 사용할 시 style과 disabled props 모두 `disabled` 적용이 필요합니다.
+ *
+ * @example
+ * ```tsx
+ * <Button size="large" style="main" onClick={() => console.log("Click!")} icon={<img src={testIcon} />}>
+ *   클릭!
+ * </Button>
+ *  ```
+ *
+ * @param {'tiny' | 'mini' | 'small' | 'medium' | 'large' | 'long' | 'xl' | 'xxl'} size - 버튼 크기
+ * @param {'main' | 'sub' | 'red' | 'disabled'} style - 버튼 스타일
+ * @param {React.ReactNode} children - 버튼 내부의 텍스트
+ * @param {() => void} onClick - 버튼 클릭 이벤트핸들러
+ * @param {boolean} disabled=false - 버튼 비활성화 여부
+ * @param {React.ReactNode} icon - 버튼 왼쪽에 표시할 아이콘, optional
+ *
+ * @description 버튼의 크기 정보 (size props)
+ * ```
+ *   tiny: { width: 28, height: 24, fontSize: 10 },
+ *   mini: { width: 96, height: 36, fontSize: 12 },
+ *   small: { width: 158, height: 36, fontSize: 12 },
+ *   medium: { width: 332, height: 36, fontSize: 12 },
+ *   large: { width: 350, height: 48, fontSize: 16 },
+ *   long: { width: 472, height: 36, fontSize: 12 },
+ *   xl: { width: 472, height: 48, fontSize: 16 },
+ *   xxl: { width: 664, height: 48, fontSize: 16 }
+ * ```
+ *
+ * @description 버튼 스타일 정보 (style props)
+ * ```
+ * main: {
+ *     backgroundColor: '#5C9EFF',
+ *     textColor: '#FFFFFF',
+ *     hoverBackgroundColor: '#3C8BFF',
+ *   },
+ *   sub: {
+ *     backgroundColor: '#FFFFFF',
+ *     textColor: '#5C9EFF',
+ *     hoverBackgroundColor: '#DDEBFF',
+ *     borderColor: '#5C9EFF',
+ *   },
+ *   red: {
+ *     backgroundColor: '#FFFFFF',
+ *     textColor: '#FF0000',
+ *     hoverBackgroundColor: '#FFE9E9',
+ *     borderColor: '#FF0000',
+ *   },
+ *   disabled: {
+ *     backgroundColor: '#CCCCCC',
+ *     textColor: '#FFFFFF',
+ *   }
+ * ```
+ */
 
 export const Button = ({
   size,
@@ -60,7 +69,7 @@ export const Button = ({
   onClick,
   disabled = false,
   icon,
-}: ButtonProps) => {
+}: IButtonProps) => {
   const selectedSize = buttonSizes[size];
   const selectedStyle = buttonStyles[style];
 
