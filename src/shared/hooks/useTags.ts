@@ -44,8 +44,10 @@ export const useTags = ({
     index: number,
   ) => {
     if (e.key === 'Enter' && newTag.trim() !== '') {
-      // 태그 중복 체크
-      const isDuplicated = tags.some((tag) => tag.name === newTag.trim());
+      // 태그 중복 체크, 편집 중인 태그 제외
+      const isDuplicated = tags.some(
+        (tag, i) => i !== index && tag.name === newTag.trim(),
+      );
       if (isDuplicated) {
         alert('이미 존재하는 태그입니다!');
         return;
