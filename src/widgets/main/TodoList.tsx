@@ -1,8 +1,9 @@
 import TodoProvider from '@/app/providers/TodoContext';
 import { RoutingButton } from '@/entities/main/ui/RoutingButton';
-import { ImageUploadModal, Todo } from '@/entities/todo/ui';
+import { Todo } from '@/entities/todo/ui';
 import useToggle from '@/shared/hooks/action/useToggle';
 import styled from 'styled-components';
+import { ImageUploadModal } from '../todo/ImageUploadModal';
 
 function TodoList() {
   const { isOpen, toggle } = useToggle();

@@ -1,17 +1,17 @@
 import { UpcomingSchedule } from '@/entities/schedule/ui';
-import Calendar from '@/widgets/calendar/Calendar';
+import EventCalendar from '@/widgets/calendar/EventCalendar';
 import styled from 'styled-components';
 
 export function CalendarPage() {
   return (
     <Container>
-      <Calendar />
+      <EventCalendar />
 
       <UpcomingSchedulesWrapper>
         <UpcomingScheduleTitle>다가오는 일정</UpcomingScheduleTitle>
         <UpcomingScheduleList>
           {Array.from({ length: 3 }).map((_, idx) => (
-            <UpcomingSchedule key={idx} />
+            <UpcomingSchedule key={`upcoming-schedule-${idx}`} />
           ))}
         </UpcomingScheduleList>
       </UpcomingSchedulesWrapper>
