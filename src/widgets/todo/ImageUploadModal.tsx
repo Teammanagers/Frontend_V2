@@ -1,7 +1,7 @@
 import Modal from '@/shared/components/modal/Modal';
 import styled from 'styled-components';
-import { IImageUplaodModalProps } from '../todo.type';
 import ImageUploadIcon from '@/shared/assets/todo/image-upload.svg?react';
+import { IImageUplaodModalProps } from './todo.types';
 
 function ImageUploadModal({ isOpen, toggle }: IImageUplaodModalProps) {
   return (
