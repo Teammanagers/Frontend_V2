@@ -37,7 +37,11 @@ export default function SignUpStage() {
           label2="개인정보처리방침 동의하기"
         />
       </FormWrapper>
-      <Button size="large" style="main">
+      <Button
+        size="large"
+        style="main"
+        disabled={serviceAgree === false || informationAgree === false}
+      >
         동의 후 가입하기
       </Button>
     </SignUpContainer>
@@ -63,14 +67,22 @@ const TitleContainer = styled.div`
 
 const TitleImg = styled.img``;
 
-const TitleSpan = styled.span``;
+const TitleSpan = styled.span`
+  font-size: 20px;
+  line-height: 140%;
+  font-weight: 600;
+`;
 
 const HrStyle = styled.hr`
-  border-width: 1px 0 0 0;
+  border: none;
+  border-top: 2px solid rgba(240, 240, 240, 1);
+  height: 0;
+  width: 100%;
 `;
 const FormWrapper = styled.div`
   display: grid;
   place-items: center;
+  gap: 25px;
 `;
 
 const CheckboxSection = ({
@@ -99,10 +111,8 @@ const CheckboxSection = ({
 
 const CheckboxContainer = styled.div`
   width: 437px;
-  height: 27px;
   display: flex;
   align-items: center;
-  margin-top: 25px;
   font-size: 16px;
   color: #1d1d1d;
 `;
