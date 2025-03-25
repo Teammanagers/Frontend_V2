@@ -7,6 +7,7 @@ import naver from '@/shared/assets/common/naver-logo.svg?url';
 export default function LoginOptions() {
   return (
     <Container>
+      <AdminLogin>관리자 로그인</AdminLogin>
       <LogoContainer>
         <ImgContainer>
           <LogoImg src={logo} />
@@ -41,6 +42,7 @@ export default function LoginOptions() {
 }
 
 const Container = styled.div`
+  position: relative;
   height: 100%;
   width: 547px;
   display: flex;
@@ -48,6 +50,17 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 48px;
+`;
+
+const AdminLogin = styled.span`
+  color: rgba(90, 90, 90, 1);
+  font-weight: 500;
+  position: absolute;
+  top: 32px;
+  right: 56px;
+  font-size: 12px;
+  line-height: 150%;
+  cursor: pointer;
 `;
 
 const LogoContainer = styled.div`
