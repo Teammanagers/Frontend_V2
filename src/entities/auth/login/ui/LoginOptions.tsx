@@ -1,5 +1,8 @@
 import styled from 'styled-components';
+import google from '@/shared/assets/common/google-logo.svg?url';
+import kakao from '@/shared/assets/common/kakao-logo.svg?url';
 import logo from '@/shared/assets/common/logo.svg?url';
+import naver from '@/shared/assets/common/naver-logo.svg?url';
 
 export default function LoginOptions() {
   return (
@@ -15,16 +18,22 @@ export default function LoginOptions() {
       </LogoContainer>
       <Options>
         <LoginBtn>
-          <img />
-          <LoginSpan>카카오로 1초만에 로그인하기</LoginSpan>
+          <KakaoWrapper>
+            <OauthLogo src={kakao} />
+            <LoginSpan>카카오로 1초만에 시작하기</LoginSpan>
+          </KakaoWrapper>
         </LoginBtn>
         <LoginBtn>
-          <img />
-          <LoginSpan>네이버로 1초만에 로그인하기</LoginSpan>
+          <NaverWrapper>
+            <OauthLogo src={naver} />
+            <LoginSpan>네이버로 1초만에 시작하기</LoginSpan>
+          </NaverWrapper>
         </LoginBtn>
         <LoginBtn>
-          <img />
-          <LoginSpan>구글로 1초만에 로그인하기</LoginSpan>
+          <GoogleWrapper>
+            <OauthLogo src={google} />
+            <LoginSpan>구글로 1초만에 시작하기</LoginSpan>
+          </GoogleWrapper>
         </LoginBtn>
       </Options>
     </Container>
@@ -81,12 +90,50 @@ const TextSpan = styled.span`
 const Options = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 10px;
 `;
 
 const LoginBtn = styled.button`
   width: 365px;
   height: 52px;
-  border-right: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
 `;
 
-const LoginSpan = styled.span``;
+const LoginSpan = styled.span`
+  width: 180px;
+  font-weight: 700;
+  font-size: 16px;
+`;
+
+const OauthLogo = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+const BaseWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 19px;
+  line-height: 150%;
+`;
+
+const KakaoWrapper = styled(BaseWrapper)`
+  background-color: rgba(254, 229, 0, 1);
+`;
+
+const NaverWrapper = styled(BaseWrapper)`
+  background-color: rgba(3, 199, 90, 1);
+  color: white;
+`;
+
+const GoogleWrapper = styled(BaseWrapper)`
+  background-color: white;
+  border: 1px solid;
+  border-color: rgba(90, 90, 90, 1);
+  border-radius: 8px;
+`;
