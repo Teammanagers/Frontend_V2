@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import AddMemoIcon from '@/entities/memo/assets/plus.svg?react';
+import AddMemoIcon from '@/shared/assets/common/add-tag.svg?react';
 
 export const AddButton = () => {
   return (
     <MemoContainer>
-      <AddMemo />
+      <AddMemoIcon width={46} height={46} stroke="#1d1d1d" />
       <MemoText>추가하기</MemoText>
     </MemoContainer>
   );
@@ -22,11 +22,6 @@ const MemoContainer = styled.button`
   flex-direction: column;
   gap: 4px;
   cursor: pointer;
-`;
-
-const AddMemo = styled(AddMemoIcon)`
-  width: 40px;
-  height: 40px;
 `;
 
 const MemoText = styled.p`

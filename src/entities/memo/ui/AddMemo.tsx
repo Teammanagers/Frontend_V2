@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import AddIcon from '@/entities/memo/assets/add-memo.svg?react';
-import Plus from '@/entities/memo/assets/plus.svg?react';
+import AddIcon from '@/shared/assets/memo/add-memo.svg?react';
 
 export const AddMemo = () => {
   const navigate = useNavigate();
@@ -14,7 +13,6 @@ export const AddMemo = () => {
       <AddMemoIcon />
       <MemoTextContainer>
         <MemoText>화면을 클릭하여 팀과 공유할 메모를 남길 수 있습니다</MemoText>
-        <Plus />
       </MemoTextContainer>
     </MemoContainer>
   );
