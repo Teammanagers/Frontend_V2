@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import DropDown from '@/entities/memo/assets/dropdown.svg?react';
-import FolderIcon from '@/entities/memo/assets/folder.svg?react';
+import DropDown from '@/shared/assets/common/dropdown-menu.svg?react';
+import FolderIcon from '@/shared/assets/memo/folder.svg?react';
 
 export const Folder = () => {
   return (

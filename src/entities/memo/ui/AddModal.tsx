@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import AddFolderIcon from '@/entities/memo/assets/add-folder.svg?react';
-import AddMemoIcon from '@/entities/memo/assets/add-memo.svg?react';
+import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
+import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
 
 export const AddModal = () => {
   return (
