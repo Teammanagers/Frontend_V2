@@ -17,7 +17,7 @@ export const AddModal = () => {
   );
 };
 
-const ModalContainer = styled.div`
+export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
