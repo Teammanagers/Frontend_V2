@@ -2,6 +2,7 @@ import { CalendarPage } from '@/pages/CalendarPage';
 import { ErrorPage } from '@/pages/ErrorPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { MainPage } from '@/pages/MainPage';
+import MakeTeamPage from '@/pages/MakeTeamPage/MakeTeamPage';
 import { ManagementPage } from '@/pages/Management Page';
 import { MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
@@ -20,6 +21,8 @@ export default function AppRoutes() {
         <Route path="/login" element={<LoginPage />} />
         {/* Signup page */}
         <Route path="/signup" element={<SignupPage />} />
+        {/* make team page */}
+        <Route path="/make-team" element={<MakeTeamPage />} />
         {/* Team Page */}
         <Route path="/team" element={<TeamPage />} />
         {/* Main page */}

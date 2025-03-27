@@ -1,21 +1,23 @@
-import React, { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, ReactNode } from 'react';
 import styled from 'styled-components';
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
   subTitle?: string;
-  placeholder: string;
-  child?: React.ReactNode;
+  placeholder?: string;
+  children?: ReactNode;
   showHelperMessage?: boolean;
   helperMessage?: string;
   textColor?: string;
+  width?: string;
+  height?: string;
 }
 
 export default function Input({
   title,
   subTitle,
   placeholder,
-  child,
+  children,
   showHelperMessage = false,
   helperMessage,
   textColor = 'rgba(29, 29, 29, 1)',
@@ -29,11 +31,11 @@ export default function Input({
       </Title>
 
       <InputContainer>
-        {child ? (
-          // child가 있으면 child를 렌더링
-          child
+        {children ? (
+          // children가 있으면 children를 렌더링
+          children
         ) : (
-          // child가 없으면 기본 input 요소 렌더링
+          // children가 없으면 기본 input 요소 렌더링
           <DefaultInput
             placeholder={placeholder}
             $textColor={textColor}
