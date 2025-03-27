@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import AddMemo from '@/entities/memo/assets/add-memo.svg';
-import Plus from '@/entities/memo/assets/plus.svg';
+import AddIcon from '@/shared/assets/memo/add-memo.svg?react';
 
-export const AddMemoLarge = () => {
+export const AddMemo = () => {
   const navigate = useNavigate();
   return (
     <MemoContainer
@@ -11,10 +10,9 @@ export const AddMemoLarge = () => {
         navigate(`/memo/write`);
       }}
     >
-      <AddMemo />
+      <AddMemoIcon />
       <MemoTextContainer>
         <MemoText>화면을 클릭하여 팀과 공유할 메모를 남길 수 있습니다</MemoText>
-        <Plus />
       </MemoTextContainer>
     </MemoContainer>
   );
@@ -38,6 +36,10 @@ const MemoTextContainer = styled.div`
   align-items: center;
   gap: 9px;
   margin-top: 18px;
+`;
+
+const AddMemoIcon = styled(AddIcon)`
+  stroke: ${({ theme }) => theme.colors.black};
 `;
 
 const MemoText = styled.p`

@@ -1,9 +1,9 @@
 import { ButtonHTMLAttributes, useState } from 'react';
 import styled from 'styled-components';
-import BackButton from '@/entities/memo/assets/back-button.svg';
 import { MemoFormProps } from '@/entities/memo/memo.type.ts';
-import AddTagIcon from '@/shared/assets/common/add-tag.svg';
-import Delete from '@/shared/assets/common/delete-tag.svg';
+import AddTagIcon from '@/shared/assets/common/add-tag.svg?react';
+import Delete from '@/shared/assets/common/delete-tag.svg?react';
+import BackButton from '@/shared/assets/memo/back-button.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
 import { useTags } from '@/shared/hooks/useTags';
 
