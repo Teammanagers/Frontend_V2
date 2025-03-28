@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import dayjs from 'dayjs';
 import PolygonArrow from '@/shared/assets/calendar/popover-arrow.svg?react';
@@ -18,6 +18,7 @@ function EventSummaryPopover({
   const childRef = useRef<HTMLDivElement>(null);
 
   const [adjustLeft, setAdjustLeft] = useState<string>('0%');
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   useClickOutside(parentRef, setIsOpen); // popover 외부 클릭 시 닫힘
 
@@ -30,13 +31,25 @@ function EventSummaryPopover({
     calculatePopoverPosition(popover, setAdjustLeft);
   }, [isOpen]);
 
+  // Popover ON/OFF 애니메이션 시간 관리
+  useEffect(() => {
+    if (!isOpen) {
+      setIsAnimating(true);
+      const timeout = setTimeout(() => {
+        setIsAnimating(false);
+      }, 350);
+      return () => clearTimeout(timeout);
+    }
+  }, [isOpen]);
+
+  if (!isOpen && !isAnimating) return null; // 애니메이션이 완료된 후 컴포넌트 제거
   return (
-    <Container ref={parentRef} $isOpen={isOpen} $left={adjustLeft}>
+    <Container ref={parentRef} $isOpen={isOpen} $isAnimating={isAnimating}>
       <ArrowIconWrapper>
         <PolygonArrow />
       </ArrowIconWrapper>
 
-      <ContentWrapper ref={childRef} $isOpen={isOpen} $left={adjustLeft}>
+      <ContentWrapper ref={childRef} $left={adjustLeft}>
         <Date>{dayjs(date).format('YYYY-MM-DD')}</Date>
       </ContentWrapper>
     </Container>
@@ -69,7 +82,7 @@ const scaleDown = keyframes`
 
 const ArrowIconWrapper = styled.div``;
 
-const Container = styled.div<{ $isOpen: boolean; $left: string }>`
+const Container = styled.div<{ $isOpen: boolean; $isAnimating: boolean }>`
   position: absolute;
   top: 48px;
   width: 310px;
@@ -84,7 +97,7 @@ const Container = styled.div<{ $isOpen: boolean; $left: string }>`
   }
 `;
 
-const ContentWrapper = styled.div<{ $isOpen: boolean; $left: string }>`
+const ContentWrapper = styled.div<{ $left: string }>`
   position: absolute;
   top: 12px;
   left: ${({ $left }) => $left};

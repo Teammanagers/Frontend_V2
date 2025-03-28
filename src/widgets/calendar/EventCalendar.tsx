@@ -68,7 +68,7 @@ export default function EventCalendar() {
 
       return (
         <>
-          {isSelected && isPopoverOpen && (
+          {isSelected && (
             <EventSummaryPopover
               date={date}
               isOpen={isPopoverOpen}
