@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
@@ -6,12 +6,15 @@ import useToggle from '@/shared/hooks/action/useToggle';
 import EventEditorModal from './EventEditorModal';
 import { EventEditorMode, Value } from './calendar.types';
 import { determineWeeksInMonth } from './lib/getWeeksInMonth';
+import { EventSummaryPopover } from './EventSummaryPopover';
 
 export default function EventCalendar() {
-  const [modalMode, setModalMode] = useState<EventEditorMode>('register');
-  const { isOpen, toggle } = useToggle();
   const [selectedDate, setSelectedDate] = useState<Value>(null);
   const [calendarHeight, setCalendarHeight] = useState<string>('520px');
+  // 모달 및 팝오버  상태
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+  // const { isOpen, toggle } = useToggle();
+  const [modalMode, setModalMode] = useState<EventEditorMode>('register');
 
   // 날짜 업데이트
   const handleDateChange = (newDate: Value) => {
@@ -32,43 +35,61 @@ export default function EventCalendar() {
     } else {
       setCalendarHeight('520px');
     }
+  }, [
+    selectedDate instanceof Date && selectedDate.getFullYear(), // 년도나 월이 바뀔 때만 감지
+    selectedDate instanceof Date && selectedDate.getMonth(),
+  ]);
+
+  // 날짜 선택 시 팝오버 열기
+  useEffect(() => {
+    setIsPopoverOpen(true);
   }, [selectedDate]);
 
-  // const handleTileContent = useCallback(
-  //   ({ date }: { date: Date }) => {
-  //     // 클릭한 날짜 중 이벤트가 있는 날짜 필터링
-  //     const filteredEventList = eventList.filter(
-  //       (event: any) => event.date === dayjs(date).format('YYYY-MM-DD'),
-  //     );
+  const handleTileContent = useCallback(
+    ({ date }: { date: Date }) => {
+      // 클릭한 날짜 중 이벤트가 있는 날짜 필터링
+      // const filteredEventList = eventList.filter(
+      //   (event: any) => event.date === dayjs(date).format('YYYY-MM-DD'),
+      // );
+      // setIsPopoverOpen(true);
 
-  //     const isSelected =
-  //       selectedDate instanceof Date &&
-  //       selectedDate.getFullYear() === date.getFullYear() &&
-  //       selectedDate.getMonth() === date.getMonth() &&
-  //       selectedDate.getDate() === date.getDate();
+      // 선택된 날짜와 같은 날짜인지 확인
+      const isSelected =
+        selectedDate instanceof Date &&
+        selectedDate.getFullYear() === date.getFullYear() &&
+        selectedDate.getMonth() === date.getMonth() &&
+        selectedDate.getDate() === date.getDate();
 
-  //     const isToday =
-  //       new Date().getFullYear() === date.getFullYear() &&
-  //       new Date().getMonth() === date.getMonth() &&
-  //       new Date().getDate() === date.getDate();
+      // 오늘 날짜인지 확인
+      // const isToday =
+      //   new Date().getFullYear() === date.getFullYear() &&
+      //   new Date().getMonth() === date.getMonth() &&
+      //   new Date().getDate() === date.getDate();
 
-  //     return (
-  //       <>
-  //         {isSelected && filteredEventList.length > 0 && (
-  //           <DailyLog
-  //             date={date}
-  //             filterRef={filterRef}
-  //             eventList={filteredEventList}
-  //           />
-  //         )}
-  //         {filteredEventList.length > 0 && (
-  //           <Dot isSelected={isSelected && !isToday} />
-  //         )}
-  //       </>
-  //     );
-  //   },
-  //   [selectedDate, eventList],
-  // );
+      return (
+        <>
+          {isSelected && isPopoverOpen && (
+            <EventSummaryPopover
+              date={date}
+              isOpen={isPopoverOpen}
+              setIsOpen={setIsPopoverOpen}
+            />
+          )}
+          {/* {isSelected && filteredEventList.length > 0 && (
+            <DailyLog
+              date={date}
+              filterRef={filterRef}
+              eventList={filteredEventList}
+            />
+          )} */}
+          {/* {filteredEventList.length > 0 && (
+            <Dot isSelected={isSelected && !isToday} />
+          )} */}
+        </>
+      );
+    },
+    [selectedDate, isPopoverOpen],
+  );
 
   return (
     <>
@@ -86,7 +107,7 @@ export default function EventCalendar() {
             dayjs(date).format('YYYY. MM')
           }
           // 일정 있는 날짜에 점 UI 추가 및 팝업 마운트
-          // tileContent={handleTileContent}
+          tileContent={handleTileContent}
           // 달 넘어갈 때 콜백함수 실행 -> 자동 선택된 값(1일)으로 캘린더 height 변화
           onActiveStartDateChange={({ activeStartDate }) =>
             updateMonth(activeStartDate)
@@ -100,12 +121,12 @@ export default function EventCalendar() {
         />
       </StyledCalendarContainer>
 
-      <EventEditorModal
+      {/* <EventEditorModal
         mode={modalMode}
         setModalMode={setModalMode}
         isOpen={isOpen}
         toggle={toggle}
-      />
+      /> */}
     </>
   );
 }
@@ -124,8 +145,7 @@ const StyledCalendarContainer = styled.div<{ height: string }>`
     border: 1px solid rgba(221, 235, 255, 1);
 
     background-color: rgba(255, 255, 255, 1);
-    transition: height 400ms;
-    overflow: hidden;
+    transition: height 300ms;
   }
 
   /* 전체 폰트 컬러 */
@@ -240,6 +260,10 @@ const StyledCalendarContainer = styled.div<{ height: string }>`
       font-weight: 400;
     }
 
+    // 팝오버 보이도록 설정
+    .react-calendar__tile {
+      overflow: visible !important;
+    }
     /* 기본 hover 효과 제거 */
     .react-calendar__tile:hover {
       background-color: rgba(255, 255, 255, 1);
@@ -264,9 +288,6 @@ const StyledCalendarContainer = styled.div<{ height: string }>`
     }
 
     /* 선택된 날짜 */
-    .react-calendar__tile--active {
-      background-color: rgba(255, 255, 255, 1);
-    }
     .react-calendar__tile--active abbr {
       display: flex;
       justify-content: center;
@@ -274,7 +295,8 @@ const StyledCalendarContainer = styled.div<{ height: string }>`
       width: 45px;
       height: 45px;
       border-radius: 50%;
-      background-color: rgba(92, 158, 255, 1);
+      background-color: ${({ theme }) => theme.colors.mainBlue};
+      transition: background-color 300ms ease-in;
     }
 
     /* 이전/다음 달 날짜 */
