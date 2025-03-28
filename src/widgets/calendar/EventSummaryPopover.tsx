@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import dayjs from 'dayjs';
 import PolygonArrow from '@/shared/assets/calendar/popover-arrow.svg?react';
 import useClickOutside from '@/shared/hooks/action/useClickOutstide';
-import { POPOVER_OFFSET } from './\bconfig/calendar.constants';
+import { calculatePopoverPosition } from './lib/calculatePopoverPosition';
 
 function EventSummaryPopover({
   date,
@@ -19,37 +19,15 @@ function EventSummaryPopover({
 
   const [adjustLeft, setAdjustLeft] = useState<string>('0%');
 
-  useClickOutside(parentRef, setIsOpen);
+  useClickOutside(parentRef, setIsOpen); // popover 외부 클릭 시 닫힘
 
   // Popover가 캘린더 영역 넘어가지 않도록 배치
   useLayoutEffect(() => {
-    if (!isOpen) return; // 팝오버가 닫혀 않으면 실행하지 않음
+    if (!isOpen || !childRef.current) return; // popover가 닫혀 있거나 childRef가 없을 때
 
     const popover = childRef.current;
-    if (popover) {
-      const rect = popover.getBoundingClientRect(); // popover의 화면상의 위치 및 크기 정보
-      const calendar = popover.closest('.react-calendar'); // class가 react-calendar인 가장 가까운 부모 요소 반환
-      const calendarRect = calendar?.getBoundingClientRect(); // 달력의 위치 정보
 
-      if (calendarRect) {
-        const overflowRight = rect.right >= calendarRect.right - POPOVER_OFFSET; // popover가 달력의 오른쪽을 넘어갈 때
-        const overflowLeft = rect.left - POPOVER_OFFSET <= calendarRect.left; // popover가 달력의 왼쪽을 넘어갈 때 (transform으로 왜곡된 값만큼 보정)
-
-        console.log(
-          'rect.right',
-          rect.right,
-          'calendarRect.right',
-          calendarRect.right,
-        );
-        if (overflowRight) {
-          setAdjustLeft('-25%');
-        } else if (overflowLeft) {
-          setAdjustLeft('25%');
-        } else {
-          setAdjustLeft('0%');
-        }
-      }
-    }
+    calculatePopoverPosition(popover, setAdjustLeft);
   }, [isOpen]);
 
   return (
