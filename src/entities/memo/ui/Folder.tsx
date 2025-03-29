@@ -24,7 +24,7 @@ const FolderContainer = styled(FolderIcon)`
 
   &:hover path {
     stroke: ${({ theme }) => theme.colors.subLightBlue};
-    stroke-width: 2;
+    stroke-width: 3;
   }
   &:hover {
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
