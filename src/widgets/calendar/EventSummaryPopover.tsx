@@ -17,7 +17,7 @@ function EventSummaryPopover({
   const parentRef = useRef<HTMLDivElement>(null);
   const childRef = useRef<HTMLDivElement>(null);
 
-  const [adjustLeft, setAdjustLeft] = useState<string>('0%');
+  const [adjustLeftPos, setAdjustLeftPos] = useState<string>('0%');
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   useClickOutside(parentRef, setIsOpen); // popover 외부 클릭 시 닫힘
@@ -28,7 +28,7 @@ function EventSummaryPopover({
 
     const popover = childRef.current;
 
-    calculatePopoverPosition(popover, setAdjustLeft);
+    calculatePopoverPosition(popover, setAdjustLeftPos);
   }, [isOpen]);
 
   // Popover ON/OFF 애니메이션 시간 관리
@@ -37,7 +37,7 @@ function EventSummaryPopover({
       setIsAnimating(true);
       const timeout = setTimeout(() => {
         setIsAnimating(false);
-      }, 350);
+      }, 250);
       return () => clearTimeout(timeout);
     }
   }, [isOpen]);
@@ -45,11 +45,11 @@ function EventSummaryPopover({
   if (!isOpen && !isAnimating) return null; // 애니메이션이 완료된 후 컴포넌트 제거
   return (
     <Container ref={parentRef} $isOpen={isOpen} $isAnimating={isAnimating}>
-      <ArrowIconWrapper>
+      <PolygonArrowWrapper>
         <PolygonArrow />
-      </ArrowIconWrapper>
+      </PolygonArrowWrapper>
 
-      <ContentWrapper ref={childRef} $left={adjustLeft}>
+      <ContentWrapper ref={childRef} $left={adjustLeftPos}>
         <Date>{dayjs(date).format('YYYY-MM-DD')}</Date>
       </ContentWrapper>
     </Container>
@@ -60,8 +60,12 @@ export { EventSummaryPopover };
 
 const scaleUp = keyframes`
   0% {
-    transform: scale(0.1) ;
+    transform: scale(0.2) ;
     opacity: 0;
+  }
+  80% {
+    transform: scale(1.07);
+    opacity: 1;
   }
   100% {
     transform: scale(1) ;
@@ -75,12 +79,12 @@ const scaleDown = keyframes`
     opacity: 1;
   }
   100% {
-    transform: scale(0.1);
+    transform: scale(0);
     opacity: 0;
   }
 `;
 
-const ArrowIconWrapper = styled.div``;
+const PolygonArrowWrapper = styled.div``;
 
 const Container = styled.div<{ $isOpen: boolean; $isAnimating: boolean }>`
   position: absolute;
@@ -90,7 +94,7 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimating: boolean }>`
   animation: ${({ $isOpen }) => ($isOpen ? scaleUp : scaleDown)} 0.35s
     ease-in-out;
 
-  ${ArrowIconWrapper} {
+  ${PolygonArrowWrapper} {
     display: flex;
     justify-content: center;
     align-items: center;

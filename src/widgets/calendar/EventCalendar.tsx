@@ -10,7 +10,9 @@ import { EventSummaryPopover } from './EventSummaryPopover';
 
 export default function EventCalendar() {
   const [selectedDate, setSelectedDate] = useState<Value>(null);
+  const [searchMonth, setSearchMonth] = useState<Value>(null); // 월 변경 시 상태 별도로 관리 -> selectedDate로 함께 관리 시 팝오버 자동 렌더링 이슈 발생
   const [calendarHeight, setCalendarHeight] = useState<string>('520px');
+
   // 모달 및 팝오버  상태
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   // const { isOpen, toggle } = useToggle();
@@ -23,12 +25,12 @@ export default function EventCalendar() {
 
   // 달 변경 시 날짜 업데이트
   const updateMonth = (activeStartDate: Date | null) => {
-    setSelectedDate(activeStartDate);
+    setSearchMonth(activeStartDate);
   };
 
   // 매월 몇 주인지 구하기 -> 5,6주일 때 height 변화
   useEffect(() => {
-    const week = determineWeeksInMonth(selectedDate);
+    const week = determineWeeksInMonth(searchMonth);
 
     if (week >= 6) {
       setCalendarHeight('595px');
@@ -36,8 +38,8 @@ export default function EventCalendar() {
       setCalendarHeight('520px');
     }
   }, [
-    selectedDate instanceof Date && selectedDate.getFullYear(), // 년도나 월이 바뀔 때만 감지
-    selectedDate instanceof Date && selectedDate.getMonth(),
+    // 월이 바뀔 때만 감지
+    searchMonth instanceof Date && searchMonth.getMonth(),
   ]);
 
   // 날짜 선택 시 팝오버 열기
@@ -296,7 +298,7 @@ const StyledCalendarContainer = styled.div<{ height: string }>`
       height: 45px;
       border-radius: 50%;
       background-color: ${({ theme }) => theme.colors.mainBlue};
-      transition: background-color 300ms ease-in;
+      transition: background-color 400ms ease-in;
     }
 
     /* 이전/다음 달 날짜 */
