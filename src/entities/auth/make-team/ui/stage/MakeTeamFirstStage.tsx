@@ -5,10 +5,12 @@ import Input from '@/shared/components/input/Input';
 export default function MakeTeamFirstStage() {
   return (
     <MakeTeamWrapper>
-      <div>
-        <img />
+      <TopContainer>
+        <ImgContainer>
+          <img />
+        </ImgContainer>
         <span></span>
-      </div>
+      </TopContainer>
       <div></div>
       <div>
         <Input
@@ -32,4 +34,10 @@ const MakeTeamWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
+
+const TopContainer = styled.div``;
+
+const ImgContainer = styled.div``;
