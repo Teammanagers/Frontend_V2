@@ -2,11 +2,28 @@ import styled from 'styled-components';
 import { IEventSummaryProps } from '../calendar.types';
 import ActionButton from './ActionButton';
 
-export default function EventSummary({ children, status }: IEventSummaryProps) {
+export default function EventSummary({
+  children,
+  status,
+  toggle,
+  setModalMode,
+}: IEventSummaryProps) {
+  const handleClick = () => {
+    setModalMode('read');
+  };
+
   return (
     <Container>
-      <Title $status={status}>{children}</Title>
-      {status === 'COMPLETED' || <ActionButton buttonType="edit" />}
+      <Title $status={status} onClick={handleClick}>
+        {children}
+      </Title>
+      {status === 'COMPLETED' || (
+        <ActionButton
+          buttonType="edit"
+          toggle={toggle}
+          setModalMode={setModalMode}
+        />
+      )}
     </Container>
   );
 }

@@ -7,12 +7,28 @@ export default function ActionButton({
   buttonType = 'edit',
   onClick,
   disabled = false,
+  toggle,
+  setModalMode,
   ...props
 }: IActionButtonProps) {
   const size = buttonSize[buttonType];
 
+  const handleClick = () => {
+    toggle();
+    if (buttonType === 'edit') {
+      setModalMode('edit');
+    } else if (buttonType === 'add') {
+      setModalMode('register');
+    }
+  };
+
   return (
-    <Container $size={size} onClick={onClick} disabled={disabled} {...props}>
+    <Container
+      $size={size}
+      onClick={handleClick}
+      disabled={disabled}
+      {...props}
+    >
       {buttonType === 'edit' ? '수정' : '일정 추가하기'}
       {buttonType === 'add' && (
         <IconWrapper>

@@ -10,8 +10,10 @@ import ActionButton from '@/entities/calendar/ui/ActionButton';
 
 function EventSummaryPopover({
   eventList,
-  setIsOpen,
   isOpen,
+  setIsOpen,
+  toggle,
+  setModalMode,
 }: IEventSummaryPopoverProps) {
   const parentRef = useRef<HTMLDivElement>(null);
   const childRef = useRef<HTMLDivElement>(null);
@@ -41,6 +43,11 @@ function EventSummaryPopover({
     }
   }, [isOpen]);
 
+  const handleEventClick = () => {
+    toggle();
+    setModalMode('read');
+  };
+
   if (!isOpen && !isAnimating) return null; // 애니메이션이 완료된 후 컴포넌트 제거
   return (
     <Container ref={parentRef} $isOpen={isOpen} $isAnimating={isAnimating}>
@@ -48,17 +55,29 @@ function EventSummaryPopover({
         <PolygonArrow />
       </PolygonArrowWrapper>
 
+      {/* 내부 콘텐츠 */}
       <ContentWrapper ref={childRef} $left={adjustLeftPos}>
         <Date>{dayjs(eventList[0].date).format('YYYY-MM-DD')}</Date>
 
         {/* 이벤트 리스트 */}
         <EventList>
           {eventList.map((event) => (
-            <EventSummary key={event.calendarId} status={event.status}>
-              {event.title}
-            </EventSummary>
+            <div onClick={handleEventClick}>
+              <EventSummary
+                key={event.calendarId}
+                status={event.status}
+                toggle={toggle}
+                setModalMode={setModalMode}
+              >
+                {event.title}
+              </EventSummary>
+            </div>
           ))}
-          <ActionButton buttonType="add" />
+          <ActionButton
+            buttonType="add"
+            toggle={toggle}
+            setModalMode={setModalMode}
+          />
         </EventList>
       </ContentWrapper>
     </Container>
@@ -73,7 +92,7 @@ const scaleUp = keyframes`
     opacity: 0;
   }
   80% {
-    transform: scale(1.07);
+    transform: scale(1.06);
     opacity: 1;
   }
   100% {
@@ -104,7 +123,7 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimating: boolean }>`
   top: 48px;
   width: 310px;
   z-index: 999;
-  animation: ${({ $isOpen }) => ($isOpen ? scaleUp : scaleDown)} 0.35s
+  animation: ${({ $isOpen }) => ($isOpen ? scaleUp : scaleDown)} 0.4s
     ease-in-out;
 `;
 

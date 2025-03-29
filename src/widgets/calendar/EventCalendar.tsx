@@ -16,11 +16,10 @@ export default function EventCalendar() {
 
   // 모달 및 팝오버  상태
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
-  // const { isOpen, toggle } = useToggle();
+  const { isOpen, toggle } = useToggle();
   const [modalMode, setModalMode] = useState<EventEditorMode>('register');
 
   const mockEventList = mockData.result.calendarListOfMonth;
-  console.log(mockEventList);
 
   // 날짜 업데이트
   const handleDateChange = (newDate: Value) => {
@@ -76,9 +75,11 @@ export default function EventCalendar() {
         <>
           {isSelected && (
             <EventSummaryPopover
+              eventList={mockEventList}
               isOpen={isPopoverOpen}
               setIsOpen={setIsPopoverOpen}
-              eventList={mockEventList}
+              toggle={toggle}
+              setModalMode={setModalMode}
             />
           )}
           {/* {isSelected && filteredEventList.length > 0 && (
@@ -127,12 +128,12 @@ export default function EventCalendar() {
         />
       </StyledCalendarContainer>
 
-      {/* <EventEditorModal
+      <EventEditorModal
         mode={modalMode}
         setModalMode={setModalMode}
         isOpen={isOpen}
         toggle={toggle}
-      /> */}
+      />
     </>
   );
 }
