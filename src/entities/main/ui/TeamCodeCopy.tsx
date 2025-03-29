@@ -47,4 +47,10 @@ const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.mainBlue};
   border-radius: 4px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #3c8bff;
+    transition: background-color 0.3s;
+    box-shadow: 0 1px 4px 0 rgba(60, 139, 255, 0.06);
+  }
 `;

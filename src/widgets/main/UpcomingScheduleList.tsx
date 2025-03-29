@@ -1,4 +1,4 @@
-import { RoutingButton } from '@/entities/main/ui/RoutingButton';
+import { RoutingButton } from '@/entities/main/ui';
 import { UpcomingSchedule } from '@/entities/schedule/ui';
 import styled from 'styled-components';
 
