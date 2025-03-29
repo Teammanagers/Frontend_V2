@@ -7,6 +7,7 @@ import EventEditorModal from './EventEditorModal';
 import { EventEditorMode, Value } from './calendar.types';
 import { determineWeeksInMonth } from './lib/getWeeksInMonth';
 import { EventSummaryPopover } from './EventSummaryPopover';
+import mockData from './mocks/getSimpleCalendarList.json';
 
 export default function EventCalendar() {
   const [selectedDate, setSelectedDate] = useState<Value>(null);
@@ -17,6 +18,9 @@ export default function EventCalendar() {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   // const { isOpen, toggle } = useToggle();
   const [modalMode, setModalMode] = useState<EventEditorMode>('register');
+
+  const mockEventList = mockData.result.calendarListOfMonth;
+  console.log(mockEventList);
 
   // 날짜 업데이트
   const handleDateChange = (newDate: Value) => {
@@ -72,9 +76,9 @@ export default function EventCalendar() {
         <>
           {isSelected && (
             <EventSummaryPopover
-              date={date}
               isOpen={isPopoverOpen}
               setIsOpen={setIsPopoverOpen}
+              eventList={mockEventList}
             />
           )}
           {/* {isSelected && filteredEventList.length > 0 && (

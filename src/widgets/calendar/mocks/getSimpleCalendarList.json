@@ -1,0 +1,22 @@
+{
+  "code": 200,
+  "message": "성공입니다.",
+  "result": {
+    "calendarListOfMonth": [
+      {
+        "calendarId": 1,
+        "title": "기능 프론트 구현",
+        "status": "COMPLETED",
+        "isAlarm": true,
+        "date": "2024-07-21T06:19:35.071Z"
+      },
+      {
+        "calendarId": 2,
+        "title": "서버 명세서 완료",
+        "status": "PROCEEDING",
+        "isAlarm": false,
+        "date": "2024-07-21T06:19:35.071Z"
+      }
+    ]
+  }
+}

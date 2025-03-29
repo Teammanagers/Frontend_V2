@@ -4,16 +4,15 @@ import dayjs from 'dayjs';
 import PolygonArrow from '@/shared/assets/calendar/popover-arrow.svg?react';
 import useClickOutside from '@/shared/hooks/action/useClickOutstide';
 import { calculatePopoverPosition } from './lib/calculatePopoverPosition';
+import { IEventSummaryPopoverProps } from './calendar.types';
+import EventSummary from '@/entities/calendar/ui/EventSummary';
+import ActionButton from '@/entities/calendar/ui/ActionButton';
 
 function EventSummaryPopover({
-  date,
+  eventList,
   setIsOpen,
   isOpen,
-}: {
-  date: Date;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+}: IEventSummaryPopoverProps) {
   const parentRef = useRef<HTMLDivElement>(null);
   const childRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +49,17 @@ function EventSummaryPopover({
       </PolygonArrowWrapper>
 
       <ContentWrapper ref={childRef} $left={adjustLeftPos}>
-        <Date>{dayjs(date).format('YYYY-MM-DD')}</Date>
+        <Date>{dayjs(eventList[0].date).format('YYYY-MM-DD')}</Date>
+
+        {/* 이벤트 리스트 */}
+        <EventList>
+          {eventList.map((event) => (
+            <EventSummary key={event.calendarId} status={event.status}>
+              {event.title}
+            </EventSummary>
+          ))}
+          <ActionButton buttonType="add" />
+        </EventList>
       </ContentWrapper>
     </Container>
   );
@@ -84,7 +93,11 @@ const scaleDown = keyframes`
   }
 `;
 
-const PolygonArrowWrapper = styled.div``;
+const PolygonArrowWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Container = styled.div<{ $isOpen: boolean; $isAnimating: boolean }>`
   position: absolute;
@@ -93,20 +106,20 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimating: boolean }>`
   z-index: 999;
   animation: ${({ $isOpen }) => ($isOpen ? scaleUp : scaleDown)} 0.35s
     ease-in-out;
-
-  ${PolygonArrowWrapper} {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 `;
 
 const ContentWrapper = styled.div<{ $left: string }>`
   position: absolute;
   top: 12px;
   left: ${({ $left }) => $left};
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
   width: inherit;
   min-height: 83px;
+  padding: 15px;
+
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.subLightBlue};
 `;
@@ -115,4 +128,11 @@ const Date = styled.span`
   font-size: 10px;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.darkGray};
+`;
+
+const EventList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 100%;
 `;

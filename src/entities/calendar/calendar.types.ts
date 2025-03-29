@@ -2,6 +2,7 @@ import { ButtonHTMLAttributes } from 'react';
 
 interface IEventSummaryProps {
   children: React.ReactNode;
+  status: string;
 }
 
 interface IActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

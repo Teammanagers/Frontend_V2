@@ -9,8 +9,9 @@ function calculatePopoverPosition(
   const calendarRect = calendar?.getBoundingClientRect(); // 달력의 위치 정보
 
   if (calendarRect) {
+    // POPOVER_OFFSET => transform으로 왜곡된 값만큼 보정
     const overflowRight = rect.right >= calendarRect.right - POPOVER_OFFSET; // popover가 달력의 오른쪽을 넘어갈 때
-    const overflowLeft = rect.left - POPOVER_OFFSET <= calendarRect.left; // popover가 달력의 왼쪽을 넘어갈 때 (transform으로 왜곡된 값만큼 보정)
+    const overflowLeft = rect.left - POPOVER_OFFSET <= calendarRect.left; // popover가 달력의 왼쪽을 넘어갈 때
 
     if (overflowRight) {
       setAdjustLeft('-25%');

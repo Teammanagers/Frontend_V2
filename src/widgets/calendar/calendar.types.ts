@@ -10,4 +10,24 @@ interface IEventEditorModalProps extends Omit<IModal, 'children'> {
   setModalMode: React.Dispatch<React.SetStateAction<EventEditorMode>>;
 }
 
-export type { Value, EventEditorMode, IEventEditorModalProps };
+interface IEventList {
+  calendarId: number;
+  title: string;
+  status: string;
+  isAlarm: boolean;
+  date: string;
+}
+
+interface IEventSummaryPopoverProps {
+  eventList: IEventList[];
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export type {
+  Value,
+  EventEditorMode,
+  IEventEditorModalProps,
+  IEventList,
+  IEventSummaryPopoverProps,
+};
