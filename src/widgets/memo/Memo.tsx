@@ -1,8 +1,9 @@
 import { ButtonHTMLAttributes, useState } from 'react';
 import styled from 'styled-components';
-import DropDown from '@/shared/assets/common/dropdown-menu.svg?react';
 import Next from '@/shared/assets/memo/next-button.svg?react';
 import PinIcon from '@/shared/assets/memo/pin.svg?react';
+import { ActionDropdown } from '@/shared/components/dropdown';
+import useToggle from '@/shared/hooks/action/useToggle.ts';
 import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 
 /**
@@ -18,7 +19,19 @@ export const Memo = ({ size }: { size: keyof typeof memoSizes }) => {
   const [isPinned, setIsPinned] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
 
+  const { isOpen, setIsOpen, toggle } = useToggle();
+  // const navigate = useNavigate();
+
   const selectedSize = memoSizes[size];
+
+  const handleMenuAction = (menu: string) => {
+    if (menu === '수정') {
+      console.log('수정페이지로 이동!');
+      // navigate(`/memo/${해당메모아이디}`);
+      setIsOpen(false);
+    }
+    toggle();
+  };
 
   return (
     <MemoContainer $size={selectedSize} $pinned={isPinned}>
@@ -31,7 +44,13 @@ export const Memo = ({ size }: { size: keyof typeof memoSizes }) => {
               $pinned={isPinned}
             />
           )}
-          <MenuBtn />
+          <ActionDropdown
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            toggle={toggle}
+            action={handleMenuAction}
+            menus={['수정', '삭제']}
+          />
         </MenuContainer>
       </MemoTitleContainer>
       <TagContainer>
@@ -69,7 +88,8 @@ const MemoContainer = styled.div<{
   border-radius: 6px;
   outline: ${({ theme, $pinned }) =>
     $pinned ? `2px solid ${theme.colors.subLightBlue}` : 'none'};
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: ${({ $pinned }) =>
+    $pinned ? `0 4px 12px rgba(0, 0, 0, 0.08)` : 'none'};
   gap: 8px;
   background: white;
   padding: 16px 18px;
@@ -91,9 +111,6 @@ const PinBtn = styled(PinIcon)<
   fill: ${({ theme, $pinned }) => ($pinned ? theme.colors.subBlue : 'white')};
   stroke: ${({ theme, $pinned }) =>
     $pinned ? theme.colors.mainBlue : theme.colors.darkGray};
-`;
-const MenuBtn = styled(DropDown)<ButtonHTMLAttributes<HTMLButtonElement>>`
-  cursor: pointer;
 `;
 
 const MemoTitle = styled.h1`

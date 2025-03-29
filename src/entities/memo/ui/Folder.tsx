@@ -1,33 +1,53 @@
 import styled from 'styled-components';
-import DropDown from '@/shared/assets/common/dropdown-menu.svg?react';
 import FolderIcon from '@/shared/assets/memo/folder.svg?react';
+import { ActionDropdown } from '@/shared/components/dropdown';
+import useToggle from '@/shared/hooks/action/useToggle.ts';
 
 export const Folder = () => {
+  const { isOpen, setIsOpen, toggle } = useToggle();
+
+  const handleMenuAction = (menu: string) => {
+    if (menu === '수정') {
+      console.log('폴더 수정 모달 띄우기');
+      setIsOpen(false);
+    }
+    toggle();
+  };
+
   return (
     <FolderWrapper>
       <FolderContainer />
       <Overlay>
-        <DropDownBtn />
+        <DropDownContainer>
+          <ActionDropdown
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            toggle={toggle}
+            action={handleMenuAction}
+            menus={['수정', '삭제']}
+          />
+        </DropDownContainer>
         <FolderText>폴더명</FolderText>
       </Overlay>
     </FolderWrapper>
   );
 };
 
+const FolderContainer = styled(FolderIcon)`
+  display: block;
+`;
+
 const FolderWrapper = styled.div`
   position: relative;
   display: inline-block;
-`;
 
-const FolderContainer = styled(FolderIcon)`
-  display: block;
+  &:hover ${FolderContainer} {
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+  }
 
-  &:hover path {
+  &:hover ${FolderContainer} path {
     stroke: ${({ theme }) => theme.colors.subLightBlue};
     stroke-width: 3;
-  }
-  &:hover {
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
   }
 `;
 
@@ -49,10 +69,9 @@ const FolderText = styled.p`
   color: ${({ theme }) => theme.colors.black};
 `;
 
-const DropDownBtn = styled(DropDown)`
+const DropDownContainer = styled.div`
   position: absolute;
   top: 26px;
   right: 8px;
-  cursor: pointer;
   pointer-events: auto;
 `;
