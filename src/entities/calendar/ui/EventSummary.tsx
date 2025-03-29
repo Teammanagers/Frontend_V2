@@ -10,6 +10,7 @@ export default function EventSummary({
 }: IEventSummaryProps) {
   const handleClick = () => {
     setModalMode('read');
+    toggle();
   };
 
   return (
@@ -58,4 +59,5 @@ display: flex;
   color: ${({ theme }) => theme.colors.black};
   text-decoration: ${({ $status }) =>
     $status === 'COMPLETED' ? 'line-through' : 'none'};
+  cursor: pointer;
 `;

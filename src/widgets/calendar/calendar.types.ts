@@ -20,8 +20,9 @@ interface IEventList {
 
 interface IEventSummaryPopoverProps {
   eventList: IEventList[];
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isModalOpen: boolean;
+  isPopoverOpen: boolean;
+  setIsPopoverOpen: React.Dispatch<React.SetStateAction<boolean>>;
   toggle: () => void;
   setModalMode: React.Dispatch<React.SetStateAction<EventEditorMode>>;
 }

@@ -14,12 +14,12 @@ export default function ActionButton({
   const size = buttonSize[buttonType];
 
   const handleClick = () => {
-    toggle();
     if (buttonType === 'edit') {
       setModalMode('edit');
     } else if (buttonType === 'add') {
       setModalMode('register');
     }
+    toggle();
   };
 
   return (
@@ -54,6 +54,11 @@ const Container = styled.button<{
   font-weight: 700;
   color: ${({ theme }) => theme.colors.mainBlue};
   background-color: ${({ theme }) => theme.colors.white};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.subLightBlue};
+    transition: background-color 0.3s;
+  }
 `;
 
 const IconWrapper = styled.div`

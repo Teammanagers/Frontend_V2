@@ -14,10 +14,9 @@ export default function EventCalendar() {
   const [searchMonth, setSearchMonth] = useState<Value>(null); // 월 변경 시 상태 별도로 관리 -> selectedDate로 함께 관리 시 팝오버 자동 렌더링 이슈 발생
   const [calendarHeight, setCalendarHeight] = useState<string>('520px');
 
-  // 모달 및 팝오버  상태
-  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
-  const { isOpen, toggle } = useToggle();
-  const [modalMode, setModalMode] = useState<EventEditorMode>('register');
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false); // 팝오버 ON/OFF 상태
+  const { isOpen, toggle } = useToggle(); // 모달 ON/OFF 상태
+  const [modalMode, setModalMode] = useState<EventEditorMode>('register'); // 모달 모드 : register, edit, read
 
   const mockEventList = mockData.result.calendarListOfMonth;
 
@@ -56,7 +55,6 @@ export default function EventCalendar() {
       // const filteredEventList = eventList.filter(
       //   (event: any) => event.date === dayjs(date).format('YYYY-MM-DD'),
       // );
-      // setIsPopoverOpen(true);
 
       // 선택된 날짜와 같은 날짜인지 확인
       const isSelected =
@@ -76,8 +74,9 @@ export default function EventCalendar() {
           {isSelected && (
             <EventSummaryPopover
               eventList={mockEventList}
-              isOpen={isPopoverOpen}
-              setIsOpen={setIsPopoverOpen}
+              isModalOpen={isOpen}
+              isPopoverOpen={isPopoverOpen}
+              setIsPopoverOpen={setIsPopoverOpen}
               toggle={toggle}
               setModalMode={setModalMode}
             />
@@ -95,7 +94,7 @@ export default function EventCalendar() {
         </>
       );
     },
-    [selectedDate, isPopoverOpen],
+    [selectedDate, isPopoverOpen, isOpen],
   );
 
   return (

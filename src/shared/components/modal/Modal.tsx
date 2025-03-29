@@ -8,7 +8,7 @@ import styled, { keyframes } from 'styled-components';
  *
  * @param {boolean} isOpen - 모달이 열려 있는지 여부를 나타내는 상태
  * @param {() => void} toggle - 모달의 열림/닫힘 상태를 토글하는 훅
- * @param {ReactNode} children - 모달의 내용
+ * @param {React.ReactNode} children - 모달의 내용
  */
 
 export default function Modal({ children, isOpen, toggle }: IModal) {
