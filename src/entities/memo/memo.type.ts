@@ -33,6 +33,7 @@ export interface MemoProps {
   size: keyof typeof memoSizes;
   memo: MemoType;
   onDeleteRequest: (id: number) => void;
+  onMoveRequest: (id: number) => void;
 }
 
 export interface FolderType {
@@ -45,8 +46,13 @@ export interface FolderProps {
   onDeleteRequest: (id: number) => void;
 }
 
-export interface DeleteTarget {
+export interface Target {
   type: 'memo' | 'folder';
   id: number;
   title: string;
+}
+
+export interface MoveModalProps {
+  // type: 'folder' | 'memo';
+  onClose: () => void;
 }

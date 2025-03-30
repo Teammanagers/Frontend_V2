@@ -27,7 +27,7 @@ export const DeleteModal = ({ type, name, onClose }: DeleteModalProps) => {
   );
 };
 
-const Overlay = styled.div`
+export const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;

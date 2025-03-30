@@ -16,7 +16,12 @@ import { memoSizes } from '@/widgets/memo/memo.constants.ts';
  * @param {'small' | 'large'} size - small은 메인에서, large는 메모에서 사용됩니다.
  */
 
-export const Memo = ({ size, memo, onDeleteRequest }: MemoProps) => {
+export const Memo = ({
+  size,
+  memo,
+  onDeleteRequest,
+  onMoveRequest,
+}: MemoProps) => {
   const [isPinned, setIsPinned] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
   const { isOpen, setIsOpen, toggle } = useToggle();
@@ -33,6 +38,7 @@ export const Memo = ({ size, memo, onDeleteRequest }: MemoProps) => {
       setIsOpen(true);
     } else if (menu === '이동') {
       console.log('메모 이동 모달 띄우기!!!');
+      onMoveRequest(id);
     } else if (menu === '삭제') {
       console.log('메모 삭제!');
       setIsOpen(true);

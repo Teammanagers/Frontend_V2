@@ -1,22 +1,25 @@
 import styled from 'styled-components';
+import { MoveModalProps } from '@/entities/memo/memo.type.ts';
 import { ModalContainer } from '@/entities/memo/ui/AddModal.tsx';
+import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
+import folderData from '@/shared/assets/memo/folderData.json';
 
-export const MoveModal = () => {
+export const MoveModal = ({ onClose }: MoveModalProps) => {
   return (
-    <ModalContainer>
-      <MenuContainer>
-        <MenuText>폴더명1</MenuText>
-        <Button>이동</Button>
-      </MenuContainer>
-      <MenuContainer>
-        <MenuText>폴더명2</MenuText>
-        <Button>이동</Button>
-      </MenuContainer>
-    </ModalContainer>
+    <Overlay onClick={onClose}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        {folderData.map((folder) => (
+          <MenuContainer key={folder.id}>
+            <MenuText>{folder.title}</MenuText>
+            <Button>이동</Button>
+          </MenuContainer>
+        ))}
+      </ModalContainer>
+    </Overlay>
   );
 };
 
-const MenuContainer = styled.button`
+const MenuContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
@@ -28,6 +31,7 @@ const MenuContainer = styled.button`
   background: white;
   transition: background 0.2s;
   color: ${({ theme }) => theme.colors.black};
+  cursor: pointer;
 
   &:hover {
     background: ${({ theme }) => theme.colors.lightGray};

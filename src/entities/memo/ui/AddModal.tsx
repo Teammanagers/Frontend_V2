@@ -23,9 +23,9 @@ export const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 552px;
-  height: 140px;
   gap: 12px;
   padding: 24px 40px;
+  border-radius: 8px;
   background: white;
 `;
 

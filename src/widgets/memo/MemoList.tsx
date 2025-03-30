@@ -1,22 +1,32 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { DeleteTarget } from '@/entities/memo/memo.type.ts';
+import { Target } from '@/entities/memo/memo.type.ts';
 import { AddButton } from '@/entities/memo/ui/AddButton.tsx';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
 import { Folder } from '@/entities/memo/ui/Folder.tsx';
+import { MoveModal } from '@/entities/memo/ui/MoveModal.tsx';
 import folderData from '@/shared/assets/memo/folderData.json';
 import memoData from '@/shared/assets/memo/memoData.json';
 import { Memo } from '@/widgets/memo/Memo.tsx';
 
 export const MemoList = () => {
-  const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Target | null>(null);
+  const [moveTarget, setMoveTarget] = useState<Target | null>(null);
 
-  const handleDeleteRequest = (target: DeleteTarget) => {
+  const handleDeleteRequest = (target: Target) => {
     setDeleteTarget(target);
+  };
+
+  const handleMoveRequest = (target: Target) => {
+    setMoveTarget(target);
   };
 
   const closeDeleteModal = () => {
     setDeleteTarget(null);
+  };
+
+  const closeMoveModal = () => {
+    setMoveTarget(null);
   };
 
   return (
@@ -29,8 +39,14 @@ export const MemoList = () => {
             <Folder
               key={folder.id}
               folder={folder}
-              onDeleteRequest={(id: number) =>
-                handleDeleteRequest({ type: 'folder', id, title: folder.title })
+              onDeleteRequest={
+                (id: number) =>
+                  handleDeleteRequest({
+                    type: 'folder',
+                    id,
+                    title: folder.title,
+                  })
+                //   폴더 뎁스가 1 초과시, onMoveRequest 추가
               }
             />
           ))}
@@ -42,6 +58,9 @@ export const MemoList = () => {
               onDeleteRequest={(id: number) =>
                 handleDeleteRequest({ type: 'memo', id, title: memo.title })
               }
+              onMoveRequest={(id: number) =>
+                handleMoveRequest({ type: 'memo', id, title: memo.title })
+              }
             />
           ))}
         </ListContainer>
@@ -51,6 +70,14 @@ export const MemoList = () => {
           type={deleteTarget.type}
           name={deleteTarget.title}
           onClose={closeDeleteModal}
+        />
+      )}
+      {moveTarget && (
+        <MoveModal
+          // 폴더 뎁스에 따라
+          // type={moveTarget.type}
+          // name={moveTarget.title}
+          onClose={closeMoveModal}
         />
       )}
     </>
