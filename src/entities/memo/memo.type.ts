@@ -1,3 +1,5 @@
+import { memoSizes } from '@/widgets/memo/memo.constants.ts';
+
 export interface MemoFormProps {
   initialTitle?: string;
   initialContent?: string;
@@ -11,10 +13,24 @@ export interface MemoFormProps {
 
 export interface DeleteModalProps {
   type: 'folder' | 'memo';
-  title: string;
+  name: string;
+  onClose: () => void;
 }
 
 export interface FolderModalProps {
   mode: 'create' | 'edit';
   currentName?: string;
+}
+
+export interface MemoType {
+  id: number;
+  title: string;
+  tags: string[];
+  content: string;
+}
+
+export interface MemoProps {
+  size: keyof typeof memoSizes;
+  memo: MemoType;
+  onDeleteRequest: (id: number) => void;
 }

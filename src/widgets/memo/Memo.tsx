@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes, useState } from 'react';
 import styled from 'styled-components';
+import { MemoProps } from '@/entities/memo/memo.type.ts';
 import Next from '@/shared/assets/memo/next-button.svg?react';
 import PinIcon from '@/shared/assets/memo/pin.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
@@ -15,10 +16,11 @@ import { memoSizes } from '@/widgets/memo/memo.constants.ts';
  * @param {'small' | 'large'} size - small은 메인에서, large는 메모에서 사용됩니다.
  */
 
-export const Memo = ({ size }: { size: keyof typeof memoSizes }) => {
+export const Memo = ({ size, memo, onDeleteRequest }: MemoProps) => {
   const [isPinned, setIsPinned] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
 
+  const { id, title, tags, content } = memo;
   const { isOpen, setIsOpen, toggle } = useToggle();
   // const navigate = useNavigate();
 
@@ -28,7 +30,13 @@ export const Memo = ({ size }: { size: keyof typeof memoSizes }) => {
     if (menu === '수정') {
       console.log('수정페이지로 이동!');
       // navigate(`/memo/${해당메모아이디}`);
-      setIsOpen(false);
+      setIsOpen(true);
+    } else if (menu === '이동') {
+      console.log('메모 이동 모달 띄우기!!!');
+    } else if (menu === '삭제') {
+      console.log('메모 삭제!');
+      setIsOpen(true);
+      onDeleteRequest(id);
     }
     toggle();
   };
@@ -36,7 +44,7 @@ export const Memo = ({ size }: { size: keyof typeof memoSizes }) => {
   return (
     <MemoContainer $size={selectedSize} $pinned={isPinned}>
       <MemoTitleContainer>
-        <MemoTitle>제목</MemoTitle>
+        <MemoTitle>{title}</MemoTitle>
         <MenuContainer>
           {size === 'large' && (
             <PinBtn
@@ -49,19 +57,17 @@ export const Memo = ({ size }: { size: keyof typeof memoSizes }) => {
             setIsOpen={setIsOpen}
             toggle={toggle}
             action={handleMenuAction}
-            menus={['수정', '삭제']}
+            menus={['수정', '이동', '삭제']}
           />
         </MenuContainer>
       </MemoTitleContainer>
       <TagContainer>
-        {/*{tagList.map((tag: TagProps) => (*/}
-        <TagBox>태그</TagBox>
-        <TagBox>하이루</TagBox>
+        {tags.map((tag: string, index) => (
+          <TagBox key={index}>{tag}</TagBox>
+        ))}
       </TagContainer>
       <MemoContentContainer>
-        <Content>
-          내용길어지면어디까지뜨지흠냘ㅇ너ㅏㅁㄹㄴㅇ아러아러아러ㅏㅇ러ㅏ
-        </Content>
+        <Content>{content}</Content>
       </MemoContentContainer>
       {size === 'small' && (
         <NextBtn
