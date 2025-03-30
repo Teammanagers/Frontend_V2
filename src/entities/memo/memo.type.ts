@@ -34,3 +34,19 @@ export interface MemoProps {
   memo: MemoType;
   onDeleteRequest: (id: number) => void;
 }
+
+export interface FolderType {
+  id: number;
+  title: string;
+}
+
+export interface FolderProps {
+  folder: FolderType;
+  onDeleteRequest: (id: number) => void;
+}
+
+export interface DeleteTarget {
+  type: 'memo' | 'folder';
+  id: number;
+  title: string;
+}

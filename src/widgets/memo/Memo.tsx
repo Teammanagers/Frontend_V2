@@ -19,9 +19,9 @@ import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 export const Memo = ({ size, memo, onDeleteRequest }: MemoProps) => {
   const [isPinned, setIsPinned] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
+  const { isOpen, setIsOpen, toggle } = useToggle();
 
   const { id, title, tags, content } = memo;
-  const { isOpen, setIsOpen, toggle } = useToggle();
   // const navigate = useNavigate();
 
   const selectedSize = memoSizes[size];

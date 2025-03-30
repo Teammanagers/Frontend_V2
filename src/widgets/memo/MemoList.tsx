@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { DeleteTarget } from '@/entities/memo/memo.type.ts';
 import { AddButton } from '@/entities/memo/ui/AddButton.tsx';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
 import { Folder } from '@/entities/memo/ui/Folder.tsx';
+import folderData from '@/shared/assets/memo/folderData.json';
 import memoData from '@/shared/assets/memo/memoData.json';
 import { Memo } from '@/widgets/memo/Memo.tsx';
 
 export const MemoList = () => {
-  const [openDeleteModal, setOpenDeleteModal] = useState<number | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
 
-  const selectedMemo = memoData.find(({ id }) => id === openDeleteModal);
-
-  const handleDeleteRequest = (id: number) => {
-    setOpenDeleteModal(id);
+  const handleDeleteRequest = (target: DeleteTarget) => {
+    setDeleteTarget(target);
   };
 
   const closeDeleteModal = () => {
-    setOpenDeleteModal(null);
+    setDeleteTarget(null);
   };
 
   return (
@@ -25,23 +25,31 @@ export const MemoList = () => {
         <Depth>전체</Depth>
         <ListContainer>
           <AddButton />
-          <Folder />
-          <Folder />
-          <Folder />
+          {folderData.map((folder) => (
+            <Folder
+              key={folder.id}
+              folder={folder}
+              onDeleteRequest={(id: number) =>
+                handleDeleteRequest({ type: 'folder', id, title: folder.title })
+              }
+            />
+          ))}
           {memoData.map((memo) => (
             <Memo
               key={memo.id}
               size="large"
               memo={memo}
-              onDeleteRequest={handleDeleteRequest}
+              onDeleteRequest={(id: number) =>
+                handleDeleteRequest({ type: 'memo', id, title: memo.title })
+              }
             />
           ))}
         </ListContainer>
       </MemoContainer>
-      {openDeleteModal && selectedMemo && (
+      {deleteTarget && (
         <DeleteModal
-          type="memo"
-          name={selectedMemo.title}
+          type={deleteTarget.type}
+          name={deleteTarget.title}
           onClose={closeDeleteModal}
         />
       )}

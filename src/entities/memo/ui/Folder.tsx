@@ -1,15 +1,21 @@
 import styled from 'styled-components';
+import { FolderProps } from '@/entities/memo/memo.type.ts';
 import FolderIcon from '@/shared/assets/memo/folder.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
 
-export const Folder = () => {
+export const Folder = ({ folder, onDeleteRequest }: FolderProps) => {
   const { isOpen, setIsOpen, toggle } = useToggle();
+
+  const { id, title } = folder;
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
       console.log('폴더 수정 모달 띄우기');
-      setIsOpen(false);
+      setIsOpen(true);
+    } else if (menu === '삭제') {
+      console.log('폴더 삭제');
+      onDeleteRequest(id);
     }
     toggle();
   };
@@ -27,7 +33,7 @@ export const Folder = () => {
             menus={['수정', '삭제']}
           />
         </DropDownContainer>
-        <FolderText>폴더명</FolderText>
+        <FolderText>{title}</FolderText>
       </Overlay>
     </FolderWrapper>
   );
