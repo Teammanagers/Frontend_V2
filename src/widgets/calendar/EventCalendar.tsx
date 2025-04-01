@@ -71,6 +71,7 @@ export default function EventCalendar() {
         <>
           {isSelected && (
             <EventSummaryPopover
+              date={date}
               eventList={filteredEventList}
               isModalOpen={isOpen}
               isPopoverOpen={isPopoverOpen}

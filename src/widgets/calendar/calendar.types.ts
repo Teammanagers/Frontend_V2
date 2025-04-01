@@ -19,6 +19,7 @@ interface IEventList {
 }
 
 interface IEventSummaryPopoverProps {
+  date: Date;
   eventList: IEventList[];
   isModalOpen: boolean;
   isPopoverOpen: boolean;
