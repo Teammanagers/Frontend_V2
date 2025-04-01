@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Target } from '@/entities/memo/memo.type.ts';
 import { AddButton } from '@/entities/memo/ui/AddButton.tsx';
+import { AddModal } from '@/entities/memo/ui/AddModal.tsx';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
 import { Folder } from '@/entities/memo/ui/Folder.tsx';
 import { MoveModal } from '@/entities/memo/ui/MoveModal.tsx';
@@ -12,6 +13,7 @@ import { Memo } from '@/widgets/memo/Memo.tsx';
 export const MemoList = () => {
   const [deleteTarget, setDeleteTarget] = useState<Target | null>(null);
   const [moveTarget, setMoveTarget] = useState<Target | null>(null);
+  const [openAddModal, setopenAddModal] = useState<boolean>(false);
 
   const handleDeleteRequest = (target: Target) => {
     setDeleteTarget(target);
@@ -19,6 +21,10 @@ export const MemoList = () => {
 
   const handleMoveRequest = (target: Target) => {
     setMoveTarget(target);
+  };
+
+  const handleOpenAddModal = () => {
+    setopenAddModal(true);
   };
 
   const closeDeleteModal = () => {
@@ -29,12 +35,16 @@ export const MemoList = () => {
     setMoveTarget(null);
   };
 
+  const closeAddModalHandler = () => {
+    setopenAddModal(false);
+  };
+
   return (
     <>
       <MemoContainer>
         <Depth>전체</Depth>
         <ListContainer>
-          <AddButton />
+          <AddButton onClick={handleOpenAddModal} />
           {folderData.map((folder) => (
             <Folder
               key={folder.id}
@@ -65,6 +75,7 @@ export const MemoList = () => {
           ))}
         </ListContainer>
       </MemoContainer>
+      {openAddModal && <AddModal onClose={closeAddModalHandler} />}
       {deleteTarget && (
         <DeleteModal
           type={deleteTarget.type}

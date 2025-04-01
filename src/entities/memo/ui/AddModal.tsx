@@ -1,19 +1,22 @@
 import styled from 'styled-components';
+import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
 import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
 
-export const AddModal = () => {
+export const AddModal = ({ onClose }: { onClose: () => void }) => {
   return (
-    <ModalContainer>
-      <MenuContainer>
-        메모 추가하기
-        <AddMemo />
-      </MenuContainer>
-      <MenuContainer>
-        폴더 추가하기
-        <AddFolder />
-      </MenuContainer>
-    </ModalContainer>
+    <Overlay onClick={onClose}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        <MenuContainer>
+          메모 추가하기
+          <AddMemo />
+        </MenuContainer>
+        <MenuContainer>
+          폴더 추가하기
+          <AddFolder />
+        </MenuContainer>
+      </ModalContainer>
+    </Overlay>
   );
 };
 
