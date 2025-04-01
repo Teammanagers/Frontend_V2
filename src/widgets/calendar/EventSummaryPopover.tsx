@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import dayjs from 'dayjs';
 import PolygonArrow from '@/shared/assets/calendar/popover-arrow.svg?react';
@@ -7,8 +7,10 @@ import { calculatePopoverPosition } from './lib/calculatePopoverPosition';
 import { IEventSummaryPopoverProps } from './calendar.types';
 import EventSummary from '@/entities/calendar/ui/EventSummary';
 import ActionButton from '@/entities/calendar/ui/ActionButton';
+import { usePopoverAnimation } from './lib/usePopoverAnimation';
 
 function EventSummaryPopover({
+  date,
   eventList,
   isPopoverOpen,
   isModalOpen,
@@ -23,6 +25,7 @@ function EventSummaryPopover({
   const [isAnimating, setIsAnimating] = useState<boolean>(false); // Popover ON/OFF 애니메이션
 
   useClickOutside(parentRef, setIsPopoverOpen, isModalOpen); // popover 외부 클릭 시 닫힘 (모달이 열려 있는 경우 무시)
+  usePopoverAnimation(isPopoverOpen, setIsAnimating); // 팝오버 애니메이션 관리
 
   // Popover가 캘린더 영역 넘어가지 않도록 배치
   useLayoutEffect(() => {
@@ -31,17 +34,6 @@ function EventSummaryPopover({
     const popover = childRef.current;
 
     calculatePopoverPosition(popover, setAdjustLeftPos);
-  }, [isPopoverOpen]);
-
-  // Popover ON/OFF 애니메이션 시간 관리
-  useEffect(() => {
-    if (!isPopoverOpen) {
-      setIsAnimating(true);
-      const timeout = setTimeout(() => {
-        setIsAnimating(false);
-      }, 250);
-      return () => clearTimeout(timeout);
-    }
   }, [isPopoverOpen]);
 
   if (!isPopoverOpen && !isAnimating) return null; // 애니메이션이 완료된 후 컴포넌트 제거
@@ -57,20 +49,22 @@ function EventSummaryPopover({
 
       {/* 내부 콘텐츠 */}
       <ContentWrapper ref={childRef} $left={adjustLeftPos}>
-        <Date>{dayjs(eventList[0].date).format('YYYY-MM-DD')}</Date>
+        <Date>{dayjs(date).format('YYYY-MM-DD')}</Date>
 
         {/* 이벤트 리스트 */}
         <EventList>
-          {eventList.map((event) => (
-            <EventSummary
-              key={event.calendarId}
-              status={event.status}
-              toggle={toggle}
-              setModalMode={setModalMode}
-            >
-              {event.title}
-            </EventSummary>
-          ))}
+          {eventList.length > 0
+            ? eventList.map((event) => (
+                <EventSummary
+                  key={event.calendarId}
+                  status={event.status}
+                  toggle={toggle}
+                  setModalMode={setModalMode}
+                >
+                  {event.title}
+                </EventSummary>
+              ))
+            : null}
           <ActionButton
             buttonType="add"
             toggle={toggle}
