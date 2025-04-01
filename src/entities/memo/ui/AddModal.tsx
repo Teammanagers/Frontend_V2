@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
 import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
+import { ModalProps } from '@/shared/types/modal.types.ts';
 
-export const AddModal = ({ onClose }: { onClose: () => void }) => {
+export const AddModal = ({ onClose }: ModalProps) => {
   return (
     <Overlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>

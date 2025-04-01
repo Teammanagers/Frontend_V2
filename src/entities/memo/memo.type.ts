@@ -1,3 +1,4 @@
+import { ModalProps } from '@/shared/types/modal.types.ts';
 import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 
 export interface MemoFormProps {
@@ -11,10 +12,9 @@ export interface MemoFormProps {
   showDeleteButton?: boolean;
 }
 
-export interface DeleteModalProps {
+export interface DeleteModalProps extends ModalProps {
   type: 'folder' | 'memo';
   name: string;
-  onClose: () => void;
 }
 
 export interface FolderModalProps {
@@ -52,7 +52,6 @@ export interface Target {
   title: string;
 }
 
-export interface MoveModalProps {
-  // type: 'folder' | 'memo';
-  onClose: () => void;
+export interface MoveModalProps extends ModalProps {
+  type: 'folder' | 'memo';
 }
