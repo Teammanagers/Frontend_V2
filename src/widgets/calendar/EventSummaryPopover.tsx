@@ -121,7 +121,7 @@ const Container = styled.div<{
   $isAnimating: boolean;
 }>`
   position: absolute;
-  top: 48px;
+  top: 49px;
   width: 310px;
   z-index: 999;
   animation: ${({ $isPopoverOpen }) => ($isPopoverOpen ? scaleUp : scaleDown)}

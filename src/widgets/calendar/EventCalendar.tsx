@@ -8,10 +8,11 @@ import { EventEditorMode, Value } from './calendar.types';
 import { determineWeeksInMonth } from './lib/getWeeksInMonth';
 import { EventSummaryPopover } from './EventSummaryPopover';
 import mockData from './mocks/getSimpleCalendarList.json';
+import { Dot } from '@/entities/main/ui';
 
 export default function EventCalendar() {
   const [selectedDate, setSelectedDate] = useState<Value>(null);
-  const [searchMonth, setSearchMonth] = useState<Value>(null); // 월 변경 시 상태 별도로 관리 -> selectedDate로 함께 관리 시 팝오버 자동 렌더링 이슈 발생
+  const [searchMonth, setSearchMonth] = useState<Value>(null); // 월 변경 시 상태 별도로 관리 -> selectedDate로 함께 관리하면 달 변경 시 팝오버 자동 렌더링 이슈 발생
   const [calendarHeight, setCalendarHeight] = useState<string>('520px');
 
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false); // 팝오버 ON/OFF 상태
@@ -28,6 +29,7 @@ export default function EventCalendar() {
   // 달 변경 시 날짜 업데이트
   const updateMonth = (activeStartDate: Date | null) => {
     setSearchMonth(activeStartDate);
+    setSelectedDate(null); // 선택된 날짜 초기화
   };
 
   // 매월 몇 주인지 구하기 -> 5,6주일 때 height 변화
@@ -52,9 +54,11 @@ export default function EventCalendar() {
   const handleTileContent = useCallback(
     ({ date }: { date: Date }) => {
       // 클릭한 날짜 중 이벤트가 있는 날짜 필터링
-      // const filteredEventList = eventList.filter(
-      //   (event: any) => event.date === dayjs(date).format('YYYY-MM-DD'),
-      // );
+      const filteredEventList = mockEventList.filter(
+        (event: any) =>
+          dayjs(event.date).format('YYYY-MM-DD') ===
+          dayjs(date).format('YYYY-MM-DD'),
+      );
 
       // 선택된 날짜와 같은 날짜인지 확인
       const isSelected =
@@ -63,17 +67,11 @@ export default function EventCalendar() {
         selectedDate.getMonth() === date.getMonth() &&
         selectedDate.getDate() === date.getDate();
 
-      // 오늘 날짜인지 확인
-      // const isToday =
-      //   new Date().getFullYear() === date.getFullYear() &&
-      //   new Date().getMonth() === date.getMonth() &&
-      //   new Date().getDate() === date.getDate();
-
       return (
         <>
           {isSelected && (
             <EventSummaryPopover
-              eventList={mockEventList}
+              eventList={filteredEventList}
               isModalOpen={isOpen}
               isPopoverOpen={isPopoverOpen}
               setIsPopoverOpen={setIsPopoverOpen}
@@ -81,16 +79,7 @@ export default function EventCalendar() {
               setModalMode={setModalMode}
             />
           )}
-          {/* {isSelected && filteredEventList.length > 0 && (
-            <DailyLog
-              date={date}
-              filterRef={filterRef}
-              eventList={filteredEventList}
-            />
-          )} */}
-          {/* {filteredEventList.length > 0 && (
-            <Dot isSelected={isSelected && !isToday} />
-          )} */}
+          {filteredEventList.length > 0 && <Dot isSelected={isSelected} />}
         </>
       );
     },
@@ -99,7 +88,7 @@ export default function EventCalendar() {
 
   return (
     <>
-      <StyledCalendarContainer height={calendarHeight}>
+      <StyledCalendarContainer $height={calendarHeight}>
         <StyledCalendar
           locale="en-US"
           calendarType="gregory" // 일요일 부터 시작
@@ -137,7 +126,7 @@ export default function EventCalendar() {
   );
 }
 
-const StyledCalendarContainer = styled.div<{ height: string }>`
+const StyledCalendarContainer = styled.div<{ $height: string }>`
   width: 632px;
 
   .react-calendar {
@@ -145,7 +134,7 @@ const StyledCalendarContainer = styled.div<{ height: string }>`
     flex-direction: column;
     align-items: center;
     width: inherit;
-    height: ${(props) => props.height};
+    height: ${({ $height }) => $height};
     padding: 24px 47px;
     border-radius: 10px;
     border: 1px solid rgba(221, 235, 255, 1);
@@ -174,6 +163,10 @@ const StyledCalendarContainer = styled.div<{ height: string }>`
     button {
       color: ${({ theme }) => theme.colors.black}; // 글자 색
       background: none;
+    }
+
+    .react-calendar__navigation__label {
+      pointer-events: none; // 입력 이벤트 무시
     }
 
     // 년/월 타이틀
@@ -302,6 +295,8 @@ const StyledCalendarContainer = styled.div<{ height: string }>`
       height: 45px;
       border-radius: 50%;
       background-color: ${({ theme }) => theme.colors.mainBlue};
+      color: ${({ theme }) => theme.colors.white};
+      font-weight: 500;
       transition: background-color 400ms ease-in;
     }
 
