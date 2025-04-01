@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { IEventSummaryProps } from '../calendar.types';
-import ActionButton from './ActionButton';
+import { ActionButton } from './ActionButton';
 
 export default function EventSummary({
   children,

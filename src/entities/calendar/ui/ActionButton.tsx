@@ -3,7 +3,7 @@ import { IActionButtonProps } from '../calendar.types';
 import { buttonSize } from '../config/calendar.constants';
 import PlusIcon from '@/shared/assets/common/plus.svg?react';
 
-export default function ActionButton({
+function ActionButton({
   buttonType = 'edit',
   onClick,
   disabled = false,
@@ -38,6 +38,8 @@ export default function ActionButton({
     </Container>
   );
 }
+
+export { ActionButton };
 
 const Container = styled.button<{
   $size: (typeof buttonSize)[keyof typeof buttonSize];

@@ -6,8 +6,8 @@ import useClickOutside from '@/shared/hooks/action/useClickOutside';
 import { calculatePopoverPosition } from './lib/calculatePopoverPosition';
 import { IEventSummaryPopoverProps } from './calendar.types';
 import EventSummary from '@/entities/calendar/ui/EventSummary';
-import ActionButton from '@/entities/calendar/ui/ActionButton';
 import { usePopoverAnimation } from './lib/usePopoverAnimation';
+import { ActionButton } from '@/entities/calendar/ui';
 
 function EventSummaryPopover({
   date,

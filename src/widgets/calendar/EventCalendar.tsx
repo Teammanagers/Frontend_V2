@@ -8,7 +8,7 @@ import { EventEditorMode, Value } from './calendar.types';
 import { determineWeeksInMonth } from './lib/getWeeksInMonth';
 import { EventSummaryPopover } from './EventSummaryPopover';
 import mockData from './mocks/getSimpleCalendarList.json';
-import { Dot } from '@/entities/main/ui';
+import { Dot } from '@/entities/calendar/ui';
 
 export default function EventCalendar() {
   const [selectedDate, setSelectedDate] = useState<Value>(null);
