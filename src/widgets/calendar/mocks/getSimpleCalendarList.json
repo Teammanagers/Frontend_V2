@@ -1,0 +1,36 @@
+{
+  "code": 200,
+  "message": "성공입니다.",
+  "result": {
+    "calendarListOfMonth": [
+      {
+        "calendarId": 1,
+        "title": "기능 프론트 구현",
+        "status": "COMPLETED",
+        "isAlarm": true,
+        "date": "2025-04-11T06:19:35.071Z"
+      },
+      {
+        "calendarId": 2,
+        "title": "서버 명세서 완료",
+        "status": "PROCEEDING",
+        "isAlarm": false,
+        "date": "2025-04-22T06:19:35.071Z"
+      },
+      {
+        "calendarId": 3,
+        "title": "서버 명세서 완료",
+        "status": "PROCEEDING",
+        "isAlarm": false,
+        "date": "2025-04-28T06:19:35.071Z"
+      },
+      {
+        "calendarId": 4,
+        "title": "교수님 미팅",
+        "status": "COMPLETED",
+        "isAlarm": false,
+        "date": "2025-04-28T06:19:35.071Z"
+      }
+    ]
+  }
+}

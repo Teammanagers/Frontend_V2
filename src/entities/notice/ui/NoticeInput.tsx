@@ -66,4 +66,10 @@ const Button = styled.button`
   font-size: 16px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.white};
+
+  &:hover {
+    background-color: #3c8bff;
+    transition: background-color 0.3s;
+    box-shadow: 0 1px 4px 0 rgba(60, 139, 255, 0.06);
+  }
 `;

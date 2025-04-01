@@ -1,4 +1,5 @@
-import { NoticeBanner, TeamCodeCopy } from '@/entities/notice/ui';
+import { TeamCodeCopy } from '@/entities/main/ui';
+import { NoticeBanner } from '@/entities/notice/ui';
 import { TodoList, UpcomingScheduleList } from '@/widgets/main';
 import styled from 'styled-components';
 

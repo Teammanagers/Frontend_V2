@@ -24,13 +24,7 @@ const DropdownMenu = ({
 }: IDropdownMenu) => {
   if (!isOpen) return null;
   return (
-    <Container
-      $isOpen={isOpen}
-      $top={top}
-      $right={right}
-      $bottom={bottom}
-      $left={left}
-    >
+    <Container $top={top} $right={right} $bottom={bottom} $left={left}>
       {children}
     </Container>
   );
@@ -39,7 +33,6 @@ const DropdownMenu = ({
 export default DropdownMenu;
 
 const Container = styled.div<{
-  $isOpen: boolean;
   $top?: string;
   $right?: string;
   $bottom?: string;
