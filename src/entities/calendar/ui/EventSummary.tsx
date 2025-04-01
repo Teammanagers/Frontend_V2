@@ -55,7 +55,7 @@ const Title = styled.p<{ $status: string }>`
 display: flex;
   align-items: center;
   font-size: 12px;
-  font-weight: 400,
+  font-weight: 400;
   color: ${({ theme }) => theme.colors.black};
   text-decoration: ${({ $status }) =>
     $status === 'COMPLETED' ? 'line-through' : 'none'};
