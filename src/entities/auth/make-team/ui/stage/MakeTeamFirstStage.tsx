@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
-import TagForm from '@/entities/auth/sign-up/ui/tag/TagForm';
 import camera from '@/shared/assets/common/cam-plus.svg?url';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
+import TagForm from '../tag/TagForm';
 
-export default function MakeTeamFirstStage() {
+interface MakeTeamFirstStageProps {
+  setStage: Dispatch<SetStateAction<number>>;
+}
+
+export default function MakeTeamFirstStage({
+  setStage,
+}: MakeTeamFirstStageProps) {
   const [title, setTitle] = useState<string>('');
 
   return (
@@ -29,7 +35,12 @@ export default function MakeTeamFirstStage() {
         <Input title="Tag" subTitle="(최대 한글 5자 또는 영어 5글자)">
           <TagForm></TagForm>
         </Input>
-        <Button size="xxl" style="main" disabled={title === ''}>
+        <Button
+          size="xxl"
+          style="main"
+          disabled={title === ''}
+          onClick={() => setStage(2)}
+        >
           팀 생성 완료
         </Button>
       </BottomContainer>
