@@ -94,6 +94,7 @@ const DefaultInput = styled.input<{ $textColor: string }>`
   font-weight: 500;
   line-height: 150%;
   padding: 12px 18px 12px 18px;
+  background-color: white;
   color: ${(props) => props.$textColor};
 
   &::placeholder {
