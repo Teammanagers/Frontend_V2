@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import TagForm from '@/entities/auth/sign-up/ui/tag/TagForm';
 import camera from '@/shared/assets/common/cam-plus.svg?url';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
 
 export default function MakeTeamFirstStage() {
+  const [title, setTitle] = useState<string>('');
+
   return (
     <MakeTeamWrapper>
       <BackContainer>
@@ -20,11 +24,12 @@ export default function MakeTeamFirstStage() {
         <Input
           title="Title"
           placeholder="팀명 또는 프로젝트명을 입력해 주세요"
+          onChange={(e) => setTitle(e.target.value)}
         />
         <Input title="Tag" subTitle="(최대 한글 5자 또는 영어 5글자)">
-          <div style={{ height: '200px' }}></div>
+          <TagForm></TagForm>
         </Input>
-        <Button size="xxl" style="main">
+        <Button size="xxl" style="main" disabled={title === ''}>
           팀 생성 완료
         </Button>
       </BottomContainer>
