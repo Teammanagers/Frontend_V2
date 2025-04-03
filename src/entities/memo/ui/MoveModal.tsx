@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { MoveModalProps } from '@/entities/memo/memo.type.ts';
 import { ModalContainer } from '@/entities/memo/ui/AddModal.tsx';
 import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import folderData from '@/shared/assets/memo/folderData.json';
+import { ModalProps } from '@/shared/types/modal.types.ts';
 
-export const MoveModal = ({ onClose }: MoveModalProps) => {
+export const MoveModal = ({ onClose }: ModalProps) => {
   return (
     <Overlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
