@@ -1,15 +1,15 @@
+import { Route, Routes } from 'react-router-dom';
 import { CalendarPage } from '@/pages/CalendarPage';
 import { ErrorPage } from '@/pages/ErrorPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { MainPage } from '@/pages/MainPage';
 import { ManagementPage } from '@/pages/Management Page';
-import { MemoPage } from '@/pages/MemoPage';
+import { ExtraMemoPage, MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
 import { SharePage } from '@/pages/SharePage';
 import { SignupPage } from '@/pages/SignupPage';
 import { TeamPage } from '@/pages/TeamPage';
 import { TodoPage } from '@/pages/TodoPage';
-import { Route, Routes } from 'react-router-dom';
 
 export default function AppRoutes() {
   return (
@@ -29,6 +29,7 @@ export default function AppRoutes() {
         <Route path="/todo-list" element={<TodoPage />} />
         {/* Memo Page */}
         <Route path="/memo" element={<MemoPage />} />
+        <Route path="/memo/*" element={<ExtraMemoPage />} />
         {/* Share Page */}
         <Route path="/share" element={<SharePage />} />
         {/* Management Page */}
