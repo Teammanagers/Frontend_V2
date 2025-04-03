@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.62.8",
+    "@types/react-copy-to-clipboard": "^5.0.7",
     "axios": "^1.7.9",
     "moment": "^2.30.1",
     "react": "^18.3.1",
