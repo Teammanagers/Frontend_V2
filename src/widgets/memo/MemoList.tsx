@@ -5,6 +5,7 @@ import { AddButton } from '@/entities/memo/ui/AddButton.tsx';
 import { AddModal } from '@/entities/memo/ui/AddModal.tsx';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
 import { Folder } from '@/entities/memo/ui/Folder.tsx';
+import { FolderModal } from '@/entities/memo/ui/FolderModal.tsx';
 import { MoveModal } from '@/entities/memo/ui/MoveModal.tsx';
 import folderData from '@/shared/assets/memo/folderData.json';
 import memoData from '@/shared/assets/memo/memoData.json';
@@ -13,7 +14,8 @@ import { Memo } from '@/widgets/memo/Memo.tsx';
 export const MemoList = () => {
   const [deleteTarget, setDeleteTarget] = useState<Target | null>(null);
   const [moveTarget, setMoveTarget] = useState<Target | null>(null);
-  const [openAddModal, setopenAddModal] = useState<boolean>(false);
+  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
+  const [openFolderModal, setOpenFolderModal] = useState<boolean>(false);
 
   const handleDeleteRequest = (target: Target) => {
     setDeleteTarget(target);
@@ -24,7 +26,7 @@ export const MemoList = () => {
   };
 
   const handleOpenAddModal = () => {
-    setopenAddModal(true);
+    setOpenAddModal(true);
   };
 
   const closeDeleteModal = () => {
@@ -35,8 +37,17 @@ export const MemoList = () => {
     setMoveTarget(null);
   };
 
-  const closeAddModalHandler = () => {
-    setopenAddModal(false);
+  const closeAddModal = () => {
+    setOpenAddModal(false);
+  };
+
+  const handleAddFolder = () => {
+    closeAddModal();
+    setOpenFolderModal(true);
+  };
+
+  const closeFolderModal = () => {
+    setOpenFolderModal(false);
   };
 
   return (
@@ -75,7 +86,9 @@ export const MemoList = () => {
           ))}
         </ListContainer>
       </MemoContainer>
-      {openAddModal && <AddModal onClose={closeAddModalHandler} />}
+      {openAddModal && (
+        <AddModal onClose={closeAddModal} onAddFolder={handleAddFolder} />
+      )}
       {deleteTarget && (
         <DeleteModal
           type={deleteTarget.type}
@@ -90,6 +103,9 @@ export const MemoList = () => {
           // name={moveTarget.title}
           onClose={closeMoveModal}
         />
+      )}
+      {openFolderModal && (
+        <FolderModal mode="create" onClose={closeFolderModal} />
       )}
     </>
   );

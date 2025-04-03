@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FolderModalProps } from '@/entities/memo/memo.type.ts';
+import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import { Button } from '@/shared/components/button/Button.tsx';
 
 export const FolderModal = ({
   mode,
   currentName = '안녕',
+  onClose,
 }: FolderModalProps) => {
   const [folderName, setFolderName] = useState(
     mode === 'edit' ? (currentName ?? '') : '',
@@ -27,19 +29,21 @@ export const FolderModal = ({
   }, [buttonStyle, isDisabled]);
 
   return (
-    <FolderModalContainer>
-      <InputContainer>
-        <InputText>폴더명</InputText>
-        <FolderInput
-          placeholder="폴더명을 설정해주세요"
-          value={folderName}
-          onChange={(e) => setFolderName(e.target.value)}
-        />
-      </InputContainer>
-      <Button size="xl" style={buttonStyle} disabled={isDisabled}>
-        {buttonText}
-      </Button>
-    </FolderModalContainer>
+    <Overlay onClick={onClose}>
+      <FolderModalContainer onClick={(e) => e.stopPropagation()}>
+        <InputContainer>
+          <InputText>폴더명</InputText>
+          <FolderInput
+            placeholder="폴더명을 설정해주세요"
+            value={folderName}
+            onChange={(e) => setFolderName(e.target.value)}
+          />
+        </InputContainer>
+        <Button size="xl" style={buttonStyle} disabled={isDisabled}>
+          {buttonText}
+        </Button>
+      </FolderModalContainer>
+    </Overlay>
   );
 };
 

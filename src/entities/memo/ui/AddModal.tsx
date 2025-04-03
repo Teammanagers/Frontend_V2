@@ -1,10 +1,10 @@
 import styled from 'styled-components';
+import { AddModalProps } from '@/entities/memo/memo.type.ts';
 import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
 import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
-import { ModalProps } from '@/shared/types/modal.types.ts';
 
-export const AddModal = ({ onClose }: ModalProps) => {
+export const AddModal = ({ onClose, onAddFolder }: AddModalProps) => {
   return (
     <Overlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
@@ -12,7 +12,7 @@ export const AddModal = ({ onClose }: ModalProps) => {
           메모 추가하기
           <AddMemo />
         </MenuContainer>
-        <MenuContainer>
+        <MenuContainer onClick={onAddFolder}>
           폴더 추가하기
           <AddFolder />
         </MenuContainer>

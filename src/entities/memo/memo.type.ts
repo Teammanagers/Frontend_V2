@@ -17,9 +17,13 @@ export interface DeleteModalProps extends ModalProps {
   name: string;
 }
 
-export interface FolderModalProps {
+export interface FolderModalProps extends ModalProps {
   mode: 'create' | 'edit';
   currentName?: string;
+}
+
+export interface AddModalProps extends ModalProps {
+  onAddFolder: () => void;
 }
 
 export interface MemoType {
