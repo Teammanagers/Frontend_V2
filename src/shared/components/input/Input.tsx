@@ -55,6 +55,7 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 664px;
+  position: relative;
 `;
 
 const Title = styled.div`
@@ -104,6 +105,8 @@ const DefaultInput = styled.input<{ $textColor: string }>`
 `;
 
 const HelperText = styled.span<{ $textColor: string }>`
+  position: absolute;
+  bottom: -24px;
   margin-top: 8px;
   font-size: 14px;
   color: ${(props) => props.$textColor};
