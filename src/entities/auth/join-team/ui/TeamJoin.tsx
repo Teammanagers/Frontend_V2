@@ -3,6 +3,7 @@ import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
 import { Tag } from '@/shared/types/tag.types';
+import { useState } from 'react';
 
 interface SearchResult {
   img: string;
@@ -11,6 +12,7 @@ interface SearchResult {
 }
 
 export default function TeamJoin() {
+  const [isShowResult, setIsShowResult] = useState<boolean>(false);
   const MOCKTEAM: SearchResult = {
     img: logo,
     teamName: 'UMC 6th 팀매니저',
@@ -24,23 +26,32 @@ export default function TeamJoin() {
             title="Team Code"
             placeholder="참여하려는 팀 코드를 입력해주세요"
           />
-          <Button size="xxl" style="main">
+          <Button size="xxl" style="main" onClick={() => setIsShowResult(true)}>
             팀 찾기
           </Button>
         </TopContainer>
         <ResultContainer>
-          <ResultTItle>탐색결과</ResultTItle>
-          <Result>
-            <Img src={MOCKTEAM.img} />
-            <ResultBody>
-              <TeamName>{MOCKTEAM.teamName}</TeamName>
-              <Tags>
-                {MOCKTEAM.tags.map((tag) => (
-                  <TagEntity>{tag.name}</TagEntity>
-                ))}
-              </Tags>
-            </ResultBody>
-          </Result>
+          {isShowResult ? (
+            <ContentContainer>
+              <ResultTItle>탐색결과</ResultTItle>
+              <Result>
+                <Img src={MOCKTEAM.img} />
+                <ResultBody>
+                  <TeamName>{MOCKTEAM.teamName}</TeamName>
+                  <Tags>
+                    {MOCKTEAM.tags.map((tag) => (
+                      <TagEntity>{tag.name}</TagEntity>
+                    ))}
+                  </Tags>
+                </ResultBody>
+              </Result>
+              <Button size="xxl" style="main">
+                팀 참여하기
+              </Button>
+            </ContentContainer>
+          ) : (
+            <></>
+          )}
         </ResultContainer>
       </JoinCotainer>
     </PageContainer>
@@ -80,25 +91,43 @@ const Img = styled.img`
 const ResultContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
   min-height: 178px;
 `;
 
-const ResultTItle = styled.span``;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const ResultTItle = styled.span`
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 150%;
+`;
 
 const Result = styled.div`
   display: flex;
   gap: 23px;
   align-items: center;
+  height: 82px;
+  margin-bottom: 16px;
 `;
 
 const ResultBody = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
-const TeamName = styled.span``;
+const TeamName = styled.span`
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 150%;
+`;
 
 const Tags = styled.div`
   display: flex;
