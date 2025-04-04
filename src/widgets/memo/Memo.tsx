@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { MemoProps } from '@/entities/memo/memo.type.ts';
 import Next from '@/shared/assets/memo/next-button.svg?react';
@@ -27,14 +28,14 @@ export const Memo = ({
   const { isOpen, setIsOpen, toggle } = useToggle();
 
   const { id, title, tags, content } = memo;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const selectedSize = memoSizes[size];
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
       console.log('수정페이지로 이동!');
-      // navigate(`/memo/${해당메모아이디}`);
+      navigate(`/memo/edit/${id}`);
       setIsOpen(true);
     } else if (menu === '이동') {
       console.log('메모 이동 모달 띄우기!!!');
