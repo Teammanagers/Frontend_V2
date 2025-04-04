@@ -1,5 +1,6 @@
 import { CalendarPage } from '@/pages/CalendarPage';
 import { ErrorPage } from '@/pages/ErrorPage';
+import JoinPage from '@/pages/JoinPage/JoinPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { MainPage } from '@/pages/MainPage';
 import MakeTeamPage from '@/pages/MakeTeamPage/MakeTeamPage';
@@ -23,6 +24,8 @@ export default function AppRoutes() {
         <Route path="/signup" element={<SignupPage />} />
         {/* make team page */}
         <Route path="/make-team" element={<MakeTeamPage />} />
+        {/* join team page */}
+        <Route path="/make-join" element={<JoinPage />} />
         {/* Team Page */}
         <Route path="/team" element={<TeamPage />} />
         {/* Main page */}
