@@ -14,7 +14,6 @@ export const Folder = ({ folder, onDeleteRequest }: FolderProps) => {
       console.log('폴더 수정 모달 띄우기');
       setIsOpen(true);
     } else if (menu === '삭제') {
-      console.log('폴더 삭제');
       onDeleteRequest(id);
     }
     toggle();

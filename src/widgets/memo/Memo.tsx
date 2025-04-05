@@ -34,14 +34,11 @@ export const Memo = ({
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
-      console.log('수정페이지로 이동!');
       navigate(`/memo/edit/${id}`);
       setIsOpen(true);
     } else if (menu === '이동') {
-      console.log('메모 이동 모달 띄우기!!!');
       onMoveRequest(id);
     } else if (menu === '삭제') {
-      console.log('메모 삭제!');
       setIsOpen(true);
       onDeleteRequest(id);
     }
