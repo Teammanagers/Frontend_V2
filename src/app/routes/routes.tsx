@@ -7,6 +7,7 @@ import MakeTeamPage from '@/pages/MakeTeamPage/MakeTeamPage';
 import { ManagementPage } from '@/pages/Management Page';
 import { MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
+import SelectTeamPage from '@/pages/SelectTeamPage/selectTeamPage';
 import { SharePage } from '@/pages/SharePage';
 import { SignupPage } from '@/pages/SignupPage';
 import { TeamPage } from '@/pages/TeamPage';
@@ -26,6 +27,8 @@ export default function AppRoutes() {
         <Route path="/make-team" element={<MakeTeamPage />} />
         {/* join team page */}
         <Route path="/make-join" element={<JoinPage />} />
+        {/* select team page */}
+        <Route path="/select-team" element={<SelectTeamPage />} />
         {/* Team Page */}
         <Route path="/team" element={<TeamPage />} />
         {/* Main page */}
