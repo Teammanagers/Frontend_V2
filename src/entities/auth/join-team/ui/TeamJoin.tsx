@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
+import useToggle from '@/shared/hooks/action/useToggle';
 import { Tag } from '@/shared/types/tag.types';
 import TeamJoinModal from './TeamJoinModal';
-import useToggle from '@/shared/hooks/action/useToggle';
 
 interface SearchResult {
   img: string;
@@ -15,6 +15,7 @@ interface SearchResult {
 
 export default function TeamJoin() {
   const [isShowResult, setIsShowResult] = useState<boolean>(false);
+  const ISRESULTNULL = true;
   const { isOpen, toggle } = useToggle();
   const MOCKTEAM: SearchResult = {
     img: logo,
@@ -38,20 +39,33 @@ export default function TeamJoin() {
           {isShowResult ? (
             <ContentContainer>
               <ResultTItle>탐색결과</ResultTItle>
-              <Result>
-                <Img src={MOCKTEAM.img} />
-                <ResultBody>
-                  <TeamName>{MOCKTEAM.teamName}</TeamName>
-                  <Tags>
-                    {MOCKTEAM.tags.map((tag) => (
-                      <TagEntity>{tag.name}</TagEntity>
-                    ))}
-                  </Tags>
-                </ResultBody>
-              </Result>
-              <Button size="xxl" style="main" onClick={toggle}>
-                팀 참여하기
-              </Button>
+              {ISRESULTNULL ? (
+                <ResultNull>
+                  <ResultNullSpan $textColor="red">
+                    해당 코드와 일치하는 팀이 없습니다.
+                  </ResultNullSpan>
+                  <ResultNullSpan $textColor="black">
+                    코드를 다시 한번 확인해 주세요.
+                  </ResultNullSpan>
+                </ResultNull>
+              ) : (
+                <Result>
+                  <Img src={MOCKTEAM.img} />
+                  <ResultBody>
+                    <TeamName>{MOCKTEAM.teamName}</TeamName>
+                    <Tags>
+                      {MOCKTEAM.tags.map((tag) => (
+                        <TagEntity>{tag.name}</TagEntity>
+                      ))}
+                    </Tags>
+                  </ResultBody>
+                </Result>
+              )}
+              {!ISRESULTNULL && (
+                <Button size="xxl" style="main" onClick={toggle}>
+                  팀 참여하기
+                </Button>
+              )}
             </ContentContainer>
           ) : (
             <></>
@@ -117,6 +131,23 @@ const Result = styled.div`
   align-items: center;
   height: 82px;
   margin-bottom: 16px;
+`;
+
+const ResultNull = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+  align-items: center;
+  margin-bottom: 16px;
+  justify-content: center;
+`;
+
+const ResultNullSpan = styled.span<{ $textColor: string }>`
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: ${(props) => props.$textColor};
 `;
 
 const ResultBody = styled.div`
