@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
 import { Tag } from '@/shared/types/tag.types';
-import { useState } from 'react';
+import TeamJoinModal from './TeamJoinModal';
+import useToggle from '@/shared/hooks/action/useToggle';
 
 interface SearchResult {
   img: string;
@@ -13,6 +15,7 @@ interface SearchResult {
 
 export default function TeamJoin() {
   const [isShowResult, setIsShowResult] = useState<boolean>(false);
+  const { isOpen, toggle } = useToggle();
   const MOCKTEAM: SearchResult = {
     img: logo,
     teamName: 'UMC 6th 팀매니저',
@@ -20,6 +23,7 @@ export default function TeamJoin() {
   };
   return (
     <PageContainer>
+      <TeamJoinModal isOpen={isOpen} toggle={toggle} />
       <JoinCotainer>
         <TopContainer>
           <Input
@@ -45,7 +49,7 @@ export default function TeamJoin() {
                   </Tags>
                 </ResultBody>
               </Result>
-              <Button size="xxl" style="main">
+              <Button size="xxl" style="main" onClick={toggle}>
                 팀 참여하기
               </Button>
             </ContentContainer>

@@ -1,6 +1,8 @@
 import { InputHTMLAttributes, ReactNode } from 'react';
 import styled from 'styled-components';
 
+type InputSize = 'large' | 'small';
+
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
   subTitle?: string;
@@ -11,6 +13,7 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   textColor?: string;
   width?: string;
   height?: string;
+  inputSize?: InputSize;
 }
 
 export default function Input({
@@ -21,10 +24,11 @@ export default function Input({
   showHelperMessage = false,
   helperMessage,
   textColor = 'rgba(29, 29, 29, 1)',
+  inputSize = 'large',
   ...restProps
 }: IInputProps) {
   return (
-    <InputWrapper>
+    <InputWrapper $size={inputSize}>
       <Title>
         <MainTitle>{title}</MainTitle>
         {subTitle && <SubTitle>{subTitle}</SubTitle>}
@@ -51,7 +55,8 @@ export default function Input({
   );
 }
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.div<{ $size: string }>`
+  width: ${(props) => (props.$size === 'large' ? '664px' : '472px')};
   display: flex;
   flex-direction: column;
   width: 664px;
