@@ -9,12 +9,31 @@ import useToggle from '@/shared/hooks/action/useToggle.ts';
 import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 
 /**
- * @example
- * ```tsx
- *    <Memo size="small" />
- *   ```
+ * Memo 컴포넌트는 단일 메모를 렌더링하며, 수정, 이동, 삭제 등의 동작을 제공합니다.
  *
  * @param {'small' | 'large'} size - small은 메인에서, large는 메모에서 사용됩니다.
+ * @param memo - 렌더링할 메모 데이터 객체입니다. (예: { id, title, tags, content })
+ * @param onDeleteRequest - 드롭다운 메뉴에서 "삭제"를 선택했을 때 호출되며, 해당 메모의 id를 전달합니다.
+ * @param onMoveRequest - 드롭다운 메뉴에서 "이동"을 선택했을 때 호출되며, 해당 메모의 id를 전달합니다.
+ *
+ * @example
+ * ```tsx
+ * // memo는 API로 불러와서 사용, 현재는 목업데이터 형태로
+ * `{ id: 1, title: '회의록', tags: ['기획', '디자인'], content: '메모 내용입니다.' }` 구조로 이루어져 있습니다.
+ *    {memoData.map((memo) => (
+ *             <Memo
+ *               key={memo.id}
+ *               size="large"
+ *               memo={memo}
+ *               onDeleteRequest={(id: number) =>
+ *                 handleDeleteRequest({ type: 'memo', id, title: memo.title })
+ *               }
+ *               onMoveRequest={(id: number) =>
+ *                 handleMoveRequest({ type: 'memo', id, title: memo.title })
+ *               }
+ *             />
+ *           ))}
+ *   ```
  */
 
 export const Memo = ({
