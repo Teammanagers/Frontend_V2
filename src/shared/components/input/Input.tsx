@@ -10,6 +10,7 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   children?: ReactNode;
   showHelperMessage?: boolean;
   helperMessage?: string;
+  helperMessageColor?: string;
   textColor?: string;
   width?: string;
   height?: string;
@@ -23,6 +24,7 @@ export default function Input({
   children,
   showHelperMessage = false,
   helperMessage,
+  helperMessageColor = 'rgba(29,29,29,1)',
   textColor = 'rgba(29, 29, 29, 1)',
   inputSize = 'large',
   ...restProps
@@ -49,17 +51,16 @@ export default function Input({
       </InputContainer>
 
       {showHelperMessage && (
-        <HelperText $textColor={textColor}>{helperMessage}</HelperText>
+        <HelperText $textColor={helperMessageColor}>{helperMessage}</HelperText>
       )}
     </InputWrapper>
   );
 }
 
-const InputWrapper = styled.div<{ $size: string }>`
+const InputWrapper = styled.div<{ $size: InputSize }>`
   width: ${(props) => (props.$size === 'large' ? '664px' : '472px')};
   display: flex;
   flex-direction: column;
-  width: 664px;
   position: relative;
 `;
 
