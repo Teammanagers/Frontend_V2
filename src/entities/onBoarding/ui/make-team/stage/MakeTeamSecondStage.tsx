@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
+import { MakeTeamStages } from '@/entities/onBoarding/lib/make-team/makeTeamStages';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
 
 export default function MakeTeamSecondStage() {
-  const [isShowHelperMessage, setIsShowHelperMessage] =
-    useState<boolean>(false);
-  const [isValid, setIsValid] = useState<boolean>(false);
-  //   setIsValid(false);
-  useEffect(() => setIsValid(false), []);
-  const [teamCode, setTeamCode] = useState<string>('');
+  const {
+    isShowHelperMessage,
+    setTeamCode,
+    teamCode,
+    setIsShowHelperMessage,
+    isValid,
+  } = MakeTeamStages();
   return (
     <StageContainer>
       <BackContainer>

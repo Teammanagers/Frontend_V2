@@ -1,8 +1,7 @@
-import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { TagFormLib } from '@/entities/onBoarding/lib/make-team/tagForm';
 import pluxBtn from '@/shared/assets/common/add-tag.svg?url';
 import removeBtn from '@/shared/assets/common/delete-tag.svg?url';
-import { useTags } from '@/shared/hooks/useTags';
 
 export default function TagForm() {
   const {
@@ -12,22 +11,10 @@ export default function TagForm() {
     newTag,
     setNewTag,
     handleAddTag,
-    setTags,
-  } = useTags({
-    initialTags: [],
-  });
+    handleRMTag,
+    inputRef,
+  } = TagFormLib();
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleRMTag = (index: number) => {
-    setTags(tags.filter((_, idx) => idx !== index));
-  };
-
-  useEffect(() => {
-    if (showTagInput) {
-      inputRef?.current?.focus();
-    }
-  }, [showTagInput]);
   return (
     <TagFormContainer>
       <TagContainer>
@@ -39,6 +26,7 @@ export default function TagForm() {
               width={23}
               height={23}
               onClick={() => handleRMTag(index)}
+              alt="태그 삭제"
             />
           </EachTag>
         ))}
@@ -54,7 +42,7 @@ export default function TagForm() {
           />
         ) : (
           <PlusBtnContainer onClick={() => setShowTagInput(true)}>
-            <img src={pluxBtn} width={24} height={24} />
+            <img src={pluxBtn} width={24} height={24} alt="태그 추가" />
           </PlusBtnContainer>
         )}
       </OptionContainer>
@@ -106,4 +94,5 @@ const PlusBtnContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;

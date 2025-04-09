@@ -1,4 +1,4 @@
-import TeamJoin from '@/entities/onBoarding/join-team/ui/TeamJoin';
+import TeamJoin from '@/entities/onBoarding/ui/join-team/TeamJoin';
 
 export default function JoinPage() {
   return <TeamJoin></TeamJoin>;

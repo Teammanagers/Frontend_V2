@@ -1,19 +1,18 @@
-import { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
+import {
+  MakeTeamFirstStageProps,
+  MakeTeamStages,
+} from '@/entities/onBoarding/lib/make-team/makeTeamStages';
 import camera from '@/shared/assets/common/cam-plus.svg?url';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
 import TagForm from '../tag/TagForm';
 
-interface MakeTeamFirstStageProps {
-  setStage: Dispatch<SetStateAction<number>>;
-}
-
 export default function MakeTeamFirstStage({
   setStage,
 }: MakeTeamFirstStageProps) {
-  const [title, setTitle] = useState<string>('');
+  const { setTitle, title } = MakeTeamStages();
 
   return (
     <MakeTeamWrapper>

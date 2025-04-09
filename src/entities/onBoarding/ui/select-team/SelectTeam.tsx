@@ -1,64 +1,29 @@
-import { useNavigate } from 'react-router-dom';
+// components/SelectTeam.tsx
 import styled from 'styled-components';
-import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import { AddTeamCard, TeamCard } from './TeamContent';
-
-interface TeamInfo {
-  img: string;
-  title: string;
-  tags: string[];
-  id: number;
-}
+import { UseSelectTeam } from '../../lib/select-team/selectTeam';
 
 export default function SelectTeam() {
-  const navigate = useNavigate();
-
-  // 팀 선택 핸들러
-  const handleTeamSelect = (/*teamId: number*/) => {
-    // navigate(`/team/${teamId}`);
-  };
-
-  // 새 팀 생성 핸들러
-  const handleCreateTeam = () => {
-    // navigate('/team/create');
-  };
-
-  const DUMMYLIST: TeamInfo[] = [
-    {
-      img: logo,
-      title: 'UMC 6th 팀매니저',
-      tags: ['기획자', '기획자'],
-      id: 1,
-    },
-    {
-      img: logo,
-      title: 'UMC 6th 팀매니저',
-      tags: ['기획자', '기획자'],
-      id: 2,
-    },
-  ];
+  const { teamList, handleTeamSelect, handleCreateTeam, handleFindTeam } =
+    UseSelectTeam();
 
   return (
     <SelectTeamContainer>
       <PageTitle>{'000'}님이 현재 진행하고 있는 팀 프로젝트예요!</PageTitle>
       <TeamListContainer>
-        {DUMMYLIST.map((team) => (
+        {teamList.map((team) => (
           <TeamCard
             key={team.id}
             team={team}
-            onClick={() => team.id && handleTeamSelect(/*team.id*/)}
+            onClick={() => handleTeamSelect(team.id)}
           />
         ))}
         <AddTeamCard onClick={handleCreateTeam} />
       </TeamListContainer>
       <BtnContainer>
         <BtnSpan>다른 팀의 초대를 받았나요?</BtnSpan>
-        <Button
-          size="large"
-          style="main"
-          onClick={() => navigate('/team/search')}
-        >
+        <Button size="large" style="main" onClick={handleFindTeam}>
           팀 찾으러 가기
         </Button>
       </BtnContainer>

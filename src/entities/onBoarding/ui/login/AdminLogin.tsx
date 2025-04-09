@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
-import { useAdminAuth } from '../lib/adminAuth';
+import { AdminAuth } from '../../lib/login/adminAuth';
 
 export default function AdminLogin() {
   const {
@@ -14,7 +14,7 @@ export default function AdminLogin() {
     attempted,
     isButtonEnabled,
     handleLogin,
-  } = useAdminAuth();
+  } = AdminAuth();
 
   return (
     <AdminLoginContainer>

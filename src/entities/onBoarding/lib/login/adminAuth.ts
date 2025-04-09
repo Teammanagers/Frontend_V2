@@ -5,7 +5,7 @@ export interface AdminAuthErrors {
   password: boolean;
 }
 
-export const useAdminAuth = () => {
+export const AdminAuth = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<AdminAuthErrors>({

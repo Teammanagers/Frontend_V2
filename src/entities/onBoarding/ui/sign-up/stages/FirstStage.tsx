@@ -1,5 +1,6 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
+import { useSignUp } from '@/entities/onBoarding/lib/sign-up/singUp';
 import Check from '@/shared/assets/common/check.svg';
 import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
@@ -9,14 +10,8 @@ interface FirstStageProps {
 }
 
 export default function FirstStage({ setStage }: FirstStageProps) {
-  const [serviceAgree, setServiceAgree] = useState<boolean>(false);
-  const [informationAgree, setInformationAgree] = useState<boolean>(false);
-
-  const handleCheckBoxClick = (
-    setState: Dispatch<SetStateAction<boolean>>,
-  ): void => {
-    setState((prev: boolean) => !prev);
-  };
+  const { agreementSections, isNextButtonEnabled, handleContinue } =
+    useSignUp(setStage);
 
   return (
     <SignUpContainer>
@@ -26,26 +21,26 @@ export default function FirstStage({ setStage }: FirstStageProps) {
       </TitleContainer>
       <FormWrapper>
         <CheckboxSection
-          checked={serviceAgree}
-          onCheckboxClick={() => handleCheckBoxClick(setServiceAgree)}
-          linkUrl="https://teammanagers.notion.site/7e7dceb62a6a438eb323a285f446a1c7?pvs=4"
-          label1="필수"
-          label2="이용약관 동의하기"
+          checked={agreementSections[0].checked}
+          onCheckboxClick={agreementSections[0].onCheckboxClick}
+          linkUrl={agreementSections[0].linkUrl}
+          label1={agreementSections[0].label1}
+          label2={agreementSections[0].label2}
         />
         <HrStyle />
         <CheckboxSection
-          checked={informationAgree}
-          onCheckboxClick={() => handleCheckBoxClick(setInformationAgree)}
-          linkUrl="https://teammanagers.notion.site/b1b95614dbf745fc9add464a20025c44?pvs=4"
-          label1="필수"
-          label2="개인정보처리방침 동의하기"
+          checked={agreementSections[1].checked}
+          onCheckboxClick={agreementSections[1].onCheckboxClick}
+          linkUrl={agreementSections[1].linkUrl}
+          label1={agreementSections[1].label1}
+          label2={agreementSections[1].label2}
         />
       </FormWrapper>
       <Button
         size="large"
         style="main"
-        disabled={serviceAgree === false || informationAgree === false}
-        onClick={() => setStage(2)}
+        disabled={!isNextButtonEnabled}
+        onClick={handleContinue}
       >
         동의 후 가입하기
       </Button>

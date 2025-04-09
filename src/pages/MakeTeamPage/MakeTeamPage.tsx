@@ -1,4 +1,4 @@
-import MakeTeam from '@/entities/onBoarding/make-team/ui/MakeTeam';
+import MakeTeam from '@/entities/onBoarding/ui/make-team/MakeTeam';
 
 export default function MakeTeamPage() {
   return <MakeTeam></MakeTeam>;

@@ -1,27 +1,18 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
-import useToggle from '@/shared/hooks/action/useToggle';
-import { Tag } from '@/shared/types/tag.types';
 import TeamJoinModal from './TeamJoinModal';
-
-interface SearchResult {
-  img: string;
-  teamName: string;
-  tags: Tag[];
-}
+import { JoinTeam } from '../../lib/join-team/teamJoin';
 
 export default function TeamJoin() {
-  const [isShowResult, setIsShowResult] = useState<boolean>(false);
-  const ISRESULTNULL = true;
-  const { isOpen, toggle } = useToggle();
-  const MOCKTEAM: SearchResult = {
-    img: logo,
-    teamName: 'UMC 6th 팀매니저',
-    tags: [{ name: '기획자' }, { name: '기획자' }],
-  };
+  const {
+    isOpen,
+    toggle,
+    setIsShowResult,
+    isShowResult,
+    ISRESULTNULL,
+    MOCKTEAM,
+  } = JoinTeam();
   return (
     <PageContainer>
       <TeamJoinModal isOpen={isOpen} toggle={toggle} />

@@ -1,16 +1,19 @@
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import LeftBar from '@/entities/onBoarding/LeftBar';
-import LoginOptions from '@/entities/onBoarding/login/ui/LoginOptions';
-import SignUpStage from '@/entities/onBoarding/sign-up/ui/SignUpStage';
+import LeftBar from '@/entities/onBoarding/ui/LeftBar';
+import LoginOptions from '@/entities/onBoarding/ui/login/LoginOptions';
+import SignUpStage from '@/entities/onBoarding/ui/sign-up/SignUpStage';
+import { OnBoard } from '@/shared/components/onBoarding/onBoard';
 
 export default function LoginWrapper() {
   const url = useLocation().pathname;
   return (
-    <LoginWrapperContainer>
-      <LeftBar />
-      {url === '/login' ? <LoginOptions /> : <SignUpStage />}
-    </LoginWrapperContainer>
+    <OnBoard>
+      <LoginWrapperContainer>
+        <LeftBar />
+        {url === '/login' ? <LoginOptions /> : <SignUpStage />}
+      </LoginWrapperContainer>
+    </OnBoard>
   );
 }
 
