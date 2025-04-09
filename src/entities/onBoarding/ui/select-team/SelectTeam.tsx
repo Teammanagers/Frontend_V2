@@ -1,4 +1,3 @@
-// components/SelectTeam.tsx
 import styled from 'styled-components';
 import { Button } from '@/shared/components/button/Button';
 import { AddTeamCard, TeamCard } from './TeamContent';
@@ -16,7 +15,7 @@ export default function SelectTeam() {
           <TeamCard
             key={team.id}
             team={team}
-            onClick={() => handleTeamSelect(team.id)}
+            onClick={() => handleTeamSelect(/*team.id*/)}
           />
         ))}
         <AddTeamCard onClick={handleCreateTeam} />

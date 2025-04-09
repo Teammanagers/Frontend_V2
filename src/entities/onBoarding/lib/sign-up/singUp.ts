@@ -1,4 +1,3 @@
-// lib/auth/UseSignUp.ts
 import { Dispatch, SetStateAction, useState } from 'react';
 
 interface CheckboxSectionProps {

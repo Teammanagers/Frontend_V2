@@ -28,7 +28,7 @@ export const UseSelectTeam = () => {
   ];
 
   // 팀 선택 핸들러
-  const handleTeamSelect = (teamId: number) => {
+  const handleTeamSelect = (/*teamId: number*/) => {
     // console.log(`팀 ${teamId} 선택됨`);
     // navigate(`/team/${teamId}`);
   };
