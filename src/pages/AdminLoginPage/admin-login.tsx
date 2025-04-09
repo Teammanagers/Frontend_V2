@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import AdminLogin from '@/entities/auth/login/ui/AdminLogin';
+import AdminLogin from '@/entities/onBoarding/login/ui/AdminLogin';
 
 export function AdminLoginPage() {
   return (

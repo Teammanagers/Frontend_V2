@@ -1,8 +1,8 @@
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import LeftBar from '@/entities/auth/LeftBar';
-import LoginOptions from '@/entities/auth/login/ui/LoginOptions';
-import SignUpStage from '@/entities/auth/sign-up/ui/SignUpStage';
+import LeftBar from '@/entities/onBoarding/LeftBar';
+import LoginOptions from '@/entities/onBoarding/login/ui/LoginOptions';
+import SignUpStage from '@/entities/onBoarding/sign-up/ui/SignUpStage';
 
 export default function LoginWrapper() {
   const url = useLocation().pathname;

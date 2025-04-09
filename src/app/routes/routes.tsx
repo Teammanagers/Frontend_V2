@@ -20,18 +20,21 @@ export default function AppRoutes() {
   return (
     <>
       <Routes>
-        {/* Login page */}
-        <Route path="/login" element={<LoginPage />} />
-        {/* Admin Login page */}
-        <Route path="/login-admin" element={<AdminLoginPage />} />
-        {/* Signup page */}
-        <Route path="/signup" element={<SignupPage />} />
-        {/* make team page */}
-        <Route path="/make-team" element={<MakeTeamPage />} />
-        {/* join team page */}
-        <Route path="/make-join" element={<JoinPage />} />
-        {/* select team page */}
-        <Route path="/select-team" element={<SelectTeamPage />} />
+        {/* onBoarding 관련 페이지들 */}
+        <Route>
+          {/* Login Page */}
+          <Route path="/login" element={<LoginPage />} />
+          {/* Admin Login Page */}
+          <Route path="/login-admin" element={<AdminLoginPage />} />
+          {/* Sign Up Page */}
+          <Route path="/sign-up" element={<SignupPage />} />
+          {/* Make Team Page */}
+          <Route path="/make-team" element={<MakeTeamPage />} />
+          {/* Team Join page */}
+          <Route path="/team-join" element={<JoinPage />} />
+          {/* Select Team Page */}
+          <Route path="/select-team" element={<SelectTeamPage />} />
+        </Route>
         {/* Team Page */}
         <Route path="/team" element={<TeamPage />} />
         {/* Main page */}

@@ -1,32 +1,20 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
+import { useAdminAuth } from '../lib/adminAuth';
 
 export default function AdminLogin() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({ username: false, password: false });
-  const [attempted, setAttempted] = useState(false);
-
-  const isButtonEnabled = username.trim() !== '' && password.trim() !== '';
-
-  const handleLogin = () => {
-    setAttempted(true);
-
-    const newErrors = {
-      username: username.trim() === 'jkk',
-      password: password.trim() === 'kkk',
-    };
-
-    setErrors(newErrors);
-
-    // 모든 입력이 유효한 경우 로그인 처리
-    if (!newErrors.username && !newErrors.password) {
-      //   console.log('로그인 시도:', { username, password });
-    }
-  };
+  const {
+    username,
+    setUsername,
+    password,
+    setPassword,
+    errors,
+    attempted,
+    isButtonEnabled,
+    handleLogin,
+  } = useAdminAuth();
 
   return (
     <AdminLoginContainer>
