@@ -88,7 +88,7 @@ export const MemoForm = ({
                 setEditTagIndex(null);
               }}
             >
-              <AddTagIcon />
+              <AddTagIcon stroke="#5c9eff" />
             </AddTagBtn>
           )}
         </TagContainer>
@@ -151,6 +151,7 @@ const BackBtn = styled(BackButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
   padding: 0;
   cursor: pointer;
   border: none;
+  stroke: ${({ theme }) => theme.colors.darkGray};
 `;
 
 const TitleContainer = styled.div`

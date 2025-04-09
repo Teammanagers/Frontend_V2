@@ -1,19 +1,30 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { AddModalProps } from '@/entities/memo/memo.type.ts';
+import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
 import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
 
-export const AddModal = () => {
+export const AddModal = ({ onClose, onAddFolder }: AddModalProps) => {
+  const navigate = useNavigate();
+
+  const handleAddMemo = () => {
+    navigate(`/memo/write`);
+    onClose();
+  };
   return (
-    <ModalContainer>
-      <MenuContainer>
-        메모 추가하기
-        <AddMemo />
-      </MenuContainer>
-      <MenuContainer>
-        폴더 추가하기
-        <AddFolder />
-      </MenuContainer>
-    </ModalContainer>
+    <Overlay onClick={onClose}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        <MenuContainer onClick={handleAddMemo}>
+          메모 추가하기
+          <AddMemo />
+        </MenuContainer>
+        <MenuContainer onClick={onAddFolder}>
+          폴더 추가하기
+          <AddFolder />
+        </MenuContainer>
+      </ModalContainer>
+    </Overlay>
   );
 };
 
@@ -23,9 +34,9 @@ export const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 552px;
-  height: 140px;
   gap: 12px;
   padding: 24px 40px;
+  border-radius: 8px;
   background: white;
 `;
 

@@ -1,29 +1,73 @@
 import { ButtonHTMLAttributes, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import DropDown from '@/shared/assets/common/dropdown-menu.svg?react';
+import { MemoProps } from '@/entities/memo/memo.type.ts';
 import Next from '@/shared/assets/memo/next-button.svg?react';
 import PinIcon from '@/shared/assets/memo/pin.svg?react';
+import { ActionDropdown } from '@/shared/components/dropdown';
+import useToggle from '@/shared/hooks/action/useToggle.ts';
 import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 
 /**
- * @example
- * ```tsx
- *    <Memo size="small" />
- *   ```
+ * Memo 컴포넌트는 단일 메모를 렌더링하며, 수정, 이동, 삭제 등의 동작을 제공합니다.
  *
  * @param {'small' | 'large'} size - small은 메인에서, large는 메모에서 사용됩니다.
+ * @param memo - 렌더링할 메모 데이터 객체입니다. (예: { id, title, tags, content })
+ * @param onDeleteRequest - 드롭다운 메뉴에서 "삭제"를 선택했을 때 호출되며, 해당 메모의 id를 전달합니다.
+ * @param onMoveRequest - 드롭다운 메뉴에서 "이동"을 선택했을 때 호출되며, 해당 메모의 id를 전달합니다.
+ *
+ * @example
+ * ```tsx
+ * // memo는 API로 불러와서 사용, 현재는 목업데이터 형태로
+ * `{ id: 1, title: '회의록', tags: ['기획', '디자인'], content: '메모 내용입니다.' }` 구조로 이루어져 있습니다.
+ *    {memoData.map((memo) => (
+ *             <Memo
+ *               key={memo.id}
+ *               size="large"
+ *               memo={memo}
+ *               onDeleteRequest={(id: number) =>
+ *                 handleDeleteRequest({ type: 'memo', id, title: memo.title })
+ *               }
+ *               onMoveRequest={(id: number) =>
+ *                 handleMoveRequest({ type: 'memo', id, title: memo.title })
+ *               }
+ *             />
+ *           ))}
+ *   ```
  */
 
-export const Memo = ({ size }: { size: keyof typeof memoSizes }) => {
+export const Memo = ({
+  size,
+  memo,
+  onDeleteRequest,
+  onMoveRequest,
+}: MemoProps) => {
   const [isPinned, setIsPinned] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
+  const { isOpen, setIsOpen, toggle } = useToggle();
+
+  const { id, title, tags, content } = memo;
+  const navigate = useNavigate();
 
   const selectedSize = memoSizes[size];
+
+  const handleMenuAction = (menu: string) => {
+    if (menu === '수정') {
+      navigate(`/memo/edit/${id}`);
+      setIsOpen(true);
+    } else if (menu === '이동') {
+      onMoveRequest(id);
+    } else if (menu === '삭제') {
+      setIsOpen(true);
+      onDeleteRequest(id);
+    }
+    toggle();
+  };
 
   return (
     <MemoContainer $size={selectedSize} $pinned={isPinned}>
       <MemoTitleContainer>
-        <MemoTitle>제목</MemoTitle>
+        <MemoTitle>{title}</MemoTitle>
         <MenuContainer>
           {size === 'large' && (
             <PinBtn
@@ -31,18 +75,22 @@ export const Memo = ({ size }: { size: keyof typeof memoSizes }) => {
               $pinned={isPinned}
             />
           )}
-          <MenuBtn />
+          <ActionDropdown
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            toggle={toggle}
+            action={handleMenuAction}
+            menus={['수정', '이동', '삭제']}
+          />
         </MenuContainer>
       </MemoTitleContainer>
       <TagContainer>
-        {/*{tagList.map((tag: TagProps) => (*/}
-        <TagBox>태그</TagBox>
-        <TagBox>하이루</TagBox>
+        {tags.map((tag: string, index) => (
+          <TagBox key={index}>{tag}</TagBox>
+        ))}
       </TagContainer>
       <MemoContentContainer>
-        <Content>
-          내용길어지면어디까지뜨지흠냘ㅇ너ㅏㅁㄹㄴㅇ아러아러아러ㅏㅇ러ㅏ
-        </Content>
+        <Content>{content}</Content>
       </MemoContentContainer>
       {size === 'small' && (
         <NextBtn
@@ -69,7 +117,8 @@ const MemoContainer = styled.div<{
   border-radius: 6px;
   outline: ${({ theme, $pinned }) =>
     $pinned ? `2px solid ${theme.colors.subLightBlue}` : 'none'};
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: ${({ $pinned }) =>
+    $pinned ? `0 4px 12px rgba(0, 0, 0, 0.08)` : 'none'};
   gap: 8px;
   background: white;
   padding: 16px 18px;
@@ -91,9 +140,6 @@ const PinBtn = styled(PinIcon)<
   fill: ${({ theme, $pinned }) => ($pinned ? theme.colors.subBlue : 'white')};
   stroke: ${({ theme, $pinned }) =>
     $pinned ? theme.colors.mainBlue : theme.colors.darkGray};
-`;
-const MenuBtn = styled(DropDown)<ButtonHTMLAttributes<HTMLButtonElement>>`
-  cursor: pointer;
 `;
 
 const MemoTitle = styled.h1`

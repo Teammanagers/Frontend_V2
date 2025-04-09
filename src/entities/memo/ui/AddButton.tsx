@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import AddMemoIcon from '@/shared/assets/common/add-tag.svg?react';
 
-export const AddButton = () => {
+export const AddButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <MemoContainer>
+    <MemoContainer onClick={onClick}>
       <AddMemoIcon width={46} height={46} stroke="#1d1d1d" />
       <MemoText>추가하기</MemoText>
     </MemoContainer>

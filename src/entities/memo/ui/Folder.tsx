@@ -1,33 +1,58 @@
 import styled from 'styled-components';
-import DropDown from '@/shared/assets/common/dropdown-menu.svg?react';
+import { FolderProps } from '@/entities/memo/memo.type.ts';
 import FolderIcon from '@/shared/assets/memo/folder.svg?react';
+import { ActionDropdown } from '@/shared/components/dropdown';
+import useToggle from '@/shared/hooks/action/useToggle.ts';
 
-export const Folder = () => {
+export const Folder = ({ folder, onDeleteRequest }: FolderProps) => {
+  const { isOpen, setIsOpen, toggle } = useToggle();
+
+  const { id, title } = folder;
+
+  const handleMenuAction = (menu: string) => {
+    if (menu === '수정') {
+      console.log('폴더 수정 모달 띄우기');
+      setIsOpen(true);
+    } else if (menu === '삭제') {
+      onDeleteRequest(id);
+    }
+    toggle();
+  };
+
   return (
     <FolderWrapper>
       <FolderContainer />
       <Overlay>
-        <DropDownBtn />
-        <FolderText>폴더명</FolderText>
+        <DropDownContainer>
+          <ActionDropdown
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            toggle={toggle}
+            action={handleMenuAction}
+            menus={['수정', '삭제']}
+          />
+        </DropDownContainer>
+        <FolderText>{title}</FolderText>
       </Overlay>
     </FolderWrapper>
   );
 };
 
+const FolderContainer = styled(FolderIcon)`
+  display: block;
+`;
+
 const FolderWrapper = styled.div`
   position: relative;
   display: inline-block;
-`;
 
-const FolderContainer = styled(FolderIcon)`
-  display: block;
-
-  &:hover path {
-    stroke: ${({ theme }) => theme.colors.subLightBlue};
-    stroke-width: 2;
-  }
-  &:hover {
+  &:hover ${FolderContainer} {
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+  }
+
+  &:hover ${FolderContainer} path {
+    stroke: ${({ theme }) => theme.colors.subLightBlue};
+    stroke-width: 3;
   }
 `;
 
@@ -49,10 +74,9 @@ const FolderText = styled.p`
   color: ${({ theme }) => theme.colors.black};
 `;
 
-const DropDownBtn = styled(DropDown)`
+const DropDownContainer = styled.div`
   position: absolute;
   top: 26px;
   right: 8px;
-  cursor: pointer;
   pointer-events: auto;
 `;
