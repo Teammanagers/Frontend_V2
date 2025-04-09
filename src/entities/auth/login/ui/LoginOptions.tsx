@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import google from '@/shared/assets/common/google-logo.svg?url';
 import kakao from '@/shared/assets/common/kakao-logo.svg?url';
@@ -7,7 +8,9 @@ import naver from '@/shared/assets/common/naver-logo.svg?url';
 export default function LoginOptions() {
   return (
     <Container>
-      <AdminLogin>관리자 로그인</AdminLogin>
+      <AdminLogin>
+        <Link to="/login-admin">관리자 로그인</Link>
+      </AdminLogin>
       <LogoContainer>
         <ImgContainer>
           <LogoImg src={logo} />
