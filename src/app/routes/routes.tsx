@@ -1,3 +1,4 @@
+import { AdminLoginPage } from '@/pages/AdminLoginPage/admin-login';
 import { CalendarPage } from '@/pages/CalendarPage';
 import { ErrorPage } from '@/pages/ErrorPage';
 import JoinPage from '@/pages/JoinPage/JoinPage';
@@ -21,6 +22,8 @@ export default function AppRoutes() {
       <Routes>
         {/* Login page */}
         <Route path="/login" element={<LoginPage />} />
+        {/* Admin Login page */}
+        <Route path="/login-admin" element={<AdminLoginPage />} />
         {/* Signup page */}
         <Route path="/signup" element={<SignupPage />} />
         {/* make team page */}

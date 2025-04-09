@@ -1,7 +1,7 @@
 import { InputHTMLAttributes, ReactNode } from 'react';
 import styled from 'styled-components';
 
-type InputSize = 'large' | 'small';
+type InputSize = 'large' | 'small' | 'mini';
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
@@ -58,7 +58,18 @@ export default function Input({
 }
 
 const InputWrapper = styled.div<{ $size: InputSize }>`
-  width: ${(props) => (props.$size === 'large' ? '664px' : '472px')};
+  width: ${(props) => {
+    switch (props.$size) {
+      case 'large':
+        return '664px';
+      case 'small':
+        return '472px';
+      case 'mini':
+        return '458px';
+      default:
+        return '664px';
+    }
+  }};
   display: flex;
   flex-direction: column;
   position: relative;
@@ -85,9 +96,14 @@ const SubTitle = styled.span`
   color: rgba(29, 29, 29, 1);
 `;
 
-const InputContainer = styled.div`
+const InputContainer = styled.div<{ $size?: InputSize }>`
   width: 100%;
-  border: 1px solid rgba(204, 204, 204, 1);
+  height: ${(props) => (props.$size === 'mini' ? '48px' : 'auto')};
+  border: 1px solid
+    ${(props) =>
+      props.$size === 'mini'
+        ? 'rgba(240, 240, 240, 1)'
+        : 'rgba(204, 204, 204, 1)'};
   border-radius: 6px;
   overflow: hidden;
 `;
