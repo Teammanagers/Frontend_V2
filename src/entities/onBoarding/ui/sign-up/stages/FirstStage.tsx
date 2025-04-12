@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { useSignUp } from '@/entities/onBoarding/lib/sign-up/singUp';
+import { useSignUp } from '@/entities/onBoarding/lib/signUp/singUp';
 import Check from '@/shared/assets/common/check.svg';
 import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';

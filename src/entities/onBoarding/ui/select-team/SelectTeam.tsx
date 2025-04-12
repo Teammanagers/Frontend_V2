@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Button } from '@/shared/components/button/Button';
 import { AddTeamCard, TeamCard } from './TeamContent';
-import { UseSelectTeam } from '../../lib/select-team/selectTeam';
+import { UseSelectTeam } from '../../lib/selectTeam/selectTeam';
 
 export default function SelectTeam() {
   const { teamList, handleTeamSelect, handleCreateTeam, handleFindTeam } =

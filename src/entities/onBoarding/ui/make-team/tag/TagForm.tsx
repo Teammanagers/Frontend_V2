@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { TagFormLib } from '@/entities/onBoarding/lib/make-team/tagForm';
+import { TagFormLib } from '@/entities/onBoarding/lib/makeTeam/tagForm';
 import pluxBtn from '@/shared/assets/common/add-tag.svg?url';
 import removeBtn from '@/shared/assets/common/delete-tag.svg?url';
 

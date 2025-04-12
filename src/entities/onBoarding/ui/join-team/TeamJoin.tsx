@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Button } from '@/shared/components/button/Button';
 import Input from '@/shared/components/input/Input';
 import TeamJoinModal from './TeamJoinModal';
-import { JoinTeam } from '../../lib/join-team/teamJoin';
+import { JoinTeam } from '../../lib/joinTeam/teamJoin';
 
 export default function TeamJoin() {
   const {

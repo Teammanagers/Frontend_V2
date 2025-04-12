@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {
   MakeTeamFirstStageProps,
   MakeTeamStages,
-} from '@/entities/onBoarding/lib/make-team/makeTeamStages';
+} from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
 import camera from '@/shared/assets/common/cam-plus.svg?url';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
