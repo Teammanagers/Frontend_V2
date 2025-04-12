@@ -1,14 +1,14 @@
 import { AdminLoginPage } from '@/pages/AdminLoginPage/admin-login';
 import { CalendarPage } from '@/pages/CalendarPage';
 import { ErrorPage } from '@/pages/ErrorPage';
-import JoinPage from '@/pages/JoinPage/JoinPage';
+import JoinPage from '@/pages/JoinPage/join-page';
 import { LoginPage } from '@/pages/LoginPage';
 import { MainPage } from '@/pages/MainPage';
-import MakeTeamPage from '@/pages/MakeTeamPage/MakeTeamPage';
+import MakeTeamPage from '@/pages/MakeTeamPage/make-team';
 import { ManagementPage } from '@/pages/Management Page';
 import { MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
-import SelectTeamPage from '@/pages/SelectTeamPage/selectTeamPage';
+import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
 import { SharePage } from '@/pages/SharePage';
 import { SignupPage } from '@/pages/SignupPage';
 import { TeamPage } from '@/pages/TeamPage';
