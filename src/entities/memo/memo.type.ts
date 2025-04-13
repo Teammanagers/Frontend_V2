@@ -1,5 +1,4 @@
 import { ModalProps } from '@/shared/types/modal.types.ts';
-import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 
 export interface MemoFormProps {
   initialTitle?: string;
@@ -26,20 +25,6 @@ export interface AddModalProps extends ModalProps {
   onAddFolder: () => void;
 }
 
-export interface MemoType {
-  id: number;
-  title: string;
-  tags: string[];
-  content: string;
-}
-
-export interface MemoProps {
-  size: keyof typeof memoSizes;
-  memo: MemoType;
-  onDeleteRequest: (id: number) => void;
-  onMoveRequest: (id: number) => void;
-}
-
 export interface FolderType {
   id: number;
   title: string;
@@ -54,8 +39,4 @@ export interface Target {
   type: 'memo' | 'folder';
   id: number;
   title: string;
-}
-
-export interface MoveModalProps extends ModalProps {
-  type: 'folder' | 'memo';
 }

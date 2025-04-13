@@ -1,11 +1,11 @@
 import { ButtonHTMLAttributes, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { MemoProps } from '@/entities/memo/memo.type.ts';
 import Next from '@/shared/assets/memo/next-button.svg?react';
 import PinIcon from '@/shared/assets/memo/pin.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
+import { MemoProps } from '@/shared/types/memo.types.ts';
 import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 
 /**
