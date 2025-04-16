@@ -1,11 +1,15 @@
 import { Route, Routes } from 'react-router-dom';
+import { AdminLoginPage } from '@/pages/AdminLoginPage/admin-login';
 import { CalendarPage } from '@/pages/CalendarPage';
 import { ErrorPage } from '@/pages/ErrorPage';
+import JoinPage from '@/pages/JoinPage/join-page';
 import { LoginPage } from '@/pages/LoginPage';
 import { MainPage } from '@/pages/MainPage';
+import MakeTeamPage from '@/pages/MakeTeamPage/make-team';
 import { ManagementPage } from '@/pages/Management Page';
 import { ExtraMemoPage, MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
+import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
 import { SharePage } from '@/pages/SharePage';
 import { SignupPage } from '@/pages/SignupPage';
 import { TeamPage } from '@/pages/TeamPage';
@@ -15,10 +19,21 @@ export default function AppRoutes() {
   return (
     <>
       <Routes>
-        {/* Login page */}
-        <Route path="/login" element={<LoginPage />} />
-        {/* Signup page */}
-        <Route path="/signup" element={<SignupPage />} />
+        {/* onBoarding 관련 페이지들 */}
+        <Route>
+          {/* Login Page */}
+          <Route path="/login" element={<LoginPage />} />
+          {/* Admin Login Page */}
+          <Route path="/login-admin" element={<AdminLoginPage />} />
+          {/* Sign Up Page */}
+          <Route path="/sign-up" element={<SignupPage />} />
+          {/* Make Team Page */}
+          <Route path="/make-team" element={<MakeTeamPage />} />
+          {/* Team Join page */}
+          <Route path="/team-join" element={<JoinPage />} />
+          {/* Select Team Page */}
+          <Route path="/select-team" element={<SelectTeamPage />} />
+        </Route>
         {/* Team Page */}
         <Route path="/team" element={<TeamPage />} />
         {/* Main page */}

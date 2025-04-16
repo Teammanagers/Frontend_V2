@@ -1,3 +1,9 @@
+import { LoginPage } from '../LoginPage';
+
 export function SignupPage() {
-  return <div>Signup Page</div>;
+  return (
+    <div>
+      <LoginPage></LoginPage>
+    </div>
+  );
 }

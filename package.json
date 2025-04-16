@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.62.8",
+    "@types/react-copy-to-clipboard": "^5.0.7",
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "moment": "^2.30.1",
@@ -20,7 +21,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "6",
     "styled-components": "^6.1.13",
-    "swiper": "^11.1.15",
+    "swiper": "^11.2.6",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
