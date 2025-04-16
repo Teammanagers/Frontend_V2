@@ -1,9 +1,6 @@
-import { IStatusBadge } from '@/widgets/todo/status.type';
 import styled from 'styled-components';
 
-function ProgressBar({ status }: { status: IStatusBadge[] }) {
-  console.log(status);
-
+function ProgressBar() {
   return (
     <Container>
       <TODO />

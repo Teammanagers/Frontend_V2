@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import noticeSubmitBtn from '@/shared/assets/icons/main/notice-submit-btn.svg';
+import NoticeSubmitBtn from '@/shared/assets/main/notice-submit-btn.svg?react';
 import { useState } from 'react';
 import { handleInputChange } from '@/shared/lib/utils/handleNoticeInputChange';
 import useBulletPointConverter from '@/shared/hooks/action/useBulletPointConverter';
@@ -21,7 +21,7 @@ function NoticeInput({ toggle }: { toggle: () => void }) {
         onKeyDown={(e) => useBulletPointConverter({ e, setInputValue })}
       />
       <Button onClick={handleSubmit}>
-        <img src={noticeSubmitBtn} alt="submit-button" />
+        <NoticeSubmitBtn />
       </Button>
     </Container>
   );
@@ -66,4 +66,10 @@ const Button = styled.button`
   font-size: 16px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.white};
+
+  &:hover {
+    background-color: #3c8bff;
+    transition: background-color 0.3s;
+    box-shadow: 0 1px 4px 0 rgba(60, 139, 255, 0.06);
+  }
 `;

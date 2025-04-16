@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import arrowIcon from '@/shared/assets/common/routing-arrow.svg';
+import ArrowIcon from '@/shared/assets/common/arrow.svg?react';
 import { IRoutingButtonProps } from '../main.types';
 
 /**
@@ -19,7 +19,7 @@ function RoutingButton({ children, url }: IRoutingButtonProps) {
       </ContentWrapper>
       {/* arrow 아이콘 크기 동적으로 수정할 수 있도록 */}
       <ArrowIconWrapper>
-        <img src={arrowIcon} alt="arrow-icon" />
+        <ArrowIcon width="36" height="36" strokeWidth="3" />
       </ArrowIconWrapper>
     </StyledLink>
   );
@@ -52,6 +52,4 @@ const ArrowIconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
 `;

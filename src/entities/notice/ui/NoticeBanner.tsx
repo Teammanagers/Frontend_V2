@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import NoticeLoudSpeaker from '@/shared/assets/icons/main/loud-speaker.svg';
+import NoticeLoudSpeaker from '@/shared/assets/main/loud-speaker.svg?react';
 import { Button } from '@/shared/components/button/Button';
 import NoticeModal from '@/widgets/notice/NoticeModal';
 import useToggle from '@/shared/hooks/action/useToggle';
@@ -12,7 +12,7 @@ function NoticeBanner() {
       <Container onClick={toggle}>
         <NoticeContent>
           <IconWrapper>
-            <img src={NoticeLoudSpeaker} alt="notice-loud-speaker" />
+            <NoticeLoudSpeaker />
           </IconWrapper>
 
           <LatestNotice>UMC 6th 팀 매니저 공지입니다.</LatestNotice>

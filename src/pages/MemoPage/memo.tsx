@@ -1,3 +1,9 @@
+import { MemoList } from '@/widgets/memo/MemoList.tsx';
+
 export function MemoPage() {
-  return <div>Memo</div>;
+  return (
+    <div>
+      <MemoList />
+    </div>
+  );
 }

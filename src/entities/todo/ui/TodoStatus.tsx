@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import checkIcon from '@/shared/assets/icons/check.svg';
+import CheckIcon from '@/shared/assets/todo/check.svg?react';
 import { ITodoStatus, Status } from '../todo.type';
 import { useTodoContext } from '../model/useTodoContext';
 
@@ -23,9 +23,7 @@ function TodoStatus({ status = 'TODO', ...props }: ITodoStatus) {
   return (
     <Container $todoStatus={todoStatus} {...props} onClick={handleTodoStatus}>
       <IconWrapper $todoStatus={todoStatus}>
-        {todoStatus === 'PROCEEDING' || (
-          <img src={checkIcon} alt="check icon" />
-        )}
+        {todoStatus === 'PROCEEDING' || <CheckIcon />}
 
         {todoStatus === 'PROCEEDING' && <ProceedingBar />}
       </IconWrapper>
