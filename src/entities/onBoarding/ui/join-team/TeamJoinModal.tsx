@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import Input from '@/entities/onBoarding/lib/input/Input';
 import { Button } from '@/shared/components/button/Button';
-import Input from '@/shared/components/input/Input';
 import Modal from '@/shared/components/modal/Modal';
 
 interface TeamJoinModalProps {

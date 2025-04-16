@@ -1,6 +1,6 @@
 import styled from 'styled-components';
+import Input from '@/entities/onBoarding/lib/input/Input';
 import { Button } from '@/shared/components/button/Button';
-import Input from '@/shared/components/input/Input';
 import TeamJoinModal from './TeamJoinModal';
 import { JoinTeam } from '../../lib/joinTeam/teamJoin';
 

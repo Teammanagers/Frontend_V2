@@ -1,9 +1,9 @@
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import styled from 'styled-components';
+import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamStages } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
-import Input from '@/shared/components/input/Input';
 
 export default function MakeTeamSecondStage() {
   const {

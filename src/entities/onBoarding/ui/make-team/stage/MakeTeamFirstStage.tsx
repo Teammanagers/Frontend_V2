@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Input from '@/entities/onBoarding/lib/input/Input';
 import {
   MakeTeamFirstStageProps,
   MakeTeamStages,
@@ -6,7 +7,7 @@ import {
 import camera from '@/shared/assets/common/cam-plus.svg?url';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
-import Input from '@/shared/components/input/Input';
+
 import TagForm from '../tag/TagForm';
 
 export default function MakeTeamFirstStage({

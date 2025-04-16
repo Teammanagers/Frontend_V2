@@ -1,7 +1,7 @@
 import styled from 'styled-components';
+import Input from '@/entities/onBoarding/lib/input/Input';
 import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
-import Input from '@/shared/components/input/Input';
 import { AdminAuth } from '../../lib/login/adminAuth';
 
 export default function AdminLogin() {
