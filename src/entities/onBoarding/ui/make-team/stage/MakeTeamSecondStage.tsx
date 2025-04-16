@@ -1,4 +1,3 @@
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamStages } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
@@ -6,13 +5,9 @@ import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
 
 export default function MakeTeamSecondStage() {
-  const {
-    isShowHelperMessage,
-    setTeamCode,
-    teamCode,
-    setIsShowHelperMessage,
-    isValid,
-  } = MakeTeamStages();
+  const { isShowHelperMessage, setTeamCode, isValid, handleCopyToClipboard } =
+    MakeTeamStages();
+
   return (
     <StageContainer>
       <BackContainer>
@@ -33,18 +28,13 @@ export default function MakeTeamSecondStage() {
             />
           </InputWrapper>
           <ButtonWrapper>
-            {
-              // @ts-expect-error - CopyToClipboard 타입 문제
-              <CopyToClipboard text={teamCode}>
-                <Button
-                  size="mini"
-                  style="main"
-                  onClick={() => setIsShowHelperMessage(true)}
-                >
-                  팀 코드 복사
-                </Button>
-              </CopyToClipboard>
-            }
+            <Button
+              size="mini"
+              style="main"
+              onClick={() => handleCopyToClipboard}
+            >
+              팀 코드 복사
+            </Button>
           </ButtonWrapper>
         </TeamCodeRow>
 

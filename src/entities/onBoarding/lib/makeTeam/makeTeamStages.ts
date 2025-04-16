@@ -27,8 +27,8 @@ export const MakeTeamStages = () => {
     setIsValid(isFormValid);
   }, [teamCode, password]);
 
-  // 팀 코드 복사 완료 표시
-  const handleCopySuccess = () => {
+  const handleCopyToClipboard = async () => {
+    await navigator.clipboard.writeText(teamCode);
     setIsShowHelperMessage(true);
   };
 
@@ -45,6 +45,6 @@ export const MakeTeamStages = () => {
     isShowHelperMessage,
     setIsShowHelperMessage,
     isValid,
-    handleCopySuccess,
+    handleCopyToClipboard,
   };
 };
