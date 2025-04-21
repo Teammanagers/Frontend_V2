@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { FetchNoticeResponse } from '../notice.types';
+import dayjs from 'dayjs';
 
 function NoticeItem({
   outDated,
@@ -11,7 +12,7 @@ function NoticeItem({
   return (
     <Container $outDated={outDated}>
       <Content>{notice.notice.content}</Content>
-      <Date>{notice.notice.createdAt}</Date>
+      <Date>{dayjs(notice.notice.createdAt).format('YYYY.MM.DD HH:mm')}</Date>
     </Container>
   );
 }
