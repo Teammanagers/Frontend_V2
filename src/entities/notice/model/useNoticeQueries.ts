@@ -7,7 +7,32 @@ import { TEAM_ID } from '@/shared/config/constants/team.constants';
 import { QueryResponse } from '@/shared/types/api.types';
 
 export default function useNoticeQueries() {
-  // 공지 불러오기
+  // 최신 공지 조회
+  const useRecentNoticeQuery = (): QueryResponse & {
+    data: FetchNoticeResponse;
+  } => {
+    const { isPending, isError, error, isSuccess, data } = useQuery({
+      queryKey: ['notice', 'recent'],
+      queryFn: async () => {
+        return await apiRequest({
+          url: `/api/v2/team/${TEAM_ID}/notice`,
+          method: 'GET',
+        });
+      },
+      staleTime: 60 * 1000 * 10, // 10분
+      select: (data) => data.result,
+    });
+
+    useEffect(() => {
+      if (isError) {
+        console.error('최신 공지 조회 실패', error);
+      }
+    }, [isError, isSuccess, data]);
+
+    return { isPending, isSuccess, data };
+  };
+
+  // 전체 공지 조회
   const useNoticeListQuery = (
     isOpen: boolean,
   ): QueryResponse & { data: FetchNoticeResponse[] } => {
@@ -26,11 +51,11 @@ export default function useNoticeQueries() {
 
     useEffect(() => {
       if (isError) {
-        console.error('동아리 요약 정보 불러오기 실패', error);
+        console.error('전체 공지 조회 실패', error);
       }
     }, [isError, isSuccess, data]);
 
-    return { isPending, isSuccess, data };
+    return { isPending, isError, isSuccess, data };
   };
 
   // 공지 생성
@@ -54,6 +79,7 @@ export default function useNoticeQueries() {
   };
 
   return {
+    useRecentNoticeQuery,
     useNoticeListQuery,
     useCreateNoticeMutation,
   };
