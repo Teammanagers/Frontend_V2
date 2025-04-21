@@ -1,5 +1,5 @@
 import { UpcomingSchedule } from '@/entities/schedule/ui';
-import EventCalendar from '@/widgets/calendar/EventCalendar';
+import EventCalendar from '@/widgets/calendar/ui/EventCalendar';
 import styled from 'styled-components';
 
 export function CalendarPage() {
@@ -21,8 +21,9 @@ export function CalendarPage() {
 
 const Container = styled.div`
   display: flex;
+  justify-content: center;
   gap: 20px;
-  padding: 99px 0 0 112px;
+  padding-top: 100px;
 `;
 
 const UpcomingSchedulesWrapper = styled.div`
