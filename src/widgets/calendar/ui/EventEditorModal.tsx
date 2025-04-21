@@ -1,8 +1,8 @@
 import Modal from '@/shared/components/modal/Modal';
-import { IEventEditorModalProps } from './calendar.types';
 import styled from 'styled-components';
 import DeleteIcon from '@/shared/assets/common/delete.svg?react';
 import { Button } from '@/shared/components/button/Button';
+import { IEventEditorModalProps } from '../calendar.types';
 
 export default function EventEditorModal({
   mode = 'register',
