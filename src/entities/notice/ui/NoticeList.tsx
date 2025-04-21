@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import useNoticeQueries from '@/entities/notice/model/useNoticeQueries';
+import Skeleton from '@/shared/components/skeleton/Skeleton';
 import { NoticeItem } from './NoticeItem';
 
 function NoticeList({ isOpen }: { isOpen: boolean }) {
@@ -8,10 +9,14 @@ function NoticeList({ isOpen }: { isOpen: boolean }) {
 
   return (
     <Container>
+      {isPending &&
+        Array.from({ length: 4 }).map((_, idx) => (
+          <Skeleton key={`notice-skeleton-${idx}`} width={498} height={58} />
+        ))}
+
       {isSuccess &&
         noticeList.map((notice, idx) => (
           <NoticeItem
-            key={`notice-${notice.notice.id}`}
             outDated={idx !== 0} // 0번 인덱스가 아닌 공지는 모두 만료된 공지로 간주
             notice={notice}
           />

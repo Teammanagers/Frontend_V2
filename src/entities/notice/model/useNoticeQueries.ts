@@ -4,16 +4,13 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { CreateNoticeReqeust, FetchNoticeResponse } from '../notice.types';
 import { TEAM_ID } from '@/shared/config/constants/team.constants';
+import { QueryResponse } from '@/shared/types/api.types';
 
 export default function useNoticeQueries() {
   // 공지 불러오기
   const useNoticeListQuery = (
     isOpen: boolean,
-  ): {
-    isPending: boolean;
-    isSuccess: boolean;
-    data: FetchNoticeResponse[];
-  } => {
+  ): QueryResponse & { data: FetchNoticeResponse[] } => {
     const { isPending, isError, error, isSuccess, data } = useQuery({
       queryKey: ['notice'],
       queryFn: async () => {
