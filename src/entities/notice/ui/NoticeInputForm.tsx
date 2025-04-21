@@ -8,13 +8,14 @@ import useNoticeQueries from '../model/useNoticeQueries';
 function NoticeInputForm({ toggle }: { toggle: () => void }) {
   const [inputValue, setInputValue] = useState<string>('');
 
+  // 공지 생성 API 호출
   const { useCreateNoticeMutation } = useNoticeQueries();
   const createNoticeMutation = useCreateNoticeMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    createNoticeMutation.mutate({ teamId: 1, content: inputValue }); // 공지 생성 API 호출
+    createNoticeMutation.mutate({ content: inputValue }); // 공지 생성 API 호출
     setInputValue('');
     toggle();
   };

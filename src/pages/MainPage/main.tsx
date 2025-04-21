@@ -1,6 +1,6 @@
 import { TeamCodeCopy } from '@/entities/main/ui';
-import { NoticeBanner } from '@/entities/notice/ui';
 import { TodoList, UpcomingScheduleList } from '@/widgets/main';
+import { NoticeBanner } from '@/widgets/notice/NoticeBanner';
 import styled from 'styled-components';
 
 export function MainPage() {

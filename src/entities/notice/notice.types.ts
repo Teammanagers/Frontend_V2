@@ -1,6 +1,18 @@
+interface FetchNoticeResponse {
+  notice: {
+    content: string;
+    createdAt: string;
+    createdBy: number;
+    id: number;
+    teamId: number;
+    updatedAt: string;
+    updatedBy: number;
+    useYn: string;
+  };
+}
+
 type CreateNoticeReqeust = {
-  teamId: number;
   content: string;
 };
 
-export type { CreateNoticeReqeust };
+export type { FetchNoticeResponse, CreateNoticeReqeust };

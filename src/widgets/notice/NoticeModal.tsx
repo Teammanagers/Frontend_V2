@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Modal from '@/shared/components/modal/Modal';
 import { INoticeModalProps } from './notice-modal.types';
-import { NoticeInputForm, NoticeItem } from '@/entities/notice/ui';
+import { NoticeInputForm, NoticeList } from '@/entities/notice/ui';
 
 export default function NoticeModal({ isOpen, toggle }: INoticeModalProps) {
   return (
@@ -9,9 +9,7 @@ export default function NoticeModal({ isOpen, toggle }: INoticeModalProps) {
       <ModalWrapper>
         <ContentWrapper>
           <Title>공지사항</Title>
-          {Array.from({ length: 10 }).map((_, idx) => (
-            <NoticeItem key={`notice-${idx}`} outDated={idx !== 0} />
-          ))}
+          <NoticeList isOpen={isOpen} />
         </ContentWrapper>
 
         {/* 공지 입력 폼 */}
@@ -39,9 +37,6 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 18px;
-  width: 498px;
-  max-height: 437px;
-  overflow-y: auto;
 `;
 
 const Title = styled.h2`

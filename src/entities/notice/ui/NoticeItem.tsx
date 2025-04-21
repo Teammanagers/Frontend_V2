@@ -1,10 +1,17 @@
 import styled from 'styled-components';
+import { FetchNoticeResponse } from '../notice.types';
 
-function NoticeItem({ outDated }: { outDated: boolean }) {
+function NoticeItem({
+  outDated,
+  notice,
+}: {
+  outDated: boolean;
+  notice: FetchNoticeResponse;
+}) {
   return (
     <Container $outDated={outDated}>
-      <Content>7월 23일 19시 회의입니다!</Content>
-      <Date>2024.07.10 14:24</Date>
+      <Content>{notice.notice.content}</Content>
+      <Date>{notice.notice.createdAt}</Date>
     </Container>
   );
 }
@@ -15,7 +22,7 @@ const Content = styled.p``;
 
 const Date = styled.span``;
 
-const Container = styled.div<{ $outDated: boolean }>`
+const Container = styled.li<{ $outDated: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;

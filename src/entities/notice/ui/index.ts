@@ -1,3 +1,3 @@
-export * from './NoticeBanner';
+export * from './NoticeList';
 export * from './NoticeItem';
 export * from './NoticeInputForm';
