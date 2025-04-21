@@ -26,7 +26,7 @@ const ModalWrapper = styled.div`
   gap: 18px;
   width: 534px;
   height: 558px;
-  padding-top: 24px;
+  padding: 24px 18px;
   border: 1px solid ${({ theme }) => theme.colors.subLightBlue};
   border-radius: 9px;
   background-color: ${({ theme }) => theme.colors.white};
@@ -37,6 +37,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 18px;
+  max-height: 437px;
 `;
 
 const Title = styled.h2`
