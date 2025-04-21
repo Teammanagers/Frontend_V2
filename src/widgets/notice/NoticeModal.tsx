@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Modal from '@/shared/components/modal/Modal';
 import { INoticeModalProps } from './notice-modal.types';
-import { NoticeInput, NoticeItem } from '@/entities/notice/ui';
+import { NoticeInputForm, NoticeItem } from '@/entities/notice/ui';
 
 export default function NoticeModal({ isOpen, toggle }: INoticeModalProps) {
   return (
@@ -15,7 +15,7 @@ export default function NoticeModal({ isOpen, toggle }: INoticeModalProps) {
         </ContentWrapper>
 
         {/* 공지 입력 폼 */}
-        <NoticeInput toggle={toggle} />
+        <NoticeInputForm toggle={toggle} />
       </ModalWrapper>
     </Modal>
   );

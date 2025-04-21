@@ -3,16 +3,24 @@ import NoticeSubmitBtn from '@/shared/assets/main/notice-submit-btn.svg?react';
 import { useState } from 'react';
 import { handleInputChange } from '@/shared/lib/utils/handleNoticeInputChange';
 import useBulletPointConverter from '@/shared/hooks/action/useBulletPointConverter';
+import useNoticeQueries from '../model/useNoticeQueries';
 
-function NoticeInput({ toggle }: { toggle: () => void }) {
+function NoticeInputForm({ toggle }: { toggle: () => void }) {
   const [inputValue, setInputValue] = useState<string>('');
 
-  const handleSubmit = () => {
+  const { useCreateNoticeMutation } = useNoticeQueries();
+  const createNoticeMutation = useCreateNoticeMutation();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    createNoticeMutation.mutate({ teamId: 1, content: inputValue }); // 공지 생성 API 호출
+    setInputValue('');
     toggle();
   };
 
   return (
-    <Container>
+    <FormContainer onSubmit={handleSubmit}>
       <Textarea
         value={inputValue}
         placeholder="공지 내용을 입력해주세요"
@@ -20,16 +28,16 @@ function NoticeInput({ toggle }: { toggle: () => void }) {
         onChange={(e) => handleInputChange({ e, setInputValue })}
         onKeyDown={(e) => useBulletPointConverter({ e, setInputValue })}
       />
-      <Button onClick={handleSubmit}>
+      <Button type="submit">
         <NoticeSubmitBtn />
       </Button>
-    </Container>
+    </FormContainer>
   );
 }
 
-export { NoticeInput };
+export { NoticeInputForm };
 
-const Container = styled.div`
+const FormContainer = styled.form`
   display: flex;
   align-items: center;
   justify-content: center;
