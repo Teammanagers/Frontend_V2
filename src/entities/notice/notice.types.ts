@@ -13,8 +13,8 @@ type FetchNoticeResponse = {
   notice: Notice;
 };
 
-type CreateNoticeReqeust = {
+type CreateNoticeRequest = {
   content: string;
 };
 
-export type { FetchNoticeResponse, CreateNoticeReqeust };
+export type { FetchNoticeResponse, CreateNoticeRequest };
