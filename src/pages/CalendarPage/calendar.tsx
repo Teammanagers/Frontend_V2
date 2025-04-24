@@ -1,4 +1,4 @@
-import { UpcomingSchedule } from '@/entities/schedule/ui';
+import { UpcomingSchedule } from '@/entities/calendar/ui';
 import EventCalendar from '@/widgets/calendar/ui/EventCalendar';
 import styled from 'styled-components';
 

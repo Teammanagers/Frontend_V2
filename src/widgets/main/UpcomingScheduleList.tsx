@@ -1,5 +1,5 @@
+import { UpcomingSchedule } from '@/entities/calendar/ui';
 import { RoutingButton } from '@/entities/main/ui';
-import { UpcomingSchedule } from '@/entities/schedule/ui';
 import styled from 'styled-components';
 
 function UpcomingScheduleList() {
