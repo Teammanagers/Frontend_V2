@@ -7,4 +7,10 @@ interface IAPIRequestConfig {
   headers?: Record<string, string>;
 }
 
-export type { IAPIRequestConfig };
+type QueryResponse = {
+  isPending?: boolean;
+  isSuccess?: boolean;
+  isError?: boolean;
+};
+
+export type { IAPIRequestConfig, QueryResponse };

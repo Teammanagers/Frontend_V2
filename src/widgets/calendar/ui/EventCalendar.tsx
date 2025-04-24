@@ -4,11 +4,11 @@ import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
 import useToggle from '@/shared/hooks/action/useToggle';
 import EventEditorModal from './EventEditorModal';
-import { EventEditorMode, Value } from './calendar.types';
-import { determineWeeksInMonth } from './lib/getWeeksInMonth';
-import { EventSummaryPopover } from './EventSummaryPopover';
-import mockData from './mocks/getSimpleCalendarList.json';
 import { Dot } from '@/entities/calendar/ui';
+import { EventEditorMode, Value } from '../calendar.types';
+import { determineWeeksInMonth } from '../lib/getWeeksInMonth';
+import mockData from '../mocks/getSimpleCalendarList.json';
+import { EventSummaryPopover } from './EventSummaryPopover';
 
 export default function EventCalendar() {
   const [selectedDate, setSelectedDate] = useState<Value>(null);

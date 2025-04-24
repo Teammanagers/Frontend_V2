@@ -3,11 +3,11 @@ import styled, { keyframes } from 'styled-components';
 import dayjs from 'dayjs';
 import PolygonArrow from '@/shared/assets/calendar/popover-arrow.svg?react';
 import useClickOutside from '@/shared/hooks/action/useClickOutside';
-import { calculatePopoverPosition } from './lib/calculatePopoverPosition';
-import { IEventSummaryPopoverProps } from './calendar.types';
 import EventSummary from '@/entities/calendar/ui/EventSummary';
-import { usePopoverAnimation } from './lib/usePopoverAnimation';
 import { ActionButton } from '@/entities/calendar/ui';
+import { IEventSummaryPopoverProps } from '../calendar.types';
+import { usePopoverAnimation } from '../lib/usePopoverAnimation';
+import { calculatePopoverPosition } from '../lib/calculatePopoverPosition';
 
 function EventSummaryPopover({
   date,

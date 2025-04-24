@@ -3,9 +3,13 @@ import NoticeLoudSpeaker from '@/shared/assets/main/loud-speaker.svg?react';
 import { Button } from '@/shared/components/button/Button';
 import NoticeModal from '@/widgets/notice/NoticeModal';
 import useToggle from '@/shared/hooks/action/useToggle';
+import useNoticeQueries from '@/entities/notice/model/useNoticeQueries';
 
 function NoticeBanner() {
   const { isOpen, toggle } = useToggle();
+
+  const { useRecentNoticeQuery } = useNoticeQueries();
+  const { data: recentNotice, isError, isSuccess } = useRecentNoticeQuery(); // 최신 공지 조회 API 호출
 
   return (
     <>
@@ -15,7 +19,13 @@ function NoticeBanner() {
             <NoticeLoudSpeaker />
           </IconWrapper>
 
-          <LatestNotice>UMC 6th 팀 매니저 공지입니다.</LatestNotice>
+          <LatestNotice>
+            {isSuccess
+              ? recentNotice.notice.content
+              : isError
+                ? '공지 조회에 실패했습니다'
+                : ''}
+          </LatestNotice>
         </NoticeContent>
         <Button size="mini" style="sub">
           공지 수정
