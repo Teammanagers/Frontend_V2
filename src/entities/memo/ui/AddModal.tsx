@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AddModalProps } from '@/entities/memo/memo.type.ts';
-import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
 import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
+import Modal from '@/shared/components/modal/Modal.tsx';
 
 export const AddModal = ({ onClose, onAddFolder }: AddModalProps) => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export const AddModal = ({ onClose, onAddFolder }: AddModalProps) => {
     onClose();
   };
   return (
-    <Overlay onClick={onClose}>
+    <Modal isOpen={true} toggle={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <MenuContainer onClick={handleAddMemo}>
           메모 추가하기
@@ -24,7 +24,7 @@ export const AddModal = ({ onClose, onAddFolder }: AddModalProps) => {
           <AddFolder />
         </MenuContainer>
       </ModalContainer>
-    </Overlay>
+    </Modal>
   );
 };
 
