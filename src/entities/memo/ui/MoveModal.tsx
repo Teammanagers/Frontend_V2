@@ -4,10 +4,10 @@ import folderData from '@/shared/assets/memo/folderData.json';
 import Modal from '@/shared/components/modal/Modal.tsx';
 import { ModalProps } from '@/shared/types/modal.types.ts';
 
-export const MoveModal = ({ onClose }: ModalProps) => {
+export const MoveModal = ({ isOpen, toggle }: ModalProps) => {
   return (
-    <Modal isOpen={true} toggle={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
+    <Modal isOpen={isOpen} toggle={toggle}>
+      <ModalContainer>
         {folderData.map((folder) => (
           <MenuContainer key={folder.id}>
             <MenuText>{folder.title}</MenuText>

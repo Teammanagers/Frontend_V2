@@ -7,7 +7,8 @@ import Modal from '@/shared/components/modal/Modal.tsx';
 export const FolderModal = ({
   mode,
   currentName = '안녕',
-  onClose,
+  isOpen,
+  toggle,
 }: FolderModalProps) => {
   const [folderName, setFolderName] = useState(
     mode === 'edit' ? (currentName ?? '') : '',
@@ -29,8 +30,8 @@ export const FolderModal = ({
   }, [buttonStyle, isDisabled]);
 
   return (
-    <Modal isOpen={true} toggle={onClose}>
-      <FolderModalContainer onClick={(e) => e.stopPropagation()}>
+    <Modal isOpen={isOpen} toggle={toggle}>
+      <FolderModalContainer>
         <InputContainer>
           <InputText>폴더명</InputText>
           <FolderInput
