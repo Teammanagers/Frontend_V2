@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { ModalContainer } from '@/entities/memo/ui/AddModal.tsx';
-import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import folderData from '@/shared/assets/memo/folderData.json';
+import Modal from '@/shared/components/modal/Modal.tsx';
 import { ModalProps } from '@/shared/types/modal.types.ts';
 
 export const MoveModal = ({ onClose }: ModalProps) => {
   return (
-    <Overlay onClick={onClose}>
+    <Modal isOpen={true} toggle={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         {folderData.map((folder) => (
           <MenuContainer key={folder.id}>
@@ -15,7 +15,7 @@ export const MoveModal = ({ onClose }: ModalProps) => {
           </MenuContainer>
         ))}
       </ModalContainer>
-    </Overlay>
+    </Modal>
   );
 };
 
