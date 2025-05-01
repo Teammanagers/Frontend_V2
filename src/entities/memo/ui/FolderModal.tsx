@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FolderModalProps } from '@/entities/memo/memo.type.ts';
-import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import { Button } from '@/shared/components/button/Button.tsx';
+import Modal from '@/shared/components/modal/Modal.tsx';
 
 export const FolderModal = ({
   mode,
   currentName = '안녕',
-  onClose,
+  isOpen,
+  toggle,
 }: FolderModalProps) => {
   const [folderName, setFolderName] = useState(
     mode === 'edit' ? (currentName ?? '') : '',
@@ -29,8 +30,8 @@ export const FolderModal = ({
   }, [buttonStyle, isDisabled]);
 
   return (
-    <Overlay onClick={onClose}>
-      <FolderModalContainer onClick={(e) => e.stopPropagation()}>
+    <Modal isOpen={isOpen} toggle={toggle}>
+      <FolderModalContainer>
         <InputContainer>
           <InputText>폴더명</InputText>
           <FolderInput
@@ -43,7 +44,7 @@ export const FolderModal = ({
           {buttonText}
         </Button>
       </FolderModalContainer>
-    </Overlay>
+    </Modal>
   );
 };
 

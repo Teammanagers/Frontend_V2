@@ -1,21 +1,29 @@
 import styled from 'styled-components';
-import { DeleteModalProps } from '@/entities/memo/memo.type.ts';
-import { Button } from '@/shared/components/button/Button.tsx';
+import { DeleteModalProps } from '@/entities/memo/memo.type';
+import { Button } from '@/shared/components/button/Button';
+import Modal from '@/shared/components/modal/Modal.tsx';
 
-export const DeleteModal = ({ type, name, onClose }: DeleteModalProps) => {
+export const DeleteModal = ({
+  type,
+  name,
+  isOpen,
+  toggle,
+}: DeleteModalProps) => {
   const handleDelete = () => {
     if (type === 'folder') {
       console.log('폴더 삭제 로직');
-    } else if (type === 'memo') {
+    } else {
       console.log('메모 삭제 로직');
     }
+    toggle();
   };
+
   return (
-    <Overlay onClick={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
+    <Modal isOpen={isOpen} toggle={toggle}>
+      <ModalContainer>
         {`'${name}' ${type === 'folder' ? '폴더' : '메모'}를 삭제하시겠습니까?`}
         <ButtonContainer>
-          <Button size="mini" style="main" onClick={onClose}>
+          <Button size="mini" style="main" onClick={toggle}>
             유지
           </Button>
           <Button size="mini" style="red" onClick={handleDelete}>
@@ -23,22 +31,9 @@ export const DeleteModal = ({ type, name, onClose }: DeleteModalProps) => {
           </Button>
         </ButtonContainer>
       </ModalContainer>
-    </Overlay>
+    </Modal>
   );
 };
-
-export const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
 
 const ModalContainer = styled.div`
   display: flex;

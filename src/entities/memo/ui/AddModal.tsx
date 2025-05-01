@@ -1,30 +1,35 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AddModalProps } from '@/entities/memo/memo.type.ts';
-import { Overlay } from '@/entities/memo/ui/DeleteModal.tsx';
 import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
 import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
+import Modal from '@/shared/components/modal/Modal.tsx';
 
-export const AddModal = ({ onClose, onAddFolder }: AddModalProps) => {
+export const AddModal = ({ isOpen, toggle, onAddFolder }: AddModalProps) => {
   const navigate = useNavigate();
 
   const handleAddMemo = () => {
     navigate(`/memo/write`);
-    onClose();
+    toggle();
   };
   return (
-    <Overlay onClick={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
+    <Modal isOpen={isOpen} toggle={toggle}>
+      <ModalContainer>
         <MenuContainer onClick={handleAddMemo}>
           메모 추가하기
           <AddMemo />
         </MenuContainer>
-        <MenuContainer onClick={onAddFolder}>
+        <MenuContainer
+          onClick={() => {
+            onAddFolder();
+            toggle();
+          }}
+        >
           폴더 추가하기
           <AddFolder />
         </MenuContainer>
       </ModalContainer>
-    </Overlay>
+    </Modal>
   );
 };
 

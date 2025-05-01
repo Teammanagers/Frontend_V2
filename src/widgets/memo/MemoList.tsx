@@ -86,14 +86,17 @@ export const MemoList = () => {
           ))}
         </ListContainer>
       </MemoContainer>
-      {openAddModal && (
-        <AddModal onClose={closeAddModal} onAddFolder={handleAddFolder} />
-      )}
+      <AddModal
+        isOpen={openAddModal}
+        toggle={closeAddModal}
+        onAddFolder={handleAddFolder}
+      />
       {deleteTarget && (
         <DeleteModal
           type={deleteTarget.type}
           name={deleteTarget.title}
-          onClose={closeDeleteModal}
+          isOpen={true}
+          toggle={closeDeleteModal}
         />
       )}
       {moveTarget && (
@@ -101,11 +104,12 @@ export const MemoList = () => {
           // 폴더 뎁스에 따라
           // type={moveTarget.type}
           // name={moveTarget.title}
-          onClose={closeMoveModal}
+          isOpen={true}
+          toggle={closeMoveModal}
         />
       )}
       {openFolderModal && (
-        <FolderModal mode="create" onClose={closeFolderModal} />
+        <FolderModal mode="create" isOpen={true} toggle={closeFolderModal} />
       )}
     </>
   );
