@@ -3,13 +3,44 @@ import styled from 'styled-components';
 import DeleteIcon from '@/shared/assets/common/delete.svg?react';
 import { Button } from '@/shared/components/button/Button';
 import { IEventEditorModalProps } from '../calendar.types';
+import { useState } from 'react';
+import { Event } from '@/entities/calendar/calendar.types';
+import dayjs from 'dayjs';
+import { inputChangeHandler } from '@/shared/lib/utils/inputChangeHandler';
+import { TEAM_ID } from '@/shared/config/constants/team.constants';
+import useEventQueries from '@/entities/calendar/model/useEventQueries';
 
 export default function EventEditorModal({
+  date,
   mode = 'register',
   isOpen,
   toggle,
   setModalMode,
 }: IEventEditorModalProps) {
+  const formattedDate = dayjs(date).format('YYYY-MM-DD');
+
+  const { useCreateEventMutation } = useEventQueries();
+  const createEventMutation = useCreateEventMutation();
+
+  const [inputValue, setInputValue] = useState<Event>({
+    date: formattedDate,
+    title: '',
+    content: '',
+  });
+
+  const handleAddEvent = () => {
+    createEventMutation.mutate(inputValue); // 일정 생성 API 호출
+    console.log(createEventMutation.data);
+
+    // inputValue 초기화
+    setInputValue({
+      date: formattedDate,
+      title: '',
+      content: '',
+    });
+    toggle();
+  };
+
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalWrapper>
@@ -17,14 +48,20 @@ export default function EventEditorModal({
           <DeleteIcon stroke="#5A5A5A" />
         </DeleteIconWrapper>
         {/* 날짜 */}
-        <Date>2024.07.17</Date>
+        <Date>{formattedDate}</Date>
 
         <Line />
 
         {/* 일정 제목 */}
         {mode === 'read' && <Title>오후 8시 회의!</Title>}
         {(mode === 'register' || mode === 'edit') && (
-          <TitleInput placeholder="일정 제목" maxLength={30} />
+          <TitleInput
+            name="title"
+            value={inputValue.title}
+            placeholder="일정 제목"
+            maxLength={30}
+            onChange={(e) => inputChangeHandler<Event>({ e, setInputValue })}
+          />
         )}
 
         <Line />
@@ -32,15 +69,22 @@ export default function EventEditorModal({
         {/* 일정 내용 */}
         {mode === 'read' && <Content>디코 .....으로 오세요</Content>}
         {(mode === 'register' || mode === 'edit') && (
-          <ContentTextarea placeholder="메모" maxLength={100} />
+          <ContentTextarea
+            name="content"
+            value={inputValue.content}
+            placeholder="메모"
+            maxLength={100}
+            onChange={(e) => inputChangeHandler<Event>({ e, setInputValue })}
+          />
         )}
 
-        {/* 버튼 */}
+        {/* 일정 추가 버튼 */}
         {mode === 'register' && (
-          <Button size="medium" style="main" onClick={toggle}>
+          <Button size="medium" style="main" onClick={handleAddEvent}>
             일정 추가하기
           </Button>
         )}
+        {/* 일정 수정,삭제 버튼 */}
         <ButtonWrapper>
           {mode === 'edit' && (
             <>

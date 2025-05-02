@@ -11,7 +11,7 @@ import mockData from '../mocks/getSimpleCalendarList.json';
 import { EventSummaryPopover } from './EventSummaryPopover';
 
 export default function EventCalendar() {
-  const [selectedDate, setSelectedDate] = useState<Value>(null);
+  const [selectedDate, setSelectedDate] = useState<Value>(null); // 선택된 날짜
   const [searchMonth, setSearchMonth] = useState<Value>(null); // 월 변경 시 상태 별도로 관리 -> selectedDate로 함께 관리하면 달 변경 시 팝오버 자동 렌더링 이슈 발생
   const [calendarHeight, setCalendarHeight] = useState<string>('520px');
 
@@ -117,12 +117,15 @@ export default function EventCalendar() {
         />
       </StyledCalendarContainer>
 
-      <EventEditorModal
-        mode={modalMode}
-        setModalMode={setModalMode}
-        isOpen={isOpen}
-        toggle={toggle}
-      />
+      {selectedDate instanceof Date && (
+        <EventEditorModal
+          date={selectedDate}
+          mode={modalMode}
+          setModalMode={setModalMode}
+          isOpen={isOpen}
+          toggle={toggle}
+        />
+      )}
     </>
   );
 }

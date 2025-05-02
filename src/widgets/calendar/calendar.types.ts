@@ -6,6 +6,7 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 type EventEditorMode = 'register' | 'edit' | 'read';
 
 interface IEventEditorModalProps extends Omit<IModal, 'children'> {
+  date: Date;
   mode?: EventEditorMode;
   setModalMode: React.Dispatch<React.SetStateAction<EventEditorMode>>;
 }
