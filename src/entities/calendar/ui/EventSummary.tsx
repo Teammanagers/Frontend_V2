@@ -18,7 +18,7 @@ export default function EventSummary({
       <Title $status={status} onClick={handleClick}>
         {children}
       </Title>
-      {status === 'COMPLETED' || (
+      {status === 'N' || (
         <ActionButton
           buttonType="edit"
           toggle={toggle}
@@ -52,7 +52,7 @@ const Container = styled.li`
 `;
 
 const Title = styled.p<{ $status: string }>`
-display: flex;
+  display: flex;
   align-items: center;
   font-size: 12px;
   font-weight: 400;

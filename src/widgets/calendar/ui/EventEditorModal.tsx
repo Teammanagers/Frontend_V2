@@ -19,7 +19,9 @@ export default function EventEditorModal({
 }: IEventEditorModalProps) {
   const formattedDate = dayjs(date).format('YYYY-MM-DD');
 
-  const { useCreateEventMutation } = useEventQueries();
+  const { useCreateEventMutation } = useEventQueries(
+    dayjs(date).format('YYYY-MM'),
+  );
   const createEventMutation = useCreateEventMutation();
 
   const [inputValue, setInputValue] = useState<Event>({
@@ -29,8 +31,14 @@ export default function EventEditorModal({
   });
 
   const handleAddEvent = () => {
-    createEventMutation.mutate(inputValue); // 일정 생성 API 호출
-    console.log(createEventMutation.data);
+    if (mode === 'register') {
+      createEventMutation.mutate(inputValue); // 일정 생성 API 호출
+      console.log(createEventMutation.data);
+    } else if (mode === 'edit') {
+      //
+    } else if (mode === 'read') {
+      //
+    }
 
     // inputValue 초기화
     setInputValue({

@@ -1,3 +1,4 @@
+import { FetchEventResponse } from '@/entities/calendar/calendar.types';
 import { IModal } from '@/shared/types';
 
 type ValuePiece = Date | null;
@@ -21,7 +22,7 @@ interface IEventList {
 
 interface IEventSummaryPopoverProps {
   date: Date;
-  eventList: IEventList[];
+  eventList: FetchEventResponse[];
   isModalOpen: boolean;
   isPopoverOpen: boolean;
   setIsPopoverOpen: React.Dispatch<React.SetStateAction<boolean>>;

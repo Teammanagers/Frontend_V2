@@ -56,12 +56,12 @@ function EventSummaryPopover({
           {eventList.length > 0
             ? eventList.map((event) => (
                 <EventSummary
-                  key={event.calendarId}
-                  status={event.status}
+                  key={event.planDto.id}
+                  status={event.planDto.useYn}
                   toggle={toggle}
                   setModalMode={setModalMode}
                 >
-                  {event.title}
+                  {event.planDto.content}
                 </EventSummary>
               ))
             : null}
