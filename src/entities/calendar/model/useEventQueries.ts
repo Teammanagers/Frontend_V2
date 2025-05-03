@@ -53,5 +53,31 @@ export default function useEventQueries(yearMonth: string) {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
-  return { useEventQuery, useCreateEventMutation };
+  // 캘린더 일정 삭제
+  const useDeleteEventMutation = () => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async ({
+        data,
+        planId,
+      }: {
+        data: Omit<Event, 'date'> & { planId: number };
+        planId: string;
+      }) => {
+        return await apiRequest({
+          url: `/api/v2/calendar/${planId}`,
+          method: 'DELETE',
+          data,
+        });
+      },
+      onSuccess: () => {
+        queryClient.refetchQueries({
+          queryKey: ['event', yearMonth],
+        });
+      },
+    });
+
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
+  return { useEventQuery, useCreateEventMutation, useDeleteEventMutation };
 }

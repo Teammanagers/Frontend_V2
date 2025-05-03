@@ -26,21 +26,21 @@ type FetchEventResponse = {
 interface IEventSummaryProps {
   children: React.ReactNode;
   status: string;
-  toggle: () => void;
-  setModalMode: React.Dispatch<React.SetStateAction<EventEditorMode>>;
+  onClick?: () => void;
 }
 
+type ActionButtonType = 'edit' | 'register';
+
 interface IActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  buttonType?: 'edit' | 'add';
+  buttonType?: ActionButtonType;
   onClick?: () => void;
   disabled?: boolean;
-  toggle: () => void;
-  setModalMode: React.Dispatch<React.SetStateAction<EventEditorMode>>;
 }
 
 export type {
   Event,
   FetchEventResponse,
   IEventSummaryProps,
+  ActionButtonType,
   IActionButtonProps,
 };

@@ -15,6 +15,9 @@ export default function EventCalendar() {
   const [selectedDate, setSelectedDate] = useState<Value>(null); // 선택된 날짜
   const [searchMonth, setSearchMonth] = useState<Value>(null); // 월 변경 시 상태 별도로 관리 -> selectedDate로 함께 관리하면 달 변경 시 팝오버 자동 렌더링 이슈 발생
   const [calendarHeight, setCalendarHeight] = useState<string>('520px');
+  const [selectedEvent, setSelectedEvent] = useState<FetchEventResponse | null>(
+    null,
+  ); // 선택된 이벤트 데이터
 
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false); // 팝오버 ON/OFF 상태
   const { isOpen, toggle } = useToggle(); // 모달 ON/OFF 상태
@@ -82,6 +85,7 @@ export default function EventCalendar() {
             <EventSummaryPopover
               date={date}
               eventList={filteredEventList}
+              setSelectedEvent={setSelectedEvent}
               isModalOpen={isOpen}
               isPopoverOpen={isPopoverOpen}
               setIsPopoverOpen={setIsPopoverOpen}
@@ -129,6 +133,7 @@ export default function EventCalendar() {
       {selectedDate instanceof Date && (
         <EventEditorModal
           date={selectedDate}
+          selectedEvent={selectedEvent}
           mode={modalMode}
           setModalMode={setModalMode}
           isOpen={isOpen}

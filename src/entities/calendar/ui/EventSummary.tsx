@@ -1,55 +1,17 @@
 import styled from 'styled-components';
 import { IEventSummaryProps } from '../calendar.types';
-import { ActionButton } from './ActionButton';
 
 export default function EventSummary({
   children,
   status,
-  toggle,
-  setModalMode,
+  onClick,
 }: IEventSummaryProps) {
-  const handleClick = () => {
-    setModalMode('read');
-    toggle();
-  };
-
   return (
-    <Container>
-      <Title $status={status} onClick={handleClick}>
-        {children}
-      </Title>
-      {status === 'N' || (
-        <ActionButton
-          buttonType="edit"
-          toggle={toggle}
-          setModalMode={setModalMode}
-        />
-      )}
-    </Container>
+    <Title $status={status} onClick={onClick}>
+      {children}
+    </Title>
   );
 }
-
-const Container = styled.li`
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 24px;
-  padding-left: 8px;
-
-  &::before {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    content: '';
-    display: block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: ${({ theme }) => theme.colors.black};
-  }
-`;
 
 const Title = styled.p<{ $status: string }>`
   display: flex;

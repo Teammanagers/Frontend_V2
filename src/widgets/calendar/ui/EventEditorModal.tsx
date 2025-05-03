@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import DeleteIcon from '@/shared/assets/common/delete.svg?react';
 import { Button } from '@/shared/components/button/Button';
 import { IEventEditorModalProps } from '../calendar.types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Event } from '@/entities/calendar/calendar.types';
 import dayjs from 'dayjs';
 import { inputChangeHandler } from '@/shared/lib/utils/inputChangeHandler';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
 import useEventQueries from '@/entities/calendar/model/useEventQueries';
 
 export default function EventEditorModal({
   date,
+  selectedEvent,
   mode = 'register',
   isOpen,
   toggle,
@@ -19,10 +19,11 @@ export default function EventEditorModal({
 }: IEventEditorModalProps) {
   const formattedDate = dayjs(date).format('YYYY-MM-DD');
 
-  const { useCreateEventMutation } = useEventQueries(
+  const { useCreateEventMutation, useDeleteEventMutation } = useEventQueries(
     dayjs(date).format('YYYY-MM'),
   );
   const createEventMutation = useCreateEventMutation();
+  const deleteEventMutation = useDeleteEventMutation();
 
   const [inputValue, setInputValue] = useState<Event>({
     date: formattedDate,
@@ -30,13 +31,37 @@ export default function EventEditorModal({
     content: '',
   });
 
-  const handleAddEvent = () => {
+  // EventSummaryPopover와 selectedEvent 동기화
+  useEffect(() => {
+    if (mode === 'edit' && selectedEvent) {
+      setInputValue({
+        date: formattedDate,
+        title: selectedEvent.planDto.title,
+        content: selectedEvent.planDto.content,
+      });
+    } else if (mode === 'register') {
+      setInputValue({
+        date: formattedDate,
+        title: '',
+        content: '',
+      });
+    }
+  }, [mode, selectedEvent]);
+
+  // 일정 추가, 삭제, 완료 API 호출
+  const handleSubmitEvent = (mode: 'register' | 'delete' | 'done') => {
     if (mode === 'register') {
-      createEventMutation.mutate(inputValue); // 일정 생성 API 호출
-      console.log(createEventMutation.data);
-    } else if (mode === 'edit') {
-      //
-    } else if (mode === 'read') {
+      createEventMutation.mutate(inputValue);
+    } else if (mode === 'delete') {
+      deleteEventMutation.mutate({
+        data: {
+          planId: selectedEvent!.planDto.id,
+          title: selectedEvent!.planDto.title,
+          content: selectedEvent!.planDto.content,
+        },
+        planId: String(selectedEvent?.planDto.id),
+      });
+    } else if (mode === 'done') {
       //
     }
 
@@ -48,6 +73,10 @@ export default function EventEditorModal({
     });
     toggle();
   };
+
+  // 일정 추가하기 버튼 활성화 여부 (일정 제목, 내용이 비어있지 않은 경우)
+  const isValid =
+    inputValue.title.trim() !== '' && inputValue.content.trim() !== '';
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -61,7 +90,7 @@ export default function EventEditorModal({
         <Line />
 
         {/* 일정 제목 */}
-        {mode === 'read' && <Title>오후 8시 회의!</Title>}
+        {mode === 'read' && <Title>{selectedEvent?.planDto.title}</Title>}
         {(mode === 'register' || mode === 'edit') && (
           <TitleInput
             name="title"
@@ -75,7 +104,7 @@ export default function EventEditorModal({
         <Line />
 
         {/* 일정 내용 */}
-        {mode === 'read' && <Content>디코 .....으로 오세요</Content>}
+        {mode === 'read' && <Content>{selectedEvent?.planDto.content}</Content>}
         {(mode === 'register' || mode === 'edit') && (
           <ContentTextarea
             name="content"
@@ -88,7 +117,12 @@ export default function EventEditorModal({
 
         {/* 일정 추가 버튼 */}
         {mode === 'register' && (
-          <Button size="medium" style="main" onClick={handleAddEvent}>
+          <Button
+            size="medium"
+            style="main"
+            onClick={() => handleSubmitEvent('register')}
+            disabled={!isValid}
+          >
             일정 추가하기
           </Button>
         )}
@@ -96,10 +130,19 @@ export default function EventEditorModal({
         <ButtonWrapper>
           {mode === 'edit' && (
             <>
-              <Button size="small" style="red" onClick={toggle}>
+              <Button
+                size="small"
+                style="red"
+                onClick={() => handleSubmitEvent('delete')}
+              >
                 삭제하기
               </Button>
-              <Button size="small" style="main" onClick={toggle}>
+              <Button
+                size="small"
+                style="main"
+                onClick={toggle}
+                disabled={!isValid}
+              >
                 저장하기
               </Button>
             </>
