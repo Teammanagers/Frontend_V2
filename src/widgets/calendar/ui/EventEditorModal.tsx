@@ -3,13 +3,109 @@ import styled from 'styled-components';
 import DeleteIcon from '@/shared/assets/common/delete.svg?react';
 import { Button } from '@/shared/components/button/Button';
 import { IEventEditorModalProps } from '../calendar.types';
+import { useState, useEffect } from 'react';
+import { Event } from '@/entities/calendar/calendar.types';
+import dayjs from 'dayjs';
+import { inputChangeHandler } from '@/shared/lib/utils/inputChangeHandler';
+import useEventQueries from '@/entities/calendar/model/useEventQueries';
 
 export default function EventEditorModal({
+  date,
+  selectedEvent,
   mode = 'register',
   isOpen,
   toggle,
   setModalMode,
 }: IEventEditorModalProps) {
+  const formattedDate = dayjs(date).format('YYYY-MM-DD');
+
+  const {
+    useCreateEventMutation,
+    useEditEventMutation,
+    useCompleteEventMutation,
+    useDeleteEventMutation,
+  } = useEventQueries(dayjs(date).format('YYYY-MM'));
+  const createEventMutation = useCreateEventMutation();
+  const editEventMutation = useEditEventMutation();
+  const completeEventMutation = useCompleteEventMutation();
+  const deleteEventMutation = useDeleteEventMutation();
+
+  const [inputValue, setInputValue] = useState<Event>({
+    date: formattedDate,
+    title: '',
+    content: '',
+  });
+
+  // EventSummaryPopover와 selectedEvent 데이터 동기화
+  useEffect(() => {
+    if (mode === 'edit' && selectedEvent) {
+      setInputValue({
+        date: formattedDate,
+        title: selectedEvent.planDto.title,
+        content: selectedEvent.planDto.content,
+      });
+    } else if (mode === 'register') {
+      setInputValue({
+        date: formattedDate,
+        title: '',
+        content: '',
+      });
+    }
+  }, [mode, selectedEvent]);
+
+  // inputValue 초기화
+  const resetInputValue = () => {
+    setInputValue({
+      date: formattedDate,
+      title: '',
+      content: '',
+    });
+  };
+
+  // 일정 추가, 수정, 삭제, 완료 API 호출
+  const handleSubmitEvent = (
+    mode: 'register' | 'edit' | 'delete' | 'complete',
+  ) => {
+    // 일정 수정 및 삭제 시 요청 데이터 폼
+    const requestData = {
+      planId: selectedEvent!.planDto.id,
+      title: inputValue.title,
+      content: inputValue.content,
+    };
+
+    if (mode === 'register') {
+      // 일정 추가
+      createEventMutation.mutate(inputValue);
+    } else if (mode === 'edit') {
+      // 일정 수정
+      editEventMutation.mutate({
+        data: requestData,
+        planId: String(selectedEvent!.planDto.id),
+      });
+    } else if (mode === 'delete') {
+      // 일정 삭제
+      deleteEventMutation.mutate({
+        data: requestData,
+        planId: String(selectedEvent!.planDto.id),
+      });
+    } else if (mode === 'complete') {
+      // 일정 완료
+      completeEventMutation.mutate(String(selectedEvent!.planDto.id));
+    }
+
+    resetInputValue();
+    toggle();
+  };
+
+  // 모달이 닫힐 때 inputValue 초기화
+  useEffect(() => {
+    if (!isOpen) resetInputValue();
+  }, [isOpen]);
+
+  // 일정 추가하기 버튼 활성화 여부 (일정 제목, 내용이 비어있지 않은 경우)
+  const isValid =
+    inputValue.title.trim() !== '' && inputValue.content.trim() !== '';
+
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalWrapper>
@@ -17,42 +113,70 @@ export default function EventEditorModal({
           <DeleteIcon stroke="#5A5A5A" />
         </DeleteIconWrapper>
         {/* 날짜 */}
-        <Date>2024.07.17</Date>
+        <Date>{formattedDate}</Date>
 
         <Line />
 
         {/* 일정 제목 */}
-        {mode === 'read' && <Title>오후 8시 회의!</Title>}
+        {mode === 'read' && <Title>{selectedEvent?.planDto.title}</Title>}
         {(mode === 'register' || mode === 'edit') && (
-          <TitleInput placeholder="일정 제목" maxLength={30} />
+          <TitleInput
+            name="title"
+            value={inputValue.title}
+            placeholder="일정 제목"
+            maxLength={30}
+            onChange={(e) => inputChangeHandler<Event>({ e, setInputValue })}
+          />
         )}
 
         <Line />
 
         {/* 일정 내용 */}
-        {mode === 'read' && <Content>디코 .....으로 오세요</Content>}
+        {mode === 'read' && <Content>{selectedEvent?.planDto.content}</Content>}
         {(mode === 'register' || mode === 'edit') && (
-          <ContentTextarea placeholder="메모" maxLength={100} />
+          <ContentTextarea
+            name="content"
+            value={inputValue.content}
+            placeholder="메모"
+            maxLength={100}
+            onChange={(e) => inputChangeHandler<Event>({ e, setInputValue })}
+          />
         )}
 
-        {/* 버튼 */}
+        {/* 일정 추가 버튼 */}
         {mode === 'register' && (
-          <Button size="medium" style="main" onClick={toggle}>
+          <Button
+            size="medium"
+            style="main"
+            onClick={() => handleSubmitEvent('register')}
+            disabled={!isValid}
+          >
             일정 추가하기
           </Button>
         )}
+        {/* 일정 수정,삭제 버튼 */}
         <ButtonWrapper>
           {mode === 'edit' && (
             <>
-              <Button size="small" style="red" onClick={toggle}>
+              <Button
+                size="small"
+                style="red"
+                onClick={() => handleSubmitEvent('delete')}
+              >
                 삭제하기
               </Button>
-              <Button size="small" style="main" onClick={toggle}>
+              <Button
+                size="small"
+                style="main"
+                disabled={!isValid}
+                onClick={() => handleSubmitEvent('edit')}
+              >
                 저장하기
               </Button>
             </>
           )}
-          {mode === 'read' && (
+
+          {mode === 'read' && !selectedEvent!.planDto.completed ? (
             <>
               <Button
                 size="small"
@@ -61,11 +185,15 @@ export default function EventEditorModal({
               >
                 수정하기
               </Button>
-              <Button size="small" style="main" onClick={toggle}>
+              <Button
+                size="small"
+                style="main"
+                onClick={() => handleSubmitEvent('complete')}
+              >
                 일정 완료하기
               </Button>
             </>
-          )}
+          ) : null}
         </ButtonWrapper>
       </ModalWrapper>
     </Modal>
@@ -134,6 +262,7 @@ const TitleInput = styled.input`
 `;
 
 const Content = styled.p`
+  flex: 1;
   width: 100%;
   height: 123px;
   padding-top: 10px;

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
@@ -7,19 +7,29 @@ import EventEditorModal from './EventEditorModal';
 import { Dot } from '@/entities/calendar/ui';
 import { EventEditorMode, Value } from '../calendar.types';
 import { determineWeeksInMonth } from '../lib/getWeeksInMonth';
-import mockData from '../mocks/getSimpleCalendarList.json';
 import { EventSummaryPopover } from './EventSummaryPopover';
+import useEventQueries from '@/entities/calendar/model/useEventQueries';
+import { FetchEventResponse } from '@/entities/calendar/calendar.types';
 
 export default function EventCalendar() {
-  const [selectedDate, setSelectedDate] = useState<Value>(null);
+  const [selectedDate, setSelectedDate] = useState<Value>(null); // 선택된 날짜
   const [searchMonth, setSearchMonth] = useState<Value>(null); // 월 변경 시 상태 별도로 관리 -> selectedDate로 함께 관리하면 달 변경 시 팝오버 자동 렌더링 이슈 발생
   const [calendarHeight, setCalendarHeight] = useState<string>('520px');
+  const [selectedEvent, setSelectedEvent] = useState<FetchEventResponse | null>(
+    null,
+  ); // 선택된 이벤트 데이터
 
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false); // 팝오버 ON/OFF 상태
   const { isOpen, toggle } = useToggle(); // 모달 ON/OFF 상태
   const [modalMode, setModalMode] = useState<EventEditorMode>('register'); // 모달 모드 : register, edit, read
 
-  const mockEventList = mockData.result.calendarListOfMonth;
+  const yearMonth = useMemo(() => {
+    return searchMonth instanceof Date
+      ? dayjs(searchMonth).format('YYYY-MM')
+      : dayjs(new Date()).format('YYYY-MM');
+  }, [searchMonth]);
+  const { useEventQuery } = useEventQueries(yearMonth); // 해당 달의 이벤트 데이터 가져오기
+  const { data: eventList, isSuccess } = useEventQuery();
 
   // 날짜 업데이트
   const handleDateChange = (newDate: Value) => {
@@ -53,10 +63,12 @@ export default function EventCalendar() {
 
   const handleTileContent = useCallback(
     ({ date }: { date: Date }) => {
+      if (!isSuccess || !eventList) return null; // 데이터가 없을 때
+
       // 클릭한 날짜 중 이벤트가 있는 날짜 필터링
-      const filteredEventList = mockEventList.filter(
-        (event: any) =>
-          dayjs(event.date).format('YYYY-MM-DD') ===
+      const filteredEventList = eventList.filter(
+        (event: FetchEventResponse) =>
+          dayjs(event.planDto.date).format('YYYY-MM-DD') ===
           dayjs(date).format('YYYY-MM-DD'),
       );
 
@@ -73,6 +85,7 @@ export default function EventCalendar() {
             <EventSummaryPopover
               date={date}
               eventList={filteredEventList}
+              setSelectedEvent={setSelectedEvent}
               isModalOpen={isOpen}
               isPopoverOpen={isPopoverOpen}
               setIsPopoverOpen={setIsPopoverOpen}
@@ -84,7 +97,7 @@ export default function EventCalendar() {
         </>
       );
     },
-    [selectedDate, isPopoverOpen, isOpen],
+    [selectedDate, isPopoverOpen, isOpen, isSuccess, eventList],
   );
 
   return (
@@ -117,12 +130,16 @@ export default function EventCalendar() {
         />
       </StyledCalendarContainer>
 
-      <EventEditorModal
-        mode={modalMode}
-        setModalMode={setModalMode}
-        isOpen={isOpen}
-        toggle={toggle}
-      />
+      {selectedDate instanceof Date && (
+        <EventEditorModal
+          date={selectedDate}
+          selectedEvent={selectedEvent}
+          mode={modalMode}
+          setModalMode={setModalMode}
+          isOpen={isOpen}
+          toggle={toggle}
+        />
+      )}
     </>
   );
 }

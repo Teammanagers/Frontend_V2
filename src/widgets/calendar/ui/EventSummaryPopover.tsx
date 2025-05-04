@@ -5,13 +5,15 @@ import PolygonArrow from '@/shared/assets/calendar/popover-arrow.svg?react';
 import useClickOutside from '@/shared/hooks/action/useClickOutside';
 import EventSummary from '@/entities/calendar/ui/EventSummary';
 import { ActionButton } from '@/entities/calendar/ui';
-import { IEventSummaryPopoverProps } from '../calendar.types';
+import { EventEditorMode, IEventSummaryPopoverProps } from '../calendar.types';
 import { usePopoverAnimation } from '../lib/usePopoverAnimation';
 import { calculatePopoverPosition } from '../lib/calculatePopoverPosition';
+import { FetchEventResponse } from '@/entities/calendar/calendar.types';
 
 function EventSummaryPopover({
   date,
   eventList,
+  setSelectedEvent,
   isPopoverOpen,
   isModalOpen,
   setIsPopoverOpen,
@@ -36,6 +38,27 @@ function EventSummaryPopover({
     calculatePopoverPosition(popover, setAdjustLeftPos);
   }, [isPopoverOpen]);
 
+  // 이벤트 클릭에 따른 모달 Mode 및 이벤트 데이터 설정
+  const handleEventClick = (
+    event?: FetchEventResponse | null,
+    mode?: EventEditorMode | null,
+  ) => {
+    if (event) {
+      setSelectedEvent(event); // 선택된 이벤트 데이터 설정
+
+      // 모달 모드 설정
+      if (mode === 'edit') {
+        setModalMode('edit');
+      } else if (mode === 'read') {
+        setModalMode('read');
+      }
+    } else if (mode === 'register') {
+      setSelectedEvent(null); // 선택된 이벤트 데이터 초기화
+      setModalMode('register');
+    }
+    toggle();
+  };
+
   if (!isPopoverOpen && !isAnimating) return null; // 애니메이션이 완료된 후 컴포넌트 제거
   return (
     <Container
@@ -55,20 +78,27 @@ function EventSummaryPopover({
         <EventList>
           {eventList.length > 0
             ? eventList.map((event) => (
-                <EventSummary
-                  key={event.calendarId}
-                  status={event.status}
-                  toggle={toggle}
-                  setModalMode={setModalMode}
-                >
-                  {event.title}
-                </EventSummary>
+                <EventSummaryWrapper key={event.planDto.id}>
+                  <EventSummary
+                    isCompleted={event.planDto.completed}
+                    onClick={() => handleEventClick(event, 'read')}
+                  >
+                    {event.planDto.title}
+                  </EventSummary>
+                  {event.planDto.completed || (
+                    <ActionButton
+                      buttonType="edit"
+                      onClick={() => handleEventClick(event, 'edit')}
+                    />
+                  )}
+                </EventSummaryWrapper>
               ))
             : null}
+
+          {/* 일정 추가하기 버튼 */}
           <ActionButton
-            buttonType="add"
-            toggle={toggle}
-            setModalMode={setModalMode}
+            buttonType="register"
+            onClick={() => handleEventClick(null, 'register')}
           />
         </EventList>
       </ContentWrapper>
@@ -150,4 +180,26 @@ const EventList = styled.ul`
   flex-direction: column;
   gap: 9px;
   width: 100%;
+`;
+
+const EventSummaryWrapper = styled.li`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 24px;
+  padding-left: 8px;
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: ${({ theme }) => theme.colors.black};
+  }
 `;

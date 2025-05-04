@@ -1,11 +1,16 @@
 import styled from 'styled-components';
+import { Event } from '../calendar.types';
 
-function UpcomingSchedule() {
+interface UpcomingScheduleProps extends React.HTMLAttributes<HTMLLIElement> {
+  event: Event;
+}
+
+function UpcomingSchedule({ event, ...props }: UpcomingScheduleProps) {
   return (
-    <Container>
+    <Container {...props}>
       <InnerWrapper>
-        <Date>2024.07.08</Date>
-        <Content>메인 디자인 완성</Content>
+        <Date>{event.date}</Date>
+        <Content>{event.title}</Content>
       </InnerWrapper>
     </Container>
   );
@@ -13,12 +18,12 @@ function UpcomingSchedule() {
 
 export { UpcomingSchedule };
 
-const Container = styled.div`
+const Container = styled.li`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 66px;
+  min-height: 66px;
   padding: 0 12px;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: 6px;
@@ -28,8 +33,8 @@ const Container = styled.div`
 const InnerWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  width: 494px;
+  gap: 6px;
+  width: inherit;
   height: 45px;
 `;
 

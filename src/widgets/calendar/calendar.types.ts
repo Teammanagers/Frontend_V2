@@ -1,3 +1,4 @@
+import { FetchEventResponse } from '@/entities/calendar/calendar.types';
 import { IModal } from '@/shared/types';
 
 type ValuePiece = Date | null;
@@ -6,6 +7,8 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 type EventEditorMode = 'register' | 'edit' | 'read';
 
 interface IEventEditorModalProps extends Omit<IModal, 'children'> {
+  date: Date;
+  selectedEvent: FetchEventResponse | null;
   mode?: EventEditorMode;
   setModalMode: React.Dispatch<React.SetStateAction<EventEditorMode>>;
 }
@@ -20,7 +23,10 @@ interface IEventList {
 
 interface IEventSummaryPopoverProps {
   date: Date;
-  eventList: IEventList[];
+  eventList: FetchEventResponse[];
+  setSelectedEvent: React.Dispatch<
+    React.SetStateAction<FetchEventResponse | null>
+  >;
   isModalOpen: boolean;
   isPopoverOpen: boolean;
   setIsPopoverOpen: React.Dispatch<React.SetStateAction<boolean>>;

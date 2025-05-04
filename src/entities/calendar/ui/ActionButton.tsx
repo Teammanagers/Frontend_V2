@@ -7,30 +7,14 @@ function ActionButton({
   buttonType = 'edit',
   onClick,
   disabled = false,
-  toggle,
-  setModalMode,
   ...props
 }: IActionButtonProps) {
   const size = buttonSize[buttonType];
 
-  const handleClick = () => {
-    if (buttonType === 'edit') {
-      setModalMode('edit');
-    } else if (buttonType === 'add') {
-      setModalMode('register');
-    }
-    toggle();
-  };
-
   return (
-    <Container
-      $size={size}
-      onClick={handleClick}
-      disabled={disabled}
-      {...props}
-    >
+    <Container $size={size} onClick={onClick} disabled={disabled} {...props}>
       {buttonType === 'edit' ? '수정' : '일정 추가하기'}
-      {buttonType === 'add' && (
+      {buttonType === 'register' && (
         <IconWrapper>
           <PlusIcon width={18} height={18} />
         </IconWrapper>
