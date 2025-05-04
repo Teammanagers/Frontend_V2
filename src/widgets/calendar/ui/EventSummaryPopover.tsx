@@ -80,12 +80,12 @@ function EventSummaryPopover({
             ? eventList.map((event) => (
                 <EventSummaryWrapper key={event.planDto.id}>
                   <EventSummary
-                    status={event.planDto.useYn}
+                    isCompleted={event.planDto.completed}
                     onClick={() => handleEventClick(event, 'read')}
                   >
                     {event.planDto.title}
                   </EventSummary>
-                  {event.planDto.useYn === 'N' || (
+                  {event.planDto.completed || (
                     <ActionButton
                       buttonType="edit"
                       onClick={() => handleEventClick(event, 'edit')}

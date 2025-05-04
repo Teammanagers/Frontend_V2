@@ -19,10 +19,13 @@ export default function EventEditorModal({
 }: IEventEditorModalProps) {
   const formattedDate = dayjs(date).format('YYYY-MM-DD');
 
-  const { useCreateEventMutation, useDeleteEventMutation } = useEventQueries(
-    dayjs(date).format('YYYY-MM'),
-  );
+  const {
+    useCreateEventMutation,
+    useCompleteEventMutation,
+    useDeleteEventMutation,
+  } = useEventQueries(dayjs(date).format('YYYY-MM'));
   const createEventMutation = useCreateEventMutation();
+  const completeEventMutation = useCompleteEventMutation();
   const deleteEventMutation = useDeleteEventMutation();
 
   const [inputValue, setInputValue] = useState<Event>({
@@ -31,7 +34,7 @@ export default function EventEditorModal({
     content: '',
   });
 
-  // EventSummaryPopover와 selectedEvent 동기화
+  // EventSummaryPopover와 selectedEvent 데이터 동기화
   useEffect(() => {
     if (mode === 'edit' && selectedEvent) {
       setInputValue({
@@ -49,7 +52,7 @@ export default function EventEditorModal({
   }, [mode, selectedEvent]);
 
   // 일정 추가, 삭제, 완료 API 호출
-  const handleSubmitEvent = (mode: 'register' | 'delete' | 'done') => {
+  const handleSubmitEvent = (mode: 'register' | 'delete' | 'complete') => {
     if (mode === 'register') {
       createEventMutation.mutate(inputValue);
     } else if (mode === 'delete') {
@@ -61,8 +64,8 @@ export default function EventEditorModal({
         },
         planId: String(selectedEvent?.planDto.id),
       });
-    } else if (mode === 'done') {
-      //
+    } else if (mode === 'complete') {
+      completeEventMutation.mutate(String(selectedEvent!.planDto.id));
     }
 
     // inputValue 초기화
@@ -156,7 +159,11 @@ export default function EventEditorModal({
               >
                 수정하기
               </Button>
-              <Button size="small" style="main" onClick={toggle}>
+              <Button
+                size="small"
+                style="main"
+                onClick={() => handleSubmitEvent('complete')}
+              >
                 일정 완료하기
               </Button>
             </>

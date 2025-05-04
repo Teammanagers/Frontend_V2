@@ -1,4 +1,3 @@
-import { EventEditorMode } from '@/widgets/calendar/calendar.types';
 import { ButtonHTMLAttributes } from 'react';
 
 // 이벤트 타입
@@ -11,6 +10,8 @@ interface Event {
 // 이벤트 조회 타입
 type PlanDTO = Event & {
   id: number;
+  teamId: number;
+  completed: boolean;
   createdAt: string;
   createdBy: number;
   updatedAt: string;
@@ -25,7 +26,7 @@ type FetchEventResponse = {
 
 interface IEventSummaryProps {
   children: React.ReactNode;
-  status: string;
+  isCompleted: boolean;
   onClick?: () => void;
 }
 
