@@ -28,7 +28,7 @@ export default function EventCalendar() {
       ? dayjs(searchMonth).format('YYYY-MM')
       : dayjs(new Date()).format('YYYY-MM');
   }, [searchMonth]);
-  const { useEventQuery } = useEventQueries(yearMonth);
+  const { useEventQuery } = useEventQueries(yearMonth); // 해당 달의 이벤트 데이터 가져오기
   const { data: eventList, isSuccess } = useEventQuery();
 
   // 날짜 업데이트

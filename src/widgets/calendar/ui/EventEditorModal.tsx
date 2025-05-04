@@ -53,51 +53,53 @@ export default function EventEditorModal({
     }
   }, [mode, selectedEvent]);
 
-  // 일정 추가, 수정, 삭제, 완료 API 호출
-  const handleSubmitEvent = (
-    mode: 'register' | 'edit' | 'delete' | 'complete',
-  ) => {
-    if (mode === 'register') {
-      createEventMutation.mutate(inputValue);
-    } else if (mode === 'edit') {
-      editEventMutation.mutate({
-        data: {
-          planId: selectedEvent!.planDto.id,
-          title: inputValue.title,
-          content: inputValue.content,
-        },
-        planId: String(selectedEvent!.planDto.id),
-      });
-    } else if (mode === 'delete') {
-      deleteEventMutation.mutate({
-        data: {
-          planId: selectedEvent!.planDto.id,
-          title: inputValue.title,
-          content: inputValue.content,
-        },
-        planId: String(selectedEvent!.planDto.id),
-      });
-    } else if (mode === 'complete') {
-      completeEventMutation.mutate(String(selectedEvent!.planDto.id));
-    }
-
-    // inputValue 초기화
+  // inputValue 초기화
+  const resetInputValue = () => {
     setInputValue({
       date: formattedDate,
       title: '',
       content: '',
     });
+  };
+
+  // 일정 추가, 수정, 삭제, 완료 API 호출
+  const handleSubmitEvent = (
+    mode: 'register' | 'edit' | 'delete' | 'complete',
+  ) => {
+    // 일정 수정 및 삭제 시 요청 데이터 폼
+    const requestData = {
+      planId: selectedEvent!.planDto.id,
+      title: inputValue.title,
+      content: inputValue.content,
+    };
+
+    if (mode === 'register') {
+      // 일정 추가
+      createEventMutation.mutate(inputValue);
+    } else if (mode === 'edit') {
+      // 일정 수정
+      editEventMutation.mutate({
+        data: requestData,
+        planId: String(selectedEvent!.planDto.id),
+      });
+    } else if (mode === 'delete') {
+      // 일정 삭제
+      deleteEventMutation.mutate({
+        data: requestData,
+        planId: String(selectedEvent!.planDto.id),
+      });
+    } else if (mode === 'complete') {
+      // 일정 완료
+      completeEventMutation.mutate(String(selectedEvent!.planDto.id));
+    }
+
+    resetInputValue();
     toggle();
   };
 
   // 모달이 닫힐 때 inputValue 초기화
   useEffect(() => {
-    if (!isOpen)
-      setInputValue({
-        date: formattedDate,
-        title: '',
-        content: '',
-      });
+    if (!isOpen) resetInputValue();
   }, [isOpen]);
 
   // 일정 추가하기 버튼 활성화 여부 (일정 제목, 내용이 비어있지 않은 경우)
