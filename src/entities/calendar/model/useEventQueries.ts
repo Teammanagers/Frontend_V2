@@ -84,15 +84,9 @@ export default function useEventQueries(yearMonth?: string) {
   // 캘린더 일정 수정
   const useEditEventMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async ({
-        data,
-        planId,
-      }: {
-        data: Omit<Event, 'date'> & { planId: number };
-        planId: string;
-      }) => {
+      mutationFn: async (data: Omit<Event, 'date'> & { planId: number }) => {
         await apiRequest({
-          url: `/api/v2/calendar/${planId}`,
+          url: `/api/v2/calendar/${data.planId}`,
           method: 'PATCH',
           data,
         });
@@ -135,15 +129,9 @@ export default function useEventQueries(yearMonth?: string) {
   // 캘린더 일정 삭제
   const useDeleteEventMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async ({
-        data,
-        planId,
-      }: {
-        data: Omit<Event, 'date'> & { planId: number };
-        planId: string;
-      }) => {
+      mutationFn: async (data: Omit<Event, 'date'> & { planId: number }) => {
         await apiRequest({
-          url: `/api/v2/calendar/${planId}`,
+          url: `/api/v2/calendar/${data.planId}`,
           method: 'DELETE',
           data,
         });

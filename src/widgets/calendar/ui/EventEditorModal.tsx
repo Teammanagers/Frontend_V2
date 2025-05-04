@@ -66,31 +66,27 @@ export default function EventEditorModal({
   const handleSubmitEvent = (
     mode: 'register' | 'edit' | 'delete' | 'complete',
   ) => {
-    // 일정 수정 및 삭제 시 요청 데이터 폼
-    const requestData = {
-      planId: selectedEvent!.planDto.id,
-      title: inputValue.title,
-      content: inputValue.content,
-    };
-
     if (mode === 'register') {
       // 일정 추가
       createEventMutation.mutate(inputValue);
-    } else if (mode === 'edit') {
-      // 일정 수정
-      editEventMutation.mutate({
-        data: requestData,
-        planId: String(selectedEvent!.planDto.id),
-      });
-    } else if (mode === 'delete') {
-      // 일정 삭제
-      deleteEventMutation.mutate({
-        data: requestData,
-        planId: String(selectedEvent!.planDto.id),
-      });
-    } else if (mode === 'complete') {
-      // 일정 완료
-      completeEventMutation.mutate(String(selectedEvent!.planDto.id));
+    } else if (selectedEvent !== null) {
+      // 일정 수정 및 삭제 시 요청 데이터 폼
+      const requestData = {
+        planId: selectedEvent.planDto.id,
+        title: inputValue.title,
+        content: inputValue.content,
+      };
+
+      if (mode === 'edit') {
+        // 일정 수정
+        editEventMutation.mutate(requestData);
+      } else if (mode === 'delete') {
+        // 일정 삭제
+        deleteEventMutation.mutate(requestData);
+      } else if (mode === 'complete') {
+        // 일정 완료
+        completeEventMutation.mutate(String(selectedEvent.planDto.id));
+      }
     }
 
     resetInputValue();
