@@ -1,6 +1,7 @@
 import { TeamCodeCopy } from '@/entities/main/ui';
-import { TodoList, UpcomingScheduleList } from '@/widgets/main';
+import { TodoList } from '@/widgets/main';
 import { NoticeBanner } from '@/widgets/notice/NoticeBanner';
+import { UpcomingEventList } from '@/widgets/upcoming-event';
 import styled from 'styled-components';
 
 export function MainPage() {
@@ -14,7 +15,9 @@ export function MainPage() {
       </MainHeader>
 
       <SectionWrapper>
-        <UpcomingScheduleList />
+        <UpcomingScheduleListWrapper>
+          <UpcomingEventList />
+        </UpcomingScheduleListWrapper>
         <TodoList />
       </SectionWrapper>
     </Container>
@@ -42,4 +45,8 @@ const SectionWrapper = styled.div`
   column-gap: 20px;
   row-gap: 32px;
   width: 1056px;
+`;
+
+const UpcomingScheduleListWrapper = styled.div`
+  width: 518px;
 `;

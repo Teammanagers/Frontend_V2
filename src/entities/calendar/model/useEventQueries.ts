@@ -6,7 +6,32 @@ import { Event, FetchEventResponse } from '../calendar.types';
 import { QueryResponse } from '@/shared/types/api.types';
 import { useEffect } from 'react';
 
-export default function useEventQueries(yearMonth: string) {
+export default function useEventQueries(yearMonth?: string) {
+  // 다가오는 일정 조회
+  const useUpcomingEventQuery = (): QueryResponse & {
+    data: FetchEventResponse[];
+  } => {
+    const { isPending, isError, error, isSuccess, data } = useQuery({
+      queryKey: ['event', yearMonth],
+      queryFn: async () => {
+        return await apiRequest({
+          url: `/api/v2/calendar/upcoming?teamId=${TEAM_ID}`,
+          method: 'GET',
+        });
+      },
+      staleTime: 60 * 1000 * 10, // 10분
+      select: (data) => data.result,
+    });
+
+    useEffect(() => {
+      if (isError) {
+        console.error(`다가오는 일정 조회 실패`, error);
+      }
+    }, [isError, isSuccess, data]);
+
+    return { isPending, isError, isSuccess, data };
+  };
+
   // 캘린더 일정 조회
   const useEventQuery = (): QueryResponse & {
     data: FetchEventResponse[];
@@ -37,7 +62,7 @@ export default function useEventQueries(yearMonth: string) {
   const useCreateEventMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (data: Event) => {
-        return await apiRequest({
+        await apiRequest({
           url: `/api/v2/calendar/${TEAM_ID}`,
           method: 'POST',
           data,
@@ -109,7 +134,7 @@ export default function useEventQueries(yearMonth: string) {
         data: Omit<Event, 'date'> & { planId: number };
         planId: string;
       }) => {
-        return await apiRequest({
+        await apiRequest({
           url: `/api/v2/calendar/${planId}`,
           method: 'DELETE',
           data,
@@ -126,6 +151,7 @@ export default function useEventQueries(yearMonth: string) {
   };
 
   return {
+    useUpcomingEventQuery,
     useEventQuery,
     useCreateEventMutation,
     useEditEventMutation,
