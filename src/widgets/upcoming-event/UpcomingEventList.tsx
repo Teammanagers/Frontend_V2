@@ -1,28 +1,19 @@
-import { useEffect, useState } from 'react';
 import useEventQueries from '@/entities/calendar/model/useEventQueries';
 import { UpcomingSchedule } from '@/entities/calendar/ui';
 import { RoutingButton } from '@/entities/main/ui';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import useDelayPendingState from '@/shared/hooks/useDelayPendingState';
 
 function UpcomingEventList() {
   const location = useLocation();
   const path = location.pathname;
 
-  const [showSkeleton, setShowSkeleton] = useState(false);
-
   const { useUpcomingEventQuery } = useEventQueries();
   const { isPending, isSuccess, data: eventList } = useUpcomingEventQuery();
 
-  useEffect(() => {
-    // 1초 후에 스켈레톤 렌더링
-    const timer = setTimeout(() => {
-      if (isPending) setShowSkeleton(true);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [isPending]);
+  const showSkeleton = useDelayPendingState(1000, isPending); // 1초 후에 스켈레톤 렌더링
 
   return (
     <Container>
