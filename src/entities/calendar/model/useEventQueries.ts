@@ -117,7 +117,6 @@ export default function useEventQueries(yearMonth?: string) {
         await apiRequest({
           url: `/api/v2/calendar/${planId}/complete`,
           method: 'PATCH',
-          data,
         });
       },
       onSuccess: () => {

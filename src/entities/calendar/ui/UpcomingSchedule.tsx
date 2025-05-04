@@ -6,7 +6,6 @@ interface UpcomingScheduleProps extends React.HTMLAttributes<HTMLLIElement> {
 }
 
 function UpcomingSchedule({ event, ...props }: UpcomingScheduleProps) {
-  console.log(event);
   return (
     <Container {...props}>
       <InnerWrapper>

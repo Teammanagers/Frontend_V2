@@ -43,6 +43,10 @@ function UpcomingEventList() {
             />
           ))}
       </SchedulListWrapper>
+
+      {isSuccess && eventList.length === 0 && (
+        <EmptySchedule>아직 생성된 일정이 없습니다.</EmptySchedule>
+      )}
     </Container>
   );
 }
@@ -50,6 +54,7 @@ function UpcomingEventList() {
 export { UpcomingEventList };
 
 const Container = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -70,4 +75,14 @@ const SchedulListWrapper = styled.ul<{ $path: string }>`
   width: 100%;
   height: ${({ $path }) => ($path === '/' ? '222px' : '534px')};
   overflow-y: auto;
+`;
+
+const EmptySchedule = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
 `;
