@@ -12,7 +12,7 @@ export default function useEventQueries(yearMonth?: string) {
     data: FetchEventResponse[];
   } => {
     const { isPending, isError, error, isSuccess, data } = useQuery({
-      queryKey: ['event', yearMonth],
+      queryKey: ['event', 'upcoming'],
       queryFn: async () => {
         return await apiRequest({
           url: `/api/v2/calendar/upcoming?teamId=${TEAM_ID}`,
@@ -72,6 +72,9 @@ export default function useEventQueries(yearMonth?: string) {
         queryClient.refetchQueries({
           queryKey: ['event', yearMonth],
         });
+        queryClient.refetchQueries({
+          queryKey: ['event', 'upcoming'],
+        });
       },
     });
 
@@ -98,6 +101,9 @@ export default function useEventQueries(yearMonth?: string) {
         queryClient.refetchQueries({
           queryKey: ['event', yearMonth],
         });
+        queryClient.refetchQueries({
+          queryKey: ['event', 'upcoming'],
+        });
       },
     });
 
@@ -117,6 +123,9 @@ export default function useEventQueries(yearMonth?: string) {
       onSuccess: () => {
         queryClient.refetchQueries({
           queryKey: ['event', yearMonth],
+        });
+        queryClient.refetchQueries({
+          queryKey: ['event', 'upcoming'],
         });
       },
     });
@@ -143,6 +152,9 @@ export default function useEventQueries(yearMonth?: string) {
       onSuccess: () => {
         queryClient.refetchQueries({
           queryKey: ['event', yearMonth],
+        });
+        queryClient.refetchQueries({
+          queryKey: ['event', 'upcoming'],
         });
       },
     });

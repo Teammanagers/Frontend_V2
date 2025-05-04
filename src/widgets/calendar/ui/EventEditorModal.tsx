@@ -90,6 +90,16 @@ export default function EventEditorModal({
     toggle();
   };
 
+  // 모달이 닫힐 때 inputValue 초기화
+  useEffect(() => {
+    if (!isOpen)
+      setInputValue({
+        date: formattedDate,
+        title: '',
+        content: '',
+      });
+  }, [isOpen]);
+
   // 일정 추가하기 버튼 활성화 여부 (일정 제목, 내용이 비어있지 않은 경우)
   const isValid =
     inputValue.title.trim() !== '' && inputValue.content.trim() !== '';
