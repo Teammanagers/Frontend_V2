@@ -53,6 +53,32 @@ export default function useEventQueries(yearMonth: string) {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
+  // 캘린더 일정 수정
+  const useEditEventMutation = () => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async ({
+        data,
+        planId,
+      }: {
+        data: Omit<Event, 'date'> & { planId: number };
+        planId: string;
+      }) => {
+        await apiRequest({
+          url: `/api/v2/calendar/${planId}`,
+          method: 'PATCH',
+          data,
+        });
+      },
+      onSuccess: () => {
+        queryClient.refetchQueries({
+          queryKey: ['event', yearMonth],
+        });
+      },
+    });
+
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
   // 캘린더 일정 완료
   const useCompleteEventMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
@@ -101,8 +127,9 @@ export default function useEventQueries(yearMonth: string) {
 
   return {
     useEventQuery,
-    useCompleteEventMutation,
     useCreateEventMutation,
+    useEditEventMutation,
+    useCompleteEventMutation,
     useDeleteEventMutation,
   };
 }

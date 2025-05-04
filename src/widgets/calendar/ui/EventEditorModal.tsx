@@ -21,10 +21,12 @@ export default function EventEditorModal({
 
   const {
     useCreateEventMutation,
+    useEditEventMutation,
     useCompleteEventMutation,
     useDeleteEventMutation,
   } = useEventQueries(dayjs(date).format('YYYY-MM'));
   const createEventMutation = useCreateEventMutation();
+  const editEventMutation = useEditEventMutation();
   const completeEventMutation = useCompleteEventMutation();
   const deleteEventMutation = useDeleteEventMutation();
 
@@ -51,18 +53,29 @@ export default function EventEditorModal({
     }
   }, [mode, selectedEvent]);
 
-  // 일정 추가, 삭제, 완료 API 호출
-  const handleSubmitEvent = (mode: 'register' | 'delete' | 'complete') => {
+  // 일정 추가, 수정, 삭제, 완료 API 호출
+  const handleSubmitEvent = (
+    mode: 'register' | 'edit' | 'delete' | 'complete',
+  ) => {
     if (mode === 'register') {
       createEventMutation.mutate(inputValue);
+    } else if (mode === 'edit') {
+      editEventMutation.mutate({
+        data: {
+          planId: selectedEvent!.planDto.id,
+          title: inputValue.title,
+          content: inputValue.content,
+        },
+        planId: String(selectedEvent!.planDto.id),
+      });
     } else if (mode === 'delete') {
       deleteEventMutation.mutate({
         data: {
           planId: selectedEvent!.planDto.id,
-          title: selectedEvent!.planDto.title,
-          content: selectedEvent!.planDto.content,
+          title: inputValue.title,
+          content: inputValue.content,
         },
-        planId: String(selectedEvent?.planDto.id),
+        planId: String(selectedEvent!.planDto.id),
       });
     } else if (mode === 'complete') {
       completeEventMutation.mutate(String(selectedEvent!.planDto.id));
@@ -143,14 +156,15 @@ export default function EventEditorModal({
               <Button
                 size="small"
                 style="main"
-                onClick={toggle}
                 disabled={!isValid}
+                onClick={() => handleSubmitEvent('edit')}
               >
                 저장하기
               </Button>
             </>
           )}
-          {mode === 'read' && (
+
+          {mode === 'read' && !selectedEvent!.planDto.completed ? (
             <>
               <Button
                 size="small"
@@ -167,7 +181,7 @@ export default function EventEditorModal({
                 일정 완료하기
               </Button>
             </>
-          )}
+          ) : null}
         </ButtonWrapper>
       </ModalWrapper>
     </Modal>
@@ -236,6 +250,7 @@ const TitleInput = styled.input`
 `;
 
 const Content = styled.p`
+  flex: 1;
   width: 100%;
   height: 123px;
   padding-top: 10px;
