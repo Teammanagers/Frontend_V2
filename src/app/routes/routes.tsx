@@ -6,7 +6,7 @@ import JoinPage from '@/pages/JoinPage/join-page';
 import { LoginPage } from '@/pages/LoginPage';
 import { MainPage } from '@/pages/MainPage';
 import MakeTeamPage from '@/pages/MakeTeamPage/make-team';
-import { ManagementPage } from '@/pages/Management Page';
+import { ManagementPage } from '@/pages/ManagementPage';
 import { ExtraMemoPage, MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
 import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
@@ -47,7 +47,7 @@ export default function AppRoutes() {
         <Route path="/memo/*" element={<ExtraMemoPage />} />
         {/* Share Page */}
         <Route path="/share" element={<SharePage />} />
-        {/* Management Page */}
+        {/* ManagementPage */}
         <Route path="/management" element={<ManagementPage />} />
         {/* My Page */}
         <Route path="/mypage" element={<MyPage />} />
