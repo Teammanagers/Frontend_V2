@@ -1,0 +1,135 @@
+import { InputHTMLAttributes, ReactNode } from 'react';
+import styled from 'styled-components';
+
+type InputSize = 'large' | 'small' | 'mini';
+
+interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  title: string;
+  subTitle?: string;
+  placeholder?: string;
+  children?: ReactNode;
+  showHelperMessage?: boolean;
+  helperMessage?: string;
+  helperMessageColor?: string;
+  textColor?: string;
+  width?: string;
+  height?: string;
+  inputSize?: InputSize;
+}
+
+export default function Input({
+  title,
+  subTitle,
+  placeholder,
+  children,
+  showHelperMessage = false,
+  helperMessage,
+  helperMessageColor = 'rgba(29,29,29,1)',
+  textColor = 'rgba(29, 29, 29, 1)',
+  inputSize = 'large',
+  ...restProps
+}: IInputProps) {
+  return (
+    <InputWrapper $size={inputSize}>
+      <Title>
+        <MainTitle>{title}</MainTitle>
+        {subTitle && <SubTitle>{subTitle}</SubTitle>}
+      </Title>
+
+      <InputContainer>
+        {children ? (
+          // children가 있으면 children를 렌더링
+          children
+        ) : (
+          // children가 없으면 기본 input 요소 렌더링
+          <DefaultInput
+            placeholder={placeholder}
+            $textColor={textColor}
+            {...restProps}
+          />
+        )}
+      </InputContainer>
+
+      {showHelperMessage && (
+        <HelperText $textColor={helperMessageColor}>{helperMessage}</HelperText>
+      )}
+    </InputWrapper>
+  );
+}
+
+const InputWrapper = styled.div<{ $size: InputSize }>`
+  width: ${(props) => {
+    switch (props.$size) {
+      case 'large':
+        return '664px';
+      case 'small':
+        return '472px';
+      case 'mini':
+        return '458px';
+      default:
+        return '664px';
+    }
+  }};
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+`;
+
+const MainTitle = styled.span`
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+  color: #333;
+`;
+
+const SubTitle = styled.span`
+  font-size: 10px;
+  line-height: 150%;
+  font-weight: 400;
+  color: rgba(29, 29, 29, 1);
+`;
+
+const InputContainer = styled.div<{ $size?: InputSize }>`
+  width: 100%;
+  height: ${(props) => (props.$size === 'mini' ? '48px' : 'auto')};
+  border: 1px solid
+    ${(props) =>
+      props.$size === 'mini'
+        ? 'rgba(240, 240, 240, 1)'
+        : 'rgba(204, 204, 204, 1)'};
+  border-radius: 6px;
+  overflow: hidden;
+`;
+
+// 기본 input 요소 (child가 없을 때, 컨테이너가 Input인 것처럼 보이게)
+const DefaultInput = styled.input<{ $textColor: string }>`
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 150%;
+  padding: 12px 18px 12px 18px;
+  background-color: white;
+  color: ${(props) => props.$textColor};
+
+  &::placeholder {
+    padding: 12px 0 12px 0;
+    color: rgba(90, 90, 90, 1);
+  }
+`;
+
+const HelperText = styled.span<{ $textColor: string }>`
+  position: absolute;
+  bottom: -24px;
+  margin-top: 8px;
+  font-size: 14px;
+  color: ${(props) => props.$textColor};
+`;

@@ -1,3 +1,5 @@
+import LoginWrapper from '@/widgets/login/LoginWrapper';
+
 export function LoginPage() {
-  return <div>Login</div>;
+  return <LoginWrapper></LoginWrapper>;
 }

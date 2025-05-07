@@ -31,9 +31,9 @@ interface ITodoStatus extends ButtonHTMLAttributes<HTMLButtonElement> {
   status?: Status;
 }
 
-interface IImageUplaodModalProps {
-  isOpen: boolean;
-  toggle: () => void;
+interface IProgressStatusBadge {
+  title: string;
+  count: number;
 }
 
 export type {
@@ -42,5 +42,5 @@ export type {
   ButtonType,
   ITeamTodoList,
   ITodoStatus,
-  IImageUplaodModalProps,
+  IProgressStatusBadge,
 };

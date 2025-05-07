@@ -1,0 +1,283 @@
+import Modal from '@/shared/components/modal/Modal';
+import styled from 'styled-components';
+import DeleteIcon from '@/shared/assets/common/delete.svg?react';
+import { Button } from '@/shared/components/button/Button';
+import { IEventEditorModalProps } from '../calendar.types';
+import { useState, useEffect } from 'react';
+import { Event } from '@/entities/calendar/calendar.types';
+import dayjs from 'dayjs';
+import { inputChangeHandler } from '@/shared/lib/utils/inputChangeHandler';
+import useEventQueries from '@/entities/calendar/model/useEventQueries';
+
+export default function EventEditorModal({
+  date,
+  selectedEvent,
+  mode = 'register',
+  isOpen,
+  toggle,
+  setModalMode,
+}: IEventEditorModalProps) {
+  const formattedDate = dayjs(date).format('YYYY-MM-DD');
+
+  const {
+    useCreateEventMutation,
+    useEditEventMutation,
+    useDeleteEventMutation,
+  } = useEventQueries(dayjs(date).format('YYYY-MM'));
+  const createEventMutation = useCreateEventMutation();
+  const editEventMutation = useEditEventMutation();
+  const deleteEventMutation = useDeleteEventMutation();
+
+  const [inputValue, setInputValue] = useState<Event>({
+    date: formattedDate,
+    title: '',
+    content: '',
+  });
+
+  // EventSummaryPopover와 selectedEvent 데이터 동기화
+  useEffect(() => {
+    if (mode === 'edit' && selectedEvent) {
+      setInputValue({
+        date: formattedDate,
+        title: selectedEvent.planDto.title,
+        content: selectedEvent.planDto.content,
+      });
+    } else if (mode === 'register') {
+      setInputValue({
+        date: formattedDate,
+        title: '',
+        content: '',
+      });
+    }
+  }, [mode, selectedEvent]);
+
+  // inputValue 초기화
+  const resetInputValue = () => {
+    setInputValue({
+      date: formattedDate,
+      title: '',
+      content: '',
+    });
+  };
+
+  // 일정 추가, 수정, 삭제, 완료 API 호출
+  const handleSubmitEvent = (
+    mode: 'register' | 'edit' | 'delete' | 'complete',
+  ) => {
+    if (mode === 'register') {
+      // 일정 추가
+      createEventMutation.mutate(inputValue);
+    } else if (selectedEvent !== null) {
+      // 일정 수정 및 삭제 시 요청 데이터 폼
+      const requestData = {
+        planId: selectedEvent.planDto.id,
+        title: inputValue.title,
+        content: inputValue.content,
+      };
+
+      if (mode === 'edit') {
+        // 일정 수정
+        editEventMutation.mutate(requestData);
+      } else if (mode === 'delete') {
+        // 일정 삭제
+        deleteEventMutation.mutate(requestData);
+      }
+    }
+
+    resetInputValue();
+    toggle();
+  };
+
+  // 모달이 닫힐 때 inputValue 초기화
+  useEffect(() => {
+    if (!isOpen) resetInputValue();
+  }, [isOpen]);
+
+  // 일정 추가하기 버튼 활성화 여부 (일정 제목, 내용이 비어있지 않은 경우)
+  const isValid =
+    inputValue.title.trim() !== '' && inputValue.content.trim() !== '';
+
+  return (
+    <Modal isOpen={isOpen} toggle={toggle}>
+      <ModalWrapper>
+        <DeleteIconWrapper onClick={toggle}>
+          <DeleteIcon stroke="#5A5A5A" />
+        </DeleteIconWrapper>
+        {/* 날짜 */}
+        <Date>{formattedDate}</Date>
+
+        <Line />
+
+        {/* 일정 제목 */}
+        {mode === 'read' && <Title>{selectedEvent?.planDto.title}</Title>}
+        {(mode === 'register' || mode === 'edit') && (
+          <TitleInput
+            name="title"
+            value={inputValue.title}
+            placeholder="일정 제목"
+            maxLength={30}
+            onChange={(e) => inputChangeHandler<Event>({ e, setInputValue })}
+          />
+        )}
+
+        <Line />
+
+        {/* 일정 내용 */}
+        {mode === 'read' && <Content>{selectedEvent?.planDto.content}</Content>}
+        {(mode === 'register' || mode === 'edit') && (
+          <ContentTextarea
+            name="content"
+            value={inputValue.content}
+            placeholder="메모"
+            maxLength={100}
+            onChange={(e) => inputChangeHandler<Event>({ e, setInputValue })}
+          />
+        )}
+
+        {/* 일정 추가 버튼 */}
+        {mode === 'register' && (
+          <Button
+            size="medium"
+            style="main"
+            onClick={() => handleSubmitEvent('register')}
+            disabled={!isValid}
+          >
+            일정 추가하기
+          </Button>
+        )}
+        {/* 일정 수정,삭제 버튼 */}
+        <ButtonWrapper>
+          {mode === 'edit' && (
+            <>
+              <Button
+                size="small"
+                style="red"
+                onClick={() => handleSubmitEvent('delete')}
+              >
+                삭제하기
+              </Button>
+              <Button
+                size="small"
+                style="main"
+                disabled={!isValid}
+                onClick={() => handleSubmitEvent('edit')}
+              >
+                저장하기
+              </Button>
+            </>
+          )}
+
+          {mode === 'read' && (
+            <EditButton onClick={() => setModalMode('edit')}>
+              수정하기
+            </EditButton>
+          )}
+        </ButtonWrapper>
+      </ModalWrapper>
+    </Modal>
+  );
+}
+
+const ModalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 350px;
+  height: 280px;
+  padding: 14px;
+  border-radius: 6px;
+  background-color: ${({ theme }) => theme.colors.white};
+`;
+
+const DeleteIconWrapper = styled.button`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  margin-bottom: 2px;
+  cursor: pointer;
+`;
+
+const Line = styled.span`
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors.lightGray};
+`;
+
+const Date = styled.span`
+  width: 100%;
+  height: 15px;
+  font-size: 10px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.darkGray};
+`;
+
+const Title = styled.h3`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+  font-size: 12px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
+`;
+
+const TitleInput = styled.input`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+  font-size: 12px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.gray};
+  }
+`;
+
+const Content = styled.p`
+  flex: 1;
+  width: 100%;
+  height: 123px;
+  padding-top: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.black};
+`;
+
+const ContentTextarea = styled.textarea`
+  width: 100%;
+  height: 123px;
+  padding-top: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.black};
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.gray};
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+  width: 100%;
+`;
+
+const EditButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: inherit;
+  height: 36px;
+  border: 1px solid ${({ theme }) => theme.colors.mainBlue};
+  border-radius: 4px;
+  color: ${({ theme }) => theme.colors.mainBlue};
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+`;

@@ -114,6 +114,7 @@ const ButtonContainer = styled.button<{
       disabled
         ? buttonStyles.disabled.backgroundColor
         : $styles.hoverBackgroundColor};
+    transition: background-color 0.3s;
   }
   padding: 0;
 `;

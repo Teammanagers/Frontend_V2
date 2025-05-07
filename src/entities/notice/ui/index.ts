@@ -1,4 +1,3 @@
-export * from './NoticeBanner';
+export * from './NoticeList';
 export * from './NoticeItem';
-export * from './TeamCodeCopy';
-export * from './NoticeInput';
+export * from './NoticeInputForm';

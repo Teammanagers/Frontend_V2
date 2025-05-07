@@ -1,0 +1,51 @@
+import styled from 'styled-components';
+import { Event } from '../calendar.types';
+
+interface UpcomingScheduleProps extends React.HTMLAttributes<HTMLLIElement> {
+  event: Event;
+}
+
+function UpcomingSchedule({ event, ...props }: UpcomingScheduleProps) {
+  return (
+    <Container {...props}>
+      <InnerWrapper>
+        <Date>{event.date}</Date>
+        <Content>{event.title}</Content>
+      </InnerWrapper>
+    </Container>
+  );
+}
+
+export { UpcomingSchedule };
+
+const Container = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 66px;
+  padding: 0 12px;
+  border: 1px solid ${({ theme }) => theme.colors.lightGray};
+  border-radius: 6px;
+  background-color: ${({ theme }) => theme.colors.white};
+`;
+
+const InnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: inherit;
+  height: 45px;
+`;
+
+const Date = styled.span`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.darkGray};
+`;
+
+const Content = styled.p`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
+`;

@@ -1,5 +1,5 @@
-import { statusLabel } from '@/entities/todo/constants/status-label';
-import { ProgressBar, StatusBadge } from '@/entities/todo/ui';
+import { statusLabel } from '@/entities/todo/constants/todo';
+import { ProgressBar, ProgressStatusBadge } from '@/entities/todo/ui';
 import styled from 'styled-components';
 
 // 팀원 투두 진행 상황을 알수 있는 컴포넌트 위젯
@@ -9,10 +9,10 @@ export default function TeamProgres() {
     <Container>
       <StatusLabelWrapper>
         {statusLabel.map((status) => (
-          <StatusBadge status={status} key={`${status}`} />
+          <ProgressStatusBadge status={status} key={`${status}`} />
         ))}
       </StatusLabelWrapper>
-      <ProgressBar status={statusLabel} />
+      <ProgressBar />
     </Container>
   );
 }

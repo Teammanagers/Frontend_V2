@@ -1,6 +1,7 @@
-interface IHandleInputChangeProps {
-  e: React.ChangeEvent<HTMLTextAreaElement>;
-  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+interface IHandleInputChangeProps<T> {
+  e:
+    | React.ChangeEvent<HTMLInputElement>
+    | React.ChangeEvent<HTMLTextAreaElement>;
+  setInputValue: React.Dispatch<React.SetStateAction<T>>;
 }
-
 export type { IHandleInputChangeProps };
