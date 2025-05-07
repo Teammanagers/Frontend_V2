@@ -43,24 +43,26 @@ const usePopoverViewModel = () => {
     calculatePopoverPosition(popover, setAdjustLeftPos);
   }, [isPopoverOpen]);
 
-  // 이벤트 클릭에 따른 모달 Mode 및 이벤트 데이터 설정
+  // 선택된 이벤트 데이터 및 모달 모드 관리
   const handleModalState = (
     event?: FetchEventResponse | null,
     mode?: EventEditorMode | null,
   ) => {
-    if (event) {
-      setSelectedEvent(event); // 선택된 이벤트 데이터 설정 -> 모달에 넘겨주기 위한 데이터
+    // 강제 초기화하여 상태 변경 인식시키기
+    // -> 같은 이벤트 연속 클릭 시 [selecetedEvent 동기화 useEffect 의존성 배열]이 동일한 상태를 참조하여 상태 변화 무시하는 것 방지
+    setSelectedEvent(null);
 
-      // 모달 모드 설정
-      if (mode === 'edit') {
-        setModalMode('edit');
-      } else if (mode === 'read') {
-        setModalMode('read');
-      }
+    if (event) {
+      setModalMode(mode ?? 'read');
+
+      // 현재 실행 컨텍스트의 동기 작업이 모두 종료된 후 렌더 사이클이 다시 시작되는 시점에 비동기로 실행 -> selectedEvent 상태 업데이트
+      setTimeout(() => {
+        setSelectedEvent(event);
+      }, 0);
     } else if (mode === 'register') {
-      setSelectedEvent(null); // 선택된 이벤트 데이터 초기화
       setModalMode('register');
     }
+
     toggleModal();
   };
 

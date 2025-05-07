@@ -32,7 +32,7 @@ export default function EventCalendar({
           formatMonthYear={(_locale: string | undefined, date: Date) =>
             dayjs(date).format('YYYY. MM')
           }
-          // 일정 있는 날짜에 점 UI 추가 및 팝업 마운트
+          // 팝오버 렌더링 및 일정 있는 날짜에 점 UI 추가
           tileContent={handleTileContent}
           // 달 넘어갈 때 콜백함수 실행 -> 자동 선택된 값(1일)으로 캘린더 height 변화
           onActiveStartDateChange={({ activeStartDate }) =>

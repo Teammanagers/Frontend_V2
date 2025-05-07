@@ -36,6 +36,8 @@ function EventSummaryPopover({ date, eventList }: IEventSummaryPopoverProps) {
                   <EventSummary onClick={() => handleModalState(event, 'read')}>
                     {event.planDto.title}
                   </EventSummary>
+
+                  {/* 일정 수정 버튼 */}
                   <ActionButton
                     buttonType="edit"
                     onClick={() => handleModalState(event, 'edit')}

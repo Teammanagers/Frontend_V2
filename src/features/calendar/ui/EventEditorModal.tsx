@@ -2,28 +2,13 @@ import Modal from '@/shared/components/modal/Modal';
 import styled from 'styled-components';
 import DeleteIcon from '@/shared/assets/common/delete.svg?react';
 import { Button } from '@/shared/components/button/Button';
-import { useState, useEffect } from 'react';
 import { CalendarEvent } from '@/entities/calendar/calendar.types';
 import dayjs from 'dayjs';
 import { inputChangeHandler } from '@/shared/lib/utils/inputChangeHandler';
 import useEventQueries from '@/features/calendar/model/useEventQueries';
-import { useCalendarStore } from '@/features/calendar/model';
-import { useShallow } from 'zustand/shallow';
+import { useEditorModalViewModel } from '@/features/calendar/model';
 
-export default function EventEditorModal({ date }: { date: Date }) {
-  const { selectedEvent, isModalOpen, toggleModal, modalMode, setModalMode } =
-    useCalendarStore(
-      useShallow((state) => ({
-        selectedEvent: state.selectedEvent,
-        isModalOpen: state.isModalOpen,
-        toggleModal: state.toggleModal,
-        modalMode: state.modalMode,
-        setModalMode: state.setModalMode,
-      })),
-    );
-
-  const formattedDate = dayjs(date).format('YYYY-MM-DD');
-
+function EventEditorModal({ date }: { date: Date }) {
   const {
     useCreateEventMutation,
     useEditEventMutation,
@@ -33,74 +18,18 @@ export default function EventEditorModal({ date }: { date: Date }) {
   const editEventMutation = useEditEventMutation();
   const deleteEventMutation = useDeleteEventMutation();
 
-  const [inputValue, setInputValue] = useState<CalendarEvent>({
-    date: formattedDate,
-    title: '',
-    content: '',
-  });
-
-  // EventSummaryPopover와 selectedEvent 데이터 동기화
-  useEffect(() => {
-    if (modalMode === 'edit' && selectedEvent) {
-      setInputValue({
-        date: formattedDate,
-        title: selectedEvent.planDto.title,
-        content: selectedEvent.planDto.content,
-      });
-    } else if (modalMode === 'register') {
-      setInputValue({
-        date: formattedDate,
-        title: '',
-        content: '',
-      });
-    }
-  }, [modalMode, selectedEvent]);
-
-  // inputValue 초기화
-  const resetInputValue = () => {
-    setInputValue({
-      date: formattedDate,
-      title: '',
-      content: '',
-    });
-  };
-
-  // 일정 추가, 수정, 삭제, 완료 API 호출
-  const handleSubmitEvent = (
-    mode: 'register' | 'edit' | 'delete' | 'complete',
-  ) => {
-    if (mode === 'register') {
-      // 일정 추가
-      createEventMutation.mutate(inputValue);
-    } else if (selectedEvent !== null) {
-      // 일정 수정 및 삭제 시 요청 데이터 폼
-      const requestData = {
-        planId: selectedEvent.planDto.id,
-        title: inputValue.title,
-        content: inputValue.content,
-      };
-
-      if (mode === 'edit') {
-        // 일정 수정
-        editEventMutation.mutate(requestData);
-      } else if (mode === 'delete') {
-        // 일정 삭제
-        deleteEventMutation.mutate(requestData);
-      }
-    }
-
-    resetInputValue();
-    toggleModal();
-  };
-
-  // 모달이 닫힐 때 inputValue 초기화
-  useEffect(() => {
-    if (!isModalOpen) resetInputValue();
-  }, [isModalOpen]);
-
-  // 일정 추가하기 버튼 활성화 여부 (일정 제목, 내용이 비어있지 않은 경우)
-  const isValid =
-    inputValue.title.trim() !== '' && inputValue.content.trim() !== '';
+  const {
+    selectedEvent,
+    formattedDate,
+    isModalOpen,
+    toggleModal,
+    modalMode,
+    setModalMode,
+    inputValue,
+    setInputValue,
+    handleSubmitEvent,
+    isValid,
+  } = useEditorModalViewModel(date);
 
   return (
     <Modal isOpen={isModalOpen} toggle={toggleModal}>
@@ -108,6 +37,7 @@ export default function EventEditorModal({ date }: { date: Date }) {
         <DeleteIconWrapper onClick={toggleModal}>
           <DeleteIcon stroke="#5A5A5A" />
         </DeleteIconWrapper>
+
         {/* 날짜 */}
         <Date>{formattedDate}</Date>
 
@@ -150,20 +80,41 @@ export default function EventEditorModal({ date }: { date: Date }) {
           <Button
             size="medium"
             style="main"
-            onClick={() => handleSubmitEvent('register')}
+            onClick={() =>
+              handleSubmitEvent(
+                'register',
+                {
+                  createEvent: createEventMutation.mutate,
+                  editEvent: editEventMutation.mutate,
+                  deleteEvent: deleteEventMutation.mutate,
+                },
+                inputValue,
+              )
+            }
             disabled={!isValid}
           >
             일정 추가하기
           </Button>
         )}
-        {/* 일정 수정,삭제 버튼 */}
+
+        {/* 일정 수정, 삭제 버튼 */}
         <ButtonWrapper>
           {modalMode === 'edit' && (
             <>
               <Button
                 size="small"
                 style="red"
-                onClick={() => handleSubmitEvent('delete')}
+                onClick={() =>
+                  handleSubmitEvent(
+                    'delete',
+                    {
+                      createEvent: createEventMutation.mutate,
+                      editEvent: editEventMutation.mutate,
+                      deleteEvent: deleteEventMutation.mutate,
+                    },
+                    inputValue,
+                  )
+                }
               >
                 삭제하기
               </Button>
@@ -171,7 +122,17 @@ export default function EventEditorModal({ date }: { date: Date }) {
                 size="small"
                 style="main"
                 disabled={!isValid}
-                onClick={() => handleSubmitEvent('edit')}
+                onClick={() =>
+                  handleSubmitEvent(
+                    'edit',
+                    {
+                      createEvent: createEventMutation.mutate,
+                      editEvent: editEventMutation.mutate,
+                      deleteEvent: deleteEventMutation.mutate,
+                    },
+                    inputValue,
+                  )
+                }
               >
                 저장하기
               </Button>
@@ -188,6 +149,8 @@ export default function EventEditorModal({ date }: { date: Date }) {
     </Modal>
   );
 }
+
+export { EventEditorModal };
 
 const ModalWrapper = styled.div`
   display: flex;

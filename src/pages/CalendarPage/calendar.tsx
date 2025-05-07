@@ -4,9 +4,9 @@ import {
   useCalendarStore,
   useCalendarViewModel,
 } from '@/features/calendar/model';
+import { EventEditorModal } from '@/features/calendar/ui';
 import useEventQueries from '@/features/calendar/model/useEventQueries';
 import EventCalendar from '@/widgets/calendar/ui/EventCalendar';
-import EventEditorModal from '@/widgets/calendar/ui/EventEditorModal';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
 
 export function CalendarPage() {
