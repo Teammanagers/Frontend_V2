@@ -26,7 +26,6 @@ type FetchEventResponse = {
 
 interface IEventSummaryProps {
   children: React.ReactNode;
-  isCompleted: boolean;
   onClick?: () => void;
 }
 

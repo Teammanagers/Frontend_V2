@@ -22,12 +22,10 @@ export default function EventEditorModal({
   const {
     useCreateEventMutation,
     useEditEventMutation,
-    useCompleteEventMutation,
     useDeleteEventMutation,
   } = useEventQueries(dayjs(date).format('YYYY-MM'));
   const createEventMutation = useCreateEventMutation();
   const editEventMutation = useEditEventMutation();
-  const completeEventMutation = useCompleteEventMutation();
   const deleteEventMutation = useDeleteEventMutation();
 
   const [inputValue, setInputValue] = useState<Event>({
@@ -83,9 +81,6 @@ export default function EventEditorModal({
       } else if (mode === 'delete') {
         // 일정 삭제
         deleteEventMutation.mutate(requestData);
-      } else if (mode === 'complete') {
-        // 일정 완료
-        completeEventMutation.mutate(String(selectedEvent.planDto.id));
       }
     }
 
@@ -172,24 +167,11 @@ export default function EventEditorModal({
             </>
           )}
 
-          {mode === 'read' && !selectedEvent!.planDto.completed ? (
-            <>
-              <Button
-                size="small"
-                style="sub"
-                onClick={() => setModalMode('edit')}
-              >
-                수정하기
-              </Button>
-              <Button
-                size="small"
-                style="main"
-                onClick={() => handleSubmitEvent('complete')}
-              >
-                일정 완료하기
-              </Button>
-            </>
-          ) : null}
+          {mode === 'read' && (
+            <EditButton onClick={() => setModalMode('edit')}>
+              수정하기
+            </EditButton>
+          )}
         </ButtonWrapper>
       </ModalWrapper>
     </Modal>
@@ -283,4 +265,19 @@ const ContentTextarea = styled.textarea`
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 4px;
+  width: 100%;
+`;
+
+const EditButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: inherit;
+  height: 36px;
+  border: 1px solid ${({ theme }) => theme.colors.mainBlue};
+  border-radius: 4px;
+  color: ${({ theme }) => theme.colors.mainBlue};
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
 `;
