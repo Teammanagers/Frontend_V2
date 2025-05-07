@@ -1,9 +1,9 @@
-import { getCalendarHeight } from '../lib';
 import { useEffect, useMemo, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { Value } from '@/widgets/calendar/calendar.types';
 import dayjs from 'dayjs';
 import { useCalendarStore } from './calendarStore';
+import { getCalendarHeight } from '@/widgets/calendar/lib/getCalendarHeight';
 
 const useCalendarViewModel = () => {
   const { setSelectedDate } = useCalendarStore(

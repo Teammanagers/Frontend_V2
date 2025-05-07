@@ -1,74 +1,17 @@
-import { useLayoutEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import dayjs from 'dayjs';
 import PolygonArrow from '@/shared/assets/calendar/popover-arrow.svg?react';
-import useClickOutside from '@/shared/hooks/action/useClickOutside';
 import EventSummary from '@/entities/calendar/ui/EventSummary';
 import { ActionButton } from '@/entities/calendar/ui';
-import { EventEditorMode, IEventSummaryPopoverProps } from '../calendar.types';
-import { usePopoverAnimation } from '../lib/usePopoverAnimation';
-import { calculatePopoverPosition } from '../lib/calculatePopoverPosition';
-import { FetchEventResponse } from '@/entities/calendar/calendar.types';
-import { useShallow } from 'zustand/shallow';
-import { useCalendarStore } from '@/features/calendar/model';
+import { IEventSummaryPopoverProps } from '@/widgets/calendar/calendar.types';
+import { usePopoverViewModel } from '@/features/calendar/model';
 
 function EventSummaryPopover({ date, eventList }: IEventSummaryPopoverProps) {
   const {
-    setSelectedEvent,
-    setModalMode,
-    isModalOpen,
-    toggleModal,
-    isPopoverOpen,
-    setIsPopoverOpen,
-  } = useCalendarStore(
-    useShallow((state) => ({
-      setSelectedEvent: state.setSelectedEvent,
-      setModalMode: state.setModalMode,
-      isModalOpen: state.isModalOpen,
-      toggleModal: state.toggleModal,
-      isPopoverOpen: state.isPopoverOpen,
-      setIsPopoverOpen: state.setIsPopoverOpen,
-    })),
-  );
-
-  const parentRef = useRef<HTMLDivElement>(null);
-  const childRef = useRef<HTMLDivElement>(null);
-
-  const [adjustLeftPos, setAdjustLeftPos] = useState<string>('0%'); // Popover 위치 조정
-  const [isAnimating, setIsAnimating] = useState<boolean>(false); // Popover ON/OFF 애니메이션
-
-  useClickOutside(parentRef, setIsPopoverOpen, isModalOpen); // popover 외부 클릭 시 닫힘 (모달이 열려 있는 경우 무시)
-  usePopoverAnimation(isPopoverOpen, setIsAnimating); // 팝오버 애니메이션 관리
-
-  // Popover가 캘린더 영역 넘어가지 않도록 배치
-  useLayoutEffect(() => {
-    if (!isPopoverOpen || !childRef.current) return; // popover가 닫혀 있거나 childRef가 없을 때
-
-    const popover = childRef.current;
-
-    calculatePopoverPosition(popover, setAdjustLeftPos);
-  }, [isPopoverOpen]);
-
-  // 이벤트 클릭에 따른 모달 Mode 및 이벤트 데이터 설정
-  const handleEventClick = (
-    event?: FetchEventResponse | null,
-    mode?: EventEditorMode | null,
-  ) => {
-    if (event) {
-      setSelectedEvent(event); // 선택된 이벤트 데이터 설정
-
-      // 모달 모드 설정
-      if (mode === 'edit') {
-        setModalMode('edit');
-      } else if (mode === 'read') {
-        setModalMode('read');
-      }
-    } else if (mode === 'register') {
-      setSelectedEvent(null); // 선택된 이벤트 데이터 초기화
-      setModalMode('register');
-    }
-    toggleModal();
-  };
+    refs: { parentRef, childRef },
+    popover: { isPopoverOpen, isAnimating, adjustLeftPos },
+    modal: { handleModalState },
+  } = usePopoverViewModel();
 
   if (!isPopoverOpen && !isAnimating) return null; // 애니메이션이 완료된 후 컴포넌트 제거
   return (
@@ -90,12 +33,12 @@ function EventSummaryPopover({ date, eventList }: IEventSummaryPopoverProps) {
           {eventList.length > 0
             ? eventList.map((event) => (
                 <EventSummaryWrapper key={event.planDto.id}>
-                  <EventSummary onClick={() => handleEventClick(event, 'read')}>
+                  <EventSummary onClick={() => handleModalState(event, 'read')}>
                     {event.planDto.title}
                   </EventSummary>
                   <ActionButton
                     buttonType="edit"
-                    onClick={() => handleEventClick(event, 'edit')}
+                    onClick={() => handleModalState(event, 'edit')}
                   />
                 </EventSummaryWrapper>
               ))
@@ -104,7 +47,7 @@ function EventSummaryPopover({ date, eventList }: IEventSummaryPopoverProps) {
           {/* 일정 추가하기 버튼 */}
           <ActionButton
             buttonType="register"
-            onClick={() => handleEventClick(null, 'register')}
+            onClick={() => handleModalState(null, 'register')}
           />
         </EventList>
       </ContentWrapper>

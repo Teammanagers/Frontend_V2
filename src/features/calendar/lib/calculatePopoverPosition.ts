@@ -1,4 +1,4 @@
-import { POPOVER_OFFSET } from '../config/calendar.constants';
+import { POPOVER_OFFSET } from '../../../widgets/calendar/config/calendar.constants';
 
 function calculatePopoverPosition(
   popover: HTMLDivElement,

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export const usePopoverAnimation = (
+const usePopoverAnimation = (
   isPopoverOpen: boolean,
   setIsAnimating: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
@@ -15,3 +15,5 @@ export const usePopoverAnimation = (
     }
   }, [isPopoverOpen, setIsAnimating]);
 };
+
+export { usePopoverAnimation };

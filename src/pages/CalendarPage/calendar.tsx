@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import { usePopoverRender } from '@/features/calendar/lib';
 import {
   useCalendarStore,
@@ -7,7 +8,6 @@ import useEventQueries from '@/features/calendar/model/useEventQueries';
 import EventCalendar from '@/widgets/calendar/ui/EventCalendar';
 import EventEditorModal from '@/widgets/calendar/ui/EventEditorModal';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
-import styled from 'styled-components';
 
 export function CalendarPage() {
   const selectedDate = useCalendarStore((state) => state.selectedDate);

@@ -2,7 +2,7 @@ import {
   CALENDAR_HEIGHT_DEFAULT,
   CALENDAR_HEIGHT_EXTENDED,
   CALENDAR_MAX_WEEKS,
-} from '../calendar.constants';
+} from '../../../features/calendar/calendar.constants';
 import { Value } from '@/widgets/calendar/calendar.types';
 
 // 한 달에 몇 주가 있는지 구하는 함수

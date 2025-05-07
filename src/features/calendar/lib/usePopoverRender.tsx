@@ -2,7 +2,7 @@ import { useShallow } from 'zustand/shallow';
 import { useCallback, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { FetchEventResponse } from '@/entities/calendar/calendar.types';
-import { EventSummaryPopover } from '@/widgets/calendar/ui/EventSummaryPopover';
+import { EventSummaryPopover } from '@/features/calendar/ui/EventSummaryPopover';
 import { Dot } from '@/entities/calendar/ui';
 import { useCalendarStore } from '../model';
 
@@ -11,6 +11,7 @@ interface UsePopoverRenderProps {
   isSuccess: boolean | undefined;
 }
 
+// 이벤트 데이터를 받아와서 팝오버를 렌더링하는 훅
 const usePopoverRender = ({ eventList, isSuccess }: UsePopoverRenderProps) => {
   const { selectedDate, isPopoverOpen, setIsPopoverOpen } = useCalendarStore(
     useShallow((state) => ({
