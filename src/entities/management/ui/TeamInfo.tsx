@@ -199,7 +199,7 @@ const TitleContainer = styled.div`
   gap: 2px;
 `;
 
-const InfoTitle = styled.p`
+export const InfoTitle = styled.p`
   font-size: 16px;
   font-weight: 700;
 `;
@@ -248,7 +248,9 @@ const BottomContainer = styled.div`
 
 const TagContainer = styled.div`
   display: flex;
+  align-items: center;
   gap: 12px;
+  height: 52px;
 `;
 
 const TagBox = styled.div`
