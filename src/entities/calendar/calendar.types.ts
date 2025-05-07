@@ -1,14 +1,14 @@
 import { ButtonHTMLAttributes } from 'react';
 
 // 이벤트 타입
-interface Event {
+interface CalendarEvent {
   date: string;
   title: string;
   content: string;
 }
 
 // 이벤트 조회 타입
-type PlanDTO = Event & {
+type PlanDTO = CalendarEvent & {
   id: number;
   teamId: number;
   completed: boolean;
@@ -38,7 +38,7 @@ interface IActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export type {
-  Event,
+  CalendarEvent,
   FetchEventResponse,
   IEventSummaryProps,
   ActionButtonType,

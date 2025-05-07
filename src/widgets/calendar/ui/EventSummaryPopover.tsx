@@ -9,17 +9,28 @@ import { EventEditorMode, IEventSummaryPopoverProps } from '../calendar.types';
 import { usePopoverAnimation } from '../lib/usePopoverAnimation';
 import { calculatePopoverPosition } from '../lib/calculatePopoverPosition';
 import { FetchEventResponse } from '@/entities/calendar/calendar.types';
+import { useShallow } from 'zustand/shallow';
+import { useCalendarStore } from '@/features/calendar/model';
 
-function EventSummaryPopover({
-  date,
-  eventList,
-  setSelectedEvent,
-  isPopoverOpen,
-  isModalOpen,
-  setIsPopoverOpen,
-  toggle,
-  setModalMode,
-}: IEventSummaryPopoverProps) {
+function EventSummaryPopover({ date, eventList }: IEventSummaryPopoverProps) {
+  const {
+    setSelectedEvent,
+    setModalMode,
+    isModalOpen,
+    toggleModal,
+    isPopoverOpen,
+    setIsPopoverOpen,
+  } = useCalendarStore(
+    useShallow((state) => ({
+      setSelectedEvent: state.setSelectedEvent,
+      setModalMode: state.setModalMode,
+      isModalOpen: state.isModalOpen,
+      toggleModal: state.toggleModal,
+      isPopoverOpen: state.isPopoverOpen,
+      setIsPopoverOpen: state.setIsPopoverOpen,
+    })),
+  );
+
   const parentRef = useRef<HTMLDivElement>(null);
   const childRef = useRef<HTMLDivElement>(null);
 
@@ -56,7 +67,7 @@ function EventSummaryPopover({
       setSelectedEvent(null); // 선택된 이벤트 데이터 초기화
       setModalMode('register');
     }
-    toggle();
+    toggleModal();
   };
 
   if (!isPopoverOpen && !isAnimating) return null; // 애니메이션이 완료된 후 컴포넌트 제거
