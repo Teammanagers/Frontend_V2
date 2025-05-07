@@ -79,18 +79,13 @@ function EventSummaryPopover({
           {eventList.length > 0
             ? eventList.map((event) => (
                 <EventSummaryWrapper key={event.planDto.id}>
-                  <EventSummary
-                    isCompleted={event.planDto.completed}
-                    onClick={() => handleEventClick(event, 'read')}
-                  >
+                  <EventSummary onClick={() => handleEventClick(event, 'read')}>
                     {event.planDto.title}
                   </EventSummary>
-                  {event.planDto.completed || (
-                    <ActionButton
-                      buttonType="edit"
-                      onClick={() => handleEventClick(event, 'edit')}
-                    />
-                  )}
+                  <ActionButton
+                    buttonType="edit"
+                    onClick={() => handleEventClick(event, 'edit')}
+                  />
                 </EventSummaryWrapper>
               ))
             : null}
