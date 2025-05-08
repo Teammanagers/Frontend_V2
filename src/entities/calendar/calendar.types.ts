@@ -1,14 +1,16 @@
-import { ButtonHTMLAttributes } from 'react';
+// 이벤트 Date 타입
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 // 이벤트 타입
-interface Event {
+interface CalendarEvent {
   date: string;
   title: string;
   content: string;
 }
 
 // 이벤트 조회 타입
-type PlanDTO = Event & {
+type PlanDTO = CalendarEvent & {
   id: number;
   teamId: number;
   completed: boolean;
@@ -24,23 +26,4 @@ type FetchEventResponse = {
   planDto: PlanDTO;
 };
 
-interface IEventSummaryProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-}
-
-type ActionButtonType = 'edit' | 'register';
-
-interface IActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  buttonType?: ActionButtonType;
-  onClick?: () => void;
-  disabled?: boolean;
-}
-
-export type {
-  Event,
-  FetchEventResponse,
-  IEventSummaryProps,
-  ActionButtonType,
-  IActionButtonProps,
-};
+export type { Value, CalendarEvent, FetchEventResponse };

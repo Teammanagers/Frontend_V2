@@ -20,7 +20,9 @@ import { useEffect } from 'react';
 
 const useClickOutside = (
   ref: React.RefObject<HTMLDivElement>,
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsOpen:
+    | React.Dispatch<React.SetStateAction<boolean>>
+    | ((isOpen: boolean) => void),
   isIgnoreActive?: boolean,
 ) => {
   useEffect(() => {

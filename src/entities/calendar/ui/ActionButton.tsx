@@ -1,7 +1,14 @@
 import styled from 'styled-components';
-import { IActionButtonProps } from '../calendar.types';
-import { buttonSize } from '../config/calendar.constants';
+import { buttonSize } from '../calendar.constants';
 import PlusIcon from '@/shared/assets/common/plus.svg?react';
+import { ButtonHTMLAttributes } from 'react';
+
+type ActionButtonType = 'edit' | 'register';
+interface IActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  buttonType?: ActionButtonType;
+  onClick?: () => void;
+  disabled?: boolean;
+}
 
 function ActionButton({
   buttonType = 'edit',

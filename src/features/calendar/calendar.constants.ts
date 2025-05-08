@@ -1,0 +1,12 @@
+// 보정값을 상수로 분리
+const POPOVER_OFFSET = 66.5;
+const POPOVER_SHIFT_LEFT = '-25%';
+const POPOVER_SHIFT_RIGHT = '25%';
+const POPOVER_CENTERED = '0%';
+
+export {
+  POPOVER_OFFSET,
+  POPOVER_SHIFT_LEFT,
+  POPOVER_SHIFT_RIGHT,
+  POPOVER_CENTERED,
+};

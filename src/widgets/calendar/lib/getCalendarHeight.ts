@@ -1,4 +1,9 @@
-import { Value } from '../calendar.types';
+import {
+  CALENDAR_HEIGHT_DEFAULT,
+  CALENDAR_HEIGHT_EXTENDED,
+  CALENDAR_MAX_WEEKS,
+} from '@/widgets/calendar/calendar.constants';
+import { Value } from '@/entities/calendar/calendar.types';
 
 // 한 달에 몇 주가 있는지 구하는 함수
 const getWeeksInMonth = (date: Date) => {
@@ -32,4 +37,13 @@ const determineWeeksInMonth = (value: Value) => {
   }
 };
 
-export { determineWeeksInMonth };
+// 매월 몇 주인지 구하기 -> 5,6주일 때 height 변화
+const getCalendarHeight = (searchMonth: Value | null) => {
+  const week = determineWeeksInMonth(searchMonth);
+
+  return week >= CALENDAR_MAX_WEEKS
+    ? CALENDAR_HEIGHT_EXTENDED
+    : CALENDAR_HEIGHT_DEFAULT;
+};
+
+export { determineWeeksInMonth, getCalendarHeight };

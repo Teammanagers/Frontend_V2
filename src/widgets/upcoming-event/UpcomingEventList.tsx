@@ -1,10 +1,10 @@
-import useEventQueries from '@/entities/calendar/model/useEventQueries';
 import { UpcomingSchedule } from '@/entities/calendar/ui';
 import { RoutingButton } from '@/entities/main/ui';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import useDelayPendingState from '@/shared/hooks/useDelayPendingState';
+import useEventQueries from '@/features/calendar/model/useEventQueries';
 
 function UpcomingEventList() {
   const location = useLocation();

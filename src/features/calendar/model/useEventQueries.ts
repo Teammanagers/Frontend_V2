@@ -2,9 +2,12 @@ import apiRequest from '@/shared/api/apiRequest';
 import { TEAM_ID } from '@/shared/config/constants/team.constants';
 import { queryClient } from '@/shared/config/queryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Event, FetchEventResponse } from '../calendar.types';
 import { QueryResponse } from '@/shared/types/api.types';
 import { useEffect } from 'react';
+import {
+  CalendarEvent,
+  FetchEventResponse,
+} from '@/entities/calendar/calendar.types';
 
 export default function useEventQueries(yearMonth?: string) {
   // 다가오는 일정 조회
@@ -61,7 +64,7 @@ export default function useEventQueries(yearMonth?: string) {
   // 캘린더 일정 생성
   const useCreateEventMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: Event) => {
+      mutationFn: async (data: CalendarEvent) => {
         await apiRequest({
           url: `/api/v2/calendar/${TEAM_ID}`,
           method: 'POST',
@@ -84,7 +87,9 @@ export default function useEventQueries(yearMonth?: string) {
   // 캘린더 일정 수정
   const useEditEventMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: Omit<Event, 'date'> & { planId: number }) => {
+      mutationFn: async (
+        data: Omit<CalendarEvent, 'date'> & { planId: number },
+      ) => {
         await apiRequest({
           url: `/api/v2/calendar/${data.planId}`,
           method: 'PATCH',
@@ -107,7 +112,9 @@ export default function useEventQueries(yearMonth?: string) {
   // 캘린더 일정 삭제
   const useDeleteEventMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: Omit<Event, 'date'> & { planId: number }) => {
+      mutationFn: async (
+        data: Omit<CalendarEvent, 'date'> & { planId: number },
+      ) => {
         await apiRequest({
           url: `/api/v2/calendar/${data.planId}`,
           method: 'DELETE',

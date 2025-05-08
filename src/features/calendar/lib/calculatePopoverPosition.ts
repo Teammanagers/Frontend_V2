@@ -1,4 +1,9 @@
-import { POPOVER_OFFSET } from '../config/calendar.constants';
+import {
+  POPOVER_CENTERED,
+  POPOVER_OFFSET,
+  POPOVER_SHIFT_LEFT,
+  POPOVER_SHIFT_RIGHT,
+} from '../calendar.constants';
 
 function calculatePopoverPosition(
   popover: HTMLDivElement,
@@ -14,11 +19,11 @@ function calculatePopoverPosition(
     const overflowLeft = rect.left - POPOVER_OFFSET <= calendarRect.left; // popover가 달력의 왼쪽을 넘어갈 때
 
     if (overflowRight) {
-      setAdjustLeft('-25%');
+      setAdjustLeft(POPOVER_SHIFT_LEFT);
     } else if (overflowLeft) {
-      setAdjustLeft('25%');
+      setAdjustLeft(POPOVER_SHIFT_RIGHT);
     } else {
-      setAdjustLeft('0%');
+      setAdjustLeft(POPOVER_CENTERED);
     }
   }
 }

@@ -1,104 +1,21 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
-import useToggle from '@/shared/hooks/action/useToggle';
-import EventEditorModal from './EventEditorModal';
-import { Dot } from '@/entities/calendar/ui';
-import { EventEditorMode, Value } from '../calendar.types';
-import { determineWeeksInMonth } from '../lib/getWeeksInMonth';
-import { EventSummaryPopover } from './EventSummaryPopover';
-import useEventQueries from '@/entities/calendar/model/useEventQueries';
-import { FetchEventResponse } from '@/entities/calendar/calendar.types';
+import { useCalendarViewModel } from '../model/useCalendarViewModel';
 
-export default function EventCalendar() {
-  const [selectedDate, setSelectedDate] = useState<Value>(null); // 선택된 날짜
-  const [searchMonth, setSearchMonth] = useState<Value>(null); // 월 변경 시 상태 별도로 관리 -> selectedDate로 함께 관리하면 달 변경 시 팝오버 자동 렌더링 이슈 발생
-  const [calendarHeight, setCalendarHeight] = useState<string>('520px');
-  const [selectedEvent, setSelectedEvent] = useState<FetchEventResponse | null>(
-    null,
-  ); // 선택된 이벤트 데이터
+interface IEventCalendarProps {
+  handleTileContent: (props: {
+    date: Date;
+    view: string;
+  }) => JSX.Element | null;
+}
 
-  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false); // 팝오버 ON/OFF 상태
-  const { isOpen, toggle } = useToggle(); // 모달 ON/OFF 상태
-  const [modalMode, setModalMode] = useState<EventEditorMode>('register'); // 모달 모드 : register, edit, read
-
-  const yearMonth = useMemo(() => {
-    return searchMonth instanceof Date
-      ? dayjs(searchMonth).format('YYYY-MM')
-      : dayjs(new Date()).format('YYYY-MM');
-  }, [searchMonth]);
-  const { useEventQuery } = useEventQueries(yearMonth); // 해당 달의 이벤트 데이터 가져오기
-  const { data: eventList, isSuccess } = useEventQuery();
-
-  // 날짜 업데이트
-  const handleDateChange = (newDate: Value) => {
-    setSelectedDate(newDate);
-  };
-
-  // 달 변경 시 날짜 업데이트
-  const updateMonth = (activeStartDate: Date | null) => {
-    setSearchMonth(activeStartDate);
-    setSelectedDate(null); // 선택된 날짜 초기화
-  };
-
-  // 매월 몇 주인지 구하기 -> 5,6주일 때 height 변화
-  useEffect(() => {
-    const week = determineWeeksInMonth(searchMonth);
-
-    if (week >= 6) {
-      setCalendarHeight('595px');
-    } else {
-      setCalendarHeight('520px');
-    }
-  }, [
-    // 월이 바뀔 때만 감지
-    searchMonth instanceof Date && searchMonth.getMonth(),
-  ]);
-
-  // 날짜 선택 시 팝오버 열기
-  useEffect(() => {
-    setIsPopoverOpen(true);
-  }, [selectedDate]);
-
-  const handleTileContent = useCallback(
-    ({ date }: { date: Date }) => {
-      if (!isSuccess || !eventList) return null; // 데이터가 없을 때
-
-      // 클릭한 날짜 중 이벤트가 있는 날짜 필터링
-      const filteredEventList = eventList.filter(
-        (event: FetchEventResponse) =>
-          dayjs(event.planDto.date).format('YYYY-MM-DD') ===
-          dayjs(date).format('YYYY-MM-DD'),
-      );
-
-      // 선택된 날짜와 같은 날짜인지 확인
-      const isSelected =
-        selectedDate instanceof Date &&
-        selectedDate.getFullYear() === date.getFullYear() &&
-        selectedDate.getMonth() === date.getMonth() &&
-        selectedDate.getDate() === date.getDate();
-
-      return (
-        <>
-          {isSelected && (
-            <EventSummaryPopover
-              date={date}
-              eventList={filteredEventList}
-              setSelectedEvent={setSelectedEvent}
-              isModalOpen={isOpen}
-              isPopoverOpen={isPopoverOpen}
-              setIsPopoverOpen={setIsPopoverOpen}
-              toggle={toggle}
-              setModalMode={setModalMode}
-            />
-          )}
-          {filteredEventList.length > 0 && <Dot isSelected={isSelected} />}
-        </>
-      );
-    },
-    [selectedDate, isPopoverOpen, isOpen, isSuccess, eventList],
-  );
+export default function EventCalendar({
+  handleTileContent,
+}: IEventCalendarProps) {
+  // 캘린더 UI 및 날짜 관련 로직
+  const { calendarHeight, handleDateChange, updateMonth } =
+    useCalendarViewModel();
 
   return (
     <>
@@ -115,7 +32,7 @@ export default function EventCalendar() {
           formatMonthYear={(_locale: string | undefined, date: Date) =>
             dayjs(date).format('YYYY. MM')
           }
-          // 일정 있는 날짜에 점 UI 추가 및 팝업 마운트
+          // 팝오버 렌더링 및 일정 있는 날짜에 점 UI 추가
           tileContent={handleTileContent}
           // 달 넘어갈 때 콜백함수 실행 -> 자동 선택된 값(1일)으로 캘린더 height 변화
           onActiveStartDateChange={({ activeStartDate }) =>
@@ -129,17 +46,6 @@ export default function EventCalendar() {
           minDetail="year" // 10년단위 년도 숨기기
         />
       </StyledCalendarContainer>
-
-      {selectedDate instanceof Date && (
-        <EventEditorModal
-          date={selectedDate}
-          selectedEvent={selectedEvent}
-          mode={modalMode}
-          setModalMode={setModalMode}
-          isOpen={isOpen}
-          toggle={toggle}
-        />
-      )}
     </>
   );
 }
