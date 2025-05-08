@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Event } from '../calendar.types';
+import { CalendarEvent } from '../calendar.types';
 
 interface UpcomingScheduleProps extends React.HTMLAttributes<HTMLLIElement> {
-  event: Event;
+  event: CalendarEvent;
 }
 
 function UpcomingSchedule({ event, ...props }: UpcomingScheduleProps) {
