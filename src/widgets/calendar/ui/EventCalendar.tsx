@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
-import { useCalendarViewModel } from '@/features/calendar/model';
+import { useCalendarViewModel } from '../model/useCalendarViewModel';
 
 interface IEventCalendarProps {
   handleTileContent: (props: {

@@ -1,18 +1,16 @@
 import styled from 'styled-components';
 import { usePopoverRender } from '@/features/calendar/lib';
-import {
-  useCalendarStore,
-  useCalendarViewModel,
-} from '@/features/calendar/model';
+import { useCalendarStore } from '@/features/calendar/model';
 import { EventEditorModal } from '@/features/calendar/ui';
 import useEventQueries from '@/features/calendar/model/useEventQueries';
 import EventCalendar from '@/widgets/calendar/ui/EventCalendar';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
+import { useCalendarViewModel } from '@/widgets/calendar/model/useCalendarViewModel';
 
 export function CalendarPage() {
   const selectedDate = useCalendarStore((state) => state.selectedDate);
 
-  // 달 변경에 따른 API 요청 시 사용할 [연도-월] 쿼리 포맷
+  // 달 변경에 따른 이벤트 데이터 패칭 시 사용할 [연도-월] 쿼리 포맷
   const { yearMonth } = useCalendarViewModel();
 
   // 해당 달의 이벤트 데이터 가져오기

@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { IEventSummaryProps } from '../calendar.types';
+
+interface IEventSummaryProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+}
 
 export default function EventSummary({
   children,

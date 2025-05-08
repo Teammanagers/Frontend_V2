@@ -1,6 +1,6 @@
-import { FetchEventResponse } from '@/entities/calendar/calendar.types';
-import { EventEditorMode, Value } from '@/widgets/calendar/calendar.types';
+import { FetchEventResponse, Value } from '@/entities/calendar/calendar.types';
 import { create } from 'zustand';
+import { EventEditorMode } from '../calendar.types';
 
 interface CalendarStore {
   // 날짜 및 이벤트 선택

@@ -4,7 +4,7 @@ import { calculatePopoverPosition, usePopoverAnimation } from '../lib';
 import { useCalendarStore } from './calendarStore';
 import { useShallow } from 'zustand/shallow';
 import { FetchEventResponse } from '@/entities/calendar/calendar.types';
-import { EventEditorMode } from '@/widgets/calendar/calendar.types';
+import { EventEditorMode } from '../calendar.types';
 
 const usePopoverViewModel = () => {
   const {

@@ -3,8 +3,13 @@ import dayjs from 'dayjs';
 import PolygonArrow from '@/shared/assets/calendar/popover-arrow.svg?react';
 import EventSummary from '@/entities/calendar/ui/EventSummary';
 import { ActionButton } from '@/entities/calendar/ui';
-import { IEventSummaryPopoverProps } from '@/widgets/calendar/calendar.types';
 import { usePopoverViewModel } from '@/features/calendar/model';
+import { FetchEventResponse } from '@/entities/calendar/calendar.types';
+
+interface IEventSummaryPopoverProps {
+  date: Date;
+  eventList: FetchEventResponse[];
+}
 
 function EventSummaryPopover({ date, eventList }: IEventSummaryPopoverProps) {
   const {
@@ -14,6 +19,7 @@ function EventSummaryPopover({ date, eventList }: IEventSummaryPopoverProps) {
   } = usePopoverViewModel();
 
   if (!isPopoverOpen && !isAnimating) return null; // 애니메이션이 완료된 후 컴포넌트 제거
+
   return (
     <Container
       ref={parentRef}
