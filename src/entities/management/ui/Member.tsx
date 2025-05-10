@@ -42,7 +42,7 @@ const TagContainer = styled.div`
   gap: 8px;
 `;
 
-const TagBox = styled.div`
+export const TagBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,7 +52,7 @@ const TagBox = styled.div`
   background: white;
 `;
 
-const TagText = styled.span`
+export const TagText = styled.span`
   font-size: 12px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.mainBlue};
