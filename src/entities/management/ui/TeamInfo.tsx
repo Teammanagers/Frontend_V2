@@ -130,7 +130,7 @@ export const TeamInfo = ({ title, teamCode }: TeamInfoProps) => {
               <TagText>기획자</TagText>
             </TagBox>
             <AddBtn>
-              <Plus stroke="#5C9EFF" />
+              <Plus stroke="#5C9EFF" strokeWidth={2} />
             </AddBtn>
           </TagContainer>
         </BottomContainer>
@@ -251,6 +251,7 @@ const TagContainer = styled.div`
   align-items: center;
   gap: 12px;
   height: 52px;
+  background: forestgreen;
 `;
 
 const TagBox = styled.div`
@@ -258,7 +259,6 @@ const TagBox = styled.div`
   justify-content: center;
   align-items: center;
   padding: 8px 12px 8px 12px;
-  height: 36px;
   border-radius: 5px;
   background: white;
 `;
