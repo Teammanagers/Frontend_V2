@@ -20,3 +20,14 @@ export interface TeamInfoProps extends TeamData {
 export interface ShowScheduleProps {
   schedule: ScheduleDto;
 }
+
+export interface TimeSlot {
+  start: string; // "HH:mm"
+  end: string; // "HH:mm"
+}
+
+export interface TimeSelectorProps {
+  day: string;
+  times: TimeSlot[];
+  onChange: (day: string, times: TimeSlot[]) => void;
+}
