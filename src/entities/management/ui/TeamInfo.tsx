@@ -251,7 +251,6 @@ const TagContainer = styled.div`
   align-items: center;
   gap: 12px;
   height: 52px;
-  background: forestgreen;
 `;
 
 const TagBox = styled.div`

@@ -27,11 +27,12 @@ export const ShowSchedule = ({ schedule }: ShowScheduleProps) => {
 
 const ScheduleContainer = styled.div`
   width: 100%;
-  height: 259px;
+  height: 281px;
   display: flex;
   flex-direction: column;
-  margin-top: 23px;
-  gap: 7px;
+  justify-content: center;
+  gap: 8px;
+  background: white;
 `;
 
 const DayContainer = styled.div`
@@ -40,6 +41,7 @@ const DayContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-left: 20px;
 `;
 
 const DayText = styled.p`
