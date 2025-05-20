@@ -136,13 +136,15 @@ const EventList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 9px;
-  width: 100%;
+  width: 280px;
 `;
 
 const EventSummaryWrapper = styled.li`
   position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  min-width: 0;
   width: 100%;
   height: 24px;
   padding-left: 8px;

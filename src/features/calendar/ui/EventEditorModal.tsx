@@ -221,6 +221,7 @@ const Content = styled.p`
   font-size: 12px;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.black};
+  white-space: pre-wrap; /* 개행, 공백 유지 */
 `;
 
 const ContentTextarea = styled.textarea`
