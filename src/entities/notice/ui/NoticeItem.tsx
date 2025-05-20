@@ -28,20 +28,20 @@ const Container = styled.li<{ $outDated: boolean }>`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  min-height: 58px;
-  padding: 0 12px;
+  height: fit-content;
+  padding: 8px 12px;
   border: 1px solid ${({ theme }) => theme.colors.subLightBlue};
   border-radius: 6px;
   background-color: ${({ $outDated, theme }) =>
     $outDated ? theme.colors.lightGray : theme.colors.white};
 
   ${Content} {
-    height: 21px;
     font-size: 14px;
     font-weight: 700;
     color: ${({ $outDated, theme }) =>
       $outDated ? theme.colors.gray : theme.colors.black};
     margin-bottom: 6px;
+    white-space: pre-wrap; /* 개행, 공백 유지 */
   }
 
   ${Date} {

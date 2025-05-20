@@ -30,6 +30,7 @@ function NoticeInputForm({ toggle }: { toggle: () => void }) {
         value={inputValue}
         placeholder="공지 내용을 입력해주세요"
         name="notice"
+        maxLength={50}
         onChange={handleChange}
         onKeyDown={(e) => useBulletPointConverter({ e, setInputValue })}
       />

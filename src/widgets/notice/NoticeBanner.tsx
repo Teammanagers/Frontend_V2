@@ -67,9 +67,12 @@ const IconWrapper = styled.div`
 `;
 
 const LatestNotice = styled.p`
-  width: 678px;
+  max-width: 640px;
   height: 24px;
   font-size: 16px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.black};
+  white-space: nowrap; /* 한 줄로만 표시 */
+  overflow: hidden; /* 넘치는 부분 숨김 */
+  text-overflow: ellipsis; /* 넘치는 부분에 ... 표시 */
 `;
