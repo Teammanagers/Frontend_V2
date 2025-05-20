@@ -19,7 +19,7 @@ function RoutingButton({ children, url }: IRoutingButtonProps) {
       </ContentWrapper>
       {/* arrow 아이콘 크기 동적으로 수정할 수 있도록 */}
       <ArrowIconWrapper>
-        <ArrowIcon width="36" height="36" strokeWidth="3" />
+        <ArrowIcon width="36" height="36" stroke="#1d1d1d" strokeWidth="3" />
       </ArrowIconWrapper>
     </StyledLink>
   );

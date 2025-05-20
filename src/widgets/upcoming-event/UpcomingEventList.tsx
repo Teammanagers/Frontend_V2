@@ -3,7 +3,6 @@ import { RoutingButton } from '@/entities/main/ui';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import useDelayPendingState from '@/shared/hooks/useDelayPendingState';
 import useEventQueries from '@/features/calendar/model/useEventQueries';
 
 function UpcomingEventList() {
@@ -12,8 +11,6 @@ function UpcomingEventList() {
 
   const { useUpcomingEventQuery } = useEventQueries();
   const { isPending, isSuccess, data: eventList } = useUpcomingEventQuery();
-
-  const showSkeleton = useDelayPendingState(1000, isPending); // 1초 후에 스켈레톤 렌더링
 
   return (
     <Container>
@@ -25,7 +22,7 @@ function UpcomingEventList() {
         <UpcomingScheduleTitle>다가오는 일정</UpcomingScheduleTitle>
       )}
 
-      {showSkeleton &&
+      {isPending &&
         Array.from({ length: path === '/' ? 3 : 6 }).map((_, idx) => (
           <Skeleton
             key={`notice-skeleton-${idx}`}
