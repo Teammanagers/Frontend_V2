@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { useSignUp } from '@/entities/onBoarding/lib/signUp/singUp';
-import Check from '@/shared/assets/common/check.svg';
+import checkIcon from '@/shared/assets/common/check.svg';
 import logo from '@/shared/assets/common/logo.svg?url';
 import { Button } from '@/shared/components/button/Button';
 
@@ -129,7 +129,10 @@ const Checkbox = styled.div<{ checked: boolean }>`
   position: relative;
 `;
 
-const CheckMark = styled(Check)`
+const CheckMark = styled.img.attrs({
+  src: checkIcon,
+  alt: 'check',
+})`
   width: 24px;
   height: 24px;
   position: absolute;
