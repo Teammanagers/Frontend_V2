@@ -11,7 +11,8 @@ export default function LoginWrapper() {
     <OnBoard>
       <LoginWrapperContainer>
         <LeftBar />
-        {url === '/login' ? <LoginOptions /> : <SignUpStage />}
+        {url === '/login' && <LoginOptions />}
+        {url === '/sign-up' && <SignUpStage />}
       </LoginWrapperContainer>
     </OnBoard>
   );
