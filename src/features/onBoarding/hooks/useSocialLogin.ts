@@ -8,7 +8,7 @@ export default function useSocialLogin() {
     setIsLoading(true);
     setError(null);
 
-    const baseUrl = import.meta.env.VITE_API_BASE_URL;
+    const baseUrl = import.meta.env.VITE_BASE_URL;
 
     const urls = {
       google: `${baseUrl}/oauth2/authorization/google`,
