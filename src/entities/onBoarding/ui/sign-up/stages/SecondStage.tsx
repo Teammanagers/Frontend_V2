@@ -1,19 +1,25 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import signUpImg from '@/shared/assets/common/signupImg.svg?url';
 import { Button } from '@/shared/components/button/Button';
 
 export default function SecondStage() {
+  const navigate = useNavigate();
   return (
     <Wrapper>
       <img src={signUpImg} width={364} height={244} />
       <Message>환영합니다!</Message>
       <BtnContainer>
         <BtnText>이제 팀매니저를 사용할 수 있어요!</BtnText>
-        <Button size="large" style="main">
+        <Button
+          size="large"
+          style="main"
+          onClick={() => navigate('/make-team')}
+        >
           우리 팀 만들러 가기
         </Button>
         <BtnText>이미 다른 팀의 초대를 받았나요?</BtnText>
-        <Button size="large" style="sub">
+        <Button size="large" style="sub" onClick={() => navigate('/join-team')}>
           팀 참가하러 가기
         </Button>
       </BtnContainer>
