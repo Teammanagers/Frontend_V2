@@ -19,7 +19,7 @@ export default function SecondStage() {
           우리 팀 만들러 가기
         </Button>
         <BtnText>이미 다른 팀의 초대를 받았나요?</BtnText>
-        <Button size="large" style="sub" onClick={() => navigate('/join-team')}>
+        <Button size="large" style="sub" onClick={() => navigate('/team-join')}>
           팀 참가하러 가기
         </Button>
       </BtnContainer>

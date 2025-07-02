@@ -3,6 +3,7 @@ import Input from '@/entities/onBoarding/lib/input/Input';
 import { Button } from '@/shared/components/button/Button';
 import TeamJoinModal from './TeamJoinModal';
 import { JoinTeam } from '../../lib/joinTeam/teamJoin';
+import useJoinTeam from '../../model/useJoinTeam';
 
 export default function TeamJoin() {
   const {
@@ -13,6 +14,8 @@ export default function TeamJoin() {
     ISRESULTNULL,
     MOCKTEAM,
   } = JoinTeam();
+
+  const { useGetTeamByCode, useJoinTeamMutation } = useJoinTeam();
   return (
     <PageContainer>
       <TeamJoinModal isOpen={isOpen} toggle={toggle} />

@@ -15,6 +15,7 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   width?: string;
   height?: string;
   inputSize?: InputSize;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input({
@@ -27,6 +28,7 @@ export default function Input({
   helperMessageColor = 'rgba(29,29,29,1)',
   textColor = 'rgba(29, 29, 29, 1)',
   inputSize = 'large',
+  onChange,
   ...restProps
 }: IInputProps) {
   return (
@@ -43,6 +45,7 @@ export default function Input({
         ) : (
           // children가 없으면 기본 input 요소 렌더링
           <DefaultInput
+            onChange={onChange}
             placeholder={placeholder}
             $textColor={textColor}
             {...restProps}
