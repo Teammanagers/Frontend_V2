@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { Button } from '@/shared/components/button/Button';
@@ -16,6 +17,18 @@ export default function TeamJoin() {
   } = JoinTeam();
 
   const { useGetTeamByCode, useJoinTeamMutation } = useJoinTeam();
+  const [inputValue, setInputValue] = useState<string>('');
+  const [teamCode, setTeamCode] = useState<string>('');
+
+  const { data: teamData, isLoading, error } = useGetTeamByCode(teamCode);
+
+  const handleSearchTeam = () => {
+    if (inputValue.trim()) {
+      setTeamCode(inputValue.trim());
+      setIsShowResult(true);
+    }
+  };
+
   return (
     <PageContainer>
       <TeamJoinModal isOpen={isOpen} toggle={toggle} />
@@ -24,16 +37,25 @@ export default function TeamJoin() {
           <Input
             title="Team Code"
             placeholder="참여하려는 팀 코드를 입력해주세요"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
           />
-          <Button size="xxl" style="main" onClick={() => setIsShowResult(true)}>
-            팀 찾기
+          <Button
+            size="xxl"
+            style="main"
+            onClick={handleSearchTeam}
+            disabled={!inputValue.trim() || isLoading}
+          >
+            {isLoading ? '검색 중...' : '팀 찾기'}
           </Button>
         </TopContainer>
         <ResultContainer>
-          {isShowResult ? (
+          {isShowResult && (
             <ContentContainer>
               <ResultTItle>탐색결과</ResultTItle>
-              {ISRESULTNULL ? (
+              {isLoading ? (
+                <div>검색 중...</div>
+              ) : error || !teamData ? (
                 <ResultNull>
                   <ResultNullSpan $textColor="red">
                     해당 코드와 일치하는 팀이 없습니다.
@@ -44,25 +66,23 @@ export default function TeamJoin() {
                 </ResultNull>
               ) : (
                 <Result>
-                  <Img src={MOCKTEAM.img} />
+                  <Img src={teamData.img || '/default-team-image.png'} />
                   <ResultBody>
-                    <TeamName>{MOCKTEAM.teamName}</TeamName>
+                    <TeamName>{teamData.teamName}</TeamName>
                     <Tags>
-                      {MOCKTEAM.tags.map((tag) => (
-                        <TagEntity>{tag.name}</TagEntity>
+                      {teamData.tags?.map((tag, index) => (
+                        <TagEntity key={index}>{tag.name}</TagEntity>
                       ))}
                     </Tags>
                   </ResultBody>
                 </Result>
               )}
-              {!ISRESULTNULL && (
+              {teamData && !error && (
                 <Button size="xxl" style="main" onClick={toggle}>
                   팀 참여하기
                 </Button>
               )}
             </ContentContainer>
-          ) : (
-            <></>
           )}
         </ResultContainer>
       </JoinCotainer>
