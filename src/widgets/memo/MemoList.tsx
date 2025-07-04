@@ -1,6 +1,8 @@
 import { useState } from 'react';
+// import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Target } from '@/entities/memo/memo.type.ts';
+import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { AddButton } from '@/entities/memo/ui/AddButton.tsx';
 import { AddModal } from '@/entities/memo/ui/AddModal.tsx';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
@@ -16,6 +18,13 @@ export const MemoList = () => {
   const [moveTarget, setMoveTarget] = useState<Target | null>(null);
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const [openFolderModal, setOpenFolderModal] = useState<boolean>(false);
+
+  // const { folderId } = useParams();
+
+  const { useMemoListQuery } = useMemoQueries();
+  const { data: memos } = useMemoListQuery(1);
+
+  console.log('메모: ', memos.result);
 
   const handleDeleteRequest = (target: Target) => {
     setDeleteTarget(target);
