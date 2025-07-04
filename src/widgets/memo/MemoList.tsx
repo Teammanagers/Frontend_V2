@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Target } from '@/entities/memo/memo.type.ts';
@@ -21,10 +21,14 @@ export const MemoList = () => {
 
   // const { folderId } = useParams();
 
-  const { useMemoListQuery } = useMemoQueries();
+  const { useMemoListQuery, useFolderListQuery } = useMemoQueries();
   const { data: memos } = useMemoListQuery(1);
+  const { data: folders } = useFolderListQuery(3);
 
-  console.log('메모: ', memos.result);
+  useEffect(() => {
+    console.log('메모: ', memos);
+    console.log('폴더: ', folders);
+  }, [memos, folders]);
 
   const handleDeleteRequest = (target: Target) => {
     setDeleteTarget(target);

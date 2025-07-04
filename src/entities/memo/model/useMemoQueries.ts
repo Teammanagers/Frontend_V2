@@ -10,11 +10,23 @@ export default function useMemoQueries() {
         const res = await axiosInstance.get(`/api/v2/memo/list`, {
           params: { folderId },
         });
-        return res.data;
+        return res.data.result;
+      },
+    });
+
+  const useFolderListQuery = (folderId: number) =>
+    useQuery({
+      queryKey: ['folder', folderId],
+      queryFn: async () => {
+        const res = await axiosInstance.get(`/api/v2/folder/${folderId}/list`, {
+          params: { folderId },
+        });
+        return res.data.result;
       },
     });
 
   return {
     useMemoListQuery,
+    useFolderListQuery,
   };
 }
