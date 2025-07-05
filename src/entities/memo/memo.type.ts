@@ -1,4 +1,7 @@
+import { MemoType } from '@/shared/types/memo.types.ts';
 import { ModalProps } from '@/shared/types/modal.types.ts';
+
+// entities/memo/memo.type.ts -> Memo 도메인에서만 사용되는 type
 
 export interface MemoFormProps {
   initialTitle?: string;
@@ -39,4 +42,29 @@ export interface Target {
   type: 'memo' | 'folder';
   id: number;
   title: string;
+}
+
+export interface MemoListViewUIState {
+  deleteTarget: Target | null;
+  moveTarget: Target | null;
+  openAddModal: boolean;
+  openFolderModal: boolean;
+}
+
+export interface MemoListViewHandlers {
+  handleOpenAddModal: () => void;
+  handleAddFolder: () => void;
+  closeDeleteModal: () => void;
+  closeMoveModal: () => void;
+  closeAddModal: () => void;
+  closeFolderModal: () => void;
+  handleDeleteRequest: (target: Target) => void;
+  handleMoveRequest: (target: Target) => void;
+}
+
+export interface MemoListViewProps {
+  memos: MemoType[];
+  folders: FolderType[];
+  uiState: MemoListViewUIState;
+  handlers: MemoListViewHandlers;
 }
