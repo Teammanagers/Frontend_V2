@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { MemoListViewProps } from '@/entities/memo/memo.type';
 import { AddButton } from '@/entities/memo/ui/AddButton';
+import { AddModal } from '@/entities/memo/ui/AddModal.tsx';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal';
 import { Folder } from '@/entities/memo/ui/Folder';
 import { FolderModal } from '@/entities/memo/ui/FolderModal';
@@ -59,10 +60,10 @@ export const MemoListView = ({
       </MemoContainer>
 
       {uiState.openAddModal && (
-        <FolderModal
-          mode="create"
+        <AddModal
           isOpen={true}
           toggle={handlers.closeAddModal}
+          onAddFolder={handlers.handleAddFolder}
         />
       )}
 
