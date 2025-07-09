@@ -1,4 +1,4 @@
-import { MemoType } from '@/shared/types/memo.types.ts';
+import { FolderType, MemoType } from '@/shared/types/memo.types.ts';
 import { ModalProps } from '@/shared/types/modal.types.ts';
 
 // entities/memo/memo.type.ts -> Memo 도메인에서만 사용되는 type
@@ -26,16 +26,6 @@ export interface FolderModalProps extends ModalProps {
 
 export interface AddModalProps extends ModalProps {
   onAddFolder: () => void;
-}
-
-export interface FolderType {
-  id: number;
-  title: string;
-}
-
-export interface FolderProps {
-  folder: FolderType;
-  onDeleteRequest: (id: number) => void;
 }
 
 export interface Target {

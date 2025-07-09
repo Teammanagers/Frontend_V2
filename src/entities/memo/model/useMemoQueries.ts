@@ -1,6 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from '@/shared/api/axiosInstance.ts';
-import { MemoResponse, MemoType } from '@/shared/types/memo.types.ts';
+import {
+  FolderResponse,
+  FolderType,
+  MemoResponse,
+  MemoType,
+} from '@/shared/types/memo.types.ts';
 
 export default function useMemoQueries() {
   // 메모 전체 조회
@@ -32,10 +37,18 @@ export default function useMemoQueries() {
     useQuery({
       queryKey: ['folder', folderId],
       queryFn: async () => {
-        const res = await axiosInstance.get(`/api/v2/folder/${folderId}/list`, {
-          params: { folderId },
-        });
-        return res.data.result;
+        const res = await axiosInstance.get<{ result: FolderResponse[] }>(
+          `/api/v2/folder/${folderId}/list`,
+          {
+            params: { folderId },
+          },
+        );
+        return res.data.result.map(
+          (folder): FolderType => ({
+            id: folder.folderDto.id,
+            title: folder.folderDto.name,
+          }),
+        );
       },
     });
 

@@ -17,6 +17,16 @@ export interface MemoProps {
   onMoveRequest: (id: number) => void;
 }
 
+export interface FolderType {
+  id: number;
+  title: string;
+}
+
+export interface FolderProps {
+  folder: FolderType;
+  onDeleteRequest: (id: number) => void;
+}
+
 // 서버 데이터
 export interface MemoResponse {
   memoDto: {
@@ -30,4 +40,18 @@ export interface MemoResponse {
     id: number;
     name: string;
   }[];
+}
+
+export interface FolderResponse {
+  folderDto: {
+    id: number;
+    name: string;
+    depth: number;
+    parentId: number;
+    createdAt: string;
+    updatedAt: string;
+    createdBy: number;
+    updatedBy: number;
+    useYn: string;
+  };
 }
