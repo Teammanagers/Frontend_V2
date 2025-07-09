@@ -70,6 +70,7 @@ export const MemoListView = ({
       {uiState.deleteTarget && (
         <DeleteModal
           type={uiState.deleteTarget.type}
+          id={uiState.deleteTarget.id}
           name={uiState.deleteTarget.title}
           isOpen={true}
           toggle={handlers.closeDeleteModal}

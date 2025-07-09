@@ -1,17 +1,22 @@
 import styled from 'styled-components';
 import { DeleteModalProps } from '@/entities/memo/memo.type';
+import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import { Button } from '@/shared/components/button/Button';
 import Modal from '@/shared/components/modal/Modal.tsx';
 
 export const DeleteModal = ({
   type,
+  id,
   name,
   isOpen,
   toggle,
 }: DeleteModalProps) => {
+  const { useDeleteFolderMutation } = useMemoMutations();
+  const { mutate: deleteFolder } = useDeleteFolderMutation(3); // 3은 현재 부모 폴더 ID
+
   const handleDelete = () => {
     if (type === 'folder') {
-      console.log('폴더 삭제 로직');
+      deleteFolder(id);
     } else {
       console.log('메모 삭제 로직');
     }

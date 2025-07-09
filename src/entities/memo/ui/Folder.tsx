@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { FolderProps } from '@/entities/memo/memo.type.ts';
 import FolderIcon from '@/shared/assets/memo/folder.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
+import { FolderProps } from '@/shared/types/memo.types.ts';
 
 export const Folder = ({ folder, onDeleteRequest }: FolderProps) => {
   const { isOpen, setIsOpen, toggle } = useToggle();

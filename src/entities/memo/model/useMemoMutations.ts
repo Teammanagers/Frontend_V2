@@ -24,7 +24,23 @@ export default function useMemoMutations() {
     });
   };
 
+  const useDeleteFolderMutation = (parentId: number) => {
+    return useMutation({
+      mutationFn: async (folderId: number) => {
+        const res = await axiosInstance.delete(`/api/v2/folder/${folderId}`, {
+          data: { folderId },
+        });
+        console.log('폴더 삭제');
+        return res.data;
+      },
+      onSuccess: (_, folderId) => {
+        queryClient.invalidateQueries({ queryKey: ['folder', parentId] });
+      },
+    });
+  };
+
   return {
     useCreateFolderMutation,
+    useDeleteFolderMutation,
   };
 }

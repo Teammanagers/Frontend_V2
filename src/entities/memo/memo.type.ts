@@ -16,6 +16,7 @@ export interface MemoFormProps {
 
 export interface DeleteModalProps extends ModalProps {
   type: 'folder' | 'memo';
+  id: number;
   name: string;
 }
 
