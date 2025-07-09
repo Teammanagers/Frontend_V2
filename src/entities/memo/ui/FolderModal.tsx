@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FolderModalProps } from '@/entities/memo/memo.type.ts';
+import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import { Button } from '@/shared/components/button/Button.tsx';
 import Modal from '@/shared/components/modal/Modal.tsx';
 
@@ -14,6 +15,25 @@ export const FolderModal = ({
     mode === 'edit' ? (currentName ?? '') : '',
   );
 
+  const { useCreateFolderMutation } = useMemoMutations();
+  const { mutate: createFolder } = useCreateFolderMutation();
+
+  const handleSubmit = () => {
+    if (mode === 'create') {
+      createFolder(
+        {
+          name: folderName,
+          parentId: 3, // 나중에 params로 받아오기
+        },
+        {
+          onSuccess: () => {
+            toggle();
+          },
+        },
+      );
+    }
+  };
+
   const buttonText = mode === 'create' ? '폴더 생성' : '폴더명 수정';
   const isDisabled = mode === 'create' && folderName.trim() === '';
 
@@ -23,11 +43,6 @@ export const FolderModal = ({
     if (mode == 'edit') setFolderName(currentName);
     else setFolderName('');
   }, [mode, currentName]);
-
-  useEffect(() => {
-    console.log('style', buttonStyle);
-    console.log('disabled', isDisabled);
-  }, [buttonStyle, isDisabled]);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -40,7 +55,12 @@ export const FolderModal = ({
             onChange={(e) => setFolderName(e.target.value)}
           />
         </InputContainer>
-        <Button size="xl" style={buttonStyle} disabled={isDisabled}>
+        <Button
+          size="xl"
+          style={buttonStyle}
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        >
           {buttonText}
         </Button>
       </FolderModalContainer>
