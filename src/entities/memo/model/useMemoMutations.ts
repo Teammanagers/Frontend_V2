@@ -33,8 +33,29 @@ export default function useMemoMutations() {
         console.log('폴더 삭제');
         return res.data;
       },
-      onSuccess: (_, folderId) => {
+      onSuccess: (_, folderId: number) => {
         queryClient.invalidateQueries({ queryKey: ['folder', parentId] });
+      },
+    });
+  };
+
+  const useEditFolderMutation = () => {
+    return useMutation({
+      mutationFn: async ({
+        folderId,
+        name,
+      }: {
+        folderId: number;
+        name: string;
+      }) => {
+        const res = await axiosInstance.patch(`/api/v2/folder/${folderId}`, {
+          name,
+        });
+        console.log('폴더 수정:', res.data);
+        return res.data;
+      },
+      onSuccess: (_, { folderId }) => {
+        queryClient.invalidateQueries({ queryKey: ['folder'] });
       },
     });
   };
@@ -42,5 +63,6 @@ export default function useMemoMutations() {
   return {
     useCreateFolderMutation,
     useDeleteFolderMutation,
+    useEditFolderMutation,
   };
 }

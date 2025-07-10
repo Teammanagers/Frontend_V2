@@ -7,19 +7,22 @@ import Modal from '@/shared/components/modal/Modal.tsx';
 
 export const FolderModal = ({
   mode,
-  currentName = '안녕',
+  currentName,
   isOpen,
   toggle,
+  folderId,
 }: FolderModalProps) => {
   const [folderName, setFolderName] = useState(
     mode === 'edit' ? (currentName ?? '') : '',
   );
 
-  const { useCreateFolderMutation } = useMemoMutations();
+  const { useCreateFolderMutation, useEditFolderMutation } = useMemoMutations();
   const { mutate: createFolder } = useCreateFolderMutation();
+  const { mutate: editFolder } = useEditFolderMutation(); // ✅ 추가
 
   const handleSubmit = () => {
     if (mode === 'create') {
+      console.log('폴더 생성 진입');
       createFolder(
         {
           name: folderName,
@@ -31,6 +34,17 @@ export const FolderModal = ({
           },
         },
       );
+    } else if (mode === 'edit' && folderId !== undefined) {
+      console.log('폴더 수정 진입돼야하는데왜안되니?');
+      editFolder(
+        {
+          name: folderName,
+          folderId,
+        },
+        {
+          onSuccess: () => toggle(),
+        },
+      );
     }
   };
 
@@ -40,7 +54,7 @@ export const FolderModal = ({
   const buttonStyle = isDisabled ? 'disabled' : 'main';
 
   useEffect(() => {
-    if (mode == 'edit') setFolderName(currentName);
+    if (mode == 'edit') setFolderName(currentName ?? '');
     else setFolderName('');
   }, [mode, currentName]);
 
