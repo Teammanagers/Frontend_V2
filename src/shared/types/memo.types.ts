@@ -25,6 +25,7 @@ export interface FolderType {
 export interface FolderProps {
   folder: FolderType;
   onDeleteRequest: (id: number) => void;
+  onEditRequest?: (folder: FolderType) => void;
 }
 
 // 서버 데이터

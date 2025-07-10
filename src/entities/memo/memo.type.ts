@@ -23,6 +23,7 @@ export interface DeleteModalProps extends ModalProps {
 export interface FolderModalProps extends ModalProps {
   mode: 'create' | 'edit';
   currentName?: string;
+  folderId?: number;
 }
 
 export interface AddModalProps extends ModalProps {
@@ -40,6 +41,7 @@ export interface MemoListViewUIState {
   moveTarget: Target | null;
   openAddModal: boolean;
   openFolderModal: boolean;
+  editFolder: FolderType | null;
 }
 
 export interface MemoListViewHandlers {
@@ -51,6 +53,7 @@ export interface MemoListViewHandlers {
   closeFolderModal: () => void;
   handleDeleteRequest: (target: Target) => void;
   handleMoveRequest: (target: Target) => void;
+  handleEditFolderRequest: (folder: { id: number; title: string }) => void;
 }
 
 export interface MemoListViewProps {

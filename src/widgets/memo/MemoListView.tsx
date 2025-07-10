@@ -32,6 +32,9 @@ export const MemoListView = ({
                   title: folder.title,
                 })
               }
+              onEditRequest={(folder) =>
+                handlers.handleEditFolderRequest(folder)
+              }
             />
           ))}
 
@@ -83,9 +86,11 @@ export const MemoListView = ({
 
       {uiState.openFolderModal && (
         <FolderModal
-          mode="create"
+          mode={uiState.editFolder ? 'edit' : 'create'}
           isOpen={true}
           toggle={handlers.closeFolderModal}
+          currentName={uiState.editFolder?.title}
+          folderId={uiState.editFolder?.id}
         />
       )}
     </>

@@ -4,14 +4,19 @@ import { ActionDropdown } from '@/shared/components/dropdown';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
 import { FolderProps } from '@/shared/types/memo.types.ts';
 
-export const Folder = ({ folder, onDeleteRequest }: FolderProps) => {
+export const Folder = ({
+  folder,
+  onDeleteRequest,
+  onEditRequest,
+}: FolderProps) => {
   const { isOpen, setIsOpen, toggle } = useToggle();
 
   const { id, title } = folder;
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
-      console.log('폴더 수정 모달 띄우기');
+      console.log('폴더 수정 클릭: ', folder);
+      onEditRequest?.(folder);
       setIsOpen(true);
     } else if (menu === '삭제') {
       onDeleteRequest(id);

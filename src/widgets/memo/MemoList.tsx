@@ -4,8 +4,14 @@ import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
 import { MemoListView } from '@/widgets/memo/MemoListView.tsx';
 
 export const MemoList = () => {
-  const { deleteTarget, moveTarget, openAddModal, openFolderModal, handlers } =
-    useMemoUIState();
+  const {
+    deleteTarget,
+    moveTarget,
+    openAddModal,
+    openFolderModal,
+    editFolder,
+    handlers,
+  } = useMemoUIState();
 
   const { useMemoListQuery, useFolderListQuery } = useMemoQueries();
 
@@ -30,6 +36,7 @@ export const MemoList = () => {
         moveTarget,
         openAddModal,
         openFolderModal,
+        editFolder,
       }}
       handlers={handlers}
     />
