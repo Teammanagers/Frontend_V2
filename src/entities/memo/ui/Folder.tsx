@@ -15,7 +15,6 @@ export const Folder = ({
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
-      console.log('폴더 수정 클릭: ', folder);
       onEditRequest?.(folder);
       setIsOpen(true);
     } else if (menu === '삭제') {

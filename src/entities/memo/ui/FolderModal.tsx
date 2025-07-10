@@ -22,7 +22,6 @@ export const FolderModal = ({
 
   const handleSubmit = () => {
     if (mode === 'create') {
-      console.log('폴더 생성 진입');
       createFolder(
         {
           name: folderName,
@@ -35,7 +34,6 @@ export const FolderModal = ({
         },
       );
     } else if (mode === 'edit' && folderId !== undefined) {
-      console.log('폴더 수정 진입돼야하는데왜안되니?');
       editFolder(
         {
           name: folderName,
