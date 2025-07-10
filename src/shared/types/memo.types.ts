@@ -43,16 +43,18 @@ export interface MemoResponse {
   }[];
 }
 
+export interface FolderDto {
+  id: number;
+  name: string;
+  depth: number;
+  parentId: number;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
+  useYn: string;
+}
+
 export interface FolderResponse {
-  folderDto: {
-    id: number;
-    name: string;
-    depth: number;
-    parentId: number;
-    createdAt: string;
-    updatedAt: string;
-    createdBy: number;
-    updatedBy: number;
-    useYn: string;
-  };
+  folderDto: FolderDto;
 }

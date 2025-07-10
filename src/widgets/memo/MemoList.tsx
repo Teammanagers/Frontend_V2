@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
+import { useFolderStore } from '@/features/memo/model/folderStore.ts';
 import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
 import { MemoListView } from '@/widgets/memo/MemoListView.tsx';
 
@@ -13,10 +14,22 @@ export const MemoList = () => {
     handlers,
   } = useMemoUIState();
 
-  const { useMemoListQuery, useFolderListQuery } = useMemoQueries();
+  const { useRootFolderQuery, useFolderListQuery, useMemoListQuery } =
+    useMemoQueries();
 
-  const { data: memos } = useMemoListQuery(1);
-  const { data: folders } = useFolderListQuery(3);
+  const { setCurrentFolderId, currentFolderId } = useFolderStore();
+
+  const { data: rootFolder } = useRootFolderQuery(3); // 팀 ID 동적으로 변경 필요
+
+  useEffect(() => {
+    if (rootFolder?.id) {
+      setCurrentFolderId(rootFolder.id);
+    }
+    console.log(rootFolder?.id);
+  }, [rootFolder]);
+
+  const { data: memos } = useMemoListQuery(currentFolderId ?? 0);
+  const { data: folders } = useFolderListQuery(currentFolderId ?? 0);
 
   useEffect(() => {
     console.log('메모 effect', memos);

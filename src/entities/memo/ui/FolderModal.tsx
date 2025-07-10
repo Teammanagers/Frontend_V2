@@ -18,7 +18,7 @@ export const FolderModal = ({
 
   const { useCreateFolderMutation, useEditFolderMutation } = useMemoMutations();
   const { mutate: createFolder } = useCreateFolderMutation();
-  const { mutate: editFolder } = useEditFolderMutation(); // ✅ 추가
+  const { mutate: editFolder } = useEditFolderMutation();
 
   const handleSubmit = () => {
     if (mode === 'create') {
