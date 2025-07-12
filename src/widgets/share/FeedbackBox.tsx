@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import { EmptyFeedback } from '@/entities/feedback/ui/EmptyFeedback';
 import { FeedbackListView } from '@/entities/feedback/ui/FeedbackListView';
-import { FeedbackView } from '@/entities/feedback/ui/FeedbackView';
-import { useFileState } from '@/entities/share/model/useFileState';
 import { FileInfo } from '@/entities/share/share.type';
 
 export function FeedbackBox() {
