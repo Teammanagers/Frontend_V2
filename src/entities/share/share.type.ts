@@ -13,6 +13,8 @@ export interface IFileStateContextValue {
   hasFiles: boolean;
   addFile: (file: File) => void;
   removeFile: (fileName: string) => void;
+  fileList: FileInfo[];
+  setFileList: React.Dispatch<React.SetStateAction<FileInfo[]>>;
 }
 
 export interface IFileStateProviderProps {
