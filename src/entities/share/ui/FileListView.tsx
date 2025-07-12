@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import fileUploadIcon from '@/shared/assets/common/file-upload.svg';
 import { FileItem } from './FileItem';
 import { FileInfo } from '../share.type';
 import { FileUploader } from './FileUploader';
+import { useFileStateContext } from '../model/useFileStateContext';
 
 export function FileListView() {
-  const [fileList, setFileList] = useState<FileInfo[]>([]);
+  const { addFile, fileList, setFileList } = useFileStateContext();
 
   const handleFileUpload = (file: File) => {
     const newFile: FileInfo = {
@@ -19,7 +19,8 @@ export function FileListView() {
       role: '업로더',
     };
 
-    setFileList((prevFiles) => [...prevFiles, newFile]);
+    addFile(file);
+    setFileList((prevFiles: FileInfo[]) => [...prevFiles, newFile]);
   };
 
   return (
@@ -44,11 +45,11 @@ export function FileListView() {
   );
 }
 
-/* Styled Components */
 const FileListBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   width: 504px;
   gap: 20px;
   padding: 24px;

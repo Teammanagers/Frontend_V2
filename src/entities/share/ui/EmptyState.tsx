@@ -2,13 +2,26 @@ import styled from 'styled-components';
 import fileUploadIcon from '@/shared/assets/common/file-upload.svg';
 import { FileUploader } from './FileUploader';
 import { useFileStateContext } from '../model/useFileStateContext.ts';
+import { FileInfo } from '../share.type';
 
 export function EmptyState() {
-  const { addFile } = useFileStateContext();
+  const { addFile, setFileList } = useFileStateContext();
 
   const handleFileUpload = (file: File) => {
-    // 파일 업로드 로직 삽입
-    addFile();
+    const newFile: FileInfo = {
+      fileName: file.name,
+      fileSize: `${(file.size / 1024 / 1024).toFixed(2)}MB`,
+      uploadDate: new Date().toISOString().split('T')[0],
+      id: Date.now(),
+      fileType: file.name.split('.').pop() || '',
+      author: '사용자',
+      role: '업로더',
+    };
+
+    // 파일 업로드 로직
+    addFile(file);
+    // 파일 목록에 추가하여 FileListView로 전환되도록 함
+    setFileList((prevFiles: FileInfo[]) => [...prevFiles, newFile]);
   };
 
   return (
@@ -40,8 +53,9 @@ const NoticeBox = styled.div`
   align-items: center;
   flex-direction: column;
   width: 250px;
-  height: 156px;
+  height: 100%;
   gap: 16px;
+  margin: 0 auto;
 `;
 
 const NoticeText = styled.p`
