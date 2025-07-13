@@ -3,6 +3,40 @@ import { axiosInstance } from '@/shared/api/axiosInstance.ts';
 import { queryClient } from '@/shared/config/queryClient.ts';
 
 export default function useMemoMutations() {
+  // 메모 생성
+  const useCreateMemoMutation = () => {
+    return useMutation({
+      mutationFn: async ({
+        title,
+        content,
+        tags,
+        folderId,
+        teamId,
+      }: {
+        title: string;
+        content: string;
+        tags: string[];
+        folderId: number;
+        teamId: number;
+      }) => {
+        const res = await axiosInstance.post(
+          `/api/v2/memo/${folderId}/teams/${teamId}`,
+          {
+            title,
+            content,
+            memoTagList: tags,
+          },
+        );
+        console.log('메모 생성: ', res.data.result);
+        return res.data.return;
+      },
+      onSuccess: (_, { folderId }) => {
+        queryClient.invalidateQueries({ queryKey: ['memo', folderId] });
+      },
+    });
+  };
+
+  // 폴더 생성
   const useCreateFolderMutation = () => {
     return useMutation({
       mutationFn: async ({
@@ -15,8 +49,8 @@ export default function useMemoMutations() {
         const res = await axiosInstance.post(`/api/v2/folder/${parentId}`, {
           name,
         });
-        console.log('폴더 생성:', res);
-        return res;
+        console.log('폴더 생성:', res.data.result);
+        return res.data.result;
       },
       onSuccess: (_, { parentId }) => {
         queryClient.invalidateQueries({ queryKey: ['folder', parentId] });
@@ -24,6 +58,7 @@ export default function useMemoMutations() {
     });
   };
 
+  // 폴더 삭제
   const useDeleteFolderMutation = (parentId: number) => {
     return useMutation({
       mutationFn: async (folderId: number) => {
@@ -39,6 +74,7 @@ export default function useMemoMutations() {
     });
   };
 
+  // 폴더명 수정
   const useEditFolderMutation = () => {
     return useMutation({
       mutationFn: async ({
@@ -61,6 +97,7 @@ export default function useMemoMutations() {
   };
 
   return {
+    useCreateMemoMutation,
     useCreateFolderMutation,
     useDeleteFolderMutation,
     useEditFolderMutation,
