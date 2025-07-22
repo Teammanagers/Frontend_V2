@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useCreateTeam } from '../../model/useMakeTeam';
 
 export interface MakeTeamFirstStageProps {
   setStage: Dispatch<SetStateAction<number>>;
@@ -32,6 +33,17 @@ export const MakeTeamStages = () => {
     setIsShowHelperMessage(true);
   };
 
+  const { createTeamMutation } = useCreateTeam();
+
+  const handleClickWorkSpace = (teamTagList: string[]) => {
+    createTeamMutation.mutate({
+      title,
+      teamCode,
+      teamTagList: teamTagList,
+      password,
+    });
+  };
+
   return {
     // 첫 번째 스테이지 상태 및 메서드
     title,
@@ -46,5 +58,7 @@ export const MakeTeamStages = () => {
     setIsShowHelperMessage,
     isValid,
     handleCopyToClipboard,
+
+    handleClickWorkSpace,
   };
 };

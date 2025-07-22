@@ -5,8 +5,13 @@ import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
 
 export default function MakeTeamSecondStage() {
-  const { isShowHelperMessage, setTeamCode, isValid, handleCopyToClipboard } =
-    MakeTeamStages();
+  const {
+    isShowHelperMessage,
+    setTeamCode,
+    isValid,
+    handleCopyToClipboard,
+    handleClickWorkSpace,
+  } = MakeTeamStages();
 
   return (
     <StageContainer>
@@ -49,7 +54,12 @@ export default function MakeTeamSecondStage() {
         <Button size="xxl" style="sub">
           이메일로 보내기
         </Button>
-        <Button size="xxl" style="main" disabled={isValid}>
+        <Button
+          size="xxl"
+          style="main"
+          disabled={isValid}
+          onClick={() => handleClickWorkSpace([''])}
+        >
           워크 스페이스로 이동
         </Button>
       </BtnContainer>
