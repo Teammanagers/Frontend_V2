@@ -11,26 +11,23 @@ export default function TeamJoin() {
 
   const { useGetTeamByCode } = useJoinTeam();
   const [inputValue, setInputValue] = useState<string>('');
-  const [teamId, setTeamId] = useState<number>(0);
-  const [shouldSearch, setShouldSearch] = useState<boolean>(false);
 
   const {
     data: teamData,
     isLoading,
     error,
-  } = useGetTeamByCode(teamId, { enabled: shouldSearch && teamId > 0 });
+    refetch,
+  } = useGetTeamByCode(inputValue);
 
   const handleSearchTeam = () => {
     if (inputValue.trim()) {
-      const code = Number(inputValue);
-      setTeamId(code);
-      setShouldSearch(true);
+      refetch();
     }
   };
 
   return (
     <PageContainer>
-      <TeamJoinModal isOpen={isOpen} toggle={toggle} teamId={teamId} />
+      <TeamJoinModal isOpen={isOpen} toggle={toggle} teamId={inputValue} />
       <JoinContainer>
         <TopContainer>
           <Input
@@ -76,9 +73,7 @@ export default function TeamJoin() {
                   </ResultBody>
                 </Result>
               )}
-              {/* {teamData && !error && ( */}
-
-              {/* )} */}
+              {/* {teamData && !error && (  )} */}
             </ContentContainer>
           )}
           <Button size="xxl" style="main" onClick={toggle}>

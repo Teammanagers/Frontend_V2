@@ -6,7 +6,7 @@ export default function useJoinTeam() {
   const [teamJoinPassword, setTeamJoinPassword] = useState<string>('');
   const [showHelperMessage, setShowHelperMessage] = useState<boolean>(false);
 
-  const useGetTeamByCode = (code: number, options?: { enabled?: boolean }) => {
+  const useGetTeamByCode = (code: string) => {
     return useQuery({
       queryKey: [code, 'getTeam'],
       queryFn: async () => {
@@ -16,12 +16,12 @@ export default function useJoinTeam() {
         });
         return data;
       },
-      enabled: options?.enabled ?? true,
+      enabled: false,
     });
   };
 
   const useJoinTeamMutation = useMutation({
-    mutationFn: async ({ teamId }: { teamId: number }) => {
+    mutationFn: async ({ teamId }: { teamId: string }) => {
       const data = await apiRequest({
         url: `/team/${teamId}/join`,
         method: 'POST',

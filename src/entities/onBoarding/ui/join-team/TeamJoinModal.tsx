@@ -7,7 +7,7 @@ import useJoinTeam from '../../model/useJoinTeam';
 interface TeamJoinModalProps {
   isOpen: boolean;
   toggle: () => void;
-  teamId: number;
+  teamId: string;
 }
 
 export default function TeamJoinModal({
