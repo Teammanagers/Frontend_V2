@@ -7,32 +7,31 @@ import { JoinTeam } from '../../lib/joinTeam/teamJoin';
 import useJoinTeam from '../../model/useJoinTeam';
 
 export default function TeamJoin() {
-  const {
-    isOpen,
-    toggle,
-    setIsShowResult,
-    isShowResult,
-    ISRESULTNULL,
-    MOCKTEAM,
-  } = JoinTeam();
+  const { isOpen, toggle, isShowResult } = JoinTeam();
 
-  const { useGetTeamByCode, useJoinTeamMutation } = useJoinTeam();
+  const { useGetTeamByCode } = useJoinTeam();
   const [inputValue, setInputValue] = useState<string>('');
-  const [teamCode, setTeamCode] = useState<string>('');
+  const [teamId, setTeamId] = useState<number>(0);
+  const [shouldSearch, setShouldSearch] = useState<boolean>(false);
 
-  const { data: teamData, isLoading, error } = useGetTeamByCode(teamCode);
+  const {
+    data: teamData,
+    isLoading,
+    error,
+  } = useGetTeamByCode(teamId, { enabled: shouldSearch && teamId > 0 });
 
   const handleSearchTeam = () => {
     if (inputValue.trim()) {
-      setTeamCode(inputValue.trim());
-      setIsShowResult(true);
+      const code = Number(inputValue);
+      setTeamId(code);
+      setShouldSearch(true);
     }
   };
 
   return (
     <PageContainer>
-      <TeamJoinModal isOpen={isOpen} toggle={toggle} />
-      <JoinCotainer>
+      <TeamJoinModal isOpen={isOpen} toggle={toggle} teamId={teamId} />
+      <JoinContainer>
         <TopContainer>
           <Input
             title="Team Code"
@@ -77,15 +76,16 @@ export default function TeamJoin() {
                   </ResultBody>
                 </Result>
               )}
-              {teamData && !error && (
-                <Button size="xxl" style="main" onClick={toggle}>
-                  팀 참여하기
-                </Button>
-              )}
+              {/* {teamData && !error && ( */}
+
+              {/* )} */}
             </ContentContainer>
           )}
+          <Button size="xxl" style="main" onClick={toggle}>
+            팀 참여하기
+          </Button>
         </ResultContainer>
-      </JoinCotainer>
+      </JoinContainer>
     </PageContainer>
   );
 }
@@ -99,7 +99,7 @@ const PageContainer = styled.div`
   justify-content: center;
 `;
 
-const JoinCotainer = styled.div`
+const JoinContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 262px;
