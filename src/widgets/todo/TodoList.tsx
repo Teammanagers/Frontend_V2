@@ -1,16 +1,17 @@
 import styled from 'styled-components';
-import mocks from '@/entities/todo/mocks/get-todo-list.json';
-
-import { ITeamTodoList } from '@/entities/todo/todo.type';
 import { Todo } from '@/entities/todo/ui';
 import { Accordion } from '@/shared/components/accordion';
 import TodoProvider from '@/app/providers/TodoContext';
 import useToggle from '@/shared/hooks/action/useToggle';
 import { ImageUploadModal } from './ImageUploadModal';
+import useTodoQuries from '@/features/todo/model/useTodoQuries';
+import { ITeamMemberTodo } from '@/entities/todo/todo.type';
+import AddTodoForm from '@/features/calendar/ui/AddTodoForm';
+import { TEAM_ID } from '@/shared/config/constants/team.constants';
 
 export function TodoList() {
-  const mockData = mocks.result.teamTodoList as ITeamTodoList[];
-  const myTodoId = mocks.result.ownerTeamManageId;
+  const { useTeamTodoQuery } = useTodoQuries(TEAM_ID);
+  const { data, isSuccess } = useTeamTodoQuery();
 
   const { isOpen, toggle } = useToggle();
 
@@ -23,27 +24,32 @@ export function TodoList() {
     >
       {/* // 투두 리스트 전체를 덮는 Container 컴포넌트 */}
       <Container>
-        {/* 팀원별 투두 리스트(아코디온)들을 조절하는 Wrapper 레이아웃 컴포넌트 */}
+        {/* 팀원별 투두 리스트(아코디언)들을 조절하는 Wrapper 레이아웃 컴포넌트 */}
         <TodosWrapper>
-          {mockData.map((teamMember) => (
-            <Accordion
-              key={teamMember.teamManageId}
-              title={teamMember.name}
-              tagList={teamMember.roleTagList.map((tag) => tag.name)}
-            >
-              {teamMember.todoList.map((todo, idx) => (
-                <Todo
-                  buttonType={
-                    // 내 투두이면 'menu', 아니면 'alarm' 버튼을 렌더링
-                    myTodoId === teamMember.teamManageId ? 'menu' : 'alarm'
-                  }
-                  key={`${teamMember.teamManageId}-todo-${todo.todoId}-${idx}`}
-                >
-                  {todo.title}
-                </Todo>
-              ))}
-            </Accordion>
-          ))}
+          {isSuccess &&
+            data.teamTodoList.map((teamMember: ITeamMemberTodo) => (
+              <Accordion
+                key={teamMember.teamMemberId}
+                title={teamMember.name}
+                tagList={teamMember.tagList.map((tag: string) => tag)}
+              >
+                {teamMember.todoList.map((todo, idx) => (
+                  <Todo
+                    buttonType={
+                      // 내 투두이면 'menu', 아니면 'alarm' 버튼을 렌더링
+                      // myTodoId === teamMember.teamManageId ? 'menu' : 'alarm'
+                      'menu'
+                    }
+                    key={`${teamMember.teamMemberId}-todo-${todo.id}-${idx}`}
+                  >
+                    {todo.title}
+                  </Todo>
+                ))}
+
+                {/* 투두 추가 폼 */}
+                <AddTodoForm teamMemberId={teamMember.teamMemberId} />
+              </Accordion>
+            ))}
         </TodosWrapper>
       </Container>
 
