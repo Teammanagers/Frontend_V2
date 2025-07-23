@@ -1,15 +1,14 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 
 type ButtonType = 'menu' | 'alarm' | 'none';
 
-type Status = 'TODO' | 'PROCEEDING' | 'COMPLETED';
+type Status = 'PENDING' | 'PROCEEDING' | 'COMPLETED';
 
-interface ITodo {
-  children: ReactNode;
+interface ITodo extends ITodoInfo {
   buttonType: ButtonType;
 }
 
-interface ItodoInfo {
+interface ITodoInfo {
   id: number;
   title: string;
   status: Status;
@@ -19,7 +18,7 @@ interface ITeamMemberTodo {
   teamMemberId: number;
   name: string;
   tagList: string[];
-  todoList: ItodoInfo[];
+  todoList: ITodoInfo[];
 }
 
 interface ITodoStatus extends ButtonHTMLAttributes<HTMLButtonElement> {

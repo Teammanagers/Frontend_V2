@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Todo } from '@/entities/todo/ui';
 import { Accordion } from '@/shared/components/accordion';
 import TodoProvider from '@/app/providers/TodoContext';
 import useToggle from '@/shared/hooks/action/useToggle';
@@ -7,7 +6,11 @@ import { ImageUploadModal } from './ImageUploadModal';
 import useTodoQuries from '@/features/todo/model/useTodoQuries';
 import { ITeamMemberTodo } from '@/entities/todo/todo.type';
 import AddTodoForm from '@/features/calendar/ui/AddTodoForm';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
+import {
+  OWNER_TEAMMANAGE_ID,
+  TEAM_ID,
+} from '@/shared/config/constants/team.constants';
+import { Todo } from '@/features/todo/ui/Todo';
 
 export function TodoList() {
   const { useTeamTodoQuery } = useTodoQuries(TEAM_ID);
@@ -35,15 +38,15 @@ export function TodoList() {
               >
                 {teamMember.todoList.map((todo, idx) => (
                   <Todo
+                    key={`${teamMember.teamMemberId}-todo-${todo.id}-${idx}`}
                     buttonType={
                       // 내 투두이면 'menu', 아니면 'alarm' 버튼을 렌더링
-                      // myTodoId === teamMember.teamManageId ? 'menu' : 'alarm'
-                      'menu'
+                      teamMember.teamMemberId === OWNER_TEAMMANAGE_ID
+                        ? 'menu'
+                        : 'alarm'
                     }
-                    key={`${teamMember.teamMemberId}-todo-${todo.id}-${idx}`}
-                  >
-                    {todo.title}
-                  </Todo>
+                    {...todo}
+                  />
                 ))}
 
                 {/* 투두 추가 폼 */}

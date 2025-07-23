@@ -1,19 +1,17 @@
 import styled from 'styled-components';
 import { ReactNode } from 'react';
-import { ButtonType, ITodo } from '../todo.type';
-import { Button } from './Button';
-import { TodoStatus } from './TodoStatus';
+import { ButtonType, ITodo } from '../../../entities/todo/todo.type';
+import { Button } from '../../../entities/todo/ui/Button';
+import { TodoStatus } from '../../../entities/todo/ui/TodoStatus';
 import { ActionDropdown } from '../../../shared/components/dropdown/ActionDropdown';
 import useToggle from '@/shared/hooks/action/useToggle';
+import useTodoQuries from '../model/useTodoQuries';
+import { TEAM_ID } from '@/shared/config/constants/team.constants';
 
-/**
- * Todo 컴포넌트는 할 일 항목을 렌더링합니다.
- *
- * @param {ReactNode} children - 할 일 항목의 내용.
- * @param {ButtonState} buttonType - 버튼의 상태를 나타내는 값 ('menu', 'alarm', 'none').
- */
+function Todo({ buttonType, ...todoInfo }: ITodo) {
+  const { useDeleteTodoMutation } = useTodoQuries(TEAM_ID);
+  const { mutate: deleteTodo } = useDeleteTodoMutation(todoInfo.id);
 
-function Todo({ children, buttonType }: ITodo) {
   const { isOpen, setIsOpen, toggle } = useToggle();
 
   const handleMenuAction = (menu: string) => {
@@ -21,6 +19,7 @@ function Todo({ children, buttonType }: ITodo) {
       // 수정 로직
     } else if (menu === '삭제') {
       // 삭제 로직
+      deleteTodo();
     }
     toggle();
   };
@@ -44,7 +43,7 @@ function Todo({ children, buttonType }: ITodo) {
       <InnerWrapper>
         <ContentWrapper>
           <TodoStatus />
-          <Content>{children}</Content>
+          <Content>{todoInfo.title}</Content>
         </ContentWrapper>
 
         {buttonComponents[buttonType]}
