@@ -3,6 +3,7 @@ import { AccordionHeader } from './Header.tsx';
 import { AccordionBody } from './Body.tsx';
 import { IAccordionProps } from '@/shared/types';
 import useAccordionToggle from '@/shared/hooks/action/useAccordionToggle.ts';
+import { useEffect } from 'react';
 
 /**
  * Accordion 컴포넌트는 아코디언의 구성요소(Header, Body)를 감싸는 Container 컴포넌트입니다.
@@ -10,10 +11,23 @@ import useAccordionToggle from '@/shared/hooks/action/useAccordionToggle.ts';
  * @param {ReactNode} children - 아코디언 내부에 들어갈 내용 (예: 투두 리스트 등).
  * @param {string} title - 아코디언의 제목 (예: 팀원 이름).
  * @param {string[]} tagList - 제목 옆에 표시될 태그 목록 (예: 기획자).
+ * @param {() => void} onCloseClear - 아코디언이 닫힐 때 실행되는 함수.
  */
 
-const Accordion = ({ children, title, tagList }: IAccordionProps) => {
+const Accordion = ({
+  children,
+  title,
+  tagList,
+  onCloseClear,
+}: IAccordionProps) => {
   const { isOpen, toggleAccrodion, parentRef, childRef } = useAccordionToggle();
+
+  // 아코디언이 닫힐 때 onCloseClear 함수 호출
+  useEffect(() => {
+    if (!isOpen && onCloseClear) {
+      onCloseClear();
+    }
+  }, [isOpen]);
 
   return (
     <AccordionContainer>

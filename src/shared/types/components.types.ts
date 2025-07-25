@@ -43,6 +43,7 @@ interface IAccordion {
 
 interface IAccordionProps extends IAccordion {
   children: React.ReactNode;
+  onCloseClear?: () => void;
 }
 interface IAccordionHeaderProps extends IAccordion {
   isOpen: boolean;

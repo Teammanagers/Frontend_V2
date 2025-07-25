@@ -2,30 +2,32 @@ import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import CheckIcon from '@/shared/assets/todo/check.svg?react';
 import { ITodoStatus, Status } from '../todo.type';
-import { useTodoContext } from '../model/useTodoContext';
 
-function TodoStatus({ status = 'TODO', ...props }: ITodoStatus) {
+function TodoStatus({
+  status = 'PENDING',
+  modalToggle,
+  ...props
+}: ITodoStatus) {
   const [todoStatus, setTodoStatus] = useState<Status>(status);
 
-  const { toggle } = useTodoContext();
-
+  // 관련 로직 분리 필요
   const handleTodoStatus = () => {
-    if (todoStatus === 'TODO') {
-      setTodoStatus('PROCEEDING');
-    } else if (todoStatus === 'PROCEEDING') {
+    if (todoStatus === 'PENDING') {
+      setTodoStatus('IN_PROGRESS');
+    } else if (todoStatus === 'IN_PROGRESS') {
       setTodoStatus('COMPLETED');
-      toggle(); // 이미지 업로드 모달 열기
+      modalToggle(); // 이미지 업로드 모달 열기
     } else if (todoStatus === 'COMPLETED') {
-      setTodoStatus('TODO');
+      setTodoStatus('PENDING');
     }
   };
 
   return (
     <Container $todoStatus={todoStatus} {...props} onClick={handleTodoStatus}>
       <IconWrapper $todoStatus={todoStatus}>
-        {todoStatus === 'PROCEEDING' || <CheckIcon />}
+        {todoStatus === 'IN_PROGRESS' || <CheckIcon />}
 
-        {todoStatus === 'PROCEEDING' && <ProceedingBar />}
+        {todoStatus === 'IN_PROGRESS' && <ProceedingBar />}
       </IconWrapper>
     </Container>
   );
@@ -54,7 +56,7 @@ const Container = styled.button<{ $todoStatus: Status }>`
   background-color: ${({ $todoStatus }) =>
     $todoStatus === 'COMPLETED'
       ? '#5C9EFF'
-      : $todoStatus === 'PROCEEDING'
+      : $todoStatus === 'IN_PROGRESS'
         ? '#DDEBFF'
         : '#CCC'};
   transition: background-color 0.4s ease;
@@ -68,7 +70,7 @@ const IconWrapper = styled.div<{ $todoStatus: Status }>`
   align-items: center;
   width: 100%;
   height: 100%;
-  opacity: ${({ $todoStatus }) => ($todoStatus === 'TODO' ? 0.7 : 1)};
+  opacity: ${({ $todoStatus }) => ($todoStatus === 'PENDING' ? 0.7 : 1)};
   animation: ${fadeIn} 0.3s ease;
 `;
 

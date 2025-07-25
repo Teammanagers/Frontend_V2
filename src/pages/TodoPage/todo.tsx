@@ -1,12 +1,17 @@
+import useTodoQuries from '@/features/todo/model/useTodoQuries';
+import { TEAM_ID } from '@/shared/config/constants/team.constants';
 import TeamProgres from '@/widgets/todo/TeamProgres';
 import { TodoList } from '@/widgets/todo/TodoList';
 import styled from 'styled-components';
 
 export function TodoPage() {
+  const { useTeamTodoQuery } = useTodoQuries(TEAM_ID);
+  const { data, isSuccess } = useTeamTodoQuery();
+
   return (
     <Container>
       <TeamProgres />
-      <TodoList />
+      {isSuccess && <TodoList teamTodoData={data.teamTodoList} />}
     </Container>
   );
 }

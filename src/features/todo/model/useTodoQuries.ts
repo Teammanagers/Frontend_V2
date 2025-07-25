@@ -50,6 +50,29 @@ export default function useTodoQuries(TEAM_ID: number) {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
+  // 투두 내용 수정
+  const useEditTodoMutation = (todoId: number) => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async (data: { title: string }) => {
+        await apiRequest({
+          url: `/api/v2/todo/${todoId}`,
+          method: 'POST',
+          data,
+        });
+      },
+      onSuccess: () => {
+        queryClient.refetchQueries({
+          queryKey: ['teamTodo', TEAM_ID],
+        });
+        queryClient.refetchQueries({
+          queryKey: ['teamTodo', TEAM_ID],
+        });
+      },
+    });
+
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
   // 투두 삭제
   const useDeleteTodoMutation = (todoId: number) => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
@@ -72,5 +95,10 @@ export default function useTodoQuries(TEAM_ID: number) {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
-  return { useTeamTodoQuery, useCreateTodoMutation, useDeleteTodoMutation };
+  return {
+    useTeamTodoQuery,
+    useCreateTodoMutation,
+    useEditTodoMutation,
+    useDeleteTodoMutation,
+  };
 }
