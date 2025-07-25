@@ -15,9 +15,9 @@ interface ITeamMemberTodo {
   todoList: ITodoInfo[];
 }
 
-interface IProgressStatusBadge {
-  title: string;
-  count: number;
+interface ITeamProgressStatus {
+  label: string;
+  count?: number;
 }
 
 export type {
@@ -25,5 +25,5 @@ export type {
   ITodoInfo,
   ButtonType,
   ITeamMemberTodo,
-  IProgressStatusBadge,
+  ITeamProgressStatus,
 };
