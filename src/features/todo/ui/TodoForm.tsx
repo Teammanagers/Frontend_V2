@@ -3,7 +3,6 @@ import { useTodoForm } from '@/entities/todo/model/useTodoForm';
 import { Button } from '@/entities/todo/ui';
 import TodoInput from '@/entities/todo/ui/TodoInput';
 import useTodoQuries from '@/features/todo/model/useTodoQuries';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
 import { useEffect } from 'react';
 
 interface IAddTodoFormProps {
@@ -22,18 +21,20 @@ export default function TodoForm({
 }: IAddTodoFormProps) {
   const { inputValue, setInputValue, handleInputChange } = useTodoForm();
 
-  const { useCreateTodoMutation, useEditTodoMutation } = useTodoQuries(TEAM_ID);
+  const { useCreateTodoMutation, useEditTodoMutation } = useTodoQuries();
   const { mutate: createTodo } = useCreateTodoMutation(id); // id : teamMemberId
   const { mutate: editTodo } = useEditTodoMutation(id); // id : todoId
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!inputValue.trim()) return; // 빈 입력 방지
 
     if (mode === 'add') {
       createTodo({ title: inputValue }); // 투두 생성 API 요청
       setInputValue('');
     } else if (mode === 'edit') {
       editTodo({ title: inputValue }); // 투두 수정 API 요청
+
       if (setIsInputActive) setIsInputActive(false); // 입력 폼 닫기
     }
   };

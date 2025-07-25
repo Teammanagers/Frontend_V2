@@ -1,12 +1,13 @@
 import useTodoQuries from '@/features/todo/model/useTodoQuries';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
 import TeamProgres from '@/widgets/todo/TeamProgres';
 import { TodoList } from '@/widgets/todo/TodoList';
 import styled from 'styled-components';
 
 export function TodoPage() {
-  const { useTeamTodoQuery } = useTodoQuries(TEAM_ID);
+  const { useTeamTodoQuery } = useTodoQuries();
   const { data, isSuccess } = useTeamTodoQuery();
+
+  console.log('data', data);
 
   return (
     <Container>

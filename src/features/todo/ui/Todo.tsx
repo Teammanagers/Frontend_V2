@@ -1,19 +1,22 @@
 import styled from 'styled-components';
 import { ReactNode } from 'react';
-import { ButtonType, ITodo } from '@/entities/todo/todo.type';
+import { ButtonType, ITodoInfo } from '@/entities/todo/todo.type';
 import { Button } from '@/entities/todo/ui/Button';
-import { TodoStatus } from '@/entities/todo/ui/TodoStatus';
 import { ActionDropdown } from '@/shared/components/dropdown/ActionDropdown';
 import useToggle from '@/shared/hooks/action/useToggle';
 import useTodoQuries from '../model/useTodoQuries';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
 import { ImageUploadModal } from './ImageUploadModal';
 import { useTodoForm } from '@/entities/todo/model/useTodoForm';
 import TodoForm from './TodoForm';
+import TodoPreview from '@/entities/todo/ui/TodoPreview';
+
+interface ITodo extends ITodoInfo {
+  buttonType: ButtonType;
+}
 
 function Todo({ buttonType, ...todoInfo }: ITodo) {
   // api 호출
-  const { useDeleteTodoMutation } = useTodoQuries(TEAM_ID);
+  const { useDeleteTodoMutation } = useTodoQuries();
   const { mutate: deleteTodo } = useDeleteTodoMutation(todoInfo.id);
 
   // 드롭다운, 모달 토글 훅
@@ -27,15 +30,15 @@ function Todo({ buttonType, ...todoInfo }: ITodo) {
   const { isInputActive, setIsInputActive, handleTriggerBtnClick } =
     useTodoForm();
 
+  // 메뉴 클릭 시 이벤트
   const handleMenuAction = (menu: string) => {
-    if (menu === '수정') {
-      handleTriggerBtnClick();
-    } else if (menu === '삭제') {
-      deleteTodo();
-    }
+    if (menu === '수정') handleTriggerBtnClick();
+    else if (menu === '삭제') deleteTodo();
+
     dropdownToggle();
   };
 
+  // 버튼 타입에 따른 컴포넌트 매핑
   const buttonComponents: { [key in ButtonType]: ReactNode } = {
     menu: (
       <ActionDropdown
@@ -63,11 +66,9 @@ function Todo({ buttonType, ...todoInfo }: ITodo) {
               setIsInputActive={setIsInputActive}
             />
           ) : (
-            <ContentWrapper>
-              <TodoStatus modalToggle={modalToggle} />
-              <Content>{todoInfo.title}</Content>
-            </ContentWrapper>
+            <TodoPreview modalToggle={modalToggle} {...todoInfo} />
           )}
+
           {isInputActive || buttonComponents[buttonType]}
         </InnerWrapper>
       </TodoContainer>
@@ -96,15 +97,4 @@ const InnerWrapper = styled.div`
   width: 100%;
   height: 30px;
   background-color: white;
-`;
-
-const ContentWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-`;
-
-const Content = styled.p`
-  margin: 0;
 `;

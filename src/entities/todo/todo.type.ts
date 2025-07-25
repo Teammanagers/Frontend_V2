@@ -1,12 +1,6 @@
-import { ButtonHTMLAttributes } from 'react';
-
 type ButtonType = 'menu' | 'alarm' | 'none';
 
 type Status = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
-
-interface ITodo extends ITodoInfo {
-  buttonType: ButtonType;
-}
 
 interface ITodoInfo {
   id: number;
@@ -21,11 +15,6 @@ interface ITeamMemberTodo {
   todoList: ITodoInfo[];
 }
 
-interface ITodoStatus extends ButtonHTMLAttributes<HTMLButtonElement> {
-  status?: Status;
-  modalToggle: () => void;
-}
-
 interface IProgressStatusBadge {
   title: string;
   count: number;
@@ -33,9 +22,8 @@ interface IProgressStatusBadge {
 
 export type {
   Status,
-  ITodo,
+  ITodoInfo,
   ButtonType,
   ITeamMemberTodo,
-  ITodoStatus,
   IProgressStatusBadge,
 };
