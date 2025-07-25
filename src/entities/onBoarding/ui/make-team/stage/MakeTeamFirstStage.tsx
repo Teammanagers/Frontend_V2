@@ -1,20 +1,16 @@
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
-import {
-  MakeTeamFirstStageProps,
-  MakeTeamStages,
-} from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
+import { MakeTeamFirstStageProps } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
 import camera from '@/shared/assets/common/cam-plus.svg?url';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
-
 import TagForm from '../tag/TagForm';
 
 export default function MakeTeamFirstStage({
+  title,
+  setTitle,
   setStage,
 }: MakeTeamFirstStageProps) {
-  const { setTitle, title } = MakeTeamStages();
-
   return (
     <MakeTeamWrapper>
       <BackContainer>

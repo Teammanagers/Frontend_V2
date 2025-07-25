@@ -5,11 +5,18 @@ import MakeTeamSecondStage from './stage/MakeTeamSecondStage';
 
 export default function MakeTeam() {
   const [stage, setStage] = useState<number>(1);
+  const [title, setTitle] = useState<string>('');
 
   return (
     <MakeTeamTagProvider>
-      {stage === 1 && <MakeTeamFirstStage setStage={setStage} />}
-      {stage === 2 && <MakeTeamSecondStage />}
+      {stage === 1 && (
+        <MakeTeamFirstStage
+          setStage={setStage}
+          title={title}
+          setTitle={setTitle}
+        />
+      )}
+      {stage === 2 && <MakeTeamSecondStage title={title} />}
     </MakeTeamTagProvider>
   );
 }

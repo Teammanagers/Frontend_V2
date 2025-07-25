@@ -1,17 +1,32 @@
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamStages } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
+import { useCreateTeam } from '@/entities/onBoarding/model/useMakeTeam';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
+import { useTagContext } from '../MakeTeamTagProvider';
 
-export default function MakeTeamSecondStage() {
+export default function MakeTeamSecondStage({ title }: { title: string }) {
   const {
     isShowHelperMessage,
     setTeamCode,
     isValid,
     handleCopyToClipboard,
-    handleClickWorkSpace,
+    teamCode,
+    password,
+    setPassword,
   } = MakeTeamStages();
+  const { tags } = useTagContext();
+  const { createTeamMutation } = useCreateTeam();
+
+  const makeTeamMutation = () => {
+    createTeamMutation.mutate({
+      title: title,
+      teamCode: teamCode,
+      teamTagList: tags,
+      password: password,
+    });
+  };
 
   return (
     <StageContainer>
@@ -47,6 +62,9 @@ export default function MakeTeamSecondStage() {
           <Input
             title="비밀번호"
             placeholder="참가를 위한 비밀번호를 설정해주세요"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
         </PasswordInputContainer>
       </InputContainer>
@@ -57,8 +75,8 @@ export default function MakeTeamSecondStage() {
         <Button
           size="xxl"
           style="main"
-          disabled={isValid}
-          onClick={() => handleClickWorkSpace([''])}
+          disabled={!isValid}
+          onClick={() => makeTeamMutation()}
         >
           워크 스페이스로 이동
         </Button>
