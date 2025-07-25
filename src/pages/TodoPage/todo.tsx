@@ -1,4 +1,5 @@
 import { Theme } from '@/app/styles/theme';
+import { transformTeamProgress } from '@/entities/todo/lib/transformTeamProgress';
 import useTodoQuries from '@/features/todo/model/useTodoQuries';
 import LoadingSpinner from '@/shared/components/loadingSpinner/loadingSpinner';
 import TeamProgres from '@/widgets/todo/TeamProgres';
@@ -9,17 +10,15 @@ export function TodoPage() {
   const { useTeamTodoQuery } = useTodoQuries();
   const { data, isPending, isSuccess } = useTeamTodoQuery();
 
-  const teamProgress = data
-    ? [
-        { label: '진행 전', count: data.pending },
-        { label: '진행 중', count: data.in_progress },
-        { label: '완료', count: data.completed },
-      ]
-    : [];
+  const teamProgress = data ? transformTeamProgress(data) : [];
 
   return (
     <Container>
-      {isSuccess && <TeamProgres teamProgress={teamProgress} />}
+      <TeamProgres
+        teamProgress={teamProgress}
+        isPending={isPending}
+        isSuccess={isSuccess}
+      />
 
       {isPending && (
         <LoadingContainer>

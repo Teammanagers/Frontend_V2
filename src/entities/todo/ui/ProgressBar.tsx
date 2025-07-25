@@ -32,14 +32,14 @@ const TODO = styled.div<{ $todoProgress: number }>`
   height: 100%;
   background-color: ${({ theme }) => theme.colors.silver};
   border-radius: 76px 0 0 76px;
-  transition: width 0.5s ease-in-out;
+  transition: width 0.4s ease-in-out;
 `;
 
 const PROCEEDING = styled.div<{ $proceedingProgress: number }>`
   width: ${({ $proceedingProgress }) => $proceedingProgress}%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.subLightBlue};
-  transition: width 0.5s ease-in-out;
+  transition: width 0.4s ease-in-out;
 `;
 
 const COMPLETED = styled.div<{ $completedProgress: number }>`
@@ -47,5 +47,5 @@ const COMPLETED = styled.div<{ $completedProgress: number }>`
   height: 100%;
   background-color: ${({ theme }) => theme.colors.mainBlue};
   border-radius: 0 76px 76px 0;
-  transition: width 0.5s ease-in-out;
+  transition: width 0.4s ease-in-out;
 `;

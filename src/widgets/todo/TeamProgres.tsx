@@ -4,10 +4,16 @@ import styled from 'styled-components';
 
 interface ITeamProgresProps {
   teamProgress: ITeamProgressStatus[];
+  isPending: boolean;
+  isSuccess: boolean;
 }
 
 // 팀원 투두 진행 상황을 알수 있는 컴포넌트 위젯
-export default function TeamProgres({ teamProgress }: ITeamProgresProps) {
+export default function TeamProgres({
+  teamProgress,
+  isPending,
+  isSuccess,
+}: ITeamProgresProps) {
   return (
     <Container>
       <StatusLabelWrapper>
@@ -15,7 +21,9 @@ export default function TeamProgres({ teamProgress }: ITeamProgresProps) {
           <ProgressStatusBadge status={status} key={`${status}`} />
         ))}
       </StatusLabelWrapper>
-      <ProgressBar teamProgress={teamProgress} />
+
+      {isPending && <ProgressBarSkeleton />}
+      {isSuccess && <ProgressBar teamProgress={teamProgress} />}
     </Container>
   );
 }
@@ -32,4 +40,11 @@ const Container = styled.section`
 const StatusLabelWrapper = styled.section`
   display: flex;
   gap: 48px;
+`;
+
+const ProgressBarSkeleton = styled.div`
+  width: 100%;
+  height: 12px;
+  border-radius: 76px;
+  background-color: ${({ theme }) => theme.colors.white};
 `;

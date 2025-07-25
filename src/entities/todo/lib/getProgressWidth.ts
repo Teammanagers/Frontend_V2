@@ -16,10 +16,8 @@ const getProgressWidth = (
   progressArr: ITeamProgressStatus[],
 ) => {
   // 전체 count를 구함
-  const totalCount = progressArr.reduce(
-    (acc, curr) => acc + (curr.count ?? 0),
-    0,
-  );
+  const totalCount =
+    progressArr.find((status) => status.label === '전체')?.count ?? 0;
 
   const count = getCountByLabel(label, progressArr); // 해당 label의 count를 가져옴
 
