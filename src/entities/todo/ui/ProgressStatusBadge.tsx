@@ -1,25 +1,24 @@
 import styled from 'styled-components';
 import CheckIcon from '@/shared/assets/todo/check.svg?react';
-import { IProgressStatusBadge } from '../todo.type';
+import { ITeamProgressStatus } from '../todo.type';
 
 //진행 전, 진행 중, 완료 상태를 나타내는 배지 컴포넌트
-
-function ProgressStatusBadge({ status }: { status: IProgressStatusBadge }) {
+function ProgressStatusBadge({ status }: { status: ITeamProgressStatus }) {
   return (
     <Container>
-      <StatusLabel $status={status.title}>
-        {status.title === '진행중' ? (
+      <StatusLabel $status={status.label}>
+        {status.label === '진행 중' ? (
           <ProceedingBarWrapper>
             <ProceedingBar />
           </ProceedingBarWrapper>
-        ) : status.title === '진행 전' || status.title === '완료' ? (
+        ) : status.label === '진행 전' || status.label === '완료' ? (
           <IconWrapper>
             <CheckIcon />
           </IconWrapper>
         ) : null}
-        {status.title}
+        {status.label}
       </StatusLabel>
-      <StatusCounter>{status.count}</StatusCounter>
+      <StatusCounter>{status.count || '??'}</StatusCounter>
     </Container>
   );
 }
@@ -48,14 +47,14 @@ const StatusLabel = styled.div<{ $status: string }>`
       ? theme.colors.white
       : $status === '진행 전'
         ? theme.colors.silver
-        : $status === '진행중'
+        : $status === '진행 중'
           ? theme.colors.subLightBlue
           : theme.colors.mainBlue};
 
   font-size: 16px;
   font-weight: 400;
   color: ${({ $status, theme }) =>
-    $status === '전체' || $status === '진행중'
+    $status === '전체' || $status === '진행 중'
       ? theme.colors.mainBlue
       : theme.colors.white};
 `;

@@ -1,60 +1,25 @@
 import styled from 'styled-components';
-import { Todo } from '@/entities/todo/ui';
-import { Accordion } from '@/shared/components/accordion';
-import TodoProvider from '@/app/providers/TodoContext';
-import useToggle from '@/shared/hooks/action/useToggle';
-import { ImageUploadModal } from './ImageUploadModal';
-import useTodoQuries from '@/features/todo/model/useTodoQuries';
 import { ITeamMemberTodo } from '@/entities/todo/todo.type';
-import AddTodoForm from '@/features/calendar/ui/AddTodoForm';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
+import MemberTodoAccordion from '@/widgets/todo/MemberTodoAccordion';
 
-export function TodoList() {
-  const { useTeamTodoQuery } = useTodoQuries(TEAM_ID);
-  const { data, isSuccess } = useTeamTodoQuery();
-
-  const { isOpen, toggle } = useToggle();
-
+export function TodoList({
+  teamTodoData,
+}: {
+  teamTodoData: ITeamMemberTodo[];
+}) {
+  // 투두 리스트 전체를 덮는 Container 컴포넌트
   return (
-    <TodoProvider
-      value={{
-        isOpen,
-        toggle,
-      }}
-    >
-      {/* // 투두 리스트 전체를 덮는 Container 컴포넌트 */}
-      <Container>
-        {/* 팀원별 투두 리스트(아코디언)들을 조절하는 Wrapper 레이아웃 컴포넌트 */}
-        <TodosWrapper>
-          {isSuccess &&
-            data.teamTodoList.map((teamMember: ITeamMemberTodo) => (
-              <Accordion
-                key={teamMember.teamMemberId}
-                title={teamMember.name}
-                tagList={teamMember.tagList.map((tag: string) => tag)}
-              >
-                {teamMember.todoList.map((todo, idx) => (
-                  <Todo
-                    buttonType={
-                      // 내 투두이면 'menu', 아니면 'alarm' 버튼을 렌더링
-                      // myTodoId === teamMember.teamManageId ? 'menu' : 'alarm'
-                      'menu'
-                    }
-                    key={`${teamMember.teamMemberId}-todo-${todo.id}-${idx}`}
-                  >
-                    {todo.title}
-                  </Todo>
-                ))}
-
-                {/* 투두 추가 폼 */}
-                <AddTodoForm teamMemberId={teamMember.teamMemberId} />
-              </Accordion>
-            ))}
-        </TodosWrapper>
-      </Container>
-
-      <ImageUploadModal isOpen={isOpen} toggle={toggle} />
-    </TodoProvider>
+    <Container>
+      {/* 팀원별 투두 리스트(아코디언)들을 조절하는 Wrapper 레이아웃 컴포넌트 */}
+      <TodosWrapper>
+        {teamTodoData.map((teamMember: ITeamMemberTodo) => (
+          <MemberTodoAccordion
+            key={`todo-accordion-${teamMember.teamMemberId}`}
+            teamMember={teamMember}
+          />
+        ))}
+      </TodosWrapper>
+    </Container>
   );
 }
 

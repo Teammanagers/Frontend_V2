@@ -1,38 +1,24 @@
-import TodoProvider from '@/app/providers/TodoContext';
-import { Todo } from '@/entities/todo/ui';
-import useToggle from '@/shared/hooks/action/useToggle';
+// import { Todo } from '@/features/todo/ui/Todo';
 import styled from 'styled-components';
-import { ImageUploadModal } from '../todo/ImageUploadModal';
 import { RoutingButton } from '@/entities/main/ui';
 
 function TodoList() {
-  const { isOpen, toggle } = useToggle();
-
   return (
-    <TodoProvider
-      value={{
-        isOpen,
-        toggle,
-      }}
-    >
-      <Container>
-        <RoutingButton url="/todo-list">투두리스트</RoutingButton>
+    <Container>
+      <RoutingButton url="/todo-list">투두리스트</RoutingButton>
 
-        <MyTodoListWrapper>
-          <MyTodoTitle>내가 해야할 일</MyTodoTitle>
+      <MyTodoListWrapper>
+        <MyTodoTitle>내가 해야할 일</MyTodoTitle>
 
-          <TodosWrapper>
-            {Array.from({ length: 10 }).map((_, idx) => (
-              <TodoWrapper key={`todo-${idx}`}>
-                <Todo buttonType="menu">내가 해야할 일</Todo>
-              </TodoWrapper>
-            ))}
-          </TodosWrapper>
-        </MyTodoListWrapper>
-      </Container>
-
-      <ImageUploadModal isOpen={isOpen} toggle={toggle} />
-    </TodoProvider>
+        <TodosWrapper>
+          {Array.from({ length: 10 }).map((_, idx) => (
+            <TodoWrapper key={`todo-${idx}`}>
+              {/* <Todo buttonType="menu">내가 해야할 일</Todo> */}
+            </TodoWrapper>
+          ))}
+        </TodosWrapper>
+      </MyTodoListWrapper>
+    </Container>
   );
 }
 

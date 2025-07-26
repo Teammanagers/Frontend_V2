@@ -1,9 +1,10 @@
 import apiRequest from '@/shared/api/apiRequest';
+import { TEAM_ID } from '@/shared/config/constants/team.constants';
 import { queryClient } from '@/shared/config/queryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-export default function useTodoQuries(TEAM_ID: number) {
+export default function useTodoQuries() {
   // 팀 투두 조회
   const useTeamTodoQuery = () => {
     const { isPending, isError, error, isSuccess, data } = useQuery({
@@ -27,7 +28,7 @@ export default function useTodoQuries(TEAM_ID: number) {
     return { isPending, isError, isSuccess, data };
   };
 
-  // 투두 일정 생성
+  // 투두 생성
   const useCreateTodoMutation = (teamMemberId: number) => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (data: { title: string }) => {
@@ -41,6 +42,23 @@ export default function useTodoQuries(TEAM_ID: number) {
         queryClient.refetchQueries({
           queryKey: ['teamTodo', TEAM_ID],
         });
+      },
+    });
+
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
+  // 투두 내용 수정
+  const useEditTodoMutation = (todoId: number) => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async (data: { title: string }) => {
+        await apiRequest({
+          url: `/api/v2/todo/${todoId}`,
+          method: 'POST',
+          data,
+        });
+      },
+      onSuccess: () => {
         queryClient.refetchQueries({
           queryKey: ['teamTodo', TEAM_ID],
         });
@@ -50,5 +68,49 @@ export default function useTodoQuries(TEAM_ID: number) {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
-  return { useTeamTodoQuery, useCreateTodoMutation };
+  // 투두 삭제
+  const useDeleteTodoMutation = (todoId: number) => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async () => {
+        await apiRequest({
+          url: `/api/v2/todo/${todoId}`,
+          method: 'DELETE',
+        });
+      },
+      onSuccess: () => {
+        queryClient.refetchQueries({
+          queryKey: ['teamTodo', TEAM_ID],
+        });
+      },
+    });
+
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
+  // 투두 상태 수정 삭제
+  const useEditTodoStatusMutation = (todoId: number) => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async (option: number) => {
+        await apiRequest({
+          url: `/api/v2/todo/${todoId}?option=${option}`,
+          method: 'PATCH',
+        });
+      },
+      onSuccess: () => {
+        queryClient.refetchQueries({
+          queryKey: ['teamTodo', TEAM_ID],
+        });
+      },
+    });
+
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
+  return {
+    useTeamTodoQuery,
+    useCreateTodoMutation,
+    useEditTodoMutation,
+    useDeleteTodoMutation,
+    useEditTodoStatusMutation,
+  };
 }

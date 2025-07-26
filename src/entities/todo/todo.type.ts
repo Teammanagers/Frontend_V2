@@ -1,15 +1,8 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
-
 type ButtonType = 'menu' | 'alarm' | 'none';
 
-type Status = 'TODO' | 'PROCEEDING' | 'COMPLETED';
+type Status = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
 
-interface ITodo {
-  children: ReactNode;
-  buttonType: ButtonType;
-}
-
-interface ItodoInfo {
+interface ITodoInfo {
   id: number;
   title: string;
   status: Status;
@@ -19,23 +12,26 @@ interface ITeamMemberTodo {
   teamMemberId: number;
   name: string;
   tagList: string[];
-  todoList: ItodoInfo[];
+  todoList: ITodoInfo[];
 }
 
-interface ITodoStatus extends ButtonHTMLAttributes<HTMLButtonElement> {
-  status?: Status;
+interface ITeamProgressStatus {
+  label: string;
+  count?: number;
 }
 
-interface IProgressStatusBadge {
-  title: string;
-  count: number;
+interface ITeamTodoResponse {
+  completed: number;
+  in_progress: number;
+  pending: number;
+  teamTodoList: ITeamMemberTodo[];
 }
 
 export type {
   Status,
-  ITodo,
+  ITodoInfo,
   ButtonType,
   ITeamMemberTodo,
-  ITodoStatus,
-  IProgressStatusBadge,
+  ITeamProgressStatus,
+  ITeamTodoResponse,
 };

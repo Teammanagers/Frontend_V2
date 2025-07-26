@@ -1,18 +1,29 @@
-import { statusLabel } from '@/entities/todo/constants/todo';
+import { ITeamProgressStatus } from '@/entities/todo/todo.type';
 import { ProgressBar, ProgressStatusBadge } from '@/entities/todo/ui';
 import styled from 'styled-components';
 
-// 팀원 투두 진행 상황을 알수 있는 컴포넌트 위젯
+interface ITeamProgresProps {
+  teamProgress: ITeamProgressStatus[];
+  isPending: boolean;
+  isSuccess: boolean;
+}
 
-export default function TeamProgres() {
+// 팀원 투두 진행 상황을 알수 있는 컴포넌트 위젯
+export default function TeamProgres({
+  teamProgress,
+  isPending,
+  isSuccess,
+}: ITeamProgresProps) {
   return (
     <Container>
       <StatusLabelWrapper>
-        {statusLabel.map((status) => (
+        {teamProgress.map((status) => (
           <ProgressStatusBadge status={status} key={`${status}`} />
         ))}
       </StatusLabelWrapper>
-      <ProgressBar />
+
+      {isPending && <ProgressBarSkeleton />}
+      {isSuccess && <ProgressBar teamProgress={teamProgress} />}
     </Container>
   );
 }
@@ -29,4 +40,11 @@ const Container = styled.section`
 const StatusLabelWrapper = styled.section`
   display: flex;
   gap: 48px;
+`;
+
+const ProgressBarSkeleton = styled.div`
+  width: 100%;
+  height: 12px;
+  border-radius: 76px;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
