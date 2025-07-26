@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { TodoStatus } from './TodoStatus';
-import { ITodoInfo } from '../todo.type';
+import { TodoStatus } from '@/entities/todo/ui/TodoStatus';
+import { ITodoInfo } from '@/entities/todo/todo.type';
+import { useTodoStatus } from '../model/useTodoStatus';
 
 interface ITodoPreviewProps extends ITodoInfo {
   modalToggle: () => void;
@@ -10,12 +11,19 @@ export default function TodoPreview({
   modalToggle,
   ...todoInfo
 }: ITodoPreviewProps) {
+  const { todoStatus, handleTodoStatus } = useTodoStatus(
+    todoInfo.status,
+    todoInfo.id,
+    modalToggle,
+  );
+
   return (
     <Container>
       <TodoStatus
-        status={todoInfo.status}
+        todoStatus={todoStatus}
         todoId={todoInfo.id}
         modalToggle={modalToggle}
+        onClick={handleTodoStatus}
       />
       <Content>{todoInfo.title}</Content>
     </Container>

@@ -8,7 +8,7 @@ import useTodoQuries from '../model/useTodoQuries';
 import { ImageUploadModal } from './ImageUploadModal';
 import { useTodoForm } from '@/entities/todo/model/useTodoForm';
 import TodoForm from './TodoForm';
-import TodoPreview from '@/entities/todo/ui/TodoPreview';
+import TodoPreview from '@/features/todo/ui/TodoPreview';
 
 interface ITodo extends ITodoInfo {
   buttonType: ButtonType;
@@ -69,7 +69,7 @@ function Todo({ buttonType, ...todoInfo }: ITodo) {
             <TodoPreview modalToggle={modalToggle} {...todoInfo} />
           )}
 
-          {isInputActive || buttonComponents[buttonType]}
+          {!isInputActive && buttonComponents[buttonType]}
         </InnerWrapper>
       </TodoContainer>
 
