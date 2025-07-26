@@ -27,7 +27,7 @@ const Container = styled.section`
   border-radius: 76px;
 `;
 
-const TODO = styled.div<{ $todoProgress: number }>`
+const TODO = styled.div<{ $todoProgress: number | undefined }>`
   width: ${({ $todoProgress }) => $todoProgress}%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.silver};
@@ -35,14 +35,14 @@ const TODO = styled.div<{ $todoProgress: number }>`
   transition: width 0.4s ease-in-out;
 `;
 
-const PROCEEDING = styled.div<{ $proceedingProgress: number }>`
+const PROCEEDING = styled.div<{ $proceedingProgress: number | undefined }>`
   width: ${({ $proceedingProgress }) => $proceedingProgress}%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.subLightBlue};
   transition: width 0.4s ease-in-out;
 `;
 
-const COMPLETED = styled.div<{ $completedProgress: number }>`
+const COMPLETED = styled.div<{ $completedProgress: number | undefined }>`
   width: ${({ $completedProgress }) => $completedProgress}%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.mainBlue};
