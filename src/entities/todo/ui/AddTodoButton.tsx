@@ -9,7 +9,7 @@ export default function AddTodoButton({ ...props }: IAddTodoButtonProps) {
   return (
     <Button {...props}>
       <Label>내가 해야할 일</Label>
-      <PlustIcon width={24} height={24} stroke="#1d1d1d" stroke-width={2} />
+      <PlustIcon width={24} height={24} stroke="#1d1d1d" strokeWidth={2} />
     </Button>
   );
 }

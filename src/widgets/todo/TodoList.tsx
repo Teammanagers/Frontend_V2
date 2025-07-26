@@ -13,7 +13,10 @@ export function TodoList({
       {/* 팀원별 투두 리스트(아코디언)들을 조절하는 Wrapper 레이아웃 컴포넌트 */}
       <TodosWrapper>
         {teamTodoData.map((teamMember: ITeamMemberTodo) => (
-          <MemberTodoAccordion teamMember={teamMember} />
+          <MemberTodoAccordion
+            key={`todo-accordion-${teamMember.teamMemberId}`}
+            teamMember={teamMember}
+          />
         ))}
       </TodosWrapper>
     </Container>

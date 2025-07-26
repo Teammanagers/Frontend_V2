@@ -42,9 +42,6 @@ export default function useTodoQuries() {
         queryClient.refetchQueries({
           queryKey: ['teamTodo', TEAM_ID],
         });
-        queryClient.refetchQueries({
-          queryKey: ['teamTodo', TEAM_ID],
-        });
       },
     });
 
@@ -62,9 +59,6 @@ export default function useTodoQuries() {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
-          queryKey: ['teamTodo', TEAM_ID],
-        });
         queryClient.refetchQueries({
           queryKey: ['teamTodo', TEAM_ID],
         });
@@ -87,9 +81,6 @@ export default function useTodoQuries() {
         queryClient.refetchQueries({
           queryKey: ['teamTodo', TEAM_ID],
         });
-        queryClient.refetchQueries({
-          queryKey: ['teamTodo', TEAM_ID],
-        });
       },
     });
 
@@ -106,9 +97,6 @@ export default function useTodoQuries() {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
-          queryKey: ['teamTodo', TEAM_ID],
-        });
         queryClient.refetchQueries({
           queryKey: ['teamTodo', TEAM_ID],
         });

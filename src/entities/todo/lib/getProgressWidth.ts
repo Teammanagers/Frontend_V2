@@ -7,6 +7,8 @@ const getCountByLabel = (label: string, progressArr: ITeamProgressStatus[]) => {
 
 // 전체 count에 대한 비율을 계산하는 함수
 const calculateWidth = (total: number, count: number | undefined) => {
+  if (total === 0) return;
+
   return ((count ?? 0) / total) * 100;
 };
 
