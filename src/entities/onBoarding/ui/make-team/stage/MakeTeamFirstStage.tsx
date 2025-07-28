@@ -18,9 +18,10 @@ export default function MakeTeamFirstStage({
         <BackSpan>프로젝트를 위해 팀을 생성해주세요</BackSpan>
       </BackContainer>
       <TopContainer>
-        <ImgContainer>
+        <ImgContainerLabel htmlFor="team-image-upload">
           <img src={camera} width={163} height={163} />
-        </ImgContainer>
+          <ImgInput type="file" id="team-image-upload" accept="image/*" />
+        </ImgContainerLabel>
       </TopContainer>
       <BottomContainer>
         <Input
@@ -77,10 +78,15 @@ const BottomContainer = styled.div`
   gap: 28px;
 `;
 
-const ImgContainer = styled.div`
+const ImgContainerLabel = styled.label`
+  display: inline-block;
   width: 163px;
   height: 163px;
   border-radius: 38px;
   border: solid 1px rgba(240, 240, 240, 1);
-  background-color: white;
+  cursor: pointer;
+`;
+
+const ImgInput = styled.input`
+  display: none;
 `;
