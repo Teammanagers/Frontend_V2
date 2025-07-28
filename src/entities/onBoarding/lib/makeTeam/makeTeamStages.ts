@@ -4,6 +4,8 @@ export interface MakeTeamFirstStageProps {
   title: string;
   setTitle: (title: string) => void;
   setStage: Dispatch<SetStateAction<number>>;
+  handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  previewImg: string | null;
 }
 
 export const MakeTeamStages = () => {

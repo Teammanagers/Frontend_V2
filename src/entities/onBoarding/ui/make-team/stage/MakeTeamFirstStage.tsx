@@ -10,6 +10,8 @@ export default function MakeTeamFirstStage({
   title,
   setTitle,
   setStage,
+  handleFileUpload,
+  previewImg,
 }: MakeTeamFirstStageProps) {
   return (
     <MakeTeamWrapper>
@@ -19,8 +21,17 @@ export default function MakeTeamFirstStage({
       </BackContainer>
       <TopContainer>
         <ImgContainerLabel htmlFor="team-image-upload">
-          <img src={camera} width={163} height={163} />
-          <ImgInput type="file" id="team-image-upload" accept="image/*" />
+          {previewImg ? (
+            <PreviewImage src={previewImg} alt="팀 이미지 미리보기" />
+          ) : (
+            <img src={camera} width={163} height={163} />
+          )}
+          <ImgInput
+            type="file"
+            id="team-image-upload"
+            accept="image/*"
+            onChange={handleFileUpload}
+          />
         </ImgContainerLabel>
       </TopContainer>
       <BottomContainer>
@@ -89,4 +100,11 @@ const ImgContainerLabel = styled.label`
 
 const ImgInput = styled.input`
   display: none;
+`;
+
+const PreviewImage = styled.img`
+  width: 163px;
+  height: 163px;
+  object-fit: cover;
+  border-radius: 38px;
 `;
