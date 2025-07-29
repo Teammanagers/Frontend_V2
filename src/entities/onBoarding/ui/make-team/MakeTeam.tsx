@@ -7,8 +7,7 @@ import { useTeamImgUpload } from '../../model/useMakeTeam';
 export default function MakeTeam() {
   const [stage, setStage] = useState<number>(1);
   const [title, setTitle] = useState<string>('');
-  const { postImg, setPostImg, previewImg, setPreviewImg, handleFileUpload } =
-    useTeamImgUpload();
+  const { postImg, previewImg, handleFileUpload } = useTeamImgUpload();
   return (
     <MakeTeamTagProvider>
       {stage === 1 && (
@@ -20,7 +19,7 @@ export default function MakeTeam() {
           previewImg={previewImg}
         />
       )}
-      {stage === 2 && <MakeTeamSecondStage title={title} />}
+      {stage === 2 && <MakeTeamSecondStage title={title} postImg={postImg} />}
     </MakeTeamTagProvider>
   );
 }

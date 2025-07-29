@@ -8,6 +8,7 @@ interface createTeamMutationProps {
   teamCode: string;
   teamTagList: TeamTag[];
   password: string;
+  postImg: File | null;
 }
 
 export const useTeamImgUpload = () => {
@@ -37,11 +38,12 @@ export const useCreateTeam = () => {
       teamCode,
       teamTagList,
       password,
+      postImg,
     }: createTeamMutationProps) => {
       const makeTeamResponse = await apiRequest({
         url: '/team',
         method: 'POST',
-        data: { title, teamCode, teamTagList, password },
+        data: { title, teamCode, teamTagList, password, postImg },
       });
       return makeTeamResponse;
     },

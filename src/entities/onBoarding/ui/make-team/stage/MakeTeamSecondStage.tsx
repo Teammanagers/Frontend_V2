@@ -6,7 +6,13 @@ import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
 import { useTagContext } from '../MakeTeamTagProvider';
 
-export default function MakeTeamSecondStage({ title }: { title: string }) {
+export default function MakeTeamSecondStage({
+  title,
+  postImg,
+}: {
+  title: string;
+  postImg: File | null;
+}) {
   const {
     isShowHelperMessage,
     setTeamCode,
@@ -25,6 +31,7 @@ export default function MakeTeamSecondStage({ title }: { title: string }) {
       teamCode: teamCode,
       teamTagList: tags,
       password: password,
+      postImg: postImg,
     });
   };
 
