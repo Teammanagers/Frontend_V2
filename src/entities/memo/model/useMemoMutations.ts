@@ -20,15 +20,15 @@ export default function useMemoMutations() {
         teamId: number;
       }) => {
         const res = await axiosInstance.post(
-          `/api/v2/memo/${folderId}/teams/${teamId}`,
+          `/api/v2/memo/folders/${folderId}/teams/${teamId}`,
           {
             title,
             content,
             memoTagList: tags,
           },
         );
-        console.log('메모 생성: ', res.data.result);
-        return res.data.return;
+        console.log('메모 생성: ', res.data);
+        return res.data.result;
       },
       onSuccess: (_, { folderId }) => {
         queryClient.invalidateQueries({ queryKey: ['memo', folderId] });
