@@ -82,7 +82,7 @@ export default function useMemoMutations() {
         console.log('폴더 삭제');
         return res.data;
       },
-      onSuccess: (_, folderId: number) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['folder', parentId] });
       },
     });
@@ -104,7 +104,7 @@ export default function useMemoMutations() {
         console.log('폴더 수정:', res.data);
         return res.data;
       },
-      onSuccess: (_, { folderId }) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['folder'] });
       },
     });
