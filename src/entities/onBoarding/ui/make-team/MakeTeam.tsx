@@ -19,7 +19,13 @@ export default function MakeTeam() {
           previewImg={previewImg}
         />
       )}
-      {stage === 2 && <MakeTeamSecondStage title={title} postImg={postImg} />}
+      {stage === 2 && (
+        <MakeTeamSecondStage
+          title={title}
+          postImg={postImg}
+          setStage={setStage}
+        />
+      )}
     </MakeTeamTagProvider>
   );
 }

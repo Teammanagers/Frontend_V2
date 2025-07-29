@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamFirstStageProps } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
@@ -13,9 +14,10 @@ export default function MakeTeamFirstStage({
   handleFileUpload,
   previewImg,
 }: MakeTeamFirstStageProps) {
+  const navigate = useNavigate();
   return (
     <MakeTeamWrapper>
-      <BackContainer>
+      <BackContainer onClick={() => navigate('/login')}>
         <img src={arrow} width={40} height={40} />
         <BackSpan>프로젝트를 위해 팀을 생성해주세요</BackSpan>
       </BackContainer>
@@ -66,7 +68,7 @@ const MakeTeamWrapper = styled.div`
   align-items: center;
 `;
 
-const BackContainer = styled.div`
+const BackContainer = styled.button`
   position: absolute;
   top: 100px;
   left: 112px;

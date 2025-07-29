@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamStages } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
@@ -9,9 +10,11 @@ import { useTagContext } from '../MakeTeamTagProvider';
 export default function MakeTeamSecondStage({
   title,
   postImg,
+  setStage,
 }: {
   title: string;
   postImg: File | null;
+  setStage: Dispatch<SetStateAction<number>>;
 }) {
   const {
     isShowHelperMessage,
@@ -37,7 +40,7 @@ export default function MakeTeamSecondStage({
 
   return (
     <StageContainer>
-      <BackContainer>
+      <BackContainer onClick={() => setStage(1)}>
         <img src={arrow} width={40} height={40} />
         <BackSpan>프로젝트를 위해 팀을 생성해주세요</BackSpan>
       </BackContainer>
@@ -103,7 +106,7 @@ const StageContainer = styled.div`
   background-color: #f8fafc;
 `;
 
-const BackContainer = styled.div`
+const BackContainer = styled.button`
   position: absolute;
   top: 100px;
   left: 112px;
