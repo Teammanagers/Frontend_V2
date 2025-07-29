@@ -58,6 +58,20 @@ export default function useMemoMutations() {
     });
   };
 
+  // 메모 고정 상태 변경
+  const useTogglePinMemoMutations = () => {
+    return useMutation({
+      mutationFn: async (memoId: number) => {
+        const res = await axiosInstance.patch(`/api/v2/memo/${memoId}/fixing`);
+        console.log('메모 고정 여부: ', res.data);
+        return res.data;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['memo'] });
+      },
+    });
+  };
+
   // 폴더 삭제
   const useDeleteFolderMutation = (parentId: number) => {
     return useMutation({
@@ -101,5 +115,6 @@ export default function useMemoMutations() {
     useCreateFolderMutation,
     useDeleteFolderMutation,
     useEditFolderMutation,
+    useTogglePinMemoMutations,
   };
 }

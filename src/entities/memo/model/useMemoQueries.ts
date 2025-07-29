@@ -32,12 +32,14 @@ export default function useMemoQueries() {
             params: { folderId },
           },
         );
+        console.log('메모 조회: ', res.data);
         return res.data.result.map((memo): MemoType => {
           return {
             id: memo.memoDto.id,
             title: memo.memoDto.title,
             content: memo.memoDto.content,
             tags: memo.memoTagList.map((tag) => tag.name),
+            isFixed: memo.memoDto.isFixed,
           };
         });
       },

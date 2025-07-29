@@ -25,10 +25,11 @@ export const MemoList = () => {
     if (rootFolder?.id) {
       setCurrentFolderId(rootFolder.id);
     }
-    console.log(rootFolder?.id);
+    console.log('폴더 아이디:', rootFolder?.id);
   }, [rootFolder]);
 
   const { data: memos } = useMemoListQuery(currentFolderId ?? 0);
+  // const { data: memos } = useMemoListQuery(3);
   const { data: folders } = useFolderListQuery(currentFolderId ?? 0);
 
   useEffect(() => {
@@ -39,11 +40,17 @@ export const MemoList = () => {
     console.log('폴더 effect', folders);
   }, [folders]);
 
+  // 메모 고정에 따른 정렬
+  const sortedMemos = [...(memos ?? [])].sort((a, b) => {
+    if (a.isFixed === b.isFixed) return 0;
+    return a.isFixed ? -1 : 1;
+  });
+
   return (
     <MemoListView
       // 조건부 렌더링 스켈레톤 적용 필요
       folders={folders || []}
-      memos={memos || []}
+      memos={sortedMemos || []}
       uiState={{
         deleteTarget,
         moveTarget,
