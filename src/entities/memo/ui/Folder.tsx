@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import FolderIcon from '@/shared/assets/memo/folder.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
@@ -10,8 +11,12 @@ export const Folder = ({
   onEditRequest,
 }: FolderProps) => {
   const { isOpen, setIsOpen, toggle } = useToggle();
-
   const { id, title } = folder;
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/memo/${id}`);
+  };
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
@@ -25,7 +30,7 @@ export const Folder = ({
 
   return (
     <FolderWrapper>
-      <FolderContainer />
+      <FolderContainer onClick={handleClick} />
       <Overlay>
         <DropDownContainer>
           <ActionDropdown
@@ -58,6 +63,7 @@ const FolderWrapper = styled.div`
     stroke: ${({ theme }) => theme.colors.subLightBlue};
     stroke-width: 3;
   }
+  cursor: pointer;
 `;
 
 const Overlay = styled.div`
