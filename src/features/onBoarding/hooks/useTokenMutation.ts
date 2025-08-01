@@ -18,6 +18,7 @@ export const useTokenMutation = () => {
       return response;
     },
     onSuccess: (data) => {
+      // TODO
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken); // 관리 방식 논의 필요
       // data에서 유저 회원가입 여부 flag에 따라 navigate

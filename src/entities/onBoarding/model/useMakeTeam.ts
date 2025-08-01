@@ -37,13 +37,29 @@ export const useCreateTeam = () => {
       title,
       teamCode,
       teamTagList,
-      password,
+      password, // TODO 현재 api request 필드에 password 항목 없어서 확인 필요
       postImg,
     }: createTeamMutationProps) => {
+      const formData = new FormData();
+
+      const createTeamData = {
+        title,
+        code: teamCode,
+        teamTagList,
+        password,
+      };
+
+      formData.append('createTeam', JSON.stringify(createTeamData));
+
+      if (postImg) {
+        formData.append('imageFile', postImg);
+      }
+
       const makeTeamResponse = await apiRequest({
         url: '/team',
         method: 'POST',
-        data: { title, teamCode, teamTagList, password, postImg },
+        data: formData,
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       return makeTeamResponse;
     },
