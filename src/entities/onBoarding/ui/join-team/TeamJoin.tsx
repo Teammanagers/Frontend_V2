@@ -7,21 +7,21 @@ import { JoinTeam } from '../../lib/joinTeam/teamJoin';
 import useJoinTeam from '../../model/useJoinTeam';
 
 export default function TeamJoin() {
-  const { isOpen, toggle, isShowResult } = JoinTeam();
+  const { isOpen, toggle, isShowResult, setIsShowResult } = JoinTeam();
 
-  const { useGetTeamByCode } = useJoinTeam();
+  const { useSearchTeamMutation } = useJoinTeam();
   const [inputValue, setInputValue] = useState<string>('');
-
   const {
     data: teamData,
-    isLoading,
-    error,
-    refetch,
-  } = useGetTeamByCode(inputValue);
+    isPending: isLoading,
+    isError,
+    mutate: searchTeam,
+  } = useSearchTeamMutation;
 
   const handleSearchTeam = () => {
     if (inputValue.trim()) {
-      refetch();
+      setIsShowResult(true);
+      searchTeam(inputValue);
     }
   };
 
@@ -51,7 +51,7 @@ export default function TeamJoin() {
               <ResultTItle>탐색결과</ResultTItle>
               {isLoading ? (
                 <div>검색 중...</div>
-              ) : error || !teamData ? (
+              ) : isError ? (
                 <ResultNull>
                   <ResultNullSpan $textColor="red">
                     해당 코드와 일치하는 팀이 없습니다.
@@ -60,7 +60,7 @@ export default function TeamJoin() {
                     코드를 다시 한번 확인해 주세요.
                   </ResultNullSpan>
                 </ResultNull>
-              ) : (
+              ) : teamData ? (
                 <Result>
                   <Img src={teamData.img || '/default-team-image.png'} />
                   <ResultBody>
@@ -72,8 +72,7 @@ export default function TeamJoin() {
                     </Tags>
                   </ResultBody>
                 </Result>
-              )}
-              {/* {teamData && !error && (  )} */}
+              ) : null}
             </ContentContainer>
           )}
           <Button size="xxl" style="main" onClick={toggle}>
