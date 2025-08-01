@@ -9,12 +9,12 @@ import MakeTeamPage from '@/pages/MakeTeamPage/make-team';
 import { ManagementPage } from '@/pages/ManagementPage';
 import { ExtraMemoPage, MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
+import Redirect from '@/pages/RedirectPage/redirect';
 import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
 import { SharePage } from '@/pages/SharePage';
 import { SignupPage } from '@/pages/SignupPage';
 import { TeamPage } from '@/pages/TeamPage';
 import { TodoPage } from '@/pages/TodoPage';
-import Redirect from '@/pages/RedirectPage/redirect';
 
 export default function AppRoutes() {
   return (
