@@ -6,6 +6,8 @@ export interface MakeTeamFirstStageProps {
   setStage: Dispatch<SetStateAction<number>>;
   handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   previewImg: string | null;
+  postImg: File | null;
+  setCreatedTeamId: (createdTeamId: number) => void;
 }
 
 export const MakeTeamStages = () => {
@@ -14,6 +16,7 @@ export const MakeTeamStages = () => {
   const [isShowHelperMessage, setIsShowHelperMessage] =
     useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [createdTeamId, setCreatedTeamId] = useState<number | null>(null);
 
   // 폼 유효성 초기화
   useEffect(() => {
@@ -52,5 +55,7 @@ export const MakeTeamStages = () => {
     setIsShowHelperMessage,
     isValid,
     handleCopyToClipboard,
+    setCreatedTeamId,
+    createdTeamId,
   };
 };

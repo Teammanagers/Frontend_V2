@@ -5,9 +5,7 @@ import { TeamTag } from '@/shared/types/tag.types';
 
 interface createTeamMutationProps {
   title: string;
-  teamCode: string;
   teamTagList: TeamTag[];
-  password: string;
   postImg: File | null;
 }
 
@@ -31,22 +29,18 @@ export const useTeamImgUpload = () => {
   return { postImg, setPostImg, previewImg, setPreviewImg, handleFileUpload };
 };
 
-export const useCreateTeam = () => {
+export const useCreateTeam = (onSuccess?: (data: unknown) => void) => {
   const createTeamMutation = useMutation({
     mutationFn: async ({
       title,
-      teamCode,
       teamTagList,
-      password, // TODO 현재 api request 필드에 password 항목 없어서 확인 필요
       postImg,
     }: createTeamMutationProps) => {
       const formData = new FormData();
 
       const createTeamData = {
         title,
-        code: teamCode,
         teamTagList,
-        password,
       };
 
       formData.append('createTeam', JSON.stringify(createTeamData));
@@ -56,7 +50,7 @@ export const useCreateTeam = () => {
       }
 
       const makeTeamResponse = await apiRequest({
-        url: '/team',
+        url: '/api/v2/team',
         method: 'POST',
         data: formData,
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -64,7 +58,12 @@ export const useCreateTeam = () => {
       return makeTeamResponse;
     },
     onError: () => {},
-    onSuccess: () => {},
+    onSuccess: (data) => {
+      console.log('팀 생성 성공:', data);
+      if (onSuccess) {
+        onSuccess(data);
+      }
+    },
   });
   return { createTeamMutation };
 };

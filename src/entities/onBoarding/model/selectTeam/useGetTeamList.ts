@@ -55,8 +55,11 @@ export const useGetTeamList = () => {
         url: '/api/v2/team/list',
         method: 'GET',
       });
-      return response.data;
+      return response;
     },
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: true,
   });
 
   const transformedTeamList: TeamInfo[] =

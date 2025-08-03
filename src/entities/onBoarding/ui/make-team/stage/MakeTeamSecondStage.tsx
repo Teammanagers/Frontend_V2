@@ -2,41 +2,24 @@ import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamStages } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
-import { useCreateTeam } from '@/entities/onBoarding/model/useMakeTeam';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
-import { useTagContext } from '../MakeTeamTagProvider';
 
 export default function MakeTeamSecondStage({
-  title,
-  postImg,
+  createdTeamId,
   setStage,
 }: {
-  title: string;
-  postImg: File | null;
+  createdTeamId: number | null;
   setStage: Dispatch<SetStateAction<number>>;
 }) {
+  console.log(createdTeamId);
   const {
     isShowHelperMessage,
     setTeamCode,
     isValid,
     handleCopyToClipboard,
-    teamCode,
-    password,
     setPassword,
   } = MakeTeamStages();
-  const { tags } = useTagContext();
-  const { createTeamMutation } = useCreateTeam();
-
-  const makeTeamMutation = () => {
-    createTeamMutation.mutate({
-      title: title,
-      teamCode: teamCode,
-      teamTagList: tags,
-      password: password,
-      postImg: postImg,
-    });
-  };
 
   return (
     <StageContainer>
@@ -86,7 +69,7 @@ export default function MakeTeamSecondStage({
           size="xxl"
           style="main"
           disabled={!isValid}
-          onClick={() => makeTeamMutation()}
+          // onClick={() => makeTeamMutation()}
         >
           워크 스페이스로 이동
         </Button>

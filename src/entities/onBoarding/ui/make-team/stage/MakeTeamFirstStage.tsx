@@ -2,9 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamFirstStageProps } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
+import { useCreateTeam } from '@/entities/onBoarding/model/useMakeTeam';
 import camera from '@/shared/assets/common/cam-plus.svg?url';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
+import { useTagContext } from '../MakeTeamTagProvider';
 import TagForm from '../tag/TagForm';
 
 export default function MakeTeamFirstStage({
@@ -13,8 +15,15 @@ export default function MakeTeamFirstStage({
   setStage,
   handleFileUpload,
   previewImg,
+  postImg,
+  setCreatedTeamId,
 }: MakeTeamFirstStageProps) {
   const navigate = useNavigate();
+  const { createTeamMutation } = useCreateTeam((data) => {
+    setCreatedTeamId(data.result.id);
+    setStage(2);
+  });
+  const { tags } = useTagContext();
   return (
     <MakeTeamWrapper>
       <BackContainer onClick={() => navigate('/login')}>
@@ -49,7 +58,14 @@ export default function MakeTeamFirstStage({
           size="xxl"
           style="main"
           disabled={title === ''}
-          onClick={() => setStage(2)}
+          onClick={() => {
+            createTeamMutation.mutate({
+              title,
+              teamTagList: tags,
+              postImg,
+            });
+            setStage(2);
+          }}
         >
           팀 생성 완료
         </Button>
