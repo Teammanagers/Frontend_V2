@@ -9,6 +9,7 @@ export default function SelectTeam() {
 
   return (
     <SelectTeamContainer>
+      {/* TODO 유저 이름 받아오기 */}
       <PageTitle>{'000'}님이 현재 진행하고 있는 팀 프로젝트예요!</PageTitle>
       <TeamListContainer>
         {teamList.map((team) => (

@@ -75,9 +75,11 @@ export default function TeamJoin() {
               ) : null}
             </ContentContainer>
           )}
-          <Button size="xxl" style="main" onClick={toggle}>
-            팀 참여하기
-          </Button>
+          {!teamData && (
+            <Button size="xxl" style="main" onClick={toggle}>
+              팀 참여하기
+            </Button>
+          )}
         </ResultContainer>
       </JoinContainer>
     </PageContainer>
