@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 // import { useSubmitMemo } from '@/entities/memo/model/useSubmitMemo';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
-import { useFolderStore } from '@/features/memo/model/folderStore.ts';
 
 export const WriteMemo = () => {
   const navigate = useNavigate();
-  const currentFolderId = useFolderStore((state) => state.currentFolderId);
+  const { folderId } = useParams<{ folderId: string }>();
+  const currentFolderId = folderId ? Number(folderId) : null;
   const teamId = 3; // 임시
 
   const { useCreateMemoMutation } = useMemoMutations();

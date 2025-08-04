@@ -7,7 +7,7 @@ export const ExtraMemoPage = () => {
   return (
     <Routes>
       <Route path=":folderId" element={<MemoList />} />
-      <Route path="write" element={<WriteMemo />} />
+      <Route path=":folderId/write" element={<WriteMemo />} />
       <Route path="edit/:memoId" element={<EditMemo />} />
     </Routes>
   );
