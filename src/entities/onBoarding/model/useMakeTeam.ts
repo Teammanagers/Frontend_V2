@@ -9,6 +9,11 @@ interface createTeamMutationProps {
   postImg: File | null;
 }
 
+interface createTeamPasswordMutationProps {
+  teamId: number | null;
+  password: string;
+}
+
 export const useTeamImgUpload = () => {
   const [postImg, setPostImg] = useState<File | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(null);
@@ -40,7 +45,7 @@ export const useCreateTeam = (onSuccess?: (data: unknown) => void) => {
 
       const createTeamData = {
         title,
-        teamTagList,
+        teamTagList: teamTagList.map((tag) => tag.name),
       };
 
       formData.append('createTeam', JSON.stringify(createTeamData));
@@ -59,11 +64,25 @@ export const useCreateTeam = (onSuccess?: (data: unknown) => void) => {
     },
     onError: () => {},
     onSuccess: (data) => {
-      console.log('팀 생성 성공:', data);
       if (onSuccess) {
         onSuccess(data);
       }
     },
   });
-  return { createTeamMutation };
+
+  const createTeamPasswordMutation = useMutation({
+    mutationFn: async ({
+      teamId,
+      password,
+    }: createTeamPasswordMutationProps) => {
+      await apiRequest({
+        url: `/api/v2/team/${teamId}/password`,
+        method: 'PATCH',
+        data: {
+          password,
+        },
+      });
+    },
+  });
+  return { createTeamMutation, createTeamPasswordMutation };
 };

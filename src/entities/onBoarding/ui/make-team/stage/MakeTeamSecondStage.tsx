@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamStages } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
+import { useCreateTeam } from '@/entities/onBoarding/model/useMakeTeam';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
 
@@ -19,7 +20,9 @@ export default function MakeTeamSecondStage({
     isValid,
     handleCopyToClipboard,
     setPassword,
+    password,
   } = MakeTeamStages();
+  const { createTeamPasswordMutation } = useCreateTeam();
 
   return (
     <StageContainer>
@@ -69,7 +72,12 @@ export default function MakeTeamSecondStage({
           size="xxl"
           style="main"
           disabled={!isValid}
-          // onClick={() => makeTeamMutation()}
+          onClick={() =>
+            createTeamPasswordMutation.mutate({
+              teamId: createdTeamId,
+              password: password,
+            })
+          }
         >
           워크 스페이스로 이동
         </Button>
