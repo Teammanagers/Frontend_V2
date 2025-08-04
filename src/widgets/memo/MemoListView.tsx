@@ -13,11 +13,13 @@ export const MemoListView = ({
   folders,
   uiState,
   handlers,
+  onDepthClick,
+  onFolderClick,
 }: MemoListViewProps) => {
   return (
     <>
       <MemoContainer>
-        <Depth>전체</Depth>
+        <Depth onClick={onDepthClick}>전체</Depth>
         <ListContainer>
           <AddButton onClick={handlers.handleOpenAddModal} />
 
@@ -25,6 +27,7 @@ export const MemoListView = ({
             <Folder
               key={folder.id}
               folder={folder}
+              onFolderClick={onFolderClick}
               onDeleteRequest={(id: number) =>
                 handlers.handleDeleteRequest({
                   type: 'folder',
@@ -117,6 +120,7 @@ const Depth = styled.div`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.mainBlue};
   background: white;
+  cursor: pointer;
 `;
 
 const ListContainer = styled.div`

@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import FolderIcon from '@/shared/assets/memo/folder.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
@@ -7,16 +6,12 @@ import { FolderProps } from '@/shared/types/memo.types.ts';
 
 export const Folder = ({
   folder,
+  onFolderClick,
   onDeleteRequest,
   onEditRequest,
 }: FolderProps) => {
   const { isOpen, setIsOpen, toggle } = useToggle();
   const { id, title } = folder;
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/memo/${id}`);
-  };
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
@@ -30,7 +25,7 @@ export const Folder = ({
 
   return (
     <FolderWrapper>
-      <FolderContainer onClick={handleClick} />
+      <FolderContainer onClick={() => onFolderClick?.(folder.id)} />
       <Overlay>
         <DropDownContainer>
           <ActionDropdown

@@ -25,6 +25,7 @@ export interface FolderType {
 
 export interface FolderProps {
   folder: FolderType;
+  onFolderClick?: (folderId: number) => void;
   onDeleteRequest: (id: number) => void;
   onEditRequest?: (folder: FolderType) => void;
 }
