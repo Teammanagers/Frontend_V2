@@ -32,7 +32,7 @@ export const WriteMemo = () => {
         folderId: currentFolderId,
         teamId: teamId,
       });
-      navigate(`/memo`);
+      navigate(`/memo/${folderId}`);
     } catch (err) {
       console.error('메모 생성 오류', err);
     }
