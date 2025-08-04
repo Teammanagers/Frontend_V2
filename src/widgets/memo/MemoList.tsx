@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
@@ -19,13 +19,11 @@ export const MemoList = () => {
   const { data: rootFolder } = useRootFolderQuery(3); // 팀 ID 동적으로 변경 필요
   const { folderId } = useParams<{ folderId: string }>();
 
-  const [currentFolderId, setCurrentFolderId] = useState(
-    folderId ? Number(folderId) : rootFolder?.id,
-  );
+  const resolvedFolderId = folderId ? Number(folderId) : (rootFolder?.id ?? 0);
 
-  const { data: memos } = useMemoListQuery(currentFolderId ?? 0);
+  const { data: memos } = useMemoListQuery(resolvedFolderId);
   // const { data: memos } = useMemoListQuery(3);
-  const { data: folders } = useFolderListQuery(currentFolderId ?? 0);
+  const { data: folders } = useFolderListQuery(resolvedFolderId);
 
   const navigate = useNavigate();
 
@@ -49,14 +47,12 @@ export const MemoList = () => {
 
   const handleDepthClick = () => {
     if (rootFolder?.id) {
-      setCurrentFolderId(rootFolder.id);
       navigate(`/memo/${rootFolder.id}`);
     }
   };
 
   const handleFolderClick = (folderId: number) => {
     navigate(`/memo/${folderId}`);
-    setCurrentFolderId(folderId);
     console.log('폴더 클릭!!!!!!!!!!!!', folderId);
   };
 
