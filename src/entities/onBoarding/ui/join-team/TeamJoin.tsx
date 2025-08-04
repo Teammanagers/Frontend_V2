@@ -62,11 +62,11 @@ export default function TeamJoin() {
                 </ResultNull>
               ) : teamData ? (
                 <Result>
-                  <Img src={teamData.img || '/default-team-image.png'} />
+                  <Img src={teamData.imgUrl || '/default-team-image.png'} />
                   <ResultBody>
-                    <TeamName>{teamData.teamName}</TeamName>
+                    <TeamName>{teamData.team.title}</TeamName>
                     <Tags>
-                      {teamData.tags?.map((tag, index) => (
+                      {teamData.teamTagList?.map((tag, index: number) => (
                         <TagEntity key={index}>{tag.name}</TagEntity>
                       ))}
                     </Tags>
