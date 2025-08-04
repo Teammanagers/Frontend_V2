@@ -13,7 +13,7 @@ export default function TeamJoin() {
   const [inputValue, setInputValue] = useState<string>('');
   const {
     data: teamData,
-    isPending: isLoading,
+    isPending,
     isError,
     mutate: searchTeam,
   } = useSearchTeamMutation;
@@ -40,16 +40,16 @@ export default function TeamJoin() {
             size="xxl"
             style="main"
             onClick={handleSearchTeam}
-            disabled={!inputValue.trim() || isLoading}
+            disabled={!inputValue.trim() || isPending}
           >
-            {isLoading ? '검색 중...' : '팀 찾기'}
+            {isPending ? '검색 중...' : '팀 찾기'}
           </Button>
         </TopContainer>
         <ResultContainer>
           {isShowResult && (
             <ContentContainer>
               <ResultTItle>탐색결과</ResultTItle>
-              {isLoading ? (
+              {isPending ? (
                 <div>검색 중...</div>
               ) : isError ? (
                 <ResultNull>
