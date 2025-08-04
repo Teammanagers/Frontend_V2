@@ -20,7 +20,7 @@ export default function MakeTeamFirstStage({
 }: MakeTeamFirstStageProps) {
   const navigate = useNavigate();
   const { createTeamMutation } = useCreateTeam((data) => {
-    setCreatedTeamId(data.result.id);
+    setCreatedTeamId(data.createdTeamId);
     setStage(2);
   });
   const { tags } = useTagContext();

@@ -14,6 +14,10 @@ interface createTeamPasswordMutationProps {
   password: string;
 }
 
+interface CreateTeamResponse {
+  createdTeamId: number;
+}
+
 export const useTeamImgUpload = () => {
   const [postImg, setPostImg] = useState<File | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(null);
@@ -34,8 +38,14 @@ export const useTeamImgUpload = () => {
   return { postImg, setPostImg, previewImg, setPreviewImg, handleFileUpload };
 };
 
-export const useCreateTeam = (onSuccess?: (data: unknown) => void) => {
-  const createTeamMutation = useMutation({
+export const useCreateTeam = (
+  onSuccess?: (data: CreateTeamResponse) => void,
+) => {
+  const createTeamMutation = useMutation<
+    CreateTeamResponse,
+    Error,
+    createTeamMutationProps
+  >({
     mutationFn: async ({
       title,
       teamTagList,
@@ -60,7 +70,7 @@ export const useCreateTeam = (onSuccess?: (data: unknown) => void) => {
         data: formData,
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      return makeTeamResponse;
+      return makeTeamResponse.result;
     },
     onError: () => {},
     onSuccess: (data) => {
