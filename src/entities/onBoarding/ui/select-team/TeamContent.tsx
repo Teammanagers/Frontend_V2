@@ -18,7 +18,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({ team }) => {
   return (
     <TeamContent onClick={() => navigate(`/team/${team.id}`)}>
       <ImgContainer>
-        <img src={team.img} width={128} height={80} alt={team.title} />
+        <TeamImage src={team.img} width={160} height={160} alt={team.title} />
       </ImgContainer>
       <TeamName>{team.title}</TeamName>
       <Tags>
@@ -54,6 +54,14 @@ const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+`;
+
+const TeamImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 152px;
 `;
 
 const PlusImgContainer = styled.div`
