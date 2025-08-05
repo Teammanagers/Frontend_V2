@@ -47,6 +47,20 @@ export default function useMemoQueries() {
     });
   };
 
+  // 메모 단건 조회
+  const useMemoDetailQuery = (memoId: number) => {
+    return useQuery({
+      queryKey: ['memoDetail', memoId],
+      queryFn: async () => {
+        const res = await axiosInstance.get<{ result: MemoResponse }>(
+          `/api/v2/memo/${memoId}`,
+        );
+        return res.data.result;
+      },
+      enabled: !!memoId,
+    });
+  };
+
   // 폴더 전체 조회
   const useFolderListQuery = (folderId: number) =>
     useQuery({
@@ -70,6 +84,7 @@ export default function useMemoQueries() {
   return {
     useRootFolderQuery,
     useMemoListQuery,
+    useMemoDetailQuery,
     useFolderListQuery,
   };
 }
