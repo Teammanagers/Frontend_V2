@@ -88,6 +88,34 @@ export default function useMemoMutations() {
     });
   };
 
+  // 메모 수정
+  const useEditMemoMutation = () => {
+    return useMutation({
+      mutationFn: async ({
+        memoId,
+        title,
+        content,
+        tags,
+      }: {
+        memoId: number;
+        title: string;
+        content: string;
+        tags: string[];
+      }) => {
+        const res = await axiosInstance.patch(`/api/v2/memo/${memoId}`, {
+          title,
+          content,
+          memoTagList: tags,
+        });
+        console.log('메모 수정: ', res.data);
+        return res.data;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['memo'] });
+      },
+    });
+  };
+
   // 폴더명 수정
   const useEditFolderMutation = () => {
     return useMutation({
@@ -116,5 +144,6 @@ export default function useMemoMutations() {
     useDeleteFolderMutation,
     useEditFolderMutation,
     useTogglePinMemoMutations,
+    useEditMemoMutation,
   };
 }
