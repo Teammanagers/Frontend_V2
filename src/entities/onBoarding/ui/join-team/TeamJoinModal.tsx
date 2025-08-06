@@ -1,16 +1,32 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { Button } from '@/shared/components/button/Button';
 import Modal from '@/shared/components/modal/Modal';
+import useJoinTeam from '../../model/useJoinTeam';
 
 interface TeamJoinModalProps {
   isOpen: boolean;
   toggle: () => void;
+  teamId: string;
 }
 
-export default function TeamJoinModal({ isOpen, toggle }: TeamJoinModalProps) {
-  const [showHelperMessage, setShowHelperMessage] = useState<boolean>(false);
+export default function TeamJoinModal({
+  isOpen,
+  toggle,
+  teamId,
+}: TeamJoinModalProps) {
+  const {
+    useJoinTeamMutation,
+    setTeamJoinPassword,
+    teamJoinPassword,
+    showHelperMessage,
+  } = useJoinTeam();
+
+  const clickSubmitBtn = () => {
+    if (!teamJoinPassword.trim()) return;
+    useJoinTeamMutation.mutate({ teamId });
+  };
+
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalWrapper>
@@ -21,12 +37,9 @@ export default function TeamJoinModal({ isOpen, toggle }: TeamJoinModalProps) {
           helperMessage="비밀번호가 일치하지 않습니다."
           helperMessageColor="red"
           showHelperMessage={showHelperMessage}
+          onChange={(e) => setTeamJoinPassword(e.target.value)}
         ></Input>
-        <Button
-          size="xl"
-          style="main"
-          onClick={() => setShowHelperMessage(true)}
-        >
+        <Button size="xl" style="main" onClick={clickSubmitBtn}>
           팀 참가하기
         </Button>
       </ModalWrapper>

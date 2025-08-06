@@ -1,30 +1,49 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
-import {
-  MakeTeamFirstStageProps,
-  MakeTeamStages,
-} from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
+import { MakeTeamFirstStageProps } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
+import { useCreateTeam } from '@/entities/onBoarding/model/useMakeTeam';
 import camera from '@/shared/assets/common/cam-plus.svg?url';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
-
+import { useTagContext } from '../MakeTeamTagProvider';
 import TagForm from '../tag/TagForm';
 
 export default function MakeTeamFirstStage({
+  title,
+  setTitle,
   setStage,
+  handleFileUpload,
+  previewImg,
+  postImg,
+  setCreatedTeamId,
 }: MakeTeamFirstStageProps) {
-  const { setTitle, title } = MakeTeamStages();
-
+  const navigate = useNavigate();
+  const { createTeamMutation } = useCreateTeam((data) => {
+    setCreatedTeamId(data.createdTeamId);
+    setStage(2);
+  });
+  const { tags } = useTagContext();
   return (
     <MakeTeamWrapper>
-      <BackContainer>
+      <BackContainer onClick={() => navigate('/login')}>
         <img src={arrow} width={40} height={40} />
         <BackSpan>프로젝트를 위해 팀을 생성해주세요</BackSpan>
       </BackContainer>
       <TopContainer>
-        <ImgContainer>
-          <img src={camera} width={163} height={163} />
-        </ImgContainer>
+        <ImgContainerLabel htmlFor="team-image-upload">
+          {previewImg ? (
+            <PreviewImage src={previewImg} alt="팀 이미지 미리보기" />
+          ) : (
+            <img src={camera} width={163} height={163} />
+          )}
+          <ImgInput
+            type="file"
+            id="team-image-upload"
+            accept="image/*"
+            onChange={handleFileUpload}
+          />
+        </ImgContainerLabel>
       </TopContainer>
       <BottomContainer>
         <Input
@@ -39,7 +58,14 @@ export default function MakeTeamFirstStage({
           size="xxl"
           style="main"
           disabled={title === ''}
-          onClick={() => setStage(2)}
+          onClick={() => {
+            createTeamMutation.mutate({
+              title,
+              teamTagList: tags,
+              postImg,
+            });
+            setStage(2);
+          }}
         >
           팀 생성 완료
         </Button>
@@ -58,7 +84,7 @@ const MakeTeamWrapper = styled.div`
   align-items: center;
 `;
 
-const BackContainer = styled.div`
+const BackContainer = styled.button`
   position: absolute;
   top: 100px;
   left: 112px;
@@ -81,10 +107,22 @@ const BottomContainer = styled.div`
   gap: 28px;
 `;
 
-const ImgContainer = styled.div`
+const ImgContainerLabel = styled.label`
+  display: inline-block;
   width: 163px;
   height: 163px;
   border-radius: 38px;
   border: solid 1px rgba(240, 240, 240, 1);
-  background-color: white;
+  cursor: pointer;
+`;
+
+const ImgInput = styled.input`
+  display: none;
+`;
+
+const PreviewImage = styled.img`
+  width: 163px;
+  height: 163px;
+  object-fit: cover;
+  border-radius: 38px;
 `;

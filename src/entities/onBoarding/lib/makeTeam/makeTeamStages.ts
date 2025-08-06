@@ -1,19 +1,22 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 export interface MakeTeamFirstStageProps {
+  title: string;
+  setTitle: (title: string) => void;
   setStage: Dispatch<SetStateAction<number>>;
+  handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  previewImg: string | null;
+  postImg: File | null;
+  setCreatedTeamId: (createdTeamId: number) => void;
 }
 
 export const MakeTeamStages = () => {
-  // 첫 번째 스테이지 상태
-  const [title, setTitle] = useState<string>('');
-
-  // 두 번째 스테이지 상태
   const [teamCode, setTeamCode] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isShowHelperMessage, setIsShowHelperMessage] =
     useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [createdTeamId, setCreatedTeamId] = useState<number | null>(null);
 
   // 폼 유효성 초기화
   useEffect(() => {
@@ -32,12 +35,18 @@ export const MakeTeamStages = () => {
     setIsShowHelperMessage(true);
   };
 
-  return {
-    // 첫 번째 스테이지 상태 및 메서드
-    title,
-    setTitle,
+  // const { createTeamMutation } = useCreateTeam();
 
-    // 두 번째 스테이지 상태 및 메서드
+  // const handleClickWorkSpace = (teamTagList: string[]) => {
+  //   createTeamMutation.mutate({
+  //     title,
+  //     teamCode,
+  //     teamTagList: teamTagList,
+  //     password,
+  //   });
+  // };
+
+  return {
     teamCode,
     setTeamCode,
     password,
@@ -46,5 +55,7 @@ export const MakeTeamStages = () => {
     setIsShowHelperMessage,
     isValid,
     handleCopyToClipboard,
+    setCreatedTeamId,
+    createdTeamId,
   };
 };

@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import plus from '@/shared/assets/common/plus-icon.svg?url';
 
 interface TeamInfo {
+  id: number;
   img: string;
   title: string;
   tags: string[];
@@ -9,18 +11,14 @@ interface TeamInfo {
 
 interface TeamCardProps {
   team: TeamInfo;
-  onClick?: () => void;
 }
 
-interface AddTeamCardProps {
-  onClick?: () => void;
-}
-
-export const TeamCard: React.FC<TeamCardProps> = ({ team, onClick }) => {
+export const TeamCard: React.FC<TeamCardProps> = ({ team }) => {
+  const navigate = useNavigate();
   return (
-    <TeamContent onClick={onClick}>
+    <TeamContent onClick={() => navigate(`/team/${team.id}`)}>
       <ImgContainer>
-        <img src={team.img} width={128} height={80} alt={team.title} />
+        <TeamImage src={team.img} width={160} height={160} alt={team.title} />
       </ImgContainer>
       <TeamName>{team.title}</TeamName>
       <Tags>
@@ -32,9 +30,11 @@ export const TeamCard: React.FC<TeamCardProps> = ({ team, onClick }) => {
   );
 };
 
-export const AddTeamCard: React.FC<AddTeamCardProps> = ({ onClick }) => {
+export const AddTeamCard = () => {
+  const navigate = useNavigate();
+
   return (
-    <TeamContent onClick={onClick}>
+    <TeamContent onClick={() => navigate('/make-team')}>
       <PlusImgContainer>
         <img src={plus} width={128} height={80} alt="새 팀 생성" />
       </PlusImgContainer>
@@ -54,6 +54,14 @@ const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+`;
+
+const TeamImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 152px;
 `;
 
 const PlusImgContainer = styled.div`

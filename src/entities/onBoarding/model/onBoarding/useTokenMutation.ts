@@ -1,0 +1,47 @@
+import { useMutation } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import apiRequest from '@/shared/api/apiRequest';
+
+export const useTokenMutation = () => {
+  const [searchParams] = useSearchParams();
+  const code = searchParams.get('code');
+  const navigate = useNavigate();
+
+  const tokenMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest({
+        url: '/api/v2/auth/token',
+        method: 'POST',
+        data: { code },
+      });
+      return response;
+    },
+    onSuccess: (data) => {
+      // TODO
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken); // 관리 방식 논의 필요
+      if (data.isNewUser === false) {
+        navigate('/select-team');
+      } else {
+        navigate('/sign-up');
+      }
+    },
+    onError: () => {
+      alert('로그인에 실패하였습니다.');
+      navigate('/login');
+    },
+  });
+
+  useEffect(() => {
+    if (!code) {
+      alert('코드가 없습니다.');
+      navigate('/login');
+      return;
+    }
+
+    tokenMutation.mutate();
+  }, [code]);
+
+  return {};
+};

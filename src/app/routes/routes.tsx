@@ -9,6 +9,7 @@ import MakeTeamPage from '@/pages/MakeTeamPage/make-team';
 import { ManagementPage } from '@/pages/ManagementPage';
 import { ExtraMemoPage, MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
+import Redirect from '@/pages/RedirectPage/redirect';
 import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
 import { SharePage } from '@/pages/SharePage';
 import { SignupPage } from '@/pages/SignupPage';
@@ -23,6 +24,8 @@ export default function AppRoutes() {
         <Route>
           {/* Login Page */}
           <Route path="/login" element={<LoginPage />} />
+          {/* sign-up or select Team redirect */}
+          <Route path="/redirect" element={<Redirect />} />
           {/* Admin Login Page */}
           <Route path="/login-admin" element={<AdminLoginPage />} />
           {/* Sign Up Page */}

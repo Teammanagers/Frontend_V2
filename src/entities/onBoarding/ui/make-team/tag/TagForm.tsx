@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { TagFormLib } from '@/entities/onBoarding/lib/makeTeam/tagForm';
 import pluxBtn from '@/shared/assets/common/add-tag.svg?url';
 import removeBtn from '@/shared/assets/common/delete-tag.svg?url';
+import { useTagContext } from '../MakeTeamTagProvider';
 
 export default function TagForm() {
   const {
@@ -13,7 +13,7 @@ export default function TagForm() {
     handleAddTag,
     handleRMTag,
     inputRef,
-  } = TagFormLib();
+  } = useTagContext();
 
   return (
     <TagFormContainer>

@@ -1,36 +1,57 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { Button } from '@/shared/components/button/Button';
 import TeamJoinModal from './TeamJoinModal';
 import { JoinTeam } from '../../lib/joinTeam/teamJoin';
+import useJoinTeam from '../../model/useJoinTeam';
 
 export default function TeamJoin() {
+  const { isOpen, toggle, isShowResult, setIsShowResult } = JoinTeam();
+
+  const { useSearchTeamMutation } = useJoinTeam();
+  const [inputValue, setInputValue] = useState<string>('');
   const {
-    isOpen,
-    toggle,
-    setIsShowResult,
-    isShowResult,
-    ISRESULTNULL,
-    MOCKTEAM,
-  } = JoinTeam();
+    data: teamData,
+    isPending,
+    isError,
+    mutate: searchTeam,
+  } = useSearchTeamMutation;
+
+  const handleSearchTeam = () => {
+    if (inputValue.trim()) {
+      setIsShowResult(true);
+      searchTeam(inputValue);
+    }
+  };
+
   return (
     <PageContainer>
-      <TeamJoinModal isOpen={isOpen} toggle={toggle} />
-      <JoinCotainer>
+      <TeamJoinModal isOpen={isOpen} toggle={toggle} teamId={inputValue} />
+      <JoinContainer>
         <TopContainer>
           <Input
             title="Team Code"
             placeholder="참여하려는 팀 코드를 입력해주세요"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
           />
-          <Button size="xxl" style="main" onClick={() => setIsShowResult(true)}>
-            팀 찾기
+          <Button
+            size="xxl"
+            style="main"
+            onClick={handleSearchTeam}
+            disabled={!inputValue.trim() || isPending}
+          >
+            {isPending ? '검색 중...' : '팀 찾기'}
           </Button>
         </TopContainer>
         <ResultContainer>
-          {isShowResult ? (
+          {isShowResult && (
             <ContentContainer>
               <ResultTItle>탐색결과</ResultTItle>
-              {ISRESULTNULL ? (
+              {isPending ? (
+                <div>검색 중...</div>
+              ) : isError ? (
                 <ResultNull>
                   <ResultNullSpan $textColor="red">
                     해당 코드와 일치하는 팀이 없습니다.
@@ -39,30 +60,28 @@ export default function TeamJoin() {
                     코드를 다시 한번 확인해 주세요.
                   </ResultNullSpan>
                 </ResultNull>
-              ) : (
+              ) : teamData ? (
                 <Result>
-                  <Img src={MOCKTEAM.img} />
+                  <Img src={teamData.imgUrl || '/default-team-image.png'} />
                   <ResultBody>
-                    <TeamName>{MOCKTEAM.teamName}</TeamName>
+                    <TeamName>{teamData.team.title}</TeamName>
                     <Tags>
-                      {MOCKTEAM.tags.map((tag) => (
-                        <TagEntity>{tag.name}</TagEntity>
+                      {teamData.teamTagList?.map((tag, index: number) => (
+                        <TagEntity key={index}>{tag.name}</TagEntity>
                       ))}
                     </Tags>
                   </ResultBody>
                 </Result>
-              )}
-              {!ISRESULTNULL && (
-                <Button size="xxl" style="main" onClick={toggle}>
-                  팀 참여하기
-                </Button>
-              )}
+              ) : null}
             </ContentContainer>
-          ) : (
-            <></>
+          )}
+          {!teamData && (
+            <Button size="xxl" style="main" onClick={toggle}>
+              팀 참여하기
+            </Button>
           )}
         </ResultContainer>
-      </JoinCotainer>
+      </JoinContainer>
     </PageContainer>
   );
 }
@@ -76,7 +95,7 @@ const PageContainer = styled.div`
   justify-content: center;
 `;
 
-const JoinCotainer = styled.div`
+const JoinContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 262px;

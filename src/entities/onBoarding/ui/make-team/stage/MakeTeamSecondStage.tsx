@@ -1,16 +1,32 @@
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamStages } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
+import { useCreateTeam } from '@/entities/onBoarding/model/useMakeTeam';
 import arrow from '@/shared/assets/common/expand-right-arrow.svg?url';
 import { Button } from '@/shared/components/button/Button';
 
-export default function MakeTeamSecondStage() {
-  const { isShowHelperMessage, setTeamCode, isValid, handleCopyToClipboard } =
-    MakeTeamStages();
+export default function MakeTeamSecondStage({
+  createdTeamId,
+  setStage,
+}: {
+  createdTeamId: number | null;
+  setStage: Dispatch<SetStateAction<number>>;
+}) {
+  console.log(createdTeamId);
+  const {
+    isShowHelperMessage,
+    setTeamCode,
+    isValid,
+    handleCopyToClipboard,
+    setPassword,
+    password,
+  } = MakeTeamStages();
+  const { createTeamPasswordMutation } = useCreateTeam();
 
   return (
     <StageContainer>
-      <BackContainer>
+      <BackContainer onClick={() => setStage(1)}>
         <img src={arrow} width={40} height={40} />
         <BackSpan>프로젝트를 위해 팀을 생성해주세요</BackSpan>
       </BackContainer>
@@ -23,7 +39,7 @@ export default function MakeTeamSecondStage() {
               helperMessage="코드가 복사되었습니다."
               textColor="rgba(92, 158, 255, 1)"
               onChange={(e) => {
-                setTeamCode(e.target.value);
+                setTeamCode(e.target.value); // TODO 서버에서 발급받는 방식으로 변경(API 완성되면)
               }}
             />
           </InputWrapper>
@@ -42,6 +58,9 @@ export default function MakeTeamSecondStage() {
           <Input
             title="비밀번호"
             placeholder="참가를 위한 비밀번호를 설정해주세요"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
         </PasswordInputContainer>
       </InputContainer>
@@ -49,7 +68,17 @@ export default function MakeTeamSecondStage() {
         <Button size="xxl" style="sub">
           이메일로 보내기
         </Button>
-        <Button size="xxl" style="main" disabled={isValid}>
+        <Button
+          size="xxl"
+          style="main"
+          disabled={!isValid}
+          onClick={() =>
+            createTeamPasswordMutation.mutate({
+              teamId: createdTeamId,
+              password: password,
+            })
+          }
+        >
           워크 스페이스로 이동
         </Button>
       </BtnContainer>
@@ -68,7 +97,7 @@ const StageContainer = styled.div`
   background-color: #f8fafc;
 `;
 
-const BackContainer = styled.div`
+const BackContainer = styled.button`
   position: absolute;
   top: 100px;
   left: 112px;
