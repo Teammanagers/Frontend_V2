@@ -4,7 +4,7 @@ import google from '@/shared/assets/common/google-logo.svg?url';
 import kakao from '@/shared/assets/common/kakao-logo.svg?url';
 import logo from '@/shared/assets/common/logo.svg?url';
 import naver from '@/shared/assets/common/naver-logo.svg?url';
-import useSocialLogin from '@/features/onBoarding/hooks/useSocialLogin';
+import useSocialLogin from '../../model/onBoarding/useSocialLogin';
 
 export default function LoginOptions() {
   const { socialLoginProvider } = useSocialLogin();
