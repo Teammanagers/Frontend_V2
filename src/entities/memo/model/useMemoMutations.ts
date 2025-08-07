@@ -138,6 +138,20 @@ export default function useMemoMutations() {
     });
   };
 
+  // 메모 삭제
+  const useDeleteMemoMutation = () => {
+    return useMutation({
+      mutationFn: async (memoId: number) => {
+        const res = await axiosInstance.delete(`/api/v2/memo/${memoId}`);
+        console.log('메모 삭제: ', res.data);
+        return res.data;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['memo'] });
+      },
+    });
+  };
+
   return {
     useCreateMemoMutation,
     useCreateFolderMutation,
@@ -145,5 +159,6 @@ export default function useMemoMutations() {
     useEditFolderMutation,
     useTogglePinMemoMutations,
     useEditMemoMutation,
+    useDeleteMemoMutation,
   };
 }
