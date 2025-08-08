@@ -30,6 +30,10 @@ export interface AddModalProps extends ModalProps {
   onAddFolder: () => void;
 }
 
+export interface MoveModalProps extends ModalProps {
+  memoId: number;
+}
+
 export interface Target {
   type: 'memo' | 'folder';
   id: number;

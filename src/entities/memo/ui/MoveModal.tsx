@@ -1,17 +1,41 @@
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { MoveModalProps } from '@/entities/memo/memo.type.ts';
+import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
+import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { ModalContainer } from '@/entities/memo/ui/AddModal.tsx';
-import folderData from '@/shared/assets/memo/folderData.json';
 import Modal from '@/shared/components/modal/Modal.tsx';
-import { ModalProps } from '@/shared/types/modal.types.ts';
 
-export const MoveModal = ({ isOpen, toggle }: ModalProps) => {
+export const MoveModal = ({ memoId, isOpen, toggle }: MoveModalProps) => {
+  const { folderId } = useParams<{ folderId: string }>();
+  const { useFolderListQuery } = useMemoQueries();
+  const { useMoveMemoMutation } = useMemoMutations();
+
+  console.log('movemodal id들: ', folderId, memoId);
+
+  const { data: folders } = useFolderListQuery(Number(folderId));
+  const { mutate: moveMemo } = useMoveMemoMutation();
+  const navigate = useNavigate();
+
+  const handleMove = (targetFolderId: number) => {
+    moveMemo(
+      { memoId, folderId: targetFolderId },
+      {
+        onSuccess: () => {
+          navigate(`/memo/${targetFolderId}`);
+          toggle();
+        },
+      },
+    );
+  };
+
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalContainer>
-        {folderData.map((folder) => (
+        {folders?.map((folder) => (
           <MenuContainer key={folder.id}>
             <MenuText>{folder.title}</MenuText>
-            <Button>이동</Button>
+            <Button onClick={() => handleMove(folder.id)}>이동</Button>
           </MenuContainer>
         ))}
       </ModalContainer>

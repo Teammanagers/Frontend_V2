@@ -152,6 +152,28 @@ export default function useMemoMutations() {
     });
   };
 
+  // 메모 폴더 이동
+  const useMoveMemoMutation = () => {
+    return useMutation({
+      mutationFn: async ({
+        memoId,
+        folderId,
+      }: {
+        memoId: number;
+        folderId: number;
+      }) => {
+        const res = await axiosInstance.patch(`/api/v2/memo/${memoId}/folder`, {
+          folderId,
+        });
+        console.log('메모 폴더 이동: ', res.data);
+        return res.data;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['memo'] });
+      },
+    });
+  };
+
   return {
     useCreateMemoMutation,
     useCreateFolderMutation,
@@ -160,5 +182,6 @@ export default function useMemoMutations() {
     useTogglePinMemoMutations,
     useEditMemoMutation,
     useDeleteMemoMutation,
+    useMoveMemoMutation,
   };
 }

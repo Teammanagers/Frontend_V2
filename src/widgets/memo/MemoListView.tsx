@@ -84,7 +84,11 @@ export const MemoListView = ({
       )}
 
       {uiState.moveTarget && (
-        <MoveModal isOpen={true} toggle={handlers.closeMoveModal} />
+        <MoveModal
+          memoId={uiState.moveTarget.id}
+          isOpen={true}
+          toggle={handlers.closeMoveModal}
+        />
       )}
 
       {uiState.openFolderModal && (
