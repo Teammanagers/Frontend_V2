@@ -16,8 +16,12 @@ export const MemoList = () => {
     handlers,
   } = useMemoUIState();
 
-  const { useRootFolderQuery, useFolderListQuery, useMemoListQuery } =
-    useMemoQueries();
+  const {
+    useRootFolderQuery,
+    useFolderListQuery,
+    useMemoListQuery,
+    useFolderDetailQuery,
+  } = useMemoQueries();
   const { data: rootFolder } = useRootFolderQuery(3); // 팀 ID 동적으로 변경 필요
   const { folderId } = useParams<{ folderId: string }>();
 
@@ -26,6 +30,7 @@ export const MemoList = () => {
   const { data: memos } = useMemoListQuery(resolvedFolderId);
   // const { data: memos } = useMemoListQuery(3);
   const { data: folders } = useFolderListQuery(resolvedFolderId);
+  const { data: currentFolder } = useFolderDetailQuery(resolvedFolderId);
 
   const navigate = useNavigate();
   const { setPath, resetPath } = useFolderPathStore();
@@ -84,6 +89,8 @@ export const MemoList = () => {
       }}
       handlers={handlers}
       onFolderClick={handleFolderClick}
+      currentFolderId={resolvedFolderId}
+      currentFolderDepth={currentFolder?.depth ?? 1}
     />
   );
 };

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import { MemoAddBtnProps } from '@/entities/memo/memo.type.ts';
 import AddMemoIcon from '@/shared/assets/common/add-tag.svg?react';
 
-export const AddButton = ({ onClick }: { onClick: () => void }) => {
+export const AddButton = ({ onClick }: MemoAddBtnProps) => {
   return (
     <MemoContainer onClick={onClick}>
       <AddMemoIcon width={46} height={46} stroke="#1d1d1d" />

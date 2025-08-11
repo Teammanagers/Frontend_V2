@@ -24,6 +24,7 @@ export interface FolderModalProps extends ModalProps {
   mode: 'create' | 'edit';
   currentName?: string;
   folderId?: number;
+  parentId: number;
 }
 
 export interface AddModalProps extends ModalProps {
@@ -66,4 +67,10 @@ export interface MemoListViewProps {
   uiState: MemoListViewUIState;
   handlers: MemoListViewHandlers;
   onFolderClick?: (folderId: number) => void;
+  currentFolderId: number;
+  currentFolderDepth: number;
+}
+
+export interface MemoAddBtnProps {
+  onClick: () => void;
 }

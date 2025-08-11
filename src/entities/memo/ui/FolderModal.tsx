@@ -11,6 +11,7 @@ export const FolderModal = ({
   isOpen,
   toggle,
   folderId,
+  parentId,
 }: FolderModalProps) => {
   const [folderName, setFolderName] = useState(
     mode === 'edit' ? (currentName ?? '') : '',
@@ -25,7 +26,7 @@ export const FolderModal = ({
       createFolder(
         {
           name: folderName,
-          parentId: 3, // 나중에 params로 받아오기
+          parentId,
         },
         {
           onSuccess: () => {

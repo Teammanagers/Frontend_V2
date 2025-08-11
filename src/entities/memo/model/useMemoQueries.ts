@@ -32,6 +32,7 @@ export default function useMemoQueries() {
             params: { folderId },
           },
         );
+        console.log('메모 조회: ', res.data);
         return res.data.result.map((memo): MemoType => {
           return {
             id: memo.memoDto.id,
@@ -71,6 +72,7 @@ export default function useMemoQueries() {
             params: { folderId },
           },
         );
+        console.log('폴더 조회: ', res.data);
         return res.data.result.map(
           (folder): FolderType => ({
             id: folder.folderDto.id,
@@ -80,10 +82,25 @@ export default function useMemoQueries() {
       },
     });
 
+  // 폴더 단건 조회
+  const useFolderDetailQuery = (folderId: number) => {
+    return useQuery({
+      queryKey: ['folderDetail', folderId],
+      queryFn: async () => {
+        const res = await axiosInstance.get<{ result: FolderResponse }>(
+          `/api/v2/folder/${folderId}`,
+        );
+        console.log('폴더 단건 조회: ', res.data);
+        return res.data.result.folderDto;
+      },
+    });
+  };
+
   return {
     useRootFolderQuery,
     useMemoListQuery,
     useMemoDetailQuery,
     useFolderListQuery,
+    useFolderDetailQuery,
   };
 }
