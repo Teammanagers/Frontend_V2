@@ -31,6 +31,7 @@ export const MemoList = () => {
   // const { data: memos } = useMemoListQuery(3);
   const { data: folders } = useFolderListQuery(resolvedFolderId);
   const { data: currentFolder } = useFolderDetailQuery(resolvedFolderId);
+  const canAddFolder = (currentFolder?.depth ?? 1) < 3;
 
   const navigate = useNavigate();
   const { setPath, resetPath } = useFolderPathStore();
@@ -90,7 +91,7 @@ export const MemoList = () => {
       handlers={handlers}
       onFolderClick={handleFolderClick}
       currentFolderId={resolvedFolderId}
-      currentFolderDepth={currentFolder?.depth ?? 1}
+      canAddFolder={canAddFolder}
     />
   );
 };

@@ -29,6 +29,7 @@ export interface FolderModalProps extends ModalProps {
 
 export interface AddModalProps extends ModalProps {
   onAddFolder: () => void;
+  canAddFolder?: boolean;
 }
 
 export interface MoveModalProps extends ModalProps {
@@ -68,7 +69,7 @@ export interface MemoListViewProps {
   handlers: MemoListViewHandlers;
   onFolderClick?: (folderId: number) => void;
   currentFolderId: number;
-  currentFolderDepth: number;
+  canAddFolder?: boolean;
 }
 
 export interface MemoAddBtnProps {

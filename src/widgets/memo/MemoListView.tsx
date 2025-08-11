@@ -16,15 +16,14 @@ export const MemoListView = ({
   handlers,
   onFolderClick,
   currentFolderId,
-  currentFolderDepth,
+  canAddFolder,
 }: MemoListViewProps) => {
-  const isMaxDepth = currentFolderDepth >= 3;
   return (
     <>
       <MemoContainer>
         <BreadCrumb />
         <ListContainer>
-          {!isMaxDepth && <AddButton onClick={handlers.handleOpenAddModal} />}
+          <AddButton onClick={handlers.handleOpenAddModal} />
           {folders.map((folder) => (
             <Folder
               key={folder.id}
@@ -72,6 +71,7 @@ export const MemoListView = ({
           isOpen={true}
           toggle={handlers.closeAddModal}
           onAddFolder={handlers.handleAddFolder}
+          canAddFolder={canAddFolder}
         />
       )}
 
