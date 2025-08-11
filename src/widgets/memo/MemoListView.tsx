@@ -6,6 +6,7 @@ import { DeleteModal } from '@/entities/memo/ui/DeleteModal';
 import { Folder } from '@/entities/memo/ui/Folder';
 import { FolderModal } from '@/entities/memo/ui/FolderModal';
 import { MoveModal } from '@/entities/memo/ui/MoveModal';
+import { BreadCrumb } from '@/features/memo/ui/BreadCrumb.tsx';
 import { Memo } from '@/widgets/memo/Memo';
 
 export const MemoListView = ({
@@ -13,16 +14,14 @@ export const MemoListView = ({
   folders,
   uiState,
   handlers,
-  onDepthClick,
   onFolderClick,
 }: MemoListViewProps) => {
   return (
     <>
       <MemoContainer>
-        <Depth onClick={onDepthClick}>전체</Depth>
+        <BreadCrumb />
         <ListContainer>
           <AddButton onClick={handlers.handleOpenAddModal} />
-
           {folders.map((folder) => (
             <Folder
               key={folder.id}
@@ -110,21 +109,7 @@ const MemoContainer = styled.div`
   justify-content: center;
   align-content: center;
   gap: 12px;
-`;
-
-const Depth = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 78px;
-  height: 40px;
-  border-radius: 100px;
-  border: 2px solid ${({ theme }) => theme.colors.mainBlue};
-  font-size: 16px;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.mainBlue};
-  background: white;
-  cursor: pointer;
+  background: cadetblue;
 `;
 
 const ListContainer = styled.div`

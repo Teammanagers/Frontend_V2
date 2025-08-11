@@ -72,6 +72,7 @@ export default function useMemoQueries() {
             params: { folderId },
           },
         );
+        console.log('폴더 조회: ', res.data);
         return res.data.result.map(
           (folder): FolderType => ({
             id: folder.folderDto.id,
