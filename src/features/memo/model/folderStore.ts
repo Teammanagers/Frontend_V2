@@ -1,10 +1,5 @@
 import { create } from 'zustand';
 
-// interface FolderState {
-//   currentFolderId: number | null;
-//   setCurrentFolderId: (id: number) => void;
-// }
-
 type FolderPath = { id: number; name: string };
 
 interface FolderPathState {
@@ -14,11 +9,6 @@ interface FolderPathState {
   popPath: () => void;
   resetPath: () => void;
 }
-
-// export const useFolderStore = create<FolderState>((set) => ({
-//   currentFolderId: null,
-//   setCurrentFolderId: (id) => set({ currentFolderId: id }),
-// }));
 
 export const useFolderPathStore = create<FolderPathState>((set) => ({
   path: [],

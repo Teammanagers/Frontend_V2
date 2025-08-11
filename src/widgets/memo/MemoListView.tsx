@@ -109,7 +109,6 @@ const MemoContainer = styled.div`
   justify-content: center;
   align-content: center;
   gap: 12px;
-  background: cadetblue;
 `;
 
 const ListContainer = styled.div`

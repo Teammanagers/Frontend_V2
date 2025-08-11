@@ -60,10 +60,6 @@ export const MemoList = () => {
     buildPathFrom(resolvedFolderId);
   }, [resolvedFolderId, setPath, resetPath]);
 
-  useEffect(() => {
-    console.log(`폴더: ${folderId}, 루트: ${rootFolder?.id}`);
-  }, [folderId, rootFolder]);
-
   // 메모 고정에 따른 정렬
   const sortedMemos = [...(memos ?? [])].sort((a, b) => {
     if (a.isFixed === b.isFixed) return 0;
@@ -72,7 +68,6 @@ export const MemoList = () => {
 
   const handleFolderClick = async (folderId: number) => {
     navigate(`/memo/${folderId}`);
-    console.log('폴더 클릭!!!!!!!!!!!!', folderId);
   };
 
   return (

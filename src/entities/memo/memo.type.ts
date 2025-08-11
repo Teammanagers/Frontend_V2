@@ -65,6 +65,5 @@ export interface MemoListViewProps {
   folders: FolderType[];
   uiState: MemoListViewUIState;
   handlers: MemoListViewHandlers;
-  onDepthClick?: () => void;
   onFolderClick?: (folderId: number) => void;
 }
