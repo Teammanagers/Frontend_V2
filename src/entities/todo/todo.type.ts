@@ -24,6 +24,7 @@ interface ITeamTodoResponse {
   completed: number;
   in_progress: number;
   pending: number;
+  myTeamMemberId: number;
   teamTodoList: ITeamMemberTodo[];
 }
 
