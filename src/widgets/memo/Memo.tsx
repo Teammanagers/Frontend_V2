@@ -175,8 +175,7 @@ const TagContainer = styled.div`
 
 const TagBox = styled.div`
   width: auto;
-  max-width: 50px;
-  padding: 0 6px 0 6px;
+  padding: 5px 8px;
   height: 28px;
   border: 3px;
   border-radius: 3px;

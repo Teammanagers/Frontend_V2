@@ -10,9 +10,10 @@ export const DeleteModal = ({
   name,
   isOpen,
   toggle,
+  parentId,
 }: DeleteModalProps) => {
   const { useDeleteFolderMutation, useDeleteMemoMutation } = useMemoMutations();
-  const { mutate: deleteFolder } = useDeleteFolderMutation(3); // 3은 현재 부모 폴더 ID
+  const { mutate: deleteFolder } = useDeleteFolderMutation(parentId); // 3은 현재 부모 폴더 ID
   const { mutate: deleteMemo } = useDeleteMemoMutation();
 
   const handleDelete = () => {
@@ -24,10 +25,12 @@ export const DeleteModal = ({
     toggle();
   };
 
+  const displayName = name.length > 10 ? `${name.slice(0, 10)}...` : name;
+
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalContainer>
-        {`'${name}' ${type === 'folder' ? '폴더' : '메모'}를 삭제하시겠습니까?`}
+        {`'${displayName}' ${type === 'folder' ? '폴더' : '메모'}를 삭제하시겠습니까?`}
         <ButtonContainer>
           <Button size="mini" style="main" onClick={toggle}>
             유지
@@ -46,8 +49,9 @@ const ModalContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 300px;
-  height: 148px;
+  min-width: 300px;
+  min-height: 148px;
+  padding: 32px 36px;
   border-radius: 8px;
   font-size: 16px;
   gap: 24px;
