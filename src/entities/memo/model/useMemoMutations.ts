@@ -27,7 +27,6 @@ export default function useMemoMutations() {
             memoTagList: tags,
           },
         );
-        console.log('메모 생성: ', res.data);
         return res.data.result;
       },
       onSuccess: (_, { folderId }) => {
@@ -49,7 +48,6 @@ export default function useMemoMutations() {
         const res = await axiosInstance.post(`/api/v2/folder/${parentId}`, {
           name,
         });
-        console.log('폴더 생성:', res.data.result);
         return res.data.result;
       },
       onSuccess: (_, { parentId }) => {
@@ -63,7 +61,6 @@ export default function useMemoMutations() {
     return useMutation({
       mutationFn: async (memoId: number) => {
         const res = await axiosInstance.patch(`/api/v2/memo/${memoId}/fixing`);
-        console.log('메모 고정 여부: ', res.data);
         return res.data;
       },
       onSuccess: () => {
@@ -79,7 +76,6 @@ export default function useMemoMutations() {
         const res = await axiosInstance.delete(`/api/v2/folder/${folderId}`, {
           data: { folderId },
         });
-        console.log('폴더 삭제');
         return res.data;
       },
       onSuccess: () => {
@@ -107,7 +103,6 @@ export default function useMemoMutations() {
           content,
           memoTagList: tags,
         });
-        console.log('메모 수정: ', res.data);
         return res.data;
       },
       onSuccess: () => {
@@ -129,7 +124,6 @@ export default function useMemoMutations() {
         const res = await axiosInstance.patch(`/api/v2/folder/${folderId}`, {
           name,
         });
-        console.log('폴더 수정:', res.data);
         return res.data;
       },
       onSuccess: () => {
@@ -143,7 +137,6 @@ export default function useMemoMutations() {
     return useMutation({
       mutationFn: async (memoId: number) => {
         const res = await axiosInstance.delete(`/api/v2/memo/${memoId}`);
-        console.log('메모 삭제: ', res.data);
         return res.data;
       },
       onSuccess: () => {
@@ -165,7 +158,6 @@ export default function useMemoMutations() {
         const res = await axiosInstance.patch(`/api/v2/memo/${memoId}/folder`, {
           folderId,
         });
-        console.log('메모 폴더 이동: ', res.data);
         return res.data;
       },
       onSuccess: () => {
