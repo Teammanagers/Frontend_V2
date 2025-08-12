@@ -11,9 +11,9 @@
         "fileNameExtension": "png",
         "fileSize": 13907,
         "createdAt": "2025-08-01 18:43:38",
-        "createdBy": 7,
+        "createdBy": 2,
         "updatedAt": "2025-08-01 18:43:38",
-        "updatedBy": 7,
+        "updatedBy": 2,
         "useYn": "Y"
       },
       "fileUrl": "https://team-managers-bucket.s3.ap-northeast-2.amazonaws.com/team-data/20250801184337488752462f2408c9e-f130-4ee1-8cfb-a48d9ef0b411?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250801T190432Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA3FLD2MOYVXTJGAWI%2F20250801%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=587079f6dd710ff6a0bb4be94f7f8a8b5f987655bdf1b37a5b64b70c61b6e11b"

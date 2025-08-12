@@ -12,9 +12,10 @@ export default function DeleteResourceButton({
   myId,
   ...props
 }: IDeleteResourceButtonProps) {
-  const handleDeleteClick = () => {
-    // 리소스 삭제 로직 및 모달 오픈
-  };
+  // 리소스 삭제 로직 및 모달 오픈 -> 훅으로 분리
+  const handleDeleteClick = () => {};
+
+  if (resourceId !== myId) return null;
 
   return (
     <ButtonContainer {...props} onClick={handleDeleteClick}>

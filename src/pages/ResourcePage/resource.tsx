@@ -1,14 +1,29 @@
-import AddFeedbackButton from '@/entities/feedback/AddFeedbackButton';
-import AddResourceButton from '@/entities/resource/AddResourceButton';
+import FeedbackList from '@/widgets/feedback/FeedbackList';
+import EditableResourceList from '@/widgets/resource/EditableResourceList';
+import styled from 'styled-components';
 
 export function ResourcePage() {
   return (
-    <div>
-      <div style={{ width: '486px', height: '66px' }}>
-        <AddResourceButton />
-      </div>
-      <AddResourceButton size="small" />
-      <AddFeedbackButton />
-    </div>
+    <Container>
+      <WidgetsWrapper>
+        <EditableResourceList />
+        <FeedbackList />
+      </WidgetsWrapper>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 100vh;
+`;
+
+const WidgetsWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  width: 85dvw;
+`;
