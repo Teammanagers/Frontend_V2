@@ -18,6 +18,7 @@ export interface DeleteModalProps extends ModalProps {
   type: 'folder' | 'memo';
   id: number;
   name: string;
+  parentId: number;
 }
 
 export interface FolderModalProps extends ModalProps {
@@ -30,10 +31,12 @@ export interface FolderModalProps extends ModalProps {
 export interface AddModalProps extends ModalProps {
   onAddFolder: () => void;
   canAddFolder?: boolean;
+  parentId: number;
 }
 
 export interface MoveModalProps extends ModalProps {
   memoId: number;
+  parentId: number;
 }
 
 export interface Target {

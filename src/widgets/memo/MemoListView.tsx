@@ -72,6 +72,7 @@ export const MemoListView = ({
           toggle={handlers.closeAddModal}
           onAddFolder={handlers.handleAddFolder}
           canAddFolder={canAddFolder}
+          parentId={currentFolderId}
         />
       )}
 
@@ -82,6 +83,7 @@ export const MemoListView = ({
           name={uiState.deleteTarget.title}
           isOpen={true}
           toggle={handlers.closeDeleteModal}
+          parentId={currentFolderId}
         />
       )}
 
@@ -90,6 +92,7 @@ export const MemoListView = ({
           memoId={uiState.moveTarget.id}
           isOpen={true}
           toggle={handlers.closeMoveModal}
+          parentId={currentFolderId}
         />
       )}
 

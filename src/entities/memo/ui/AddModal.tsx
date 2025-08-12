@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AddModalProps } from '@/entities/memo/memo.type.ts';
 import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
@@ -10,12 +10,12 @@ export const AddModal = ({
   toggle,
   onAddFolder,
   canAddFolder,
+  parentId,
 }: AddModalProps) => {
   const navigate = useNavigate();
-  const { folderId } = useParams<{ folderId: string }>();
 
   const handleAddMemo = () => {
-    navigate(`/memo/${folderId}/write`);
+    navigate(`/memo/${parentId}/write`);
     toggle();
   };
   return (
