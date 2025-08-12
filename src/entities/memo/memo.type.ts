@@ -19,6 +19,7 @@ export interface DeleteModalProps extends ModalProps {
   id: number;
   name: string;
   parentId: number;
+  onAfterDelete?: () => void;
 }
 
 export interface FolderModalProps extends ModalProps {

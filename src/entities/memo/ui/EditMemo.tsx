@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
+import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
 
 export const EditMemo = () => {
@@ -11,15 +12,11 @@ export const EditMemo = () => {
   const { useMemoDetailQuery } = useMemoQueries();
   const { useEditMemoMutation } = useMemoMutations();
   const { data: memoDetail, isLoading } = useMemoDetailQuery(Number(memoId));
-  const editMemoMutation = useEditMemoMutation();
+  const { mutate: editMemo } = useEditMemoMutation();
 
-  // 추후 삭제
-  useEffect(() => {
-    console.log(memoDetail);
-  }, [memoDetail]);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   if (isLoading || !memoDetail) return <div> 로딩 중....</div>;
-
   const { memoDto, memoTagList } = memoDetail;
 
   const onSubmit = async (
@@ -27,11 +24,9 @@ export const EditMemo = () => {
     content: string,
     tags: { name: string }[],
   ) => {
-    // 추후 메모 수정 기능 구현
-    console.log(title, content, tags);
     const tagNames = tags.map((tag) => tag.name);
 
-    editMemoMutation.mutate(
+    editMemo(
       {
         memoId: Number(memoId),
         title,
@@ -40,7 +35,7 @@ export const EditMemo = () => {
       },
       {
         onSuccess: () => {
-          navigate(`/memo`);
+          navigate(`/memo/${memoDto.folderId}`);
         },
         onError: (err) => {
           console.log('메모 수정 실패', err);
@@ -50,20 +45,33 @@ export const EditMemo = () => {
   };
 
   const onDelete = async () => {
-    // 추후 메모 삭제 기능 구현
-    console.log('삭제 요청');
+    setIsDeleteOpen(true);
   };
 
   return (
-    <MemoForm
-      initialTitle={memoDto.title}
-      initialContent={memoDto.content}
-      initialTags={memoTagList.map((tag) => ({ name: tag.name }))}
-      onSubmit={onSubmit}
-      onBack={() => navigate(-1)}
-      submitButtonText="메모 수정"
-      onDelete={onDelete}
-      showDeleteButton={true}
-    />
+    <>
+      <MemoForm
+        initialTitle={memoDto.title}
+        initialContent={memoDto.content}
+        initialTags={memoTagList.map((tag) => ({ name: tag.name }))}
+        onSubmit={onSubmit}
+        onBack={() => navigate(-1)}
+        submitButtonText="메모 수정"
+        onDelete={onDelete}
+        showDeleteButton={true}
+      />
+
+      <DeleteModal
+        type="memo"
+        id={Number(memoId)}
+        name={memoDto.title}
+        isOpen={isDeleteOpen}
+        toggle={() => setIsDeleteOpen(false)}
+        parentId={memoDto.folderId} // 폴더 삭제일 때만 쓰이지만 prop 형태 맞춰 전달
+        onAfterDelete={() => {
+          navigate(`/memo/${memoDto.folderId}`);
+        }}
+      />
+    </>
   );
 };

@@ -11,16 +11,24 @@ export const DeleteModal = ({
   isOpen,
   toggle,
   parentId,
+  onAfterDelete,
 }: DeleteModalProps) => {
   const { useDeleteFolderMutation, useDeleteMemoMutation } = useMemoMutations();
-  const { mutate: deleteFolder } = useDeleteFolderMutation(parentId); // 3은 현재 부모 폴더 ID
+  const { mutate: deleteFolder } = useDeleteFolderMutation(parentId);
   const { mutate: deleteMemo } = useDeleteMemoMutation();
+
+  console.log(type, id, name);
 
   const handleDelete = () => {
     if (type === 'folder') {
       deleteFolder(id);
     } else {
-      deleteMemo(id);
+      deleteMemo(id, {
+        onSuccess: () => {
+          onAfterDelete?.();
+          toggle();
+        },
+      });
     }
     toggle();
   };
