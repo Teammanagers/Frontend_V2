@@ -1,6 +1,7 @@
 import { TeamCodeCopy } from '@/entities/main/ui';
 import { TodoList } from '@/widgets/main';
 import { NoticeBanner } from '@/widgets/notice/NoticeBanner';
+import RecentResourceList from '@/widgets/resource/RecentResourceList';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
 import styled from 'styled-components';
 
@@ -19,6 +20,7 @@ export function MainPage() {
           <UpcomingEventList />
         </UpcomingScheduleListWrapper>
         <TodoList />
+        <RecentResourceList />
       </SectionWrapper>
     </Container>
   );
