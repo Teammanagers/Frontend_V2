@@ -73,9 +73,7 @@ export default function useMemoMutations() {
   const useDeleteFolderMutation = (parentId: number) => {
     return useMutation({
       mutationFn: async (folderId: number) => {
-        const res = await axiosInstance.delete(`/api/v2/folder/${folderId}`, {
-          data: { folderId },
-        });
+        const res = await axiosInstance.delete(`/api/v2/folder/${folderId}`);
         return res.data;
       },
       onSuccess: () => {

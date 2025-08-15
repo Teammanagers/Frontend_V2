@@ -17,8 +17,6 @@ export const DeleteModal = ({
   const { mutate: deleteFolder } = useDeleteFolderMutation(parentId);
   const { mutate: deleteMemo } = useDeleteMemoMutation();
 
-  console.log(type, id, name);
-
   const handleDelete = () => {
     if (type === 'folder') {
       deleteFolder(id);
