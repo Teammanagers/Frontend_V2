@@ -44,7 +44,7 @@ export const EditMemo = () => {
     );
   };
 
-  const onDelete = async () => {
+  const onDelete = () => {
     setIsDeleteOpen(true);
   };
 
