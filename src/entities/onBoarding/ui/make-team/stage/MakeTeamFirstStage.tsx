@@ -17,10 +17,12 @@ export default function MakeTeamFirstStage({
   previewImg,
   postImg,
   setCreatedTeamId,
+  setCreatedTeamCode,
 }: MakeTeamFirstStageProps) {
   const navigate = useNavigate();
   const { createTeamMutation } = useCreateTeam((data) => {
     setCreatedTeamId(data.createdTeamId);
+    setCreatedTeamCode(data.createdTeamCode);
     setStage(2);
   });
   const { tags } = useTagContext();

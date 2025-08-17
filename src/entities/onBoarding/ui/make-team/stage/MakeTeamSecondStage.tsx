@@ -9,14 +9,14 @@ import { Button } from '@/shared/components/button/Button';
 export default function MakeTeamSecondStage({
   createdTeamId,
   setStage,
+  createdTeamCode,
 }: {
   createdTeamId: number | null;
   setStage: Dispatch<SetStateAction<number>>;
+  createdTeamCode: number | null;
 }) {
-  console.log(createdTeamId);
   const {
     isShowHelperMessage,
-    setTeamCode,
     isValid,
     handleCopyToClipboard,
     setPassword,
@@ -38,9 +38,7 @@ export default function MakeTeamSecondStage({
               showHelperMessage={isShowHelperMessage}
               helperMessage="코드가 복사되었습니다."
               textColor="rgba(92, 158, 255, 1)"
-              onChange={(e) => {
-                setTeamCode(e.target.value); // TODO 서버에서 발급받는 방식으로 변경(API 완성되면)
-              }}
+              value={createdTeamCode || ''}
             />
           </InputWrapper>
           <ButtonWrapper>

@@ -8,6 +8,7 @@ export interface MakeTeamFirstStageProps {
   previewImg: string | null;
   postImg: File | null;
   setCreatedTeamId: (createdTeamId: number) => void;
+  setCreatedTeamCode: (createdTeamCode: number) => void;
 }
 
 export const MakeTeamStages = () => {

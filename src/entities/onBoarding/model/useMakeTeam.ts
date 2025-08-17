@@ -16,6 +16,7 @@ interface createTeamPasswordMutationProps {
 
 interface CreateTeamResponse {
   createdTeamId: number;
+  createdTeamCode: number;
 }
 
 export const useTeamImgUpload = () => {
