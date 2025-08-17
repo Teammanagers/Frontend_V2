@@ -5,11 +5,17 @@ import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
 import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
 import Modal from '@/shared/components/modal/Modal.tsx';
 
-export const AddModal = ({ isOpen, toggle, onAddFolder }: AddModalProps) => {
+export const AddModal = ({
+  isOpen,
+  toggle,
+  onAddFolder,
+  canAddFolder,
+  parentId,
+}: AddModalProps) => {
   const navigate = useNavigate();
 
   const handleAddMemo = () => {
-    navigate(`/memo/write`);
+    navigate(`/memo/${parentId}/write`);
     toggle();
   };
   return (
@@ -19,15 +25,17 @@ export const AddModal = ({ isOpen, toggle, onAddFolder }: AddModalProps) => {
           메모 추가하기
           <AddMemo />
         </MenuContainer>
-        <MenuContainer
-          onClick={() => {
-            onAddFolder();
-            toggle();
-          }}
-        >
-          폴더 추가하기
-          <AddFolder />
-        </MenuContainer>
+        {canAddFolder && (
+          <MenuContainer
+            onClick={() => {
+              onAddFolder();
+              toggle();
+            }}
+          >
+            폴더 추가하기
+            <AddFolder />
+          </MenuContainer>
+        )}
       </ModalContainer>
     </Modal>
   );

@@ -1,87 +1,77 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-// import { getMemoById, updateMemo, deleteMemo } from '@/apis/memo';
+import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
+import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
+import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
 
 export const EditMemo = () => {
   const { memoId } = useParams<{ memoId: string }>();
   const navigate = useNavigate();
-  const [initialTitle, setInitialTitle] = useState('안녕');
-  const [initialContent, setInitialContent] = useState('이건본문');
-  const [initialTags, setInitialTags] = useState<{ name: string }[]>([
-    { name: '기본태그' },
-    { name: '안녕' },
-  ]);
 
-  // api 연동 후 삭제할 부분
-  const isApi = false;
+  const { useMemoDetailQuery } = useMemoQueries();
+  const { useEditMemoMutation } = useMemoMutations();
+  const { data: memoDetail, isLoading } = useMemoDetailQuery(Number(memoId));
+  const { mutate: editMemo } = useEditMemoMutation();
 
-  useEffect(() => {
-    const fetchMemo = async () => {
-      // 메모 불러오기
-      if (isApi) {
-        setInitialTitle('하이');
-        setInitialContent('나중에이거지우기');
-        setInitialTags([{ name: '빌드' }, { name: '에러방지용' }]);
-      }
-      // if (memoId) {
-      //   try {
-      //     const response = await getMemoById(Number(memoId));
-      //     const memo = response.result.memo;
-      //     setInitialTitle(memo.title);
-      //     setInitialContent(memo.content);
-      //     // memo.tagList가 문자열 배열이 아니라 객체 배열이라면 아래처럼 변환
-      //     setInitialTags(
-      //       memo.tagList.map((tag: { name: string }) => ({ name: tag.name })),
-      //     );
-      //   } catch (error) {
-      //     console.error(error);
-      //   }
-      // }
-    };
-    fetchMemo();
-  }, [memoId]);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
+  if (isLoading || !memoDetail) return <div> 로딩 중....</div>;
+  const { memoDto, memoTagList } = memoDetail;
 
   const onSubmit = async (
     title: string,
     content: string,
     tags: { name: string }[],
   ) => {
-    // 추후 메모 등록 기능 구현
-    if (isApi) console.log(title, content, tags);
-    // if (memoId) {
-    //   try {
-    //     const tagNames = tags.map((tag) => tag.name);
-    //     await updateMemo(Number(memoId), title, tagNames, content);
-    //     navigate('/memo');
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // }
+    const tagNames = tags.map((tag) => tag.name);
+
+    editMemo(
+      {
+        memoId: Number(memoId),
+        title,
+        content,
+        tags: tagNames,
+      },
+      {
+        onSuccess: () => {
+          navigate(`/memo/${memoDto.folderId}`);
+        },
+        onError: (err) => {
+          console.log('메모 수정 실패', err);
+        },
+      },
+    );
   };
 
-  const onDelete = async () => {
-    // 추후 메모 삭제 기능 구현
-    // if (memoId) {
-    //   try {
-    //     await deleteMemo(Number(memoId));
-    //     navigate('/memo');
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // }
+  const onDelete = () => {
+    setIsDeleteOpen(true);
   };
 
   return (
-    <MemoForm
-      initialTitle={initialTitle}
-      initialContent={initialContent}
-      initialTags={initialTags}
-      onSubmit={onSubmit}
-      onBack={() => navigate(-1)}
-      submitButtonText="메모 수정"
-      onDelete={onDelete}
-      showDeleteButton={true}
-    />
+    <>
+      <MemoForm
+        initialTitle={memoDto.title}
+        initialContent={memoDto.content}
+        initialTags={memoTagList.map((tag) => ({ name: tag.name }))}
+        onSubmit={onSubmit}
+        onBack={() => navigate(-1)}
+        submitButtonText="메모 수정"
+        onDelete={onDelete}
+        showDeleteButton={true}
+      />
+
+      <DeleteModal
+        type="memo"
+        id={Number(memoId)}
+        name={memoDto.title}
+        isOpen={isDeleteOpen}
+        toggle={() => setIsDeleteOpen(false)}
+        parentId={memoDto.folderId} // 폴더 삭제일 때만 쓰이지만 prop 형태 맞춰 전달
+        onAfterDelete={() => {
+          navigate(`/memo/${memoDto.folderId}`);
+        }}
+      />
+    </>
   );
 };

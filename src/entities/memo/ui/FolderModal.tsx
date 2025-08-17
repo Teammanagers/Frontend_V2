@@ -1,18 +1,51 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FolderModalProps } from '@/entities/memo/memo.type.ts';
+import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import { Button } from '@/shared/components/button/Button.tsx';
 import Modal from '@/shared/components/modal/Modal.tsx';
 
 export const FolderModal = ({
   mode,
-  currentName = '안녕',
+  currentName,
   isOpen,
   toggle,
+  folderId,
+  parentId,
 }: FolderModalProps) => {
   const [folderName, setFolderName] = useState(
     mode === 'edit' ? (currentName ?? '') : '',
   );
+
+  const { useCreateFolderMutation, useEditFolderMutation } = useMemoMutations();
+  const { mutate: createFolder } = useCreateFolderMutation();
+  const { mutate: editFolder } = useEditFolderMutation();
+
+  const handleSubmit = () => {
+    if (mode === 'create') {
+      createFolder(
+        {
+          name: folderName,
+          parentId,
+        },
+        {
+          onSuccess: () => {
+            toggle();
+          },
+        },
+      );
+    } else if (mode === 'edit' && folderId !== undefined) {
+      editFolder(
+        {
+          name: folderName,
+          folderId,
+        },
+        {
+          onSuccess: () => toggle(),
+        },
+      );
+    }
+  };
 
   const buttonText = mode === 'create' ? '폴더 생성' : '폴더명 수정';
   const isDisabled = mode === 'create' && folderName.trim() === '';
@@ -20,14 +53,9 @@ export const FolderModal = ({
   const buttonStyle = isDisabled ? 'disabled' : 'main';
 
   useEffect(() => {
-    if (mode == 'edit') setFolderName(currentName);
+    if (mode == 'edit') setFolderName(currentName ?? '');
     else setFolderName('');
   }, [mode, currentName]);
-
-  useEffect(() => {
-    console.log('style', buttonStyle);
-    console.log('disabled', isDisabled);
-  }, [buttonStyle, isDisabled]);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -40,7 +68,12 @@ export const FolderModal = ({
             onChange={(e) => setFolderName(e.target.value)}
           />
         </InputContainer>
-        <Button size="xl" style={buttonStyle} disabled={isDisabled}>
+        <Button
+          size="xl"
+          style={buttonStyle}
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        >
           {buttonText}
         </Button>
       </FolderModalContainer>

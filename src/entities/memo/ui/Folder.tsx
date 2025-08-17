@@ -1,17 +1,21 @@
 import styled from 'styled-components';
-import { FolderProps } from '@/entities/memo/memo.type.ts';
 import FolderIcon from '@/shared/assets/memo/folder.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
+import { FolderProps } from '@/shared/types/memo.types.ts';
 
-export const Folder = ({ folder, onDeleteRequest }: FolderProps) => {
+export const Folder = ({
+  folder,
+  onFolderClick,
+  onDeleteRequest,
+  onEditRequest,
+}: FolderProps) => {
   const { isOpen, setIsOpen, toggle } = useToggle();
-
   const { id, title } = folder;
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
-      console.log('폴더 수정 모달 띄우기');
+      onEditRequest?.(folder);
       setIsOpen(true);
     } else if (menu === '삭제') {
       onDeleteRequest(id);
@@ -21,7 +25,7 @@ export const Folder = ({ folder, onDeleteRequest }: FolderProps) => {
 
   return (
     <FolderWrapper>
-      <FolderContainer />
+      <FolderContainer onClick={() => onFolderClick?.(folder.id)} />
       <Overlay>
         <DropDownContainer>
           <ActionDropdown
@@ -54,6 +58,7 @@ const FolderWrapper = styled.div`
     stroke: ${({ theme }) => theme.colors.subLightBlue};
     stroke-width: 3;
   }
+  cursor: pointer;
 `;
 
 const Overlay = styled.div`

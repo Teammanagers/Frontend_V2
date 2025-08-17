@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import Next from '@/shared/assets/memo/next-button.svg?react';
 import PinIcon from '@/shared/assets/memo/pin.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
@@ -42,14 +43,25 @@ export const Memo = ({
   onDeleteRequest,
   onMoveRequest,
 }: MemoProps) => {
-  const [isPinned, setIsPinned] = useState<boolean>(false);
+  const { id, title, tags, content, isFixed } = memo;
+
+  const [isPinned, setIsPinned] = useState<boolean>(isFixed);
   const [isActive, setIsActive] = useState<boolean>(false);
   const { isOpen, setIsOpen, toggle } = useToggle();
 
-  const { id, title, tags, content } = memo;
-  const navigate = useNavigate();
+  const { useTogglePinMemoMutations } = useMemoMutations();
+  const { mutate: togglePinMemo } = useTogglePinMemoMutations();
 
+  const navigate = useNavigate();
   const selectedSize = memoSizes[size];
+
+  const handlePinToggle = () => {
+    togglePinMemo(id, {
+      onSuccess: () => {
+        setIsPinned((prev) => !prev);
+      },
+    });
+  };
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
@@ -70,10 +82,7 @@ export const Memo = ({
         <MemoTitle>{title}</MemoTitle>
         <MenuContainer>
           {size === 'large' && (
-            <PinBtn
-              onClick={() => setIsPinned((prev) => !prev)}
-              $pinned={isPinned}
-            />
+            <PinBtn onClick={handlePinToggle} $pinned={isPinned} />
           )}
           <ActionDropdown
             isOpen={isOpen}
@@ -166,8 +175,7 @@ const TagContainer = styled.div`
 
 const TagBox = styled.div`
   width: auto;
-  max-width: 50px;
-  padding: 0 6px 0 6px;
+  padding: 5px 8px;
   height: 28px;
   border: 3px;
   border-radius: 3px;

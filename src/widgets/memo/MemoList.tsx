@@ -1,147 +1,97 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import { Target } from '@/entities/memo/memo.type.ts';
-import { AddButton } from '@/entities/memo/ui/AddButton.tsx';
-import { AddModal } from '@/entities/memo/ui/AddModal.tsx';
-import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
-import { Folder } from '@/entities/memo/ui/Folder.tsx';
-import { FolderModal } from '@/entities/memo/ui/FolderModal.tsx';
-import { MoveModal } from '@/entities/memo/ui/MoveModal.tsx';
-import folderData from '@/shared/assets/memo/folderData.json';
-import memoData from '@/shared/assets/memo/memoData.json';
-import { Memo } from '@/widgets/memo/Memo.tsx';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
+import { useFolderPathStore } from '@/features/memo/model/folderStore';
+import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
+import { axiosInstance } from '@/shared/api/axiosInstance.ts';
+import { MemoListView } from '@/widgets/memo/MemoListView.tsx';
 
 export const MemoList = () => {
-  const [deleteTarget, setDeleteTarget] = useState<Target | null>(null);
-  const [moveTarget, setMoveTarget] = useState<Target | null>(null);
-  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const [openFolderModal, setOpenFolderModal] = useState<boolean>(false);
+  const {
+    deleteTarget,
+    moveTarget,
+    openAddModal,
+    openFolderModal,
+    editFolder,
+    handlers,
+  } = useMemoUIState();
 
-  const handleDeleteRequest = (target: Target) => {
-    setDeleteTarget(target);
-  };
+  const {
+    useRootFolderQuery,
+    useFolderListQuery,
+    useMemoListQuery,
+    useFolderDetailQuery,
+  } = useMemoQueries();
+  const { data: rootFolder } = useRootFolderQuery(3); // 팀 ID 동적으로 변경 필요
+  const { folderId } = useParams<{ folderId: string }>();
 
-  const handleMoveRequest = (target: Target) => {
-    setMoveTarget(target);
-  };
+  const resolvedFolderId = folderId ? Number(folderId) : (rootFolder?.id ?? 0);
 
-  const handleOpenAddModal = () => {
-    setOpenAddModal(true);
-  };
+  const { data: memos } = useMemoListQuery(resolvedFolderId);
+  // const { data: memos } = useMemoListQuery(3);
+  const { data: folders } = useFolderListQuery(resolvedFolderId);
+  const { data: currentFolder } = useFolderDetailQuery(resolvedFolderId);
+  const canAddFolder = (currentFolder?.depth ?? 1) < 3;
 
-  const closeDeleteModal = () => {
-    setDeleteTarget(null);
-  };
+  const navigate = useNavigate();
+  const { setPath, resetPath } = useFolderPathStore();
 
-  const closeMoveModal = () => {
-    setMoveTarget(null);
-  };
+  useEffect(() => {
+    async function buildPathFrom(id: number) {
+      if (!id) {
+        resetPath();
+        return;
+      }
+      const chain: { id: number; name: string }[] = [];
+      let curId: number | null = id;
 
-  const closeAddModal = () => {
-    setOpenAddModal(false);
-  };
+      while (curId) {
+        // 폴더 단건 조회로 폴더명 BreadCrumb에 띄움
+        const res = await axiosInstance.get(`/api/v2/folder/${curId}`);
+        const dto = res.data.result.folderDto as {
+          id: number;
+          name: string;
+          parentId: number | null;
+          depth: number;
+        };
+        const displayName = dto.depth === 1 ? '전체' : dto.name;
+        chain.unshift({ id: dto.id, name: displayName });
+        if (dto.depth === 1 || dto.parentId == null) break;
+        curId = dto.parentId;
+      }
+      // depth 3 제한 (root depth=1 기준으로 최대 3개)
+      setPath(chain.slice(0, 3));
+    }
 
-  const handleAddFolder = () => {
-    closeAddModal();
-    setOpenFolderModal(true);
-  };
+    buildPathFrom(resolvedFolderId);
+  }, [resolvedFolderId, setPath, resetPath]);
 
-  const closeFolderModal = () => {
-    setOpenFolderModal(false);
+  // 메모 고정에 따른 정렬
+  const sortedMemos = [...(memos ?? [])].sort((a, b) => {
+    if (a.isFixed === b.isFixed) return 0;
+    return a.isFixed ? -1 : 1;
+  });
+
+  const handleFolderClick = async (folderId: number) => {
+    navigate(`/memo/${folderId}`);
   };
 
   return (
-    <>
-      <MemoContainer>
-        <Depth>전체</Depth>
-        <ListContainer>
-          <AddButton onClick={handleOpenAddModal} />
-          {folderData.map((folder) => (
-            <Folder
-              key={folder.id}
-              folder={folder}
-              onDeleteRequest={
-                (id: number) =>
-                  handleDeleteRequest({
-                    type: 'folder',
-                    id,
-                    title: folder.title,
-                  })
-                //   폴더 뎁스가 1 초과시, onMoveRequest 추가
-              }
-            />
-          ))}
-          {memoData.map((memo) => (
-            <Memo
-              key={memo.id}
-              size="large"
-              memo={memo}
-              onDeleteRequest={(id: number) =>
-                handleDeleteRequest({ type: 'memo', id, title: memo.title })
-              }
-              onMoveRequest={(id: number) =>
-                handleMoveRequest({ type: 'memo', id, title: memo.title })
-              }
-            />
-          ))}
-        </ListContainer>
-      </MemoContainer>
-      <AddModal
-        isOpen={openAddModal}
-        toggle={closeAddModal}
-        onAddFolder={handleAddFolder}
-      />
-      {deleteTarget && (
-        <DeleteModal
-          type={deleteTarget.type}
-          name={deleteTarget.title}
-          isOpen={true}
-          toggle={closeDeleteModal}
-        />
-      )}
-      {moveTarget && (
-        <MoveModal
-          // 폴더 뎁스에 따라
-          // type={moveTarget.type}
-          // name={moveTarget.title}
-          isOpen={true}
-          toggle={closeMoveModal}
-        />
-      )}
-      {openFolderModal && (
-        <FolderModal mode="create" isOpen={true} toggle={closeFolderModal} />
-      )}
-    </>
+    <MemoListView
+      // 조건부 렌더링 스켈레톤 적용 필요
+      folders={folders || []}
+      memos={sortedMemos || []}
+      uiState={{
+        deleteTarget,
+        moveTarget,
+        openAddModal,
+        openFolderModal,
+        editFolder,
+      }}
+      handlers={handlers}
+      onFolderClick={handleFolderClick}
+      currentFolderId={resolvedFolderId}
+      canAddFolder={canAddFolder}
+    />
   );
 };
-
-const MemoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  gap: 12px;
-`;
-
-const Depth = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 78px;
-  height: 40px;
-  border-radius: 100px;
-  border: 2px solid ${({ theme }) => theme.colors.mainBlue};
-  font-size: 16px;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.mainBlue};
-  background: white;
-`;
-
-const ListContainer = styled.div`
-  width: 1088px;
-  height: 632px;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 16px;
-`;
