@@ -8,11 +8,10 @@ export interface MakeTeamFirstStageProps {
   previewImg: string | null;
   postImg: File | null;
   setCreatedTeamId: (createdTeamId: number) => void;
-  setCreatedTeamCode: (createdTeamCode: number) => void;
+  setCreatedTeamCode: (createdTeamCode: string) => void;
 }
 
 export const MakeTeamStages = () => {
-  const [teamCode, setTeamCode] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isShowHelperMessage, setIsShowHelperMessage] =
     useState<boolean>(false);
@@ -24,15 +23,15 @@ export const MakeTeamStages = () => {
     setIsValid(false);
   }, []);
 
-  // 폼 유효성 확인
   useEffect(() => {
-    // 실제 유효성 검사 로직 (예: 암호 길이, 팀 코드 존재 여부 등)
-    const isFormValid = teamCode.length > 0 && password.length > 0;
-    setIsValid(isFormValid);
-  }, [teamCode, password]);
+    const passwordRegex = /^[a-zA-Z0-9]{1,6}$/;
+    const isPasswordValid = passwordRegex.test(password);
 
-  const handleCopyToClipboard = async () => {
-    await navigator.clipboard.writeText(teamCode);
+    setIsValid(isPasswordValid);
+  }, [password]);
+
+  const handleCopyToClipboard = async (teamCode: string | null) => {
+    await navigator.clipboard.writeText(teamCode || '');
     setIsShowHelperMessage(true);
   };
 
@@ -48,8 +47,6 @@ export const MakeTeamStages = () => {
   // };
 
   return {
-    teamCode,
-    setTeamCode,
     password,
     setPassword,
     isShowHelperMessage,

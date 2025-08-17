@@ -13,7 +13,7 @@ export default function MakeTeamSecondStage({
 }: {
   createdTeamId: number | null;
   setStage: Dispatch<SetStateAction<number>>;
-  createdTeamCode: number | null;
+  createdTeamCode: string | null;
 }) {
   const {
     isShowHelperMessage,
@@ -23,7 +23,6 @@ export default function MakeTeamSecondStage({
     password,
   } = MakeTeamStages();
   const { createTeamPasswordMutation } = useCreateTeam();
-
   return (
     <StageContainer>
       <BackContainer onClick={() => setStage(1)}>
@@ -45,7 +44,9 @@ export default function MakeTeamSecondStage({
             <Button
               size="mini"
               style="main"
-              onClick={() => handleCopyToClipboard}
+              onClick={() => {
+                handleCopyToClipboard(createdTeamCode);
+              }}
             >
               팀 코드 복사
             </Button>
