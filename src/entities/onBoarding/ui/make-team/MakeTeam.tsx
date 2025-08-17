@@ -9,7 +9,7 @@ export default function MakeTeam() {
   const [title, setTitle] = useState<string>('');
   const { postImg, previewImg, handleFileUpload } = useTeamImgUpload();
   const [createdTeamId, setCreatedTeamId] = useState<number | null>(null);
-  const [createdTeamCode, setCreatedTeamCode] = useState<number | null>(null);
+  const [createdTeamCode, setCreatedTeamCode] = useState<string | null>(null);
   return (
     <MakeTeamTagProvider>
       {stage === 1 && (
