@@ -13,7 +13,7 @@ export default function AddResourceButton({
 }: IAddResourceButtonProps) {
   return (
     <Container $size={size} {...props}>
-      <PlusIcon stroke="#1d1d1d" stroke-width="2" />
+      <PlusIcon stroke="#1d1d1d" strokeWidth="2" />
       <span>파일 추가하기</span>
     </Container>
   );

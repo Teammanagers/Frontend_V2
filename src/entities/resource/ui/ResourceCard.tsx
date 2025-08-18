@@ -5,21 +5,19 @@ import FileThumbnail from '@/entities/resource/ui/FileThumbnail';
 import RoleTag from '@/shared/components/tag/RoleTag';
 import { formatFileSize } from '../lib/formatFileSize';
 
-interface ResourceCardProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: 'large' | 'medium';
+interface ResourceCardProps extends React.HTMLAttributes<HTMLDivElement> {
   resourceInfo: ResourceInfoResponse;
-  actions?: React.ReactNode; // 삭제 버튼 등 추가 액션을 위한 props
+  onClick?: () => void;
+  deleteButton?: React.ReactNode; // 삭제 버튼 렌더링
 }
 
 export default function ResourceCard({
-  size = 'medium',
   resourceInfo,
-  actions,
-  ...props
+  onClick,
+  deleteButton,
 }: ResourceCardProps) {
   return (
-    <Container $size={size} {...props}>
+    <Container role="button" onClick={onClick}>
       <ThumbnailWithInfo>
         <FileThumbnail type="pdf" />
 
@@ -41,13 +39,13 @@ export default function ResourceCard({
       <TagAndDeleteWrapper>
         {/* 업로드 한 사람 이름으로 수정 예정 */}
         <RoleTag>김예안</RoleTag>
-        {actions}
+        {deleteButton}
       </TagAndDeleteWrapper>
     </Container>
   );
 }
 
-const Container = styled.button<{ $size: 'large' | 'medium' }>`
+const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,6 +55,7 @@ const Container = styled.button<{ $size: 'large' | 'medium' }>`
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.white};
+  cursor: pointer;
 `;
 
 const ThumbnailWithInfo = styled.div`
@@ -75,9 +74,9 @@ const ResourceInfoWrapper = styled.div`
 `;
 
 const Title = styled.strong`
-font-size: 12px;
-font-weight: 400
-color: ${({ theme }) => theme.colors.black};
+  font-size: 12px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const MetaDataWrapper = styled.div`
@@ -89,7 +88,7 @@ const MetaDataWrapper = styled.div`
   color: ${({ theme }) => theme.colors.darkGray};
 `;
 
-const TagAndDeleteWrapper = styled.button`
+const TagAndDeleteWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;

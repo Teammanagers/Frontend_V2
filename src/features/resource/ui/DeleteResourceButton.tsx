@@ -13,7 +13,9 @@ export default function DeleteResourceButton({
   ...props
 }: IDeleteResourceButtonProps) {
   // 리소스 삭제 로직 및 모달 오픈 -> 훅으로 분리
-  const handleDeleteClick = () => {};
+  const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+  };
 
   if (resourceId !== myId) return null;
 

@@ -16,7 +16,7 @@ export default function EditableResourceList() {
           <ResourceWrapper key={resource.dataId}>
             <ResourceCard
               resourceInfo={resource}
-              actions={
+              deleteButton={
                 <DeleteResourceButton
                   resourceId={resource.fileInfo.createdBy}
                   myId={OWNER_TEAMMANAGE_ID}
