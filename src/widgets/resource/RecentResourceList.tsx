@@ -12,7 +12,7 @@ export default function RecentResourceList() {
 
       <ResourceList>
         {data.map((resource) => (
-          <ResourceCard resourceInfo={resource} />
+          <ResourceCard key={resource.dataId} resourceInfo={resource} />
         ))}
       </ResourceList>
     </Container>

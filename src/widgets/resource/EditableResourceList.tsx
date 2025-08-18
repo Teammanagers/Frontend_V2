@@ -13,7 +13,7 @@ export default function EditableResourceList() {
     <Container>
       <ResourceList>
         {data.map((resource) => (
-          <ResourceWrapper>
+          <ResourceWrapper key={resource.dataId}>
             <ResourceCard
               resourceInfo={resource}
               actions={
@@ -41,7 +41,7 @@ const Container = styled.section`
   width: 100%;
   height: 632px;
   padding: 24px;
-  borde-radius: 10px;
+  border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.white};
 `;
 

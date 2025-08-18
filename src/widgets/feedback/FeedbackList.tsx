@@ -15,7 +15,7 @@ const Container = styled.section`
   width: 100%;
   height: 632px;
   padding: 24px;
-  borde-radius: 10px;
+  border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
