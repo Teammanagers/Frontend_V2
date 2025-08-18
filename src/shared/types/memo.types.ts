@@ -2,7 +2,7 @@ import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 
 // shared/memo/types/memo.types.ts -> Memo 컴포넌트 및 서버에서 받아오는 memo type들 (공통적으로 여러곳에서 사용)
 
-// UI
+// 컴포넌트
 export interface MemoType {
   id: number;
   title: string;
@@ -30,7 +30,30 @@ export interface FolderProps {
   onEditRequest?: (folder: FolderType) => void;
 }
 
-// 서버 데이터
+// api 요청시에
+export interface MemoTypes {
+  id: number;
+  title: string;
+  tags: string[];
+  content: string;
+  folderId?: string;
+  memoId?: number;
+}
+
+// api 요청시
+export interface FolderTypes {
+  name: string;
+  parentId?: number;
+  folderId?: string;
+}
+
+// api 요청시
+export interface MemoFolderTypes {
+  memoId: number;
+  folderId: number;
+}
+
+// 받아오는 서버 데이터
 export interface MemoResponse {
   memoDto: {
     id: number;
