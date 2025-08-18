@@ -48,11 +48,17 @@ export default function useJoinTeam() {
   });
 
   const useJoinTeamMutation = useMutation({
-    mutationFn: async ({ teamId }: { teamId: string }) => {
+    mutationFn: async ({
+      teamId,
+      password,
+    }: {
+      teamId: number;
+      password: string;
+    }) => {
       const data = await apiRequest({
         url: `/api/v2/team/${teamId}/join`,
         method: 'POST',
-        data: { password: teamJoinPassword },
+        data: { password: password },
       });
       return data;
     },

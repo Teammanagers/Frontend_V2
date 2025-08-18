@@ -7,7 +7,7 @@ import useJoinTeam from '../../model/useJoinTeam';
 interface TeamJoinModalProps {
   isOpen: boolean;
   toggle: () => void;
-  teamId: string;
+  teamId: number;
 }
 
 export default function TeamJoinModal({
@@ -24,7 +24,7 @@ export default function TeamJoinModal({
 
   const clickSubmitBtn = () => {
     if (!teamJoinPassword.trim()) return;
-    useJoinTeamMutation.mutate({ teamId });
+    useJoinTeamMutation.mutate({ teamId: teamId, password: teamJoinPassword });
   };
 
   return (
