@@ -1,96 +1,106 @@
 import { useQuery } from '@tanstack/react-query';
-import { axiosInstance } from '@/shared/api/axiosInstance.ts';
+import apiRequest from '@/shared/api/apiRequest';
 import {
+  FolderDto,
   FolderResponse,
   FolderType,
   MemoResponse,
   MemoType,
-} from '@/shared/types/memo.types.ts';
+} from '@/shared/types/memo.types';
+
+const TEAM_ID = 3;
 
 export default function useMemoQueries() {
   // 루트 폴더 조회
-  const useRootFolderQuery = (teamId: number) =>
-    useQuery({
-      queryKey: ['rootFolder', teamId],
-      queryFn: async () => {
-        const res = await axiosInstance.get<{
-          result: FolderResponse;
-        }>(`/api/v2/folder/root/${teamId}`);
-        return res.data.result.folderDto;
-      },
+  const useRootFolderQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['rootFolder', TEAM_ID],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/folder/root/${TEAM_ID}`,
+          method: 'GET',
+        }),
+      select: (res): FolderDto => res.result.folderDto,
       staleTime: 60 * 1000,
     });
 
+    return { isPending, isError, isSuccess, data };
+  };
+
   // 메모 전체 조회
   const useMemoListQuery = (folderId: number) => {
-    return useQuery({
+    const { isPending, isError, isSuccess, data } = useQuery({
       queryKey: ['memo', folderId],
-      queryFn: async () => {
-        const res = await axiosInstance.get<{ result: MemoResponse[] }>(
-          `/api/v2/memo/list`,
-          {
-            params: { folderId },
-          },
-        );
-        return res.data.result.map((memo): MemoType => {
-          return {
-            id: memo.memoDto.id,
-            title: memo.memoDto.title,
-            content: memo.memoDto.content,
-            tags: memo.memoTagList.map((tag) => tag.name),
-            isFixed: memo.memoDto.isFixed,
-          };
-        });
-      },
+      enabled: Number.isFinite(folderId),
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/memo/list?folderId=${folderId}`,
+          method: 'GET',
+        }),
+      select: (res): MemoType[] =>
+        res.result.map((memo: MemoResponse) => ({
+          id: memo.memoDto.id,
+          title: memo.memoDto.title,
+          content: memo.memoDto.content,
+          tags: memo.memoTagList.map((t) => t.name),
+          isFixed: memo.memoDto.isFixed,
+        })),
       staleTime: 60 * 1000,
     });
+
+    return { isPending, isError, isSuccess, data };
   };
 
   // 메모 단건 조회
   const useMemoDetailQuery = (memoId: number) => {
-    return useQuery({
+    const { isPending, isError, isSuccess, data } = useQuery({
       queryKey: ['memoDetail', memoId],
-      queryFn: async () => {
-        const res = await axiosInstance.get<{ result: MemoResponse }>(
-          `/api/v2/memo/${memoId}`,
-        );
-        return res.data.result;
-      },
       enabled: !!memoId,
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/memo/${memoId}`,
+          method: 'GET',
+        }),
+      select: (res) => res.result,
     });
+
+    return { isPending, isError, isSuccess, data };
   };
 
   // 폴더 전체 조회
-  const useFolderListQuery = (folderId: number) =>
-    useQuery({
+  const useFolderListQuery = (folderId: number) => {
+    const { isPending, isError, isSuccess, data } = useQuery({
       queryKey: ['folder', folderId],
-      queryFn: async () => {
-        const res = await axiosInstance.get<{ result: FolderResponse[] }>(
-          `/api/v2/folder/${folderId}/list`,
-          {
-            params: { folderId },
-          },
-        );
-        return res.data.result.map(
-          (folder): FolderType => ({
-            id: folder.folderDto.id,
-            title: folder.folderDto.name,
-          }),
-        );
-      },
+      enabled: Number.isFinite(folderId),
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/folder/${folderId}/list`,
+          method: 'GET',
+        }),
+      select: (res): FolderType[] =>
+        res.result.map((folder: FolderResponse) => ({
+          id: folder.folderDto.id,
+          title: folder.folderDto.name,
+        })),
     });
+
+    return { isPending, isError, isSuccess, data };
+  };
 
   // 폴더 단건 조회
   const useFolderDetailQuery = (folderId: number) => {
-    return useQuery({
+    const { isPending, isError, isSuccess, data } = useQuery({
       queryKey: ['folderDetail', folderId],
-      queryFn: async () => {
-        const res = await axiosInstance.get<{ result: FolderResponse }>(
-          `/api/v2/folder/${folderId}`,
-        );
-        return res.data.result.folderDto;
-      },
+      enabled: Number.isFinite(folderId),
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/folder/${folderId}`,
+          method: 'GET',
+        }),
+      select: (res): FolderDto => res.result.folderDto,
     });
+
+    return { isPending, isError, isSuccess, data };
   };
 
   return {
