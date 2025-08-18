@@ -28,12 +28,14 @@ export default function TeamJoin() {
 
   const handleJoinBtn = () => {
     toggle();
-    setTeamId(teamData?.team.id);
+    setTeamId(teamData?.team.id ?? null);
   };
 
   return (
     <PageContainer>
-      <TeamJoinModal isOpen={isOpen} toggle={toggle} teamId={teamId} />
+      {teamId !== null && (
+        <TeamJoinModal isOpen={isOpen} toggle={toggle} teamId={teamId} />
+      )}
       <JoinContainer>
         <TopContainer>
           <Input
@@ -81,7 +83,7 @@ export default function TeamJoin() {
               ) : null}
             </ContentContainer>
           )}
-          {teamData && (
+          {teamData && teamData.team.id !== null && (
             <Button size="xxl" style="main" onClick={handleJoinBtn}>
               팀 참여하기
             </Button>
