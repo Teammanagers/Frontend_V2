@@ -20,6 +20,7 @@ export default function TeamJoinModal({
     setTeamJoinPassword,
     teamJoinPassword,
     showHelperMessage,
+    helperMessage,
   } = useJoinTeam();
 
   const clickSubmitBtn = () => {
@@ -34,7 +35,7 @@ export default function TeamJoinModal({
           title="비밀번호"
           placeholder="참가를 위한 비밀번호를 입력해 주세요."
           inputSize="small"
-          helperMessage="비밀번호가 일치하지 않습니다."
+          helperMessage={helperMessage}
           helperMessageColor="red"
           showHelperMessage={showHelperMessage}
           onChange={(e) => setTeamJoinPassword(e.target.value)}
