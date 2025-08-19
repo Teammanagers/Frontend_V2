@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import apiRequest from '@/shared/api/apiRequest';
 
 interface TeamTag {
@@ -45,7 +44,6 @@ export default function useJoinTeam() {
   const [showHelperMessage, setShowHelperMessage] = useState<boolean>(false);
   const [helperMessage, setHelperMessage] =
     useState<string>('비밀번호가 일치하지 않습니다.');
-  const navigate = useNavigate();
 
   const useSearchTeamMutation = useMutation<TeamSearchResult, Error, string>({
     mutationFn: async (code: string) => {
@@ -76,9 +74,6 @@ export default function useJoinTeam() {
         data: { password: password },
       });
       return data;
-    },
-    onSuccess: (_, variables) => {
-      navigate(`/team/${variables.teamId}`);
     },
     onError: (error) => {
       setShowHelperMessage(true);

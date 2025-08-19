@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { Button } from '@/shared/components/button/Button';
@@ -22,10 +23,19 @@ export default function TeamJoinModal({
     showHelperMessage,
     helperMessage,
   } = useJoinTeam();
+  const navigate = useNavigate();
 
   const clickSubmitBtn = () => {
     if (!teamJoinPassword.trim()) return;
-    useJoinTeamMutation.mutate({ teamId: teamId, password: teamJoinPassword });
+    useJoinTeamMutation.mutate(
+      { teamId: teamId, password: teamJoinPassword },
+      {
+        onSuccess: () => {
+          toggle();
+          navigate(`/team/${teamId}`);
+        },
+      },
+    );
   };
 
   return (
