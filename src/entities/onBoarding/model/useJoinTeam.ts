@@ -77,8 +77,8 @@ export default function useJoinTeam() {
       });
       return data;
     },
-    onSuccess: (teamId) => {
-      navigate(`team/${teamId}`);
+    onSuccess: (_, variables) => {
+      navigate(`/team/${variables.teamId}`);
     },
     onError: (error) => {
       setShowHelperMessage(true);
