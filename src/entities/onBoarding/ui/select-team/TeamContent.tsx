@@ -75,9 +75,9 @@ const PlusImgContainer = styled.div`
 `;
 
 const TeamContent = styled.div`
+  height: 275px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding-left: 48px;
   padding-right: 48px;
