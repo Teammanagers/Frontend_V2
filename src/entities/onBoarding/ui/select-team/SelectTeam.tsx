@@ -2,20 +2,25 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '@/shared/components/button/Button';
 import { AddTeamCard, TeamCard } from './TeamContent';
+import { useGetName } from '../../model/selectTeam/useGetName';
 import { useGetTeamList } from '../../model/selectTeam/useGetTeamList';
 
 export default function SelectTeam() {
   const { teamList } = useGetTeamList();
   const navigate = useNavigate();
-
+  const { name } = useGetName();
   return (
     <SelectTeamContainer>
-      {/* TODO 유저 이름 받아오기 */}
-      <PageTitle>{'000'}님이 현재 진행하고 있는 팀 프로젝트예요!</PageTitle>
+      {name ? (
+        <PageTitle>{name}님이 현재 진행하고 있는 팀 프로젝트예요!</PageTitle>
+      ) : (
+        <PageTitle>안녕하세요!</PageTitle>
+      )}
+
       <TeamListContainer>
         {teamList &&
           teamList.map((team) => <TeamCard key={team.id} team={team} />)}
-        <AddTeamCard />
+        {teamList.length < 4 && <AddTeamCard />}
       </TeamListContainer>
       <BtnContainer>
         <BtnSpan>다른 팀의 초대를 받았나요?</BtnSpan>
