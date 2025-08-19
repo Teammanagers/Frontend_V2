@@ -22,7 +22,8 @@ export const MemoList = () => {
     useMemoListQuery,
     useFolderDetailQuery,
   } = useMemoQueries();
-  const { data: rootFolder } = useRootFolderQuery(3); // 팀 ID 동적으로 변경 필요
+
+  const { data: rootFolder } = useRootFolderQuery();
   const { folderId } = useParams<{ folderId: string }>();
 
   const resolvedFolderId = folderId ? Number(folderId) : (rootFolder?.id ?? 0);
@@ -45,10 +46,12 @@ export const MemoList = () => {
       const chain: { id: number; name: string }[] = [];
       let curId: number | null = id;
 
+      console.log('현재 아이디:', curId);
       while (curId) {
         // 폴더 단건 조회로 폴더명 BreadCrumb에 띄움
         const res = await axiosInstance.get(`/api/v2/folder/${curId}`);
-        const dto = res.data.result.folderDto as {
+        console.log('폴더 단건조회: ', res);
+        const dto = res.data?.result?.folderDto as {
           id: number;
           name: string;
           parentId: number | null;
@@ -60,7 +63,7 @@ export const MemoList = () => {
         curId = dto.parentId;
       }
       // depth 3 제한 (root depth=1 기준으로 최대 3개)
-      setPath(chain.slice(0, 3));
+      setPath(chain.slice(-3));
     }
 
     buildPathFrom(resolvedFolderId);

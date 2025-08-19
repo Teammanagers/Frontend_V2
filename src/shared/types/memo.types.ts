@@ -32,19 +32,19 @@ export interface FolderProps {
 
 // api 요청시에
 export interface MemoTypes {
-  id: number;
   title: string;
   tags: string[];
   content: string;
-  folderId?: string;
+  folderId?: number;
   memoId?: number;
+  teamId?: number;
 }
 
 // api 요청시
 export interface FolderTypes {
   name: string;
   parentId?: number;
-  folderId?: string;
+  folderId?: number;
 }
 
 // api 요청시

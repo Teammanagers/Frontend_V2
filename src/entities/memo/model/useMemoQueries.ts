@@ -61,7 +61,7 @@ export default function useMemoQueries() {
           url: `/api/v2/memo/${memoId}`,
           method: 'GET',
         }),
-      select: (res) => res.result,
+      select: (res): MemoResponse => res.result,
     });
 
     return { isPending, isError, isSuccess, data };
