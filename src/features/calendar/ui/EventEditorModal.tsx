@@ -35,7 +35,7 @@ function EventEditorModal({ date }: { date: Date }) {
     <Modal isOpen={isModalOpen} toggle={toggleModal}>
       <ModalWrapper>
         <DeleteIconWrapper onClick={toggleModal}>
-          <DeleteIcon stroke="#5A5A5A" />
+          <DeleteIcon stroke="#5A5A5A" strokeWidth={2} />
         </DeleteIconWrapper>
 
         {/* 날짜 */}

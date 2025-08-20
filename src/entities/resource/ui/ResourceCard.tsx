@@ -38,7 +38,7 @@ export default function ResourceCard({
 
       <TagAndDeleteWrapper>
         {/* 업로드 한 사람 이름으로 수정 예정 */}
-        <RoleTag>김예안</RoleTag>
+        <RoleTag height={28}>김예안</RoleTag>
         {deleteButton}
       </TagAndDeleteWrapper>
     </Container>
