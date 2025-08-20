@@ -11,7 +11,7 @@ import { ExtraMemoPage, MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
 import Redirect from '@/pages/RedirectPage/redirect';
 import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
-import { SharePage } from '@/pages/SharePage';
+import { ResourcePage } from '@/pages/ResourcePage';
 import { SignupPage } from '@/pages/SignupPage';
 import { TeamPage } from '@/pages/TeamPage';
 import { TodoPage } from '@/pages/TodoPage';
@@ -48,8 +48,8 @@ export default function AppRoutes() {
         {/* Memo Page */}
         <Route path="/memo" element={<MemoPage />} />
         <Route path="/memo/*" element={<ExtraMemoPage />} />
-        {/* Share Page */}
-        <Route path="/share" element={<SharePage />} />
+        {/* Resource Page */}
+        <Route path="/resource" element={<ResourcePage />} />
         {/* ManagementPage */}
         <Route path="/management" element={<ManagementPage />} />
         {/* My Page */}

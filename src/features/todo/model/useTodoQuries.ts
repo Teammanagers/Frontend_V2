@@ -33,7 +33,7 @@ export default function useTodoQuries() {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (data: { title: string }) => {
         await apiRequest({
-          url: `/api/v2/todo?teamMemberId=${teamMemberId}`,
+          url: `/api/v2/todo?teamId=${teamMemberId}`,
           method: 'POST',
           data,
         });

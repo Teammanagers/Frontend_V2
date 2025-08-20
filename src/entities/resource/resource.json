@@ -1,0 +1,130 @@
+{
+  "dataList": [
+    {
+      "dataId": 1,
+      "teamMemberId": 7,
+      "fileInfo": {
+        "id": 4,
+        "originalFileName": "UMC_LOGO",
+        "physicalFileName": "20250801184337488752462f2408c9e-f130-4ee1-8cfb-a48d9ef0b411",
+        "filePath": "team-data/20250801184337488752462f2408c9e-f130-4ee1-8cfb-a48d9ef0b411",
+        "fileNameExtension": "png",
+        "fileSize": 13907,
+        "createdAt": "2025-08-01 18:43:38",
+        "createdBy": 2,
+        "updatedAt": "2025-08-01 18:43:38",
+        "updatedBy": 2,
+        "useYn": "Y"
+      },
+      "fileUrl": "https://team-managers-bucket.s3.ap-northeast-2.amazonaws.com/team-data/20250801184337488752462f2408c9e-f130-4ee1-8cfb-a48d9ef0b411?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250801T190432Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA3FLD2MOYVXTJGAWI%2F20250801%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=587079f6dd710ff6a0bb4be94f7f8a8b5f987655bdf1b37a5b64b70c61b6e11b"
+    },
+    {
+      "dataId": 2,
+      "teamMemberId": 7,
+      "fileInfo": {
+        "id": 5,
+        "originalFileName": "UMC_LOGO",
+        "physicalFileName": "20250801185829138434122d330f1e-2021-4fb9-a655-02f605bf9cef",
+        "filePath": "team-data/20250801185829138434122d330f1e-2021-4fb9-a655-02f605bf9cef",
+        "fileNameExtension": "png",
+        "fileSize": 13907,
+        "createdAt": "2025-08-01 18:58:30",
+        "createdBy": 6,
+        "updatedAt": "2025-08-01 18:58:30",
+        "updatedBy": 6,
+        "useYn": "Y"
+      },
+      "fileUrl": "https://team-managers-bucket.s3.ap-northeast-2.amazonaws.com/team-data/20250801185829138434122d330f1e-2021-4fb9-a655-02f605bf9cef?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250801T190432Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA3FLD2MOYVXTJGAWI%2F20250801%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=01175ca0b962fb713deb66a01a4fe08c422569efd7f5659ce87400ac3faa5644"
+    },
+    {
+      "dataId": 3,
+      "teamMemberId": 7,
+      "fileInfo": {
+        "id": 6,
+        "originalFileName": "UMC_LOGO",
+        "physicalFileName": "2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "filePath": "team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "fileNameExtension": "png",
+        "fileSize": 13907,
+        "createdAt": "2025-08-01 18:58:33",
+        "createdBy": 5,
+        "updatedAt": "2025-08-01 18:58:33",
+        "updatedBy": 5,
+        "useYn": "Y"
+      },
+      "fileUrl": "https://team-managers-bucket.s3.ap-northeast-2.amazonaws.com/team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250801T190432Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA3FLD2MOYVXTJGAWI%2F20250801%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=c50fb14df91304337c64bb5a0502d4ce9183b9878d3f9e7f75652b581a2d3352"
+    },
+    {
+      "dataId": 4,
+      "teamMemberId": 7,
+      "fileInfo": {
+        "id": 6,
+        "originalFileName": "UMC_LOGO",
+        "physicalFileName": "2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "filePath": "team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "fileNameExtension": "png",
+        "fileSize": 13907,
+        "createdAt": "2025-08-01 18:58:33",
+        "createdBy": 5,
+        "updatedAt": "2025-08-01 18:58:33",
+        "updatedBy": 5,
+        "useYn": "Y"
+      },
+      "fileUrl": "https://team-managers-bucket.s3.ap-northeast-2.amazonaws.com/team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250801T190432Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA3FLD2MOYVXTJGAWI%2F20250801%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=c50fb14df91304337c64bb5a0502d4ce9183b9878d3f9e7f75652b581a2d3352"
+    },
+    {
+      "dataId": 5,
+      "teamMemberId": 7,
+      "fileInfo": {
+        "id": 6,
+        "originalFileName": "UMC_LOGO",
+        "physicalFileName": "2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "filePath": "team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "fileNameExtension": "png",
+        "fileSize": 13907,
+        "createdAt": "2025-08-01 18:58:33",
+        "createdBy": 5,
+        "updatedAt": "2025-08-01 18:58:33",
+        "updatedBy": 5,
+        "useYn": "Y"
+      },
+      "fileUrl": "https://team-managers-bucket.s3.ap-northeast-2.amazonaws.com/team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250801T190432Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA3FLD2MOYVXTJGAWI%2F20250801%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=c50fb14df91304337c64bb5a0502d4ce9183b9878d3f9e7f75652b581a2d3352"
+    },
+    {
+      "dataId": 6,
+      "teamMemberId": 7,
+      "fileInfo": {
+        "id": 6,
+        "originalFileName": "UMC_LOGO",
+        "physicalFileName": "2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "filePath": "team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "fileNameExtension": "png",
+        "fileSize": 13907,
+        "createdAt": "2025-08-01 18:58:33",
+        "createdBy": 5,
+        "updatedAt": "2025-08-01 18:58:33",
+        "updatedBy": 5,
+        "useYn": "Y"
+      },
+      "fileUrl": "https://team-managers-bucket.s3.ap-northeast-2.amazonaws.com/team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250801T190432Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA3FLD2MOYVXTJGAWI%2F20250801%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=c50fb14df91304337c64bb5a0502d4ce9183b9878d3f9e7f75652b581a2d3352"
+    },
+    {
+      "dataId": 7,
+      "teamMemberId": 7,
+      "fileInfo": {
+        "id": 6,
+        "originalFileName": "UMC_LOGO",
+        "physicalFileName": "2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "filePath": "team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c",
+        "fileNameExtension": "png",
+        "fileSize": 13907,
+        "createdAt": "2025-08-01 18:58:33",
+        "createdBy": 5,
+        "updatedAt": "2025-08-01 18:58:33",
+        "updatedBy": 5,
+        "useYn": "Y"
+      },
+      "fileUrl": "https://team-managers-bucket.s3.ap-northeast-2.amazonaws.com/team-data/2025080118583364166946191ff153f-b99c-48d9-b652-d536b735c31c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250801T190432Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA3FLD2MOYVXTJGAWI%2F20250801%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=c50fb14df91304337c64bb5a0502d4ce9183b9878d3f9e7f75652b581a2d3352"
+    }
+  ]
+}
