@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamStages } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
@@ -23,6 +24,7 @@ export default function MakeTeamSecondStage({
     password,
   } = MakeTeamStages();
   const { createTeamPasswordMutation } = useCreateTeam();
+  const navigate = useNavigate();
   return (
     <StageContainer>
       <BackContainer onClick={() => setStage(1)}>
@@ -72,10 +74,17 @@ export default function MakeTeamSecondStage({
           style="main"
           disabled={!isValid}
           onClick={() =>
-            createTeamPasswordMutation.mutate({
-              teamId: createdTeamId,
-              password: password,
-            })
+            createTeamPasswordMutation.mutate(
+              {
+                teamId: createdTeamId,
+                password: password,
+              },
+              {
+                onSuccess: () => {
+                  navigate(`/team/${createdTeamId}`);
+                },
+              },
+            )
           }
         >
           워크 스페이스로 이동
