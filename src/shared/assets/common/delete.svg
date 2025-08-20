@@ -1,7 +1,7 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_4895_4797)">
-<path d="M5.71094 5.71021L18.6086 18.6078" stroke="current" stroke-width="2" stroke-linecap="round"/>
-<path d="M5.71082 18.6089L18.6084 5.71126" stroke="current" stroke-width="2" stroke-linecap="round"/>
+<path d="M5.71094 5.71021L18.6086 18.6078" stroke="current" stroke-width="current" stroke-linecap="round"/>
+<path d="M5.71082 18.6089L18.6084 5.71126" stroke="current" stroke-width="current" stroke-linecap="round"/>
 </g>
 <defs>
 <clipPath id="clip0_4895_4797">
