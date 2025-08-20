@@ -1,6 +1,12 @@
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import DeleteIcon from '@/shared/assets/common/delete.svg?react';
+import {
+  ICON_MAX_SIZE,
+  ICON_MIN_SIZE,
+  TAG_MAX_HEIGHT,
+} from './roletag.constants';
+import { Theme } from '@/app/styles/theme';
 
 interface IRoleTagProps {
   variants?: 'filled' | 'ghost';
@@ -37,9 +43,9 @@ export default function RoleTag({
       {onDelete && (
         <DeleteButton onClick={onDelete}>
           <DeleteIcon
-            width={height >= 36 ? 24 : 20}
-            height={height >= 36 ? 24 : 20}
-            stroke={'#5C9EFF'}
+            width={height >= TAG_MAX_HEIGHT ? ICON_MAX_SIZE : ICON_MIN_SIZE}
+            height={height >= TAG_MAX_HEIGHT ? ICON_MAX_SIZE : ICON_MIN_SIZE}
+            stroke={Theme.colors.mainBlue}
             strokeWidth={1}
           />
         </DeleteButton>
@@ -57,10 +63,10 @@ const Container = styled.div<{
   justify-content: center;
   gap: 4px;
   height: ${({ $height }) => `${$height}px`};
-  padding: 0 ${({ $height }) => ($height >= 36 ? '12px' : '8px')};
+  padding: 0 ${({ $height }) => ($height >= TAG_MAX_HEIGHT ? '12px' : '8px')};
   border-radius: 3px;
 
-  font-size: ${({ $height }) => ($height >= 36 ? '14px' : '12px')};
+  font-size: ${({ $height }) => ($height >= TAG_MAX_HEIGHT ? '14px' : '12px')};
   color: ${({ theme }) => theme.colors.mainBlue};
   background-color: ${({ theme, $variants }) =>
     $variants === 'filled' ? theme.colors.background : theme.colors.white};
