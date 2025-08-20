@@ -35,7 +35,7 @@ export default function RoleTag({
 
       {/* 태그 삭제 버튼 */}
       {onDelete && (
-        <DeleteButton $height={height} onClick={onDelete}>
+        <DeleteButton onClick={onDelete}>
           <DeleteIcon
             width={height >= 36 ? 24 : 20}
             height={height >= 36 ? 24 : 20}
@@ -66,7 +66,7 @@ const Container = styled.div<{
     $variants === 'filled' ? theme.colors.background : theme.colors.white};
 `;
 
-const DeleteButton = styled.button<{ $height: number }>`
+const DeleteButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
