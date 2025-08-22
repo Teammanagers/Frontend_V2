@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { MemoListViewProps } from '@/entities/memo/memo.type';
-import { AddButton } from '@/entities/memo/ui/AddButton';
+import { AddButtonLarge } from '@/entities/memo/ui/AddButtonLarge.tsx';
+import { AddButtonSmall } from '@/entities/memo/ui/AddButtonSmall.tsx';
 import { AddModal } from '@/entities/memo/ui/AddModal.tsx';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal';
 import { Folder } from '@/entities/memo/ui/Folder';
@@ -12,6 +13,8 @@ import { Memo } from '@/widgets/memo/Memo';
 export const MemoListView = ({
   memos,
   folders,
+  isEmpty,
+  isRootFolder,
   uiState,
   handlers,
   onFolderClick,
@@ -20,51 +23,55 @@ export const MemoListView = ({
 }: MemoListViewProps) => {
   return (
     <>
-      <MemoContainer>
-        <BreadCrumb />
-        <ListContainer>
-          <AddButton onClick={handlers.handleOpenAddModal} />
-          {folders.map((folder) => (
-            <Folder
-              key={folder.id}
-              folder={folder}
-              onFolderClick={onFolderClick}
-              onDeleteRequest={(id: number) =>
-                handlers.handleDeleteRequest({
-                  type: 'folder',
-                  id,
-                  title: folder.title,
-                })
-              }
-              onEditRequest={(folder) =>
-                handlers.handleEditFolderRequest(folder)
-              }
-            />
-          ))}
+      {isEmpty && isRootFolder ? (
+        <AddButtonLarge onClick={handlers.handleOpenAddModal} />
+      ) : (
+        <MemoContainer>
+          <BreadCrumb />
+          <ListContainer>
+            <AddButtonSmall onClick={handlers.handleOpenAddModal} />
+            {folders.map((folder) => (
+              <Folder
+                key={folder.id}
+                folder={folder}
+                onFolderClick={onFolderClick}
+                onDeleteRequest={(id: number) =>
+                  handlers.handleDeleteRequest({
+                    type: 'folder',
+                    id,
+                    title: folder.title,
+                  })
+                }
+                onEditRequest={(folder) =>
+                  handlers.handleEditFolderRequest(folder)
+                }
+              />
+            ))}
 
-          {memos.map((memo) => (
-            <Memo
-              key={memo.id}
-              size="large"
-              memo={memo}
-              onDeleteRequest={(id: number) =>
-                handlers.handleDeleteRequest({
-                  type: 'memo',
-                  id,
-                  title: memo.title,
-                })
-              }
-              onMoveRequest={(id: number) =>
-                handlers.handleMoveRequest({
-                  type: 'memo',
-                  id,
-                  title: memo.title,
-                })
-              }
-            />
-          ))}
-        </ListContainer>
-      </MemoContainer>
+            {memos.map((memo) => (
+              <Memo
+                key={memo.id}
+                size="large"
+                memo={memo}
+                onDeleteRequest={(id: number) =>
+                  handlers.handleDeleteRequest({
+                    type: 'memo',
+                    id,
+                    title: memo.title,
+                  })
+                }
+                onMoveRequest={(id: number) =>
+                  handlers.handleMoveRequest({
+                    type: 'memo',
+                    id,
+                    title: memo.title,
+                  })
+                }
+              />
+            ))}
+          </ListContainer>
+        </MemoContainer>
+      )}
 
       {uiState.openAddModal && (
         <AddModal
@@ -109,6 +116,14 @@ export const MemoListView = ({
     </>
   );
 };
+
+export const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const MemoContainer = styled.div`
   display: flex;

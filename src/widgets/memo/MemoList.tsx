@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
-import { useFolderPathStore } from '@/features/memo/model/folderStore';
+import { useFolderPathStore } from '@/features/memo/model/folderStore.ts';
 import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
-import { axiosInstance } from '@/shared/api/axiosInstance.ts';
+import apiRequest from '@/shared/api/apiRequest.ts';
 import { MemoListView } from '@/widgets/memo/MemoListView.tsx';
 
 export const MemoList = () => {
+  const navigate = useNavigate();
+  const { setPath, resetPath } = useFolderPathStore();
   const {
     deleteTarget,
     moveTarget,
@@ -22,68 +24,102 @@ export const MemoList = () => {
     useMemoListQuery,
     useFolderDetailQuery,
   } = useMemoQueries();
+  const { data: rootFolder, isPending: isRootLoading } = useRootFolderQuery();
 
-  const { data: rootFolder } = useRootFolderQuery();
-  const { folderId } = useParams<{ folderId: string }>();
+  const { folderId } = useParams<{ folderId?: string }>();
+  const resolvedFolderId = folderId ? Number(folderId) : rootFolder?.id;
 
-  const resolvedFolderId = folderId ? Number(folderId) : (rootFolder?.id ?? 0);
+  // NaN/undefined이면 준비 안 된 상태
+  const fid = Number.isFinite(resolvedFolderId as number)
+    ? (resolvedFolderId as number)
+    : NaN;
+  const ready = Number.isFinite(fid);
+  console.log('돼ㅓㅅ나', ready, fid);
 
-  const { data: memos } = useMemoListQuery(resolvedFolderId);
-  // const { data: memos } = useMemoListQuery(3);
-  const { data: folders } = useFolderListQuery(resolvedFolderId);
-  const { data: currentFolder } = useFolderDetailQuery(resolvedFolderId);
-  const canAddFolder = (currentFolder?.depth ?? 1) < 3;
-
-  const navigate = useNavigate();
-  const { setPath, resetPath } = useFolderPathStore();
+  const { data: memos, isPending: isMemosLoading } = useMemoListQuery(fid);
+  const { data: folders, isPending: isFoldersLoading } =
+    useFolderListQuery(fid);
+  const { data: currentFolder } = useFolderDetailQuery(fid);
 
   useEffect(() => {
-    async function buildPathFrom(id: number) {
-      if (!id) {
-        resetPath();
-        return;
-      }
-      const chain: { id: number; name: string }[] = [];
-      let curId: number | null = id;
+    if (!ready) return;
 
-      console.log('현재 아이디:', curId);
-      while (curId) {
-        // 폴더 단건 조회로 폴더명 BreadCrumb에 띄움
-        const res = await axiosInstance.get(`/api/v2/folder/${curId}`);
-        console.log('폴더 단건조회: ', res);
-        const dto = res.data?.result?.folderDto as {
-          id: number;
-          name: string;
-          parentId: number | null;
-          depth: number;
-        };
-        const displayName = dto.depth === 1 ? '전체' : dto.name;
-        chain.unshift({ id: dto.id, name: displayName });
-        if (dto.depth === 1 || dto.parentId == null) break;
-        curId = dto.parentId;
+    let cancelled = false;
+
+    async function buildPathFrom(id: number) {
+      try {
+        const chain: { id: number; name: string }[] = [];
+        let curId: number | null = id;
+
+        while (curId) {
+          const res = await apiRequest({
+            url: `/api/v2/folder/${curId}`,
+            method: 'GET',
+          });
+          const dto = res?.result?.folderDto as
+            | {
+                id: number;
+                name: string;
+                parentId: number | null;
+                depth: number;
+              }
+            | undefined;
+          if (!dto) break;
+
+          chain.unshift({
+            id: dto.id,
+            name: dto.depth === 1 ? '전체' : dto.name,
+          });
+          if (dto.depth === 1 || dto.parentId == null) break;
+          curId = dto.parentId;
+        }
+
+        if (!cancelled) setPath(chain.slice(0, 3));
+      } catch (e) {
+        console.error('buildPathFrom 실패', e);
+        if (!cancelled) resetPath();
       }
-      // depth 3 제한 (root depth=1 기준으로 최대 3개)
-      setPath(chain.slice(-3));
     }
 
-    buildPathFrom(resolvedFolderId);
-  }, [resolvedFolderId, setPath, resetPath]);
+    buildPathFrom(fid).catch((e) => {
+      console.error(e);
+      if (!cancelled) resetPath();
+    });
 
-  // 메모 고정에 따른 정렬
+    return () => {
+      cancelled = true;
+    };
+  }, [ready, fid, setPath, resetPath]);
+
+  if (!ready || isRootLoading) return <div>로딩 중...</div>;
+
+  const canAddFolder = (currentFolder?.depth ?? 1) < 3;
+
   const sortedMemos = [...(memos ?? [])].sort((a, b) => {
     if (a.isFixed === b.isFixed) return 0;
     return a.isFixed ? -1 : 1;
   });
 
-  const handleFolderClick = async (folderId: number) => {
+  const handleFolderClick = (folderId: number) => {
     navigate(`/memo/${folderId}`);
   };
 
+  const isEmpty =
+    !isMemosLoading &&
+    !isFoldersLoading &&
+    (memos?.length ?? 0) === 0 &&
+    (folders?.length ?? 0) === 0;
+  console.log(isEmpty);
+
+  const isRootFolder = fid === rootFolder?.id;
+  console.log(isRootFolder);
+
   return (
     <MemoListView
-      // 조건부 렌더링 스켈레톤 적용 필요
       folders={folders || []}
       memos={sortedMemos || []}
+      isEmpty={isEmpty}
+      isRootFolder={isRootFolder}
       uiState={{
         deleteTarget,
         moveTarget,
@@ -93,7 +129,7 @@ export const MemoList = () => {
       }}
       handlers={handlers}
       onFolderClick={handleFolderClick}
-      currentFolderId={resolvedFolderId}
+      currentFolderId={fid}
       canAddFolder={canAddFolder}
     />
   );
