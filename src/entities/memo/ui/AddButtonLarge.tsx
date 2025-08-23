@@ -7,7 +7,9 @@ export const AddButtonLarge = ({ onClick }: MemoAddBtnProps) => {
     <MemoContainer onClick={onClick}>
       <AddMemoIcon />
       <MemoTextContainer>
-        <MemoText>화면을 클릭하여 팀과 공유할 메모를 남길 수 있습니다</MemoText>
+        <MemoText>
+          화면을 클릭하여 팀과 공유할 메모 또는 폴더를 만들어보세요
+        </MemoText>
       </MemoTextContainer>
     </MemoContainer>
   );

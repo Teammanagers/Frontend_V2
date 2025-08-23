@@ -34,7 +34,6 @@ export const MemoList = () => {
     ? (resolvedFolderId as number)
     : NaN;
   const ready = Number.isFinite(fid);
-  console.log('돼ㅓㅅ나', ready, fid);
 
   const { data: memos, isPending: isMemosLoading } = useMemoListQuery(fid);
   const { data: folders, isPending: isFoldersLoading } =
@@ -109,10 +108,8 @@ export const MemoList = () => {
     !isFoldersLoading &&
     (memos?.length ?? 0) === 0 &&
     (folders?.length ?? 0) === 0;
-  console.log(isEmpty);
 
   const isRootFolder = fid === rootFolder?.id;
-  console.log(isRootFolder);
 
   return (
     <MemoListView
