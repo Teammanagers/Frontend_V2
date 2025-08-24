@@ -1,0 +1,6 @@
+const TAG_MAX_HEIGHT = 36;
+
+const ICON_MAX_SIZE = 24;
+const ICON_MIN_SIZE = 20;
+
+export { TAG_MAX_HEIGHT, ICON_MAX_SIZE, ICON_MIN_SIZE };

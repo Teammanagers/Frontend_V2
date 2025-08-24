@@ -21,7 +21,7 @@ export default function DeleteResourceButton({
 
   return (
     <ButtonContainer {...props} onClick={handleDeleteClick}>
-      <DeleteIcon width="16px" height="16px" stroke="#5a5a5a" />
+      <DeleteIcon width="16px" height="16px" stroke="#5a5a5a" strokeWidth={2} />
     </ButtonContainer>
   );
 }
