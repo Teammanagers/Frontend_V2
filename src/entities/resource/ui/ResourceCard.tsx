@@ -1,9 +1,8 @@
-import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { ResourceInfoResponse } from '../resource.types';
 import FileThumbnail from '@/entities/resource/ui/FileThumbnail';
 import RoleTag from '@/shared/components/tag/RoleTag';
-import { formatFileSize } from '../lib/formatFileSize';
+import ResourceMetaData from './ResourceMetaData';
 
 interface ResourceCardProps extends React.HTMLAttributes<HTMLDivElement> {
   resourceInfo: ResourceInfoResponse;
@@ -26,13 +25,10 @@ export default function ResourceCard({
             {resourceInfo.fileInfo.originalFileName}.
             {resourceInfo.fileInfo.fileNameExtension}
           </Title>
-
-          <MetaDataWrapper>
-            <span>{formatFileSize(resourceInfo.fileInfo.fileSize)}</span>•
-            <span>
-              {dayjs(resourceInfo.fileInfo.createdAt).format('YYYY.MM.DD')}
-            </span>
-          </MetaDataWrapper>
+          <ResourceMetaData
+            fileSize={resourceInfo.fileInfo.fileSize}
+            createdAt={resourceInfo.fileInfo.createdAt}
+          />
         </ResourceInfoWrapper>
       </ThumbnailWithInfo>
 
@@ -77,15 +73,6 @@ const Title = styled.strong`
   font-size: 12px;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.black};
-`;
-
-const MetaDataWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.colors.darkGray};
 `;
 
 const TagAndDeleteWrapper = styled.div`
