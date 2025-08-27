@@ -25,7 +25,6 @@ export default function EditableResourceList() {
                     resourceId={resource.fileInfo.createdBy}
                     myId={OWNER_TEAMMANAGE_ID}
                     onClick={toggle}
-                    // onClick={() => console.log('hi')}
                   />
                 }
               />
