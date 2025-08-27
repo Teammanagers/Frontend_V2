@@ -1,26 +1,19 @@
 import styled from 'styled-components';
+import mockData from '@/features/feedback/feedback.json';
+import Feedback from '@/features/feedback/ui/Feedback';
 
 export default function FeedbackList() {
   return (
     <Container>
-      <EmptyLabel>아직 피드백 남길 자료가 없습니다.</EmptyLabel>
+      {mockData.map((feedback) => (
+        <Feedback feedback={feedback} dept={0} />
+      ))}
     </Container>
   );
 }
 
-const Container = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const Container = styled.ul`
   width: 100%;
-  height: 632px;
-  padding: 24px;
-  border-radius: 10px;
-  background-color: ${({ theme }) => theme.colors.white};
-`;
-
-const EmptyLabel = styled.span`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.black};
+  padding: 12px 18px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.lightGray};
 `;
