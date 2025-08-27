@@ -5,31 +5,40 @@ import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
 import AddResourceButton from '@/features/resource/ui/AddResourceButton';
 import DeleteResourceButton from '@/features/resource/ui/DeleteResourceButton';
 import { OWNER_TEAMMANAGE_ID } from '@/shared/config/constants/team.constants';
+import useToggle from '@/shared/hooks/action/useToggle';
+import DeleteResourceModal from '@/features/resource/ui/DeleteResourceModal';
 
 export default function EditableResourceList() {
   const data = resourceData.dataList;
+  const { isOpen, toggle } = useToggle();
 
   return (
-    <Container>
-      <ResourceList>
-        {data.map((resource) => (
-          <ResourceWrapper key={resource.dataId}>
-            <ResourceCard
-              resourceInfo={resource}
-              deleteButton={
-                <DeleteResourceButton
-                  resourceId={resource.fileInfo.createdBy}
-                  myId={OWNER_TEAMMANAGE_ID}
-                />
-              }
-            />
-            <AddFeedbackButton />
-          </ResourceWrapper>
-        ))}
-      </ResourceList>
+    <>
+      <Container>
+        <ResourceList>
+          {data.map((resource) => (
+            <ResourceWrapper key={resource.dataId}>
+              <ResourceCard
+                resourceInfo={resource}
+                deleteButton={
+                  <DeleteResourceButton
+                    resourceId={resource.fileInfo.createdBy}
+                    myId={OWNER_TEAMMANAGE_ID}
+                    onClick={toggle}
+                    // onClick={() => console.log('hi')}
+                  />
+                }
+              />
+              <AddFeedbackButton />
+            </ResourceWrapper>
+          ))}
+        </ResourceList>
 
-      <AddResourceButton />
-    </Container>
+        <AddResourceButton />
+      </Container>
+
+      <DeleteResourceModal isOpen={isOpen} toggle={toggle} />
+    </>
   );
 }
 
