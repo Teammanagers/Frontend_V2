@@ -6,7 +6,11 @@ export default function FeedbackList() {
   return (
     <Container>
       {mockData.map((feedback) => (
-        <Feedback feedback={feedback} dept={0} />
+        <Feedback
+          key={`feedback-${feedback.id}`}
+          feedback={feedback}
+          dept={0}
+        />
       ))}
     </Container>
   );

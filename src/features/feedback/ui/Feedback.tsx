@@ -15,7 +15,11 @@ export default function Feedback({ feedback, dept = 0 }: IFeedbackProps) {
         <div>
           <strong>{feedback.name}</strong>
           <span>•</span>
-          <span>{feedback.tagList[0]}</span>
+          <span>
+            {feedback.tagList && feedback.tagList.length > 0
+              ? feedback.tagList[0]
+              : ''}
+          </span>
           <span>•</span>
           <span>{feedback.date}</span>
         </div>
