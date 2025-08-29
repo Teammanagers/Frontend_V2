@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { FeedbackResponse, FeedbackDept } from '../feedback.types';
+import { FeedbackResponse } from '../feedback.types';
 import Avatar from '@/shared/components/avatar/Avatar';
+import { DEPT_PADDING_MULTIPLIER } from '../feedback.constants';
 
 interface IFeedbackProps {
   feedback: FeedbackResponse;
-  dept?: FeedbackDept;
+  dept?: 0 | 1 | 2;
 }
 
 export default function Feedback({ feedback, dept = 0 }: IFeedbackProps) {
@@ -27,7 +28,7 @@ export default function Feedback({ feedback, dept = 0 }: IFeedbackProps) {
 
       <Content>{feedback.content}</Content>
 
-      <ReplyButton>답글달기</ReplyButton>
+      {dept !== 2 && <ReplyButton>답글달기</ReplyButton>}
     </Container>
   );
 }
@@ -37,8 +38,8 @@ const Container = styled.li<{ $dept: 0 | 1 | 2 }>`
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
-  height: 67px;
-  padding: 0 ${({ $dept }) => 18 * $dept}px;
+  height: fit-content;
+  padding: 0 ${({ $dept }) => DEPT_PADDING_MULTIPLIER * $dept}px;
   list-style: none;
 `;
 

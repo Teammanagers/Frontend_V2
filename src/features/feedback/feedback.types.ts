@@ -1,5 +1,3 @@
-type FeedbackDept = 0 | 1 | 2;
-
 interface FeedbackResponse {
   id: number;
   name: string;
@@ -9,4 +7,4 @@ interface FeedbackResponse {
   imgUrl: string;
 }
 
-export type { FeedbackDept, FeedbackResponse };
+export type { FeedbackResponse };
