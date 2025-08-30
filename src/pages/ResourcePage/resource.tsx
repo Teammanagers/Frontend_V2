@@ -1,13 +1,13 @@
-import FeedbackList from '@/widgets/feedback/FeedbackList';
-import EditableResourceList from '@/widgets/resource/EditableResourceList';
 import styled from 'styled-components';
+import FeedbackWidget from '@/widgets/feedback/FeedbackWidget';
+import EditableResourceList from '@/widgets/resource/EditableResourceList';
 
 export function ResourcePage() {
   return (
     <Container>
       <WidgetsWrapper>
         <EditableResourceList />
-        <FeedbackList />
+        <FeedbackWidget />
       </WidgetsWrapper>
     </Container>
   );
