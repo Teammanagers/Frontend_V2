@@ -12,7 +12,7 @@ export default function Feedback({ feedback, dept = 0 }: IFeedbackProps) {
   return (
     <Container $dept={dept}>
       <UserInfo>
-        <Avatar imgUrl={feedback.imgUrl} />
+        <Avatar imgUrl={feedback.imgUrl} size={20} />
         <div>
           <strong>{feedback.name}</strong>
           <span>•</span>
