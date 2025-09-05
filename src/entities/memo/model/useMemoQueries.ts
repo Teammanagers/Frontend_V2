@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import apiRequest from '@/shared/api/apiRequest';
 import { MemoType, FolderType } from '@/shared/types/memo.types';
 
-export interface IMemoResponse {
+interface IMemoResponse {
   memoDto: {
     id: number;
     title: string;
@@ -16,7 +16,7 @@ export interface IMemoResponse {
   }[];
 }
 
-export interface IFolderDto {
+interface IFolderDto {
   id: number;
   name: string;
   depth: number;
@@ -28,7 +28,7 @@ export interface IFolderDto {
   useYn: string;
 }
 
-export interface IFolderResponse {
+interface IFolderResponse {
   folderDto: IFolderDto;
 }
 

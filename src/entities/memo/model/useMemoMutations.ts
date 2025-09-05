@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import apiRequest from '@/shared/api/apiRequest';
 import { queryClient } from '@/shared/config/queryClient';
 
-export interface IMemoInput {
+interface IMemoInput {
   title: string;
   tags: string[];
   content: string;
@@ -10,13 +10,13 @@ export interface IMemoInput {
   memoId?: number; // 수정시
 }
 
-export interface IFolderInput {
+interface IFolderInput {
   name: string;
   parentId?: number;
   folderId?: number;
 }
 
-export interface IMemoFolderMoveInput {
+interface IMemoFolderMoveInput {
   memoId: number;
   folderId: number;
 }
