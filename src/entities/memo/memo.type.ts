@@ -8,7 +8,7 @@ export interface Target {
   title: string;
 }
 
-export interface MemoListViewUIState {
+interface MemoListViewUIState {
   deleteTarget: Target | null;
   moveTarget: Target | null;
   openAddModal: boolean;
@@ -16,7 +16,7 @@ export interface MemoListViewUIState {
   editFolder: FolderType | null;
 }
 
-export interface MemoListViewHandlers {
+interface MemoListViewHandlers {
   handleOpenAddModal: () => void;
   handleAddFolder: () => void;
   closeDeleteModal: () => void;
