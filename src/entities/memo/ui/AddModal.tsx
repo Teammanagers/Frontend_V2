@@ -1,9 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { AddModalProps } from '@/entities/memo/memo.type.ts';
 import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
 import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
 import Modal from '@/shared/components/modal/Modal.tsx';
+import { ModalProps } from '@/shared/types/modal.types.ts';
+
+interface IAddModalProps extends ModalProps {
+  onAddFolder: () => void;
+  canAddFolder?: boolean;
+  parentId: number;
+}
 
 export const AddModal = ({
   isOpen,
@@ -11,7 +17,7 @@ export const AddModal = ({
   onAddFolder,
   canAddFolder,
   parentId,
-}: AddModalProps) => {
+}: IAddModalProps) => {
   const navigate = useNavigate();
 
   const handleAddMemo = () => {

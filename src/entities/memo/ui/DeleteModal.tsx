@@ -1,8 +1,16 @@
 import styled from 'styled-components';
-import { DeleteModalProps } from '@/entities/memo/memo.type';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import { Button } from '@/shared/components/button/Button';
 import Modal from '@/shared/components/modal/Modal.tsx';
+import { ModalProps } from '@/shared/types/modal.types.ts';
+
+interface IDeleteModalProps extends ModalProps {
+  type: 'folder' | 'memo';
+  id: number;
+  name: string;
+  parentId: number;
+  onAfterDelete?: () => void;
+}
 
 export const DeleteModal = ({
   type,
@@ -12,7 +20,7 @@ export const DeleteModal = ({
   toggle,
   parentId,
   onAfterDelete,
-}: DeleteModalProps) => {
+}: IDeleteModalProps) => {
   const { useDeleteFolderMutation, useDeleteMemoMutation } = useMemoMutations();
   const { mutate: deleteFolder } = useDeleteFolderMutation(parentId);
   const { mutate: deleteMemo } = useDeleteMemoMutation();

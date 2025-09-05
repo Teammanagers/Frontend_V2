@@ -1,44 +1,6 @@
 import { FolderType, MemoType } from '@/shared/types/memo.types.ts';
-import { ModalProps } from '@/shared/types/modal.types.ts';
 
 // entities/memo/memo.type.ts -> Memo 도메인에서만 사용되는 type
-
-export interface MemoFormProps {
-  initialTitle?: string;
-  initialContent?: string;
-  initialTags?: { name: string }[];
-  onSubmit: (title: string, content: string, tags: { name: string }[]) => void;
-  onBack?: () => void;
-  submitButtonText: string;
-  onDelete?: () => void; // EditMemo에서 사용
-  showDeleteButton?: boolean;
-}
-
-export interface DeleteModalProps extends ModalProps {
-  type: 'folder' | 'memo';
-  id: number;
-  name: string;
-  parentId: number;
-  onAfterDelete?: () => void;
-}
-
-export interface FolderModalProps extends ModalProps {
-  mode: 'create' | 'edit';
-  currentName?: string;
-  folderId?: number;
-  parentId: number;
-}
-
-export interface AddModalProps extends ModalProps {
-  onAddFolder: () => void;
-  canAddFolder?: boolean;
-  parentId: number;
-}
-
-export interface MoveModalProps extends ModalProps {
-  memoId: number;
-  parentId: number;
-}
 
 export interface Target {
   type: 'memo' | 'folder';

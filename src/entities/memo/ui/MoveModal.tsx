@@ -1,17 +1,22 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { MoveModalProps } from '@/entities/memo/memo.type.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { ModalContainer } from '@/entities/memo/ui/AddModal.tsx';
 import Modal from '@/shared/components/modal/Modal.tsx';
+import { ModalProps } from '@/shared/types/modal.types.ts';
+
+interface IMoveModalProps extends ModalProps {
+  memoId: number;
+  parentId: number;
+}
 
 export const MoveModal = ({
   memoId,
   isOpen,
   toggle,
   parentId,
-}: MoveModalProps) => {
+}: IMoveModalProps) => {
   const { useFolderListQuery } = useMemoQueries();
   const { useMoveMemoMutation } = useMemoMutations();
   const { data: folders } = useFolderListQuery(parentId);
