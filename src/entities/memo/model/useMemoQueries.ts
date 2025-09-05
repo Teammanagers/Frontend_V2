@@ -1,12 +1,36 @@
 import { useQuery } from '@tanstack/react-query';
 import apiRequest from '@/shared/api/apiRequest';
-import {
-  FolderDto,
-  FolderResponse,
-  FolderType,
-  MemoResponse,
-  MemoType,
-} from '@/shared/types/memo.types';
+import { MemoType, FolderType } from '@/shared/types/memo.types';
+
+export interface IMemoResponse {
+  memoDto: {
+    id: number;
+    title: string;
+    content: string;
+    isFixed: boolean;
+    folderId: number;
+  };
+  memoTagList: {
+    id: number;
+    name: string;
+  }[];
+}
+
+export interface IFolderDto {
+  id: number;
+  name: string;
+  depth: number;
+  parentId: number;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
+  useYn: string;
+}
+
+export interface IFolderResponse {
+  folderDto: IFolderDto;
+}
 
 const TEAM_ID = 3;
 
@@ -20,7 +44,7 @@ export default function useMemoQueries() {
           url: `/api/v2/folder/root/${TEAM_ID}`,
           method: 'GET',
         }),
-      select: (res): FolderDto => res.result.folderDto,
+      select: (res): IFolderDto => res.result.folderDto,
       staleTime: 60 * 1000,
     });
 
@@ -38,7 +62,7 @@ export default function useMemoQueries() {
           method: 'GET',
         }),
       select: (res): MemoType[] =>
-        res.result.map((memo: MemoResponse) => ({
+        res.result.map((memo: IMemoResponse) => ({
           id: memo.memoDto.id,
           title: memo.memoDto.title,
           content: memo.memoDto.content,
@@ -61,7 +85,7 @@ export default function useMemoQueries() {
           url: `/api/v2/memo/${memoId}`,
           method: 'GET',
         }),
-      select: (res): MemoResponse => res.result,
+      select: (res): IMemoResponse => res.result,
     });
 
     return { isPending, isError, isSuccess, data };
@@ -78,7 +102,7 @@ export default function useMemoQueries() {
           method: 'GET',
         }),
       select: (res): FolderType[] =>
-        res.result.map((folder: FolderResponse) => ({
+        res.result.map((folder: IFolderResponse) => ({
           id: folder.folderDto.id,
           title: folder.folderDto.name,
         })),
@@ -97,7 +121,7 @@ export default function useMemoQueries() {
           url: `/api/v2/folder/${folderId}`,
           method: 'GET',
         }),
-      select: (res): FolderDto => res.result.folderDto,
+      select: (res): IFolderDto => res.result.folderDto,
     });
 
     return { isPending, isError, isSuccess, data };

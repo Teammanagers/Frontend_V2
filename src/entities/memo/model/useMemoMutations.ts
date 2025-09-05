@@ -1,11 +1,25 @@
 import { useMutation } from '@tanstack/react-query';
 import apiRequest from '@/shared/api/apiRequest';
 import { queryClient } from '@/shared/config/queryClient';
-import {
-  FolderTypes,
-  MemoFolderTypes,
-  MemoTypes,
-} from '@/shared/types/memo.types.ts';
+
+export interface IMemoInput {
+  title: string;
+  tags: string[];
+  content: string;
+  folderId?: number; // 생성시
+  memoId?: number; // 수정시
+}
+
+export interface IFolderInput {
+  name: string;
+  parentId?: number;
+  folderId?: number;
+}
+
+export interface IMemoFolderMoveInput {
+  memoId: number;
+  folderId: number;
+}
 
 const TEAM_ID = 3;
 
@@ -13,7 +27,7 @@ export default function useMemoMutations() {
   // 메모 생성
   const useCreateMemoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: MemoTypes) => {
+      mutationFn: async (data: IMemoInput) => {
         const { title, content, tags, folderId } = data;
         await apiRequest({
           url: `/api/v2/memo/folders/${folderId}/teams/${TEAM_ID}`,
@@ -35,7 +49,7 @@ export default function useMemoMutations() {
   // 폴더 생성
   const useCreateFolderMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: FolderTypes) => {
+      mutationFn: async (data: IFolderInput) => {
         const { name, parentId } = data;
         await apiRequest({
           url: `/api/v2/folder/${parentId}`,
@@ -52,7 +66,7 @@ export default function useMemoMutations() {
   };
 
   // 메모 고정 상태 변경 - isFixed UI return
-  const useTogglePinMemoMutations = () => {
+  const useTogglePinMemoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (memoId: number) => {
         return await apiRequest({
@@ -88,7 +102,7 @@ export default function useMemoMutations() {
   // 메모 수정
   const useEditMemoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: MemoTypes) => {
+      mutationFn: async (data: IMemoInput) => {
         const { memoId, title, content, tags } = data;
         return await apiRequest({
           url: `/api/v2/memo/${memoId}`,
@@ -107,7 +121,7 @@ export default function useMemoMutations() {
   // 폴더명 수정
   const useEditFolderMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: FolderTypes) => {
+      mutationFn: async (data: IFolderInput) => {
         const { folderId, name } = data;
         await apiRequest({
           url: `/api/v2/folder/${folderId}`,
@@ -143,7 +157,7 @@ export default function useMemoMutations() {
   // 메모 폴더 이동
   const useMoveMemoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: MemoFolderTypes) => {
+      mutationFn: async (data: IMemoFolderMoveInput) => {
         const { memoId, folderId } = data;
         await apiRequest({
           url: `/api/v2/memo/${memoId}/folder`,
@@ -164,7 +178,7 @@ export default function useMemoMutations() {
     useCreateFolderMutation,
     useDeleteFolderMutation,
     useEditFolderMutation,
-    useTogglePinMemoMutations,
+    useTogglePinMemoMutation,
     useEditMemoMutation,
     useDeleteMemoMutation,
     useMoveMemoMutation,
