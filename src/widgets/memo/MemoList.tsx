@@ -80,10 +80,7 @@ export const MemoList = () => {
       }
     }
 
-    buildPathFrom(fid).catch((e) => {
-      console.error(e);
-      if (!cancelled) resetPath();
-    });
+    void buildPathFrom(fid);
 
     return () => {
       cancelled = true;
