@@ -1,130 +1,143 @@
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
-import { useFolderPathStore } from '@/features/memo/model/folderStore.ts';
-import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
-import apiRequest from '@/shared/api/apiRequest.ts';
-import { MemoListView } from '@/widgets/memo/MemoListView.tsx';
+import styled from 'styled-components';
+import { MemoListViewProps } from '@/entities/memo/memo.type';
+import { AddButtonLarge } from '@/entities/memo/ui/AddButtonLarge.tsx';
+import { AddButtonSmall } from '@/entities/memo/ui/AddButtonSmall.tsx';
+import { AddModal } from '@/entities/memo/ui/AddModal.tsx';
+import { DeleteModal } from '@/entities/memo/ui/DeleteModal';
+import { Folder } from '@/entities/memo/ui/Folder';
+import { FolderModal } from '@/entities/memo/ui/FolderModal';
+import { MoveModal } from '@/entities/memo/ui/MoveModal';
+import { BreadCrumb } from '@/features/memo/ui/BreadCrumb.tsx';
+import { Memo } from '@/widgets/memo/Memo';
 
-export const MemoList = () => {
-  const navigate = useNavigate();
-  const { setPath, resetPath } = useFolderPathStore();
-  const {
-    deleteTarget,
-    moveTarget,
-    openAddModal,
-    openFolderModal,
-    editFolder,
-    handlers,
-  } = useMemoUIState();
-
-  const {
-    useRootFolderQuery,
-    useFolderListQuery,
-    useMemoListQuery,
-    useFolderDetailQuery,
-  } = useMemoQueries();
-  const { data: rootFolder, isPending: isRootLoading } = useRootFolderQuery();
-
-  const { folderId } = useParams<{ folderId?: string }>();
-  const resolvedFolderId = folderId ? Number(folderId) : rootFolder?.id;
-
-  // NaN/undefined이면 준비 안 된 상태
-  const fid = Number.isFinite(resolvedFolderId as number)
-    ? (resolvedFolderId as number)
-    : NaN;
-  const ready = Number.isFinite(fid);
-
-  const { data: memos, isPending: isMemosLoading } = useMemoListQuery(fid);
-  const { data: folders, isPending: isFoldersLoading } =
-    useFolderListQuery(fid);
-  const { data: currentFolder } = useFolderDetailQuery(fid);
-
-  useEffect(() => {
-    if (!ready) return;
-
-    let cancelled = false;
-
-    async function buildPathFrom(id: number) {
-      try {
-        const chain: { id: number; name: string }[] = [];
-        let curId: number | null = id;
-
-        while (curId) {
-          const res = await apiRequest({
-            url: `/api/v2/folder/${curId}`,
-            method: 'GET',
-          });
-          const dto = res?.result?.folderDto as
-            | {
-                id: number;
-                name: string;
-                parentId: number | null;
-                depth: number;
-              }
-            | undefined;
-          if (!dto) break;
-
-          chain.unshift({
-            id: dto.id,
-            name: dto.depth === 1 ? '전체' : dto.name,
-          });
-          if (dto.depth === 1 || dto.parentId == null) break;
-          curId = dto.parentId;
-        }
-
-        if (!cancelled) setPath(chain.slice(0, 3));
-      } catch (e) {
-        console.error('buildPathFrom 실패', e);
-        if (!cancelled) resetPath();
-      }
-    }
-
-    void buildPathFrom(fid);
-
-    return () => {
-      cancelled = true;
-    };
-  }, [ready, fid, setPath, resetPath]);
-
-  if (!ready || isRootLoading) return <div>로딩 중...</div>;
-
-  const canAddFolder = (currentFolder?.depth ?? 1) < 3;
-
-  const sortedMemos = [...(memos ?? [])].sort((a, b) => {
-    if (a.isFixed === b.isFixed) return 0;
-    return a.isFixed ? -1 : 1;
-  });
-
-  const handleFolderClick = (folderId: number) => {
-    navigate(`/memo/${folderId}`);
-  };
-
-  const isEmpty =
-    !isMemosLoading &&
-    !isFoldersLoading &&
-    (memos?.length ?? 0) === 0 &&
-    (folders?.length ?? 0) === 0;
-
-  const isRootFolder = fid === rootFolder?.id;
-
+export const MemoList = ({
+  memos,
+  folders,
+  isEmpty,
+  isRootFolder,
+  uiState,
+  handlers,
+  onFolderClick,
+  currentFolderId,
+  canAddFolder,
+}: MemoListViewProps) => {
   return (
-    <MemoListView
-      folders={folders || []}
-      memos={sortedMemos || []}
-      isEmpty={isEmpty}
-      isRootFolder={isRootFolder}
-      uiState={{
-        deleteTarget,
-        moveTarget,
-        openAddModal,
-        openFolderModal,
-        editFolder,
-      }}
-      handlers={handlers}
-      onFolderClick={handleFolderClick}
-      currentFolderId={fid}
-      canAddFolder={canAddFolder}
-    />
+    <>
+      {isEmpty && isRootFolder ? (
+        <AddButtonLarge onClick={handlers.handleOpenAddModal} />
+      ) : (
+        <MemoContainer>
+          <BreadCrumb />
+          <ListContainer>
+            <AddButtonSmall onClick={handlers.handleOpenAddModal} />
+            {folders.map((folder) => (
+              <Folder
+                key={folder.id}
+                folder={folder}
+                onFolderClick={onFolderClick}
+                onDeleteRequest={(id: number) =>
+                  handlers.handleDeleteRequest({
+                    type: 'folder',
+                    id,
+                    title: folder.title,
+                  })
+                }
+                onEditRequest={(folder) =>
+                  handlers.handleEditFolderRequest(folder)
+                }
+              />
+            ))}
+
+            {memos.map((memo) => (
+              <Memo
+                key={memo.id}
+                size="large"
+                memo={memo}
+                onDeleteRequest={(id: number) =>
+                  handlers.handleDeleteRequest({
+                    type: 'memo',
+                    id,
+                    title: memo.title,
+                  })
+                }
+                onMoveRequest={(id: number) =>
+                  handlers.handleMoveRequest({
+                    type: 'memo',
+                    id,
+                    title: memo.title,
+                  })
+                }
+              />
+            ))}
+          </ListContainer>
+        </MemoContainer>
+      )}
+
+      {uiState.openAddModal && (
+        <AddModal
+          isOpen={true}
+          toggle={handlers.closeAddModal}
+          onAddFolder={handlers.handleAddFolder}
+          canAddFolder={canAddFolder}
+          parentId={currentFolderId}
+        />
+      )}
+
+      {uiState.deleteTarget && (
+        <DeleteModal
+          type={uiState.deleteTarget.type}
+          id={uiState.deleteTarget.id}
+          name={uiState.deleteTarget.title}
+          isOpen={true}
+          toggle={handlers.closeDeleteModal}
+          parentId={currentFolderId}
+        />
+      )}
+
+      {uiState.moveTarget && (
+        <MoveModal
+          memoId={uiState.moveTarget.id}
+          isOpen={true}
+          toggle={handlers.closeMoveModal}
+          parentId={currentFolderId}
+        />
+      )}
+
+      {uiState.openFolderModal && (
+        <FolderModal
+          mode={uiState.editFolder ? 'edit' : 'create'}
+          isOpen={true}
+          toggle={handlers.closeFolderModal}
+          currentName={uiState.editFolder?.title}
+          folderId={uiState.editFolder?.id}
+          parentId={currentFolderId}
+        />
+      )}
+    </>
   );
 };
+
+export const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MemoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  gap: 12px;
+`;
+
+const ListContainer = styled.div`
+  width: 1088px;
+  height: 632px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 16px;
+`;
