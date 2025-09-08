@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FolderModalProps } from '@/entities/memo/memo.type.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import { Button } from '@/shared/components/button/Button.tsx';
 import Modal from '@/shared/components/modal/Modal.tsx';
+import { ModalProps } from '@/shared/types/modal.types.ts';
+
+interface IFolderModalProps extends ModalProps {
+  mode: 'create' | 'edit';
+  currentName?: string;
+  folderId?: number;
+  parentId: number;
+}
 
 export const FolderModal = ({
   mode,
@@ -12,7 +19,7 @@ export const FolderModal = ({
   toggle,
   folderId,
   parentId,
-}: FolderModalProps) => {
+}: IFolderModalProps) => {
   const [folderName, setFolderName] = useState(
     mode === 'edit' ? (currentName ?? '') : '',
   );

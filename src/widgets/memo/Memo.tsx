@@ -49,8 +49,8 @@ export const Memo = ({
   const [isActive, setIsActive] = useState<boolean>(false);
   const { isOpen, setIsOpen, toggle } = useToggle();
 
-  const { useTogglePinMemoMutations } = useMemoMutations();
-  const { mutate: togglePinMemo } = useTogglePinMemoMutations();
+  const { useTogglePinMemoMutation } = useMemoMutations();
+  const { mutate: togglePinMemo } = useTogglePinMemoMutation();
 
   const navigate = useNavigate();
   const selectedSize = memoSizes[size];

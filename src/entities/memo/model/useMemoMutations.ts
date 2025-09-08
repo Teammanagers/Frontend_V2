@@ -1,167 +1,176 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '@/shared/api/axiosInstance.ts';
-import { queryClient } from '@/shared/config/queryClient.ts';
+import apiRequest from '@/shared/api/apiRequest';
+import { queryClient } from '@/shared/config/queryClient';
+
+interface IMemoInput {
+  title: string;
+  tags: string[];
+  content: string;
+  folderId?: number; // 생성시
+  memoId?: number; // 수정시
+}
+
+interface IFolderInput {
+  name: string;
+  parentId?: number;
+  folderId?: number;
+}
+
+interface IMemoFolderMoveInput {
+  memoId: number;
+  folderId: number;
+}
+
+const TEAM_ID = 3;
 
 export default function useMemoMutations() {
   // 메모 생성
   const useCreateMemoMutation = () => {
-    return useMutation({
-      mutationFn: async ({
-        title,
-        content,
-        tags,
-        folderId,
-        teamId,
-      }: {
-        title: string;
-        content: string;
-        tags: string[];
-        folderId: number;
-        teamId: number;
-      }) => {
-        const res = await axiosInstance.post(
-          `/api/v2/memo/folders/${folderId}/teams/${teamId}`,
-          {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async (data: IMemoInput) => {
+        const { title, content, tags, folderId } = data;
+        await apiRequest({
+          url: `/api/v2/memo/folders/${folderId}/teams/${TEAM_ID}`,
+          method: 'POST',
+          data: {
             title,
             content,
             memoTagList: tags,
           },
-        );
-        return res.data.result;
+        });
       },
       onSuccess: (_, { folderId }) => {
         queryClient.invalidateQueries({ queryKey: ['memo', folderId] });
       },
     });
+    return { mutate, data, isPending, isError, isSuccess };
   };
 
   // 폴더 생성
   const useCreateFolderMutation = () => {
-    return useMutation({
-      mutationFn: async ({
-        name,
-        parentId,
-      }: {
-        name: string;
-        parentId: number;
-      }) => {
-        const res = await axiosInstance.post(`/api/v2/folder/${parentId}`, {
-          name,
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async (data: IFolderInput) => {
+        const { name, parentId } = data;
+        await apiRequest({
+          url: `/api/v2/folder/${parentId}`,
+          method: 'POST',
+          data: { name },
         });
-        return res.data.result;
       },
       onSuccess: (_, { parentId }) => {
         queryClient.invalidateQueries({ queryKey: ['folder', parentId] });
       },
     });
+
+    return { mutate, data, isPending, isError, isSuccess };
   };
 
-  // 메모 고정 상태 변경
-  const useTogglePinMemoMutations = () => {
-    return useMutation({
+  // 메모 고정 상태 변경 - isFixed UI return
+  const useTogglePinMemoMutation = () => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (memoId: number) => {
-        const res = await axiosInstance.patch(`/api/v2/memo/${memoId}/fixing`);
-        return res.data;
+        return await apiRequest({
+          url: `/api/v2/memo/${memoId}/fixing`,
+          method: 'PATCH',
+        });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['memo'] });
       },
     });
+
+    return { mutate, data, isPending, isError, isSuccess };
   };
 
   // 폴더 삭제
   const useDeleteFolderMutation = (parentId: number) => {
-    return useMutation({
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (folderId: number) => {
-        const res = await axiosInstance.delete(`/api/v2/folder/${folderId}`);
-        return res.data;
+        await apiRequest({
+          url: `/api/v2/folder/${folderId}`,
+          method: 'DELETE',
+        });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['folder', parentId] });
       },
     });
+
+    return { mutate, data, isPending, isError, isSuccess };
   };
 
   // 메모 수정
   const useEditMemoMutation = () => {
-    return useMutation({
-      mutationFn: async ({
-        memoId,
-        title,
-        content,
-        tags,
-      }: {
-        memoId: number;
-        title: string;
-        content: string;
-        tags: string[];
-      }) => {
-        const res = await axiosInstance.patch(`/api/v2/memo/${memoId}`, {
-          title,
-          content,
-          memoTagList: tags,
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async (data: IMemoInput) => {
+        const { memoId, title, content, tags } = data;
+        return await apiRequest({
+          url: `/api/v2/memo/${memoId}`,
+          method: 'PATCH',
+          data: { title, content, memoTagList: tags },
         });
-        return res.data;
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['memo'] });
       },
     });
+
+    return { mutate, data, isPending, isError, isSuccess };
   };
 
   // 폴더명 수정
   const useEditFolderMutation = () => {
-    return useMutation({
-      mutationFn: async ({
-        folderId,
-        name,
-      }: {
-        folderId: number;
-        name: string;
-      }) => {
-        const res = await axiosInstance.patch(`/api/v2/folder/${folderId}`, {
-          name,
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async (data: IFolderInput) => {
+        const { folderId, name } = data;
+        await apiRequest({
+          url: `/api/v2/folder/${folderId}`,
+          method: 'PATCH',
+          data: { name },
         });
-        return res.data;
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['folder'] });
       },
     });
+
+    return { mutate, data, isPending, isError, isSuccess };
   };
 
   // 메모 삭제
   const useDeleteMemoMutation = () => {
-    return useMutation({
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (memoId: number) => {
-        const res = await axiosInstance.delete(`/api/v2/memo/${memoId}`);
-        return res.data;
+        await apiRequest({
+          url: `/api/v2/memo/${memoId}`,
+          method: 'DELETE',
+        });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['memo'] });
       },
     });
+
+    return { mutate, data, isPending, isError, isSuccess };
   };
 
   // 메모 폴더 이동
   const useMoveMemoMutation = () => {
-    return useMutation({
-      mutationFn: async ({
-        memoId,
-        folderId,
-      }: {
-        memoId: number;
-        folderId: number;
-      }) => {
-        const res = await axiosInstance.patch(`/api/v2/memo/${memoId}/folder`, {
-          folderId,
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async (data: IMemoFolderMoveInput) => {
+        const { memoId, folderId } = data;
+        await apiRequest({
+          url: `/api/v2/memo/${memoId}/folder`,
+          method: 'PATCH',
+          data: { folderId },
         });
-        return res.data;
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['memo'] });
       },
     });
+
+    return { mutate, data, isPending, isError, isSuccess };
   };
 
   return {
@@ -169,7 +178,7 @@ export default function useMemoMutations() {
     useCreateFolderMutation,
     useDeleteFolderMutation,
     useEditFolderMutation,
-    useTogglePinMemoMutations,
+    useTogglePinMemoMutation,
     useEditMemoMutation,
     useDeleteMemoMutation,
     useMoveMemoMutation,

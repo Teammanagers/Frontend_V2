@@ -6,7 +6,6 @@ export const WriteMemo = () => {
   const navigate = useNavigate();
   const { folderId } = useParams<{ folderId?: string }>();
   const currentFolderId = Number(folderId);
-  const teamId = 3; // 임시
 
   const { useCreateMemoMutation } = useMemoMutations();
   const { mutate: createMemo } = useCreateMemoMutation();
@@ -26,7 +25,6 @@ export const WriteMemo = () => {
         content,
         tags: tags.map((tag) => tag.name),
         folderId: currentFolderId,
-        teamId: teamId,
       },
       {
         onSuccess: () => navigate(`/memo/${currentFolderId}`),

@@ -11,12 +11,12 @@ export const EditMemo = () => {
 
   const { useMemoDetailQuery } = useMemoQueries();
   const { useEditMemoMutation } = useMemoMutations();
-  const { data: memoDetail, isLoading } = useMemoDetailQuery(Number(memoId));
+  const { data: memoDetail, isPending } = useMemoDetailQuery(Number(memoId));
   const { mutate: editMemo } = useEditMemoMutation();
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  if (isLoading || !memoDetail) return <div> 로딩 중....</div>;
+  if (isPending || !memoDetail) return <div> 로딩 중....</div>;
   const { memoDto, memoTagList } = memoDetail;
 
   const onSubmit = async (
