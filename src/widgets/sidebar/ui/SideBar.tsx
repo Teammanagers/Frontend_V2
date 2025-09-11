@@ -129,7 +129,7 @@ export const SideBar = () => {
       <IconContainer
         $selected={isActive(`/memo`)}
         isHovered={hover}
-        onClick={() => navigate(`/memo`)}
+        onClick={() => handleNavigate(`/memo`)}
       >
         <StrokeIcon
           as={MemoSvg}
@@ -203,9 +203,13 @@ export const SideBar = () => {
           navigate(`/management`);
         }}
       >
-        <StrokeIcon as={EndSvg} aria-hidden style={{ color: COLOR_DEFAULT }} />
+        <StrokeIcon
+          as={EndSvg}
+          aria-hidden
+          style={{ color: endSelected ? COLOR_ACTIVE : COLOR_DEFAULT }}
+        />
         {hover && (
-          <SideBarText $selected={isActive(`/management`)} redText>
+          <SideBarText $selected={endSelected} redText>
             프로젝트
             <br />
             종료
