@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SideBar from '@/widgets/sidebar/ui/SideBar';
 
-export default function SidebarContainer() {
+export default function SideBarContainer() {
   const [hover, setHover] = useState(false);
   const [isAlarmOpen, setIsAlarmOpen] = useState(false);
   const [endSelected, setEndSelected] = useState(false);
