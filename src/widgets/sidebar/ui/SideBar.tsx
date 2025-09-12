@@ -129,17 +129,19 @@ export default function SideBar({
 
       {/* 자료실 */}
       <IconContainer
-        $selected={isActive(`/share`)}
+        $selected={isActive(`/resource`)}
         isHovered={expanded}
-        onClick={() => onNavigate(`/share`)}
+        onClick={() => onNavigate(`/resource`)}
       >
         <StrokeIcon
           as={FileSvg}
           aria-hidden
-          style={{ color: isActive(`/share`) ? COLOR_ACTIVE : COLOR_DEFAULT }}
+          style={{
+            color: isActive(`/resource`) ? COLOR_ACTIVE : COLOR_DEFAULT,
+          }}
         />
         {expanded && (
-          <SideBarText $selected={isActive(`/share`)}>자료실</SideBarText>
+          <SideBarText $selected={isActive(`/resource`)}>자료실</SideBarText>
         )}
       </IconContainer>
 
