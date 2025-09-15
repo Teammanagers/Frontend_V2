@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import AppShellLayout from '@/pages/_layouts/AppShellLayout.tsx';
 import { AdminLoginPage } from '@/pages/AdminLoginPage/admin-login';
 import { CalendarPage } from '@/pages/CalendarPage';
 import { ErrorPage } from '@/pages/ErrorPage';
@@ -10,10 +11,9 @@ import { ManagementPage } from '@/pages/ManagementPage';
 import { ExtraMemoPage, MemoPage } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
 import Redirect from '@/pages/RedirectPage/redirect';
-import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
 import { ResourcePage } from '@/pages/ResourcePage';
+import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
 import { SignupPage } from '@/pages/SignupPage';
-import { TeamPage } from '@/pages/TeamPage';
 import { TodoPage } from '@/pages/TodoPage';
 
 export default function AppRoutes() {
@@ -37,23 +37,25 @@ export default function AppRoutes() {
           {/* Select Team Page */}
           <Route path="/select-team" element={<SelectTeamPage />} />
         </Route>
-        {/* Team Page */}
-        <Route path="/team" element={<TeamPage />} />
-        {/* Main page */}
-        <Route path="/" element={<MainPage />} />
-        {/* Calendar Page */}
-        <Route path="/calendar" element={<CalendarPage />} />
-        {/* Todo Page */}
-        <Route path="/todo-list" element={<TodoPage />} />
-        {/* Memo Page */}
-        <Route path="/memo" element={<MemoPage />} />
-        <Route path="/memo/*" element={<ExtraMemoPage />} />
-        {/* Resource Page */}
-        <Route path="/resource" element={<ResourcePage />} />
-        {/* ManagementPage */}
-        <Route path="/management" element={<ManagementPage />} />
-        {/* My Page */}
-        <Route path="/mypage" element={<MyPage />} />
+
+        {/* 사이드바 띄워지는 페이지 */}
+        <Route element={<AppShellLayout />}>
+          {/* Main page */}
+          <Route path="/" element={<MainPage />} />
+          {/* Calendar Page */}
+          <Route path="/calendar" element={<CalendarPage />} />
+          {/* Todo Page */}
+          <Route path="/todo-list" element={<TodoPage />} />
+          {/* Memo Page */}
+          <Route path="/memo" element={<MemoPage />} />
+          <Route path="/memo/*" element={<ExtraMemoPage />} />
+          {/* Resource Page */}
+          <Route path="/resource" element={<ResourcePage />} />
+          {/* ManagementPage */}
+          <Route path="/management" element={<ManagementPage />} />
+          {/* My Page */}
+          <Route path="/mypage" element={<MyPage />} />
+        </Route>
 
         {/* Error Page */}
         <Route path="*" element={<ErrorPage />} />
