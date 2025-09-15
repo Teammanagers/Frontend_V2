@@ -4,7 +4,8 @@ import BellSvg from '@/shared/assets/sidebar/bell.svg?react';
 import CalendarSvg from '@/shared/assets/sidebar/calendar.svg?react';
 import EndSvg from '@/shared/assets/sidebar/end.svg?react';
 import FileSvg from '@/shared/assets/sidebar/file.svg?react';
-import HomeSvg from '@/shared/assets/sidebar/home.svg?react';
+import HomeFilledSvg from '@/shared/assets/sidebar/home-filled.svg?react';
+import HomeOutlineSvg from '@/shared/assets/sidebar/home-outline.svg?react';
 import TodoSvg from '@/shared/assets/sidebar/list.svg?react';
 import MemoSvg from '@/shared/assets/sidebar/memo.svg?react';
 import MyPageSvg from '@/shared/assets/sidebar/mypage.svg?react';
@@ -49,11 +50,19 @@ export default function SideBar({
         isHovered={expanded}
         onClick={() => onNavigate(`/`)}
       >
-        <HomeIcon
-          $active={isActive(`/`)}
-          aria-hidden
-          style={{ color: isActive(`/`) ? COLOR_ACTIVE : COLOR_DEFAULT }}
-        />
+        {isActive(`/`) ? (
+          <StrokeIcon
+            as={HomeFilledSvg}
+            aria-hidden
+            style={{ color: COLOR_ACTIVE }}
+          />
+        ) : (
+          <StrokeIcon
+            as={HomeOutlineSvg}
+            aria-hidden
+            style={{ color: COLOR_DEFAULT }}
+          />
+        )}
         {expanded && <SideBarText $selected={isActive(`/`)}>홈</SideBarText>}
       </IconContainer>
 
@@ -274,7 +283,7 @@ const SideBarText = styled.p<ItemProps>`
   font-weight: ${({ $selected }) => ($selected ? 700 : 400)};
   color: ${({ $selected, theme }) =>
     $selected ? theme.colors.black : theme.colors.darkGray};
-  margin-left: 18px;
+  margin-left: 16px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -288,12 +297,12 @@ const SideBarText = styled.p<ItemProps>`
 
 const IconContainer = styled.div<ItemProps>`
   width: 100%;
-  height: 51px;
+  height: 50px;
   background-color: ${({ $selected, theme, $danger }) =>
     $selected ? ($danger ? '#FFE9E9' : theme.colors.background) : 'white'};
   display: flex;
   justify-content: ${({ isHovered }) => (isHovered ? 'flex-start' : 'center')};
-  padding-left: ${({ isHovered }) => (isHovered ? '19px' : '0')};
+  padding-left: ${({ isHovered }) => (isHovered ? '20px' : '0')};
   box-sizing: border-box;
   overflow: hidden;
   align-items: center;
@@ -317,24 +326,4 @@ const StrokeIcon = styled.svg`
   width: 37px;
   height: 37px;
   flex: 0 0 auto;
-`;
-
-// home 아이콘
-const HomeIcon = styled(HomeSvg)<{ $active?: boolean }>`
-  width: 37px;
-  height: 37px;
-
-  .variant--filled {
-    display: none;
-  }
-  .variant--outline {
-    display: inline;
-  }
-
-  ${({ $active }) =>
-    $active &&
-    `
-    .variant--filled { display: inline; }
-    .variant--outline { display: none; }
-  `}
 `;
