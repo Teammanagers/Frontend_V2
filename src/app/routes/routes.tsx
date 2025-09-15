@@ -14,7 +14,6 @@ import Redirect from '@/pages/RedirectPage/redirect';
 import { ResourcePage } from '@/pages/ResourcePage';
 import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
 import { SignupPage } from '@/pages/SignupPage';
-import { TeamPage } from '@/pages/TeamPage';
 import { TodoPage } from '@/pages/TodoPage';
 
 export default function AppRoutes() {
@@ -41,8 +40,6 @@ export default function AppRoutes() {
 
         {/* 사이드바 띄워지는 페이지 */}
         <Route element={<AppShellLayout />}>
-          {/* Team Page */}
-          <Route path="/team" element={<TeamPage />} />
           {/* Main page */}
           <Route path="/" element={<MainPage />} />
           {/* Calendar Page */}
