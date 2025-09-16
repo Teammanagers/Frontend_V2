@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { TEAM_ID } from '@/entities/management/model/useTeamQueries.ts';
 import apiRequest from '@/shared/api/apiRequest';
 import { MemoType, FolderType } from '@/shared/types/memo.types';
 
@@ -31,8 +32,6 @@ interface IFolderDto {
 interface IFolderResponse {
   folderDto: IFolderDto;
 }
-
-const TEAM_ID = 3;
 
 export default function useMemoQueries() {
   // 루트 폴더 조회

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import apiRequest from '@/shared/api/apiRequest.ts';
 import { Team, TeamTag } from '@/shared/types/team.types.ts';
 
-const TEAM_ID = 1;
+export const TEAM_ID = 1;
 
 interface ITeamResponse {
   team: Team;
