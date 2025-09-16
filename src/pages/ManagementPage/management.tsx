@@ -1,9 +1,13 @@
 import styled from 'styled-components';
+import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
 import { Schedule } from '@/entities/management/ui/Schedule.tsx';
 import { TeamInfo } from '@/entities/management/ui/TeamInfo.tsx';
 import { TeamMember } from '@/entities/management/ui/TeamMember.tsx';
 
 export function ManagementPage() {
+  const { useTeamByIdQueries } = useTeamQueries();
+  const { data: team, isPending: isTeamLoading } = useTeamByIdQueries();
+  console.log(team);
   return (
     <Container>
       <TeamInfo
