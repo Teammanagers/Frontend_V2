@@ -3,12 +3,17 @@ import {
   TimeSlot,
 } from '@/entities/management/management.types.ts';
 
+const DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
 export const transformScheduleData = (
   schedules: IScheduleDto[],
 ): {
   [day: string]: { value: TimeSlot[] };
 } => {
   const result: { [day: string]: { value: TimeSlot[] } } = {};
+  DAYS.forEach((day) => {
+    result[day] = { value: [] };
+  });
 
   schedules.forEach(({ dayOfWeek, timeRangeDto }) => {
     if (!result[dayOfWeek]) {
