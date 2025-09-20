@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { IScheduleDto } from '@/entities/management/management.types.ts';
 import apiRequest from '@/shared/api/apiRequest.ts';
 import { Team, TeamTag } from '@/shared/types/team.types.ts';
 
@@ -10,8 +11,13 @@ interface ITeamResponse {
   teamTagList: TeamTag[];
 }
 
+interface IScheduleResponse {
+  scheduleDto: IScheduleDto;
+}
+
 export default function useTeamQueries() {
-  const useTeamByIdQueries = () => {
+  // 팀 정보 조회 (팀 아이디)
+  const useTeamByIdQuery = () => {
     const { isPending, isError, isSuccess, data } = useQuery({
       queryKey: ['management', 'team', TEAM_ID],
       queryFn: () =>
@@ -26,5 +32,21 @@ export default function useTeamQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
-  return { useTeamByIdQueries };
+  // 팀 스케줄 조회
+  const useTeamScheduleQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'schedule', TEAM_ID],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/schedule/teams/${TEAM_ID}`,
+          method: 'GET',
+        }),
+      select: (res): IScheduleDto[] =>
+        res.result.map((r: IScheduleResponse) => r.scheduleDto),
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
+  return { useTeamByIdQuery, useTeamScheduleQuery };
 }

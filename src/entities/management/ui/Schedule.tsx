@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { dummySchedule } from '@/entities/management/dummySchedule.ts';
+import { ScheduleProps } from '@/entities/management/management.types.ts';
 import { TagBox, TagText } from '@/entities/management/ui/Member.tsx';
 import { ShowSchedule } from '@/entities/management/ui/ShowSchedule.tsx';
 import { InfoTitle } from '@/entities/management/ui/TeamInfo.tsx';
@@ -7,7 +7,7 @@ import Delete from '@/shared/assets/common/delete-tag.svg?react';
 import Plus from '@/shared/assets/common/plus.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
 
-export const Schedule = () => {
+export const Schedule = ({ schedule }: ScheduleProps) => {
   return (
     <Container>
       <InfoTitle>Schedule</InfoTitle>
@@ -43,7 +43,7 @@ export const Schedule = () => {
           내 스케줄 등록
         </Button>
       </ScheduleContainer>
-      <ShowSchedule schedule={dummySchedule} />
+      <ShowSchedule schedule={schedule} />
     </Container>
   );
 };
