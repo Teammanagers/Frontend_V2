@@ -13,9 +13,15 @@ export function ManagementPage() {
   const { data: schedule, isPending: isScheduleLoading } =
     useTeamScheduleQuery();
 
+  const { useTeamMemberQuery } = useTeamQueries();
+  const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
+
   if (isScheduleLoading || !schedule) return <div>로딩중...</div>; // 추후 스켈레톤 적용
   const transformedSchedule = transformScheduleData(schedule);
   console.log('스케줄: ', transformedSchedule);
+
+  if (isMembersLoading || !members) return <div>로딩중...</div>;
+  console.log('팀 멤버:', members);
 
   // console.log(team);
   // if (isTeamLoading || !team) return <div>로딩중..</div>; // 추후 스켈레톤 적용
@@ -31,7 +37,7 @@ export function ManagementPage() {
       {/*  onTeamNameChange={(newName) => console.log('팀명 변경:', newName)}*/}
       {/*  refreshTeamData={() => console.log('팀 데이터 새로고침')}*/}
       {/*/>*/}
-      <TeamMember />
+      <TeamMember members={members} />
       <Schedule schedule={transformedSchedule} />
     </Container>
   );

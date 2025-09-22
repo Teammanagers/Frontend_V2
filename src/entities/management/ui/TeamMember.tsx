@@ -2,8 +2,13 @@ import styled from 'styled-components';
 import { Member } from '@/entities/management/ui/Member.tsx';
 import { InfoTitle } from '@/entities/management/ui/TeamInfo.tsx';
 import Arrow from '@/shared/assets/common/arrow.svg?react';
+import { IMemberResponse } from '@/shared/types/member.types.ts';
 
-export const TeamMember = () => {
+interface ITeamMemberProps {
+  members: IMemberResponse[];
+}
+
+export const TeamMember = ({ members }: ITeamMemberProps) => {
   return (
     <MemberContainer>
       <TitleContainer>
@@ -16,12 +21,9 @@ export const TeamMember = () => {
         </PaginationContainer>
       </TitleContainer>
       <MembersContainer>
-        <Member />
-        <Member />
-        <Member />
-        <Member />
-        <Member />
-        <Member />
+        {members.map((member: IMemberResponse) => (
+          <Member key={member.teamMemberId} member={member} />
+        ))}
       </MembersContainer>
     </MemberContainer>
   );

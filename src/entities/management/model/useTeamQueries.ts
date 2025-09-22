@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { IScheduleDto } from '@/entities/management/management.types.ts';
 import apiRequest from '@/shared/api/apiRequest.ts';
+import { IMemberResponse } from '@/shared/types/member.types.ts';
 import { Team, TeamTag } from '@/shared/types/team.types.ts';
 
 export const TEAM_ID = 1;
@@ -48,5 +49,20 @@ export default function useTeamQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
-  return { useTeamByIdQuery, useTeamScheduleQuery };
+  // 팀 멤버 조회
+  const useTeamMemberQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'member', TEAM_ID],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/team/${TEAM_ID}/member-list`,
+          method: 'GET',
+        }),
+      select: (res): IMemberResponse[] => res.result,
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
+  return { useTeamByIdQuery, useTeamScheduleQuery, useTeamMemberQuery };
 }

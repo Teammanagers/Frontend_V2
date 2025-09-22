@@ -1,11 +1,20 @@
 import styled from 'styled-components';
 import Default from '@/shared/assets/management/profile-img-default.svg?react';
+import { IMemberResponse } from '@/shared/types/member.types.ts';
 
-export const Member = () => {
+interface IMemberProps {
+  member: IMemberResponse;
+}
+
+export const Member = ({ member }: IMemberProps) => {
   return (
     <MemberContainer>
-      <Default width={40} height={40} />
-      <Name>이예은</Name>
+      {member.imgUrl ? (
+        <ProfileImg src={member.imgUrl} alt="profile" />
+      ) : (
+        <Default width={40} height={40} />
+      )}
+      <Name>{member.member.name}</Name>
       <TagContainer>
         <TagBox>
           <TagText>기획자</TagText>
@@ -28,6 +37,12 @@ const MemberContainer = styled.div`
   height: 44px;
   gap: 12px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.lightGray};
+`;
+
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
 `;
 
 const Name = styled.p`
