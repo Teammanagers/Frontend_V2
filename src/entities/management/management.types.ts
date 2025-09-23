@@ -1,27 +1,19 @@
-import { ScheduleDto } from '@/entities/management/model/ScheduleDto.ts';
-
 export interface TeamTag {
   id: number;
   name: string;
 }
 
 export interface TeamInfoProps {
-  id: number;
+  // id: number;
   title: string;
   imageUrl: string | null;
   teamCode: string;
   tagList: TeamTag[];
-  onTeamNameChange: (newName: string) => void;
-  refreshTeamData: () => void;
-}
-
-export interface ShowScheduleProps {
-  schedule: ScheduleDto;
 }
 
 export interface TimeSlot {
-  start: string; // "HH:mm"
-  end: string; // "HH:mm"
+  start: string;
+  end: string;
 }
 
 export interface IScheduleDto {

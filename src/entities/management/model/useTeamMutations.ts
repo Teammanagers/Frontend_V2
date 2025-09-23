@@ -1,0 +1,37 @@
+import { useMutation } from '@tanstack/react-query';
+import { TEAM_ID } from '@/entities/management/model/useTeamQueries.ts';
+import apiRequest from '@/shared/api/apiRequest.ts';
+import { queryClient } from '@/shared/config/queryClient.ts';
+
+interface IUseTeamMutations {
+  title: string;
+  imageFile: File | null;
+}
+
+export default function useTeamMutations() {
+  const useEditTeamMutation = () => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async ({ title, imageFile }: IUseTeamMutations) => {
+        const formData = new FormData();
+        formData.append('updateTeam', JSON.stringify({ title }));
+        if (imageFile) formData.append('imageFile', imageFile);
+
+        return await apiRequest({
+          url: `/api/v2/team/${TEAM_ID}`,
+          method: 'PATCH',
+          data: formData,
+        });
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['management', 'team', TEAM_ID],
+        });
+        console.log('이미지 변경!');
+      },
+      onError: (err) => console.error(err),
+    });
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
+  return { useEditTeamMutation };
+}

@@ -1,8 +1,9 @@
-import { useRef } from 'react';
+import { KeyboardEvent, ChangeEvent, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { TeamInfoProps } from '@/entities/management/management.types.ts';
 // import { updateProfile, updateTag } from '@/entities/team/api/team.api.stub';
 // import { useTeamTags } from '@/entities/team/hooks/useTeamTags';
+import useTeamMutations from '@/entities/management/model/useTeamMutations.ts';
 import Plus from '@/shared/assets/common/plus.svg?react';
 // import DeleteIcon from '@/shared/assets/management/delete-icon.svg?react';
 import EditIcon from '@/shared/assets/management/edit.svg?react';
@@ -10,40 +11,47 @@ import DefaultProfileImg from '@/shared/assets/management/profile-img-default.sv
 import UploadIcon from '@/shared/assets/management/upload-icon.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
 
-export const TeamInfo = ({ title, teamCode }: TeamInfoProps) => {
-  // const [profileImage, setProfileImage] = useState<string | null>(
-  //   imageUrl || null,
-  // );
+export const TeamInfo = ({
+  // id,
+  title,
+  imageUrl,
+  teamCode,
+  tagList,
+}: TeamInfoProps) => {
+  const [profileImage, setProfileImage] = useState<string | null>(imageUrl);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   // const [copyCode, setCopyCode] = useState<boolean>(false);
-  // const [isEditing, setIsEditing] = useState<boolean>(false);
-  // const [teamName, setTeamName] = useState<string>(title);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [teamName, setTeamName] = useState<string>(title);
   // const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  const { useEditTeamMutation } = useTeamMutations();
+  const { mutate: editTeam } = useEditTeamMutation();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // const handleImgChange = async (e: ChangeEvent<HTMLInputElement>) => {
-  // const file = e.target.files?.[0] || null;
-  // await updateProfile(teamId, teamName, file);
-  // if (file) {
-  //   setProfileImage(URL.createObjectURL(file));
-  // }
-  // refreshTeamData();
-  // };
+  const handleImgChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    if (file) {
+      setProfileImage(URL.createObjectURL(file)); // 화면에 보임
+      setImageFile(file); // API 전송
+      editTeam({
+        title: teamName,
+        imageFile: file,
+      });
+    }
+  };
 
   const handleImgClick = () => fileInputRef.current?.click();
 
-  // const handleNameKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
-  // if (e.key === 'Enter') {
-  //   setIsEditing(false);
-  //   await updateProfile(
-  //     teamId,
-  //     teamName,
-  //     fileInputRef.current?.files?.[0] || null,
-  //   );
-  //   onTeamNameChange(teamName);
-  //   refreshTeamData();
-  // }
-  // };
+  const handleNameKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      editTeam({
+        title: teamName,
+        imageFile: imageFile,
+      });
+    }
+  };
 
   // const handleCopyCode = () => {
   //   if (teamCode) {
@@ -52,9 +60,6 @@ export const TeamInfo = ({ title, teamCode }: TeamInfoProps) => {
   //   }
   // };
 
-  // useEffect(() => {
-  //   setProfileImage(imageUrl || null);
-  // }, [imageUrl]);
   //
   // useEffect(() => {
   //   if (copyCode) {
@@ -86,23 +91,35 @@ export const TeamInfo = ({ title, teamCode }: TeamInfoProps) => {
   return (
     <Container>
       <ProfileContainer onClick={handleImgClick}>
-        <DefaultImg />
-        {/*{profileImage ? <ProfileImg src={profileImage} /> : <DefaultImg />}*/}
+        {profileImage ? <ProfileImg src={profileImage} /> : <DefaultImg />}
         <UploadIconStyled />
-        {/*<HiddenInput*/}
-        {/*  type="file"*/}
-        {/*  accept="image/jpeg, image/png"*/}
-        {/*  ref={fileInputRef}*/}
-        {/*  onChange={handleImgChange}*/}
-        {/*/>*/}
+        <HiddenInput
+          type="file"
+          accept="image/jpeg, image/png"
+          ref={fileInputRef}
+          onChange={handleImgChange}
+        />
       </ProfileContainer>
       <InfoContainer>
         <TopContainer>
           <TitleContainer>
             <InfoTitle>Title</InfoTitle>
             <InfoBox>
-              <Title>{title}</Title>
-              <EditBtn />
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={teamName}
+                  onChange={(e) => setTeamName(e.target.value)}
+                  onKeyDown={handleNameKeyDown}
+                  onBlur={() => setIsEditing(false)}
+                  autoFocus
+                />
+              ) : (
+                <>
+                  <Title>{teamName}</Title>
+                  <EditBtn onClick={() => setIsEditing(true)} />
+                </>
+              )}
             </InfoBox>
           </TitleContainer>
           <CodeWrapper>
@@ -120,15 +137,11 @@ export const TeamInfo = ({ title, teamCode }: TeamInfoProps) => {
         <BottomContainer>
           <InfoTitle>Tag</InfoTitle>
           <TagContainer>
-            <TagBox>
-              <TagText>기획자</TagText>
-            </TagBox>
-            <TagBox>
-              <TagText>기획자</TagText>
-            </TagBox>
-            <TagBox>
-              <TagText>기획자</TagText>
-            </TagBox>
+            {tagList.map((tag) => (
+              <TagBox key={tag.id}>
+                <TagText>{tag.name}</TagText>
+              </TagBox>
+            ))}
             <AddBtn>
               <Plus stroke="#5C9EFF" strokeWidth={2} />
             </AddBtn>
@@ -151,13 +164,14 @@ const ProfileContainer = styled.div`
   height: 180px;
   cursor: pointer;
 `;
-// const ProfileImg = styled.img`
-//   width: 100%;
-//   height: 100%;
-//   border-radius: 38px;
-//   object-fit: cover;
-//   border: 1px solid ${({ theme }) => theme.colors.mainBlue};
-// `;
+
+const ProfileImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 38px;
+  object-fit: cover;
+  border: 1px solid ${({ theme }) => theme.colors.mainBlue};
+`;
 
 const DefaultImg = styled(DefaultProfileImg)`
   width: 100%;
@@ -175,9 +189,9 @@ const UploadIconStyled = styled(UploadIcon)`
   cursor: pointer;
 `;
 
-// const HiddenInput = styled.input`
-//   display: none;
-// `;
+const HiddenInput = styled.input`
+  display: none;
+`;
 
 const InfoContainer = styled.div`
   display: flex;
