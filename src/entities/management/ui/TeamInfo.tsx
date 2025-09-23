@@ -1,4 +1,5 @@
-import { KeyboardEvent, ChangeEvent, useRef, useState } from 'react';
+import copy from 'copy-to-clipboard';
+import { KeyboardEvent, ChangeEvent, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { TeamInfoProps } from '@/entities/management/management.types.ts';
 // import { updateProfile, updateTag } from '@/entities/team/api/team.api.stub';
@@ -20,7 +21,7 @@ export const TeamInfo = ({
 }: TeamInfoProps) => {
   const [profileImage, setProfileImage] = useState<string | null>(imageUrl);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  // const [copyCode, setCopyCode] = useState<boolean>(false);
+  const [copyCode, setCopyCode] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [teamName, setTeamName] = useState<string>(title);
   // const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -53,20 +54,19 @@ export const TeamInfo = ({
     }
   };
 
-  // const handleCopyCode = () => {
-  //   if (teamCode) {
-  //     copy(teamCode);
-  //     setCopyCode(true);
-  //   }
-  // };
+  const handleCopyCode = () => {
+    if (teamCode) {
+      copy(teamCode);
+      setCopyCode(true);
+    }
+  };
 
-  //
-  // useEffect(() => {
-  //   if (copyCode) {
-  //     const timer = setTimeout(() => setCopyCode(false), 1000);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [copyCode]);
+  useEffect(() => {
+    if (copyCode) {
+      const timer = setTimeout(() => setCopyCode(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [copyCode]);
 
   // const {
   //   tags,
@@ -128,8 +128,9 @@ export const TeamInfo = ({
               <InfoBox>
                 <Code>{teamCode}</Code>
               </InfoBox>
+              {copyCode && <CopyText>코드가 복사되었습니다.</CopyText>}
             </CodeContainer>
-            <Button size="mini" style="main">
+            <Button size="mini" style="main" onClick={handleCopyCode}>
               팀 코드복사
             </Button>
           </CodeWrapper>
@@ -245,6 +246,13 @@ const CodeWrapper = styled.div`
 
 const CodeContainer = styled(TitleContainer)`
   width: 327px;
+`;
+
+const CopyText = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.mainBlue};
+  padding: 0;
 `;
 
 const Code = styled.p`
