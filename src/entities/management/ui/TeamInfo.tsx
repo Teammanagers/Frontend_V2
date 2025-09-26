@@ -47,10 +47,16 @@ export const TeamInfo = ({
 
   const handleNameKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      editTeam({
-        title: teamName,
-        imageFile: imageFile,
-      });
+      e.preventDefault();
+      editTeam(
+        {
+          title: teamName,
+          imageFile: imageFile,
+        },
+        {
+          onSuccess: () => setIsEditing(false),
+        },
+      );
     }
   };
 
