@@ -5,6 +5,7 @@ import { TeamInfoProps } from '@/entities/management/management.types.ts';
 // import { updateProfile, updateTag } from '@/entities/team/api/team.api.stub';
 // import { useTeamTags } from '@/entities/team/hooks/useTeamTags';
 import useTeamMutations from '@/entities/management/model/useTeamMutations.ts';
+import { useTeamTags } from '@/entities/management/model/useTeamTags.ts';
 import Plus from '@/shared/assets/common/plus.svg?react';
 // import DeleteIcon from '@/shared/assets/management/delete-icon.svg?react';
 import EditIcon from '@/shared/assets/management/edit.svg?react';
@@ -28,6 +29,33 @@ export const TeamInfo = ({
 
   const { useEditTeamMutation } = useTeamMutations();
   const { mutate: editTeam } = useEditTeamMutation();
+
+  const { useCreateTeamTagMutation } = useTeamMutations();
+  const { mutate: createTeamTag } = useCreateTeamTagMutation();
+
+  const {
+    tags,
+    showTagInput,
+    newTag,
+    // editTagIndex,
+    handleAddTag,
+    // handleEditTag,
+    // startEditingTag,
+    // handleDeleteTag,
+    setTags,
+    setShowTagInput,
+    setEditTagIndex,
+    setNewTag,
+  } = useTeamTags({
+    initialTags: tagList,
+    onCreateTeamTag: (tagName) => {
+      createTeamTag({ tagName });
+    },
+  });
+
+  useEffect(() => {
+    setTags(tagList);
+  }, [tagList, setTags]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -73,26 +101,6 @@ export const TeamInfo = ({
       return () => clearTimeout(timer);
     }
   }, [copyCode]);
-
-  // const {
-  //   tags,
-  //   newTag,
-  //   editTagIndex,
-  //   handleEditTag,
-  //   startEditingTag,
-  //   setTags,
-  //   setNewTag,
-  // } = useTeamTags({
-  //   initialTags: tagList,
-  //   onEditTeamTag: async (tagId: number, name: string) => {
-  //     await updateTag(teamId, tagId, name);
-  //     refreshTeamData();
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   setTags(tagList);
-  // }, [tagList, setTags]);
 
   return (
     <Container>
@@ -144,14 +152,28 @@ export const TeamInfo = ({
         <BottomContainer>
           <InfoTitle>Tag</InfoTitle>
           <TagContainer>
-            {tagList.map((tag) => (
-              <TagBox key={tag.id}>
+            {tags.map((tag, index) => (
+              <TagBox key={index}>
                 <TagText>{tag.name}</TagText>
               </TagBox>
             ))}
-            <AddBtn>
-              <Plus stroke="#5C9EFF" strokeWidth={2} />
-            </AddBtn>
+            {showTagInput ? (
+              <TagInput
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+                onKeyDown={handleAddTag}
+                autoFocus
+              />
+            ) : (
+              <AddBtn
+                onClick={() => {
+                  setShowTagInput(true);
+                  setEditTagIndex(null);
+                }}
+              >
+                <Plus stroke="#5C9EFF" strokeWidth={2} />
+              </AddBtn>
+            )}
           </TagContainer>
         </BottomContainer>
       </InfoContainer>
@@ -304,4 +326,14 @@ const AddBtn = styled.button`
   background: white;
   justify-content: center;
   align-items: center;
+`;
+
+const TagInput = styled.input`
+  width: 100px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  border: 1px solid ${({ theme }) => theme.colors.mainBlue};
+  outline: none;
 `;

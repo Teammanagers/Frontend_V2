@@ -33,5 +33,24 @@ export default function useTeamMutations() {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
-  return { useEditTeamMutation };
+  const useCreateTeamTagMutation = () => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async ({ tagName }: { tagName: string }) => {
+        return await apiRequest({
+          url: `/api/v2/tag/team/${TEAM_ID}`,
+          method: 'POST',
+          data: { tagName },
+        });
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['management', 'team', 'tag', TEAM_ID],
+        });
+      },
+      onError: (err) => console.error(err),
+    });
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
+  return { useEditTeamMutation, useCreateTeamTagMutation };
 }
