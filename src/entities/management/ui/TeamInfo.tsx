@@ -2,11 +2,8 @@ import copy from 'copy-to-clipboard';
 import { KeyboardEvent, ChangeEvent, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { TeamInfoProps } from '@/entities/management/management.types.ts';
-// import { updateProfile, updateTag } from '@/entities/team/api/team.api.stub';
-// import { useTeamTags } from '@/entities/team/hooks/useTeamTags';
 import useTeamMutations from '@/entities/management/model/useTeamMutations.ts';
-import { useTeamTags } from '@/entities/management/model/useTeamTags.ts';
-import Plus from '@/shared/assets/common/plus.svg?react';
+import { TeamTag } from '@/entities/management/ui/TeamTag.tsx';
 // import DeleteIcon from '@/shared/assets/management/delete-icon.svg?react';
 import EditIcon from '@/shared/assets/management/edit.svg?react';
 import DefaultProfileImg from '@/shared/assets/management/profile-img-default.svg?react';
@@ -32,30 +29,6 @@ export const TeamInfo = ({
 
   const { useCreateTeamTagMutation } = useTeamMutations();
   const { mutate: createTeamTag } = useCreateTeamTagMutation();
-
-  const {
-    tags,
-    showTagInput,
-    newTag,
-    // editTagIndex,
-    handleAddTag,
-    // handleEditTag,
-    // startEditingTag,
-    // handleDeleteTag,
-    setTags,
-    setShowTagInput,
-    setEditTagIndex,
-    setNewTag,
-  } = useTeamTags({
-    initialTags: tagList,
-    onCreateTeamTag: (tagName) => {
-      createTeamTag({ tagName });
-    },
-  });
-
-  useEffect(() => {
-    setTags(tagList);
-  }, [tagList, setTags]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -151,30 +124,12 @@ export const TeamInfo = ({
         </TopContainer>
         <BottomContainer>
           <InfoTitle>Tag</InfoTitle>
-          <TagContainer>
-            {tags.map((tag, index) => (
-              <TagBox key={index}>
-                <TagText>{tag.name}</TagText>
-              </TagBox>
-            ))}
-            {showTagInput ? (
-              <TagInput
-                value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-                onKeyDown={handleAddTag}
-                autoFocus
-              />
-            ) : (
-              <AddBtn
-                onClick={() => {
-                  setShowTagInput(true);
-                  setEditTagIndex(null);
-                }}
-              >
-                <Plus stroke="#5C9EFF" strokeWidth={2} />
-              </AddBtn>
-            )}
-          </TagContainer>
+          <TeamTag
+            tagList={tagList}
+            onCreateTeamTag={(tagName) => {
+              createTeamTag({ tagName });
+            }}
+          />
         </BottomContainer>
       </InfoContainer>
     </Container>
@@ -294,46 +249,4 @@ const BottomContainer = styled.div`
   flex-direction: column;
   gap: 2px;
   width: 768px;
-`;
-
-const TagContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 52px;
-`;
-
-const TagBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 12px 8px 12px;
-  border-radius: 5px;
-  background: white;
-`;
-
-const TagText = styled.span`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.mainBlue};
-`;
-
-const AddBtn = styled.button`
-  display: flex;
-  width: 36px;
-  height: 36px;
-  border-radius: 5px;
-  background: white;
-  justify-content: center;
-  align-items: center;
-`;
-
-const TagInput = styled.input`
-  width: 100px;
-  height: 36px;
-  padding: 0 12px;
-  border-radius: 5px;
-  font-size: 14px;
-  border: 1px solid ${({ theme }) => theme.colors.mainBlue};
-  outline: none;
 `;
