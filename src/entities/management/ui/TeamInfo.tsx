@@ -30,6 +30,9 @@ export const TeamInfo = ({
   const { useCreateTeamTagMutation } = useTeamMutations();
   const { mutate: createTeamTag } = useCreateTeamTagMutation();
 
+  const { useDeleteTeamTagMutation } = useTeamMutations();
+  const { mutate: deleteTeamTag } = useDeleteTeamTagMutation();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImgChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -125,10 +128,11 @@ export const TeamInfo = ({
         <BottomContainer>
           <InfoTitle>Tag</InfoTitle>
           <TeamTag
-            tagList={tagList}
+            tagList={tagList.map(({ id, name }) => ({ tagId: id, name }))}
             onCreateTeamTag={(tagName) => {
               createTeamTag({ tagName });
             }}
+            onDeleteTeamTag={(tagId) => deleteTeamTag(tagId)}
           />
         </BottomContainer>
       </InfoContainer>
