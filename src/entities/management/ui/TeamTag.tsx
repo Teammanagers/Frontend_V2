@@ -1,6 +1,7 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 import styled from 'styled-components';
 import { useTeamTags } from '@/entities/management/model/useTeamTags';
+import { TagInputContainer } from '@/entities/memo/ui/MemoForm.tsx';
 import Delete from '@/shared/assets/common/delete-tag.svg?react';
 import Plus from '@/shared/assets/common/plus.svg?react';
 
@@ -17,13 +18,14 @@ export const TeamTag = ({
 }: TeamTagManagerProps) => {
   const {
     tags,
+    showTagInput,
     newTag,
     editTagIndex,
     handleAddTag,
     handleEditTag,
     startEditingTag,
     handleDeleteTag,
-    // setTags,
+    setShowTagInput,
     setEditTagIndex,
     setNewTag,
   } = useTeamTags({
@@ -32,39 +34,45 @@ export const TeamTag = ({
     onDeleteTeamTag,
   });
 
-  console.log('태그리스트:', tagList);
-  const [isAddingTag, setIsAddingTag] = useState(false);
-
   return (
     <TagContainer>
       {tags.map((tag, index) => (
         <TagBox
           key={tag.tagId}
-          onClick={() => {
-            if (isAddingTag) return;
-            startEditingTag(index);
-            setIsAddingTag(false);
-          }}
+          $isEditing={editTagIndex === index}
+          onClick={() => startEditingTag(index)}
         >
           {editTagIndex === index ? (
-            <TagInputWrapper>
+            <TagInputContainer>
               <TagInput
                 value={newTag}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setNewTag(e.target.value)
                 }
-                onKeyDown={(e) => handleEditTag(e, index)}
+                onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
+                  handleEditTag(e, index)
+                }
+                maxLength={5}
                 autoFocus
               />
-              <DeleteBtn onClick={() => handleDeleteTag(index)} />
-            </TagInputWrapper>
+              <DeleteBtn
+                onClick={() => {
+                  // tagId가 있으면 외부 삭제 호출
+                  if ('tagId' in tag && typeof tag.tagId === 'number') {
+                    onDeleteTeamTag(tag.tagId);
+                  }
+                  handleDeleteTag(index); // 내부 상태 업데이트
+                }}
+              />
+            </TagInputContainer>
           ) : (
             <TagText>{tag.name}</TagText>
           )}
         </TagBox>
       ))}
-      {isAddingTag ? (
-        <TagInputWrapper>
+
+      {showTagInput && editTagIndex === null && (
+        <TagInputContainer>
           <TagInput
             value={newTag}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -76,16 +84,18 @@ export const TeamTag = ({
           />
           <DeleteBtn
             onClick={() => {
-              setIsAddingTag(false);
+              setShowTagInput(false);
               setNewTag('');
               setEditTagIndex(null);
             }}
           />
-        </TagInputWrapper>
-      ) : (
+        </TagInputContainer>
+      )}
+
+      {!showTagInput && tags.length < 3 && (
         <AddBtn
           onClick={() => {
-            setIsAddingTag(true);
+            setShowTagInput(true);
             setEditTagIndex(null);
           }}
         >
@@ -103,13 +113,13 @@ const TagContainer = styled.div`
   height: 52px;
 `;
 
-const TagBox = styled.div`
+const TagBox = styled.div<{ $isEditing: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 8px 12px;
   border-radius: 5px;
-  background: white;
+  background: ${({ $isEditing }) => ($isEditing ? 'transparent' : 'white')};
 `;
 
 const TagText = styled.span`
@@ -136,12 +146,6 @@ const TagInput = styled.input`
   font-size: 14px;
   border: 1px solid ${({ theme }) => theme.colors.mainBlue};
   outline: none;
-`;
-
-const TagInputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
 `;
 
 const DeleteBtn = styled(Delete)`
