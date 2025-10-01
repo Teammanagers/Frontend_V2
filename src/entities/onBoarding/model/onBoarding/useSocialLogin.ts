@@ -4,7 +4,7 @@ export default function useSocialLogin() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean | null>(null);
 
-  const socialLoginProvider = (provider: 'google' | 'kakao') => {
+  const socialLoginProvider = (provider: 'google' | 'kakao' | 'naver') => {
     setIsLoading(true);
     setError(null);
 
@@ -13,6 +13,7 @@ export default function useSocialLogin() {
     const urls = {
       google: `${baseUrl}/oauth2/authorization/google`,
       kakao: `${baseUrl}/oauth2/authorization/kakao`,
+      naver: `${baseUrl}/oauth2/authorization/naver`,
     };
 
     const hrefUrl = urls[provider];
