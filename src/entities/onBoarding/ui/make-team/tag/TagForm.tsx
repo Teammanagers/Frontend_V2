@@ -69,6 +69,8 @@ const EachTag = styled.div`
   background-color: rgba(249, 251, 255, 1);
   padding: 6px 12px 6px 12px;
   color: rgba(92, 158, 255, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
 `;
 
 const TagContainer = styled.div`
