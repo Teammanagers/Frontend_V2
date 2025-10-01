@@ -54,7 +54,7 @@ export default function MakeTeamFirstStage({
           onChange={(e) => setTitle(e.target.value)}
         />
         <Input title="Tag" subTitle="(최대 한글 5자 또는 영어 5글자)">
-          <TagForm></TagForm>
+          <TagForm />
         </Input>
         <Button
           size="xxl"
