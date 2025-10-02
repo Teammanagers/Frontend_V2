@@ -6,14 +6,11 @@ import { TeamInfo } from '@/entities/management/ui/TeamInfo.tsx';
 import { TeamMember } from '@/entities/management/ui/TeamMember.tsx';
 
 export function ManagementPage() {
-  const { useTeamByIdQuery } = useTeamQueries();
+  const { useTeamByIdQuery, useTeamScheduleQuery, useTeamMemberQuery } =
+    useTeamQueries();
   const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
-
-  const { useTeamScheduleQuery } = useTeamQueries();
   const { data: schedule, isPending: isScheduleLoading } =
     useTeamScheduleQuery();
-
-  const { useTeamMemberQuery } = useTeamQueries();
   const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
 
   if (isScheduleLoading || !schedule) return <div>로딩중...</div>; // 추후 스켈레톤 적용
@@ -23,7 +20,7 @@ export function ManagementPage() {
   if (isMembersLoading || !members) return <div>로딩중...</div>;
   // console.log('팀 멤버:', members);
 
-  console.log('팀 조회:', team?.team);
+  console.log('팀 조회:', team?.team, team?.teamTagList);
   if (isTeamLoading || !team) return <div>로딩중..</div>; // 추후 스켈레톤 적용
 
   return (
