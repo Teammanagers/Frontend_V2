@@ -24,14 +24,16 @@ export const TeamInfo = ({
   const [teamName, setTeamName] = useState<string>(title);
   // const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const { useEditTeamMutation } = useTeamMutations();
+  const {
+    useEditTeamMutation,
+    useCreateTeamTagMutation,
+    useDeleteTeamTagMutation,
+    useEditTeamTagMutation,
+  } = useTeamMutations();
   const { mutate: editTeam } = useEditTeamMutation();
-
-  const { useCreateTeamTagMutation } = useTeamMutations();
   const { mutate: createTeamTag } = useCreateTeamTagMutation();
-
-  const { useDeleteTeamTagMutation } = useTeamMutations();
   const { mutate: deleteTeamTag } = useDeleteTeamTagMutation();
+  const { mutate: editTeamTag } = useEditTeamTagMutation();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -133,6 +135,7 @@ export const TeamInfo = ({
               createTeamTag({ tagName });
             }}
             onDeleteTeamTag={(tagId) => deleteTeamTag(tagId)}
+            onEditTeamTag={(tagId, tagName) => editTeamTag({ tagId, tagName })}
           />
         </BottomContainer>
       </InfoContainer>

@@ -8,6 +8,11 @@ interface IUseTeamMutations {
   imageFile: File | null;
 }
 
+interface ITeamTagInput {
+  tagId: number;
+  tagName: string;
+}
+
 export default function useTeamMutations() {
   const useEditTeamMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
@@ -69,9 +74,29 @@ export default function useTeamMutations() {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
+  const useEditTeamTagMutation = () => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async ({ tagId, tagName }: ITeamTagInput) => {
+        await apiRequest({
+          url: `/api/v2/tag/${tagId}/team/${TEAM_ID}`,
+          method: 'PATCH',
+          data: { tagName },
+        });
+      },
+      onSuccess: () => {
+        console.log('태그 수정 완^^');
+        queryClient.invalidateQueries({
+          queryKey: ['management', 'team', 'tag', TEAM_ID],
+        });
+      },
+    });
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
   return {
     useEditTeamMutation,
     useCreateTeamTagMutation,
     useDeleteTeamTagMutation,
+    useEditTeamTagMutation,
   };
 }

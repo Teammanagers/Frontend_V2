@@ -9,12 +9,14 @@ interface TeamTagManagerProps {
   tagList: { name: string }[];
   onCreateTeamTag: (tagName: string) => void;
   onDeleteTeamTag: (tagId: number) => void;
+  onEditTeamTag: (tagId: number, tagName: string) => void;
 }
 
 export const TeamTag = ({
   tagList,
   onCreateTeamTag,
   onDeleteTeamTag,
+  onEditTeamTag,
 }: TeamTagManagerProps) => {
   const {
     tags,
@@ -32,6 +34,7 @@ export const TeamTag = ({
     initialTags: tagList,
     onCreateTeamTag,
     onDeleteTeamTag,
+    onEditTeamTag,
   });
 
   return (

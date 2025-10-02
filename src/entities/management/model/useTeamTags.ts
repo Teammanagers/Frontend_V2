@@ -4,13 +4,14 @@ interface ITeamTagInput {
   initialTags: { name: string }[];
   onCreateTeamTag: (tagName: string) => void;
   onDeleteTeamTag: (tagId: number) => void;
-  // onEditTeamTag
+  onEditTeamTag: (tagId: number, tagName: string) => void;
 }
 
 export const useTeamTags = ({
   initialTags,
   onCreateTeamTag,
   onDeleteTeamTag,
+  onEditTeamTag,
 }: ITeamTagInput) => {
   const {
     tags,
@@ -28,6 +29,7 @@ export const useTeamTags = ({
   } = useTags({
     initialTags,
     onCreateRoleTag: onCreateTeamTag,
+    onEditTeamTag,
   });
 
   // tagId를 추출해서 외부로 넘기는 래퍼 함수
