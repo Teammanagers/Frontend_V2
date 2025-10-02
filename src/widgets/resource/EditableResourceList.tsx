@@ -1,39 +1,42 @@
 import styled from 'styled-components';
-import resourceData from '@/entities/resource/resource.json';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
-import AddResourceButton from '@/features/resource/ui/AddResourceButton';
 import DeleteResourceButton from '@/features/resource/ui/DeleteResourceButton';
 import { OWNER_TEAMMANAGE_ID } from '@/shared/config/constants/team.constants';
 import useToggle from '@/shared/hooks/action/useToggle';
 import DeleteResourceModal from '@/features/resource/ui/DeleteResourceModal';
+import { useGetResourceList } from './model/useResourceQueries';
+import ResourceAddController from './ResourceAddController';
 
 export default function EditableResourceList() {
-  const data = resourceData.dataList;
+  const { data } = useGetResourceList();
   const { isOpen, toggle } = useToggle();
 
   return (
     <>
       <Container>
+        {/* 자료 목록 */}
         <ResourceList>
-          {data.map((resource) => (
-            <ResourceWrapper key={resource.dataId}>
-              <ResourceCard
-                resourceInfo={resource}
-                deleteButton={
-                  <DeleteResourceButton
-                    resourceId={resource.fileInfo.createdBy}
-                    myId={OWNER_TEAMMANAGE_ID}
-                    onClick={toggle}
-                  />
-                }
-              />
-              <AddFeedbackButton />
-            </ResourceWrapper>
-          ))}
+          {data &&
+            data.map((resource) => (
+              <ResourceWrapper key={resource.dataId}>
+                <ResourceCard
+                  resourceInfo={resource}
+                  deleteButton={
+                    <DeleteResourceButton
+                      resourceId={resource.fileInfo.createdBy}
+                      myId={OWNER_TEAMMANAGE_ID}
+                      onClick={toggle}
+                    />
+                  }
+                />
+                <AddFeedbackButton />
+              </ResourceWrapper>
+            ))}
         </ResourceList>
 
-        <AddResourceButton />
+        {/* 자료 추가 컨트롤 위젯 */}
+        <ResourceAddController resourceCount={data ? data.length : 0} />
       </Container>
 
       <DeleteResourceModal isOpen={isOpen} toggle={toggle} />

@@ -1,16 +1,17 @@
 import styled from 'styled-components';
-import resourceData from '@/entities/resource/resource.json';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
+import { useGetResourceList } from './model/useResourceQueries';
 
 export default function RecentResourceList() {
-  const data = resourceData.dataList.slice(0, 3);
+  const { data } = useGetResourceList();
 
   return (
     <Container>
       <ResourceList>
-        {data.map((resource) => (
-          <ResourceCard key={resource.dataId} resourceInfo={resource} />
-        ))}
+        {data &&
+          data.map((resource) => (
+            <ResourceCard key={resource.dataId} resourceInfo={resource} />
+          ))}
       </ResourceList>
     </Container>
   );
