@@ -4,7 +4,7 @@ import apiRequest from '@/shared/api/apiRequest.ts';
 import { IMemberResponse } from '@/shared/types/member.types.ts';
 import { Team, TeamTag } from '@/shared/types/team.types.ts';
 
-export const TEAM_ID = 1;
+export const TEAM_ID = 3;
 
 interface ITeamResponse {
   team: Team;
