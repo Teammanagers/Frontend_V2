@@ -7,8 +7,15 @@ import useToggle from '@/shared/hooks/action/useToggle';
 import DeleteResourceModal from '@/features/resource/ui/DeleteResourceModal';
 import { useGetResourceList } from './model/useResourceQueries';
 import ResourceAddController from './ResourceAddController';
+import { Dispatch, SetStateAction } from 'react';
+import { Resource } from '@/entities/resource/resource.types';
 
-export default function EditableResourceList() {
+export default function EditableResourceList({
+  onSelectedResource,
+}: {
+  /* 선택된 자료를 상위 컴포넌트로 전달하는 콜백 함수 */
+  onSelectedResource: Dispatch<SetStateAction<Resource | null>>;
+}) {
   const { data } = useGetResourceList();
   const { isOpen, toggle } = useToggle();
 
@@ -30,7 +37,11 @@ export default function EditableResourceList() {
                     />
                   }
                 />
-                <AddFeedbackButton />
+
+                {/* 피드백 추가 버튼 */}
+                <AddFeedbackButton
+                  onClick={() => onSelectedResource(resource)}
+                />
               </ResourceWrapper>
             ))}
         </ResourceList>
