@@ -24,14 +24,21 @@ export interface IScheduleDto {
   };
 }
 
+export type Weekday =
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday'
+  | 'Sunday';
+
 export interface ScheduleProps {
-  schedule: {
-    [day: string]: { value: TimeSlot[] };
-  };
+  schedule: Partial<Record<Weekday, { value: TimeSlot[] }>>;
 }
 
 export interface TimeSelectorProps {
-  day: string;
+  day: Weekday;
   times: TimeSlot[];
-  onChange: (day: string, times: TimeSlot[]) => void;
+  onChange: (day: Weekday, times: TimeSlot[]) => void;
 }

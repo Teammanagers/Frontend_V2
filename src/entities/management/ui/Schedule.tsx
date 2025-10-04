@@ -2,53 +2,75 @@ import styled from 'styled-components';
 import { ScheduleProps } from '@/entities/management/management.types.ts';
 import { TagBox, TagText } from '@/entities/management/ui/Member.tsx';
 import { NoSchedule } from '@/entities/management/ui/NoSchedule.tsx';
+import { RegisterSchedule } from '@/entities/management/ui/RegisterSchedule.tsx';
 import { ShowSchedule } from '@/entities/management/ui/ShowSchedule.tsx';
 import { InfoTitle } from '@/entities/management/ui/TeamInfo.tsx';
+import { useSchedule } from '@/features/management/model/useSchedule.ts';
 import Delete from '@/shared/assets/common/delete-tag.svg?react';
 import Plus from '@/shared/assets/common/plus.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
 
 export const Schedule = ({ schedule }: ScheduleProps) => {
+  const {
+    showRegister,
+    weeklyTimes,
+    changeTime,
+    reset,
+    submit,
+    toggleRegister,
+  } = useSchedule();
   console.log(schedule);
+
   return (
     <Container>
       <InfoTitle>Schedule</InfoTitle>
-      <ScheduleContainer>
-        <PeopleContainer>
-          <PeopleLabelContainer>
-            <Text>현재 참여자들의 가능 시간: </Text>
-            <TagContainer>
-              {/* 사람 태그 부분 */}
-              <TagBox>
-                <TagText>기획자</TagText>
-                <DeleteBtn width={20} height={20} />
-              </TagBox>
-              <TagBox>
-                <TagText>기획자</TagText>
-                <DeleteBtn width={20} height={20} />
-              </TagBox>
-              <TagBox>
-                <TagText>기획자</TagText>
-                <DeleteBtn width={20} height={20} />
-              </TagBox>
-              <TagBox>
-                <TagText>기획자</TagText>
-                <DeleteBtn width={20} height={20} />
-              </TagBox>
-              <AddBtn>
-                <Plus stroke="#5C9EFF" strokeWidth={1} />
-              </AddBtn>
-            </TagContainer>
-          </PeopleLabelContainer>
-        </PeopleContainer>
-        <Button size="mini" style="main">
-          내 스케줄 등록
-        </Button>
-      </ScheduleContainer>
-      {Object.values(schedule).some((day) => day.value.length > 0) ? (
-        <ShowSchedule schedule={schedule} />
+      {showRegister ? (
+        <RegisterSchedule
+          weeklyTimes={weeklyTimes}
+          onTimeChange={changeTime}
+          onReset={reset}
+          onSubmit={submit}
+        />
       ) : (
-        <NoSchedule />
+        <>
+          <ScheduleContainer>
+            <PeopleContainer>
+              <PeopleLabelContainer>
+                <Text>현재 참여자들의 가능 시간: </Text>
+                <TagContainer>
+                  {/* 사람 태그 부분 */}
+                  <TagBox>
+                    <TagText>기획자</TagText>
+                    <DeleteBtn width={20} height={20} />
+                  </TagBox>
+                  <TagBox>
+                    <TagText>기획자</TagText>
+                    <DeleteBtn width={20} height={20} />
+                  </TagBox>
+                  <TagBox>
+                    <TagText>기획자</TagText>
+                    <DeleteBtn width={20} height={20} />
+                  </TagBox>
+                  <TagBox>
+                    <TagText>기획자</TagText>
+                    <DeleteBtn width={20} height={20} />
+                  </TagBox>
+                  <AddBtn>
+                    <Plus stroke="#5C9EFF" strokeWidth={1} />
+                  </AddBtn>
+                </TagContainer>
+              </PeopleLabelContainer>
+            </PeopleContainer>
+            <Button size="mini" style="main" onClick={toggleRegister}>
+              내 스케줄 등록
+            </Button>
+          </ScheduleContainer>
+          {Object.values(schedule).some((day) => day.value.length > 0) ? (
+            <ShowSchedule schedule={schedule} />
+          ) : (
+            <NoSchedule />
+          )}
+        </>
       )}
     </Container>
   );
