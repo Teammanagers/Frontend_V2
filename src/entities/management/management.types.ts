@@ -35,6 +35,7 @@ export type Weekday =
 
 export interface ScheduleProps {
   schedule: Partial<Record<Weekday, { value: TimeSlot[] }>>;
+  mySchedule?: Partial<Record<Weekday, { value: TimeSlot[] }>>;
 }
 
 export interface TimeSelectorProps {

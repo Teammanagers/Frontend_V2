@@ -6,16 +6,25 @@ import { TeamInfo } from '@/entities/management/ui/TeamInfo.tsx';
 import { TeamMember } from '@/entities/management/ui/TeamMember.tsx';
 
 export function ManagementPage() {
-  const { useTeamByIdQuery, useTeamScheduleQuery, useTeamMemberQuery } =
-    useTeamQueries();
+  const {
+    useTeamByIdQuery,
+    useTeamScheduleQuery,
+    useMyScheduleQuery,
+    useTeamMemberQuery,
+  } = useTeamQueries();
   const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
   const { data: schedule, isPending: isScheduleLoading } =
     useTeamScheduleQuery();
+  const { data: mySchedule, isPending: isMyScheduleLoading } =
+    useMyScheduleQuery();
   const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
 
   if (isScheduleLoading || !schedule) return <div>로딩중...</div>; // 추후 스켈레톤 적용
   const transformedSchedule = transformScheduleData(schedule);
   // console.log('스케줄: ', transformedSchedule);
+
+  if (isMyScheduleLoading || !mySchedule) return <div>로딩중...</div>; // 추후 스켈레톤 적용
+  const transformedMySchedule = transformScheduleData(mySchedule);
 
   if (isMembersLoading || !members) return <div>로딩중...</div>;
   // console.log('팀 멤버:', members);
@@ -33,7 +42,10 @@ export function ManagementPage() {
         tagList={team.teamTagList}
       />
       <TeamMember members={members} />
-      <Schedule schedule={transformedSchedule} />
+      <Schedule
+        schedule={transformedSchedule}
+        mySchedule={transformedMySchedule}
+      />
     </Container>
   );
 }

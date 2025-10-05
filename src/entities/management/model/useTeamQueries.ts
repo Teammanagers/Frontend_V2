@@ -49,6 +49,22 @@ export default function useTeamQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
+  // 개인 스케줄 조회
+  const useMyScheduleQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'mySchedule', TEAM_ID],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/schedule/teams/${TEAM_ID}/my-schedules`,
+          method: 'GET',
+        }),
+      select: (res): IScheduleDto[] =>
+        res.result.map((r: IScheduleResponse) => r.scheduleDto),
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
   // 팀 멤버 조회
   const useTeamMemberQuery = () => {
     const { isPending, isError, isSuccess, data } = useQuery({
@@ -64,5 +80,10 @@ export default function useTeamQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
-  return { useTeamByIdQuery, useTeamScheduleQuery, useTeamMemberQuery };
+  return {
+    useTeamByIdQuery,
+    useTeamScheduleQuery,
+    useMyScheduleQuery,
+    useTeamMemberQuery,
+  };
 }
