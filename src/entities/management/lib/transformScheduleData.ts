@@ -1,29 +1,38 @@
 import {
   IScheduleDto,
   TimeSlot,
-} from '@/entities/management/management.types.ts';
+  Weekday,
+} from '@/entities/management/management.types';
 
-const DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+const DAY_MAP: Record<string, Weekday> = {
+  MON: 'Monday',
+  TUE: 'Tuesday',
+  WED: 'Wednesday',
+  THU: 'Thursday',
+  FRI: 'Friday',
+  SAT: 'Saturday',
+  SUN: 'Sunday',
+};
 
-export const transformScheduleData = (
-  schedules: IScheduleDto[],
-): {
-  [day: string]: { value: TimeSlot[] };
-} => {
-  const result: { [day: string]: { value: TimeSlot[] } } = {};
-  DAYS.forEach((day) => {
-    result[day] = { value: [] };
-  });
+export const transformScheduleData = (data: IScheduleDto[]) => {
+  const result: Partial<Record<Weekday, { value: TimeSlot[] }>> = {
+    Monday: { value: [] },
+    Tuesday: { value: [] },
+    Wednesday: { value: [] },
+    Thursday: { value: [] },
+    Friday: { value: [] },
+    Saturday: { value: [] },
+    Sunday: { value: [] },
+  };
 
-  schedules.forEach(({ dayOfWeek, timeRangeDto }) => {
-    if (!result[dayOfWeek]) {
-      result[dayOfWeek] = { value: [] };
-    }
+  data.forEach((item) => {
+    const day = DAY_MAP[item.dayOfWeek];
+    if (!day) return;
 
-    result[dayOfWeek].value.push({
-      start: timeRangeDto.startTime.slice(0, 5),
-      end: timeRangeDto.endTime.slice(0, 5),
-    });
+    const start = item.timeRangeDto.startTime.slice(0, 5);
+    const end = item.timeRangeDto.endTime.slice(0, 5);
+
+    result[day]!.value.push({ start, end });
   });
 
   return result;
