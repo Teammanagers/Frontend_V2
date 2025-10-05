@@ -10,7 +10,7 @@ import Delete from '@/shared/assets/common/delete-tag.svg?react';
 import Plus from '@/shared/assets/common/plus.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
 
-export const Schedule = ({ schedule }: ScheduleProps) => {
+export const Schedule = ({ schedule, mySchedule }: ScheduleProps) => {
   const {
     showRegister,
     weeklyTimes,
@@ -18,8 +18,9 @@ export const Schedule = ({ schedule }: ScheduleProps) => {
     reset,
     submit,
     toggleRegister,
-  } = useSchedule();
+  } = useSchedule(mySchedule);
   console.log(schedule);
+  console.log('내스케줄:', mySchedule);
 
   return (
     <Container>

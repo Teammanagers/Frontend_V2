@@ -1,5 +1,4 @@
-// features/schedule/model/useSchedule.ts
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TimeSlot, Weekday } from '@/entities/management/management.types';
 
 const DEFAULT_WEEKLY_TIMES: Record<Weekday, TimeSlot[]> = {
@@ -12,10 +11,47 @@ const DEFAULT_WEEKLY_TIMES: Record<Weekday, TimeSlot[]> = {
   Sunday: [],
 };
 
-export const useSchedule = () => {
-  const [showRegister, setShowRegister] = useState<boolean>(false);
-  const [weeklyTimes, setWeeklyTimes] = useState(DEFAULT_WEEKLY_TIMES);
+export const useSchedule = (
+  initialSchedule?: Partial<Record<Weekday, { value: TimeSlot[] }>>,
+) => {
+  // 시작과 끝이 모두 00:00 인 경우에도 스케줄이 없다고 판단
+  const hasSchedule =
+    initialSchedule &&
+    Object.values(initialSchedule).some((day) =>
+      day?.value?.some(
+        (slot) => !(slot.start === '00:00' && slot.end === '00:00'),
+      ),
+    );
 
+  const [weeklyTimes, setWeeklyTimes] = useState<Record<Weekday, TimeSlot[]>>(
+    () =>
+      hasSchedule
+        ? (Object.keys(DEFAULT_WEEKLY_TIMES) as Weekday[]).reduce(
+            (acc, day) => {
+              acc[day] = initialSchedule?.[day]?.value ?? [];
+              return acc;
+            },
+            {} as Record<Weekday, TimeSlot[]>,
+          )
+        : DEFAULT_WEEKLY_TIMES,
+  );
+
+  useEffect(() => {
+    if (hasSchedule) {
+      const mapped = (Object.keys(DEFAULT_WEEKLY_TIMES) as Weekday[]).reduce(
+        (acc, day) => {
+          acc[day] = initialSchedule?.[day]?.value ?? [];
+          return acc;
+        },
+        {} as Record<Weekday, TimeSlot[]>,
+      );
+      setWeeklyTimes(mapped);
+    } else {
+      setWeeklyTimes(DEFAULT_WEEKLY_TIMES);
+    }
+  }, [initialSchedule]);
+
+  const [showRegister, setShowRegister] = useState<boolean>(false);
   const toggleRegister = () => setShowRegister((prev) => !prev);
 
   const changeTime = (day: Weekday, times: TimeSlot[]) => {
