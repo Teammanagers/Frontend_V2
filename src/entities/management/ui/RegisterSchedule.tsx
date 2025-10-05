@@ -62,21 +62,20 @@ export const RegisterSchedule = ({
 };
 
 const Container = styled.div`
-  width: 949px;
-  height: 325px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 23px;
+  border-radius: 16px;
+  gap: 8px;
   background: white;
 `;
 
 const AddScheduleContainer = styled.div`
-  height: 336px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 11px;
-  background: chartreuse;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px 0 0 20px;
 `;
 
 const ButtonContainer = styled.div`
@@ -84,5 +83,4 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
   padding-right: 19px;
   gap: 10px;
-  margin-top: 8px;
 `;
