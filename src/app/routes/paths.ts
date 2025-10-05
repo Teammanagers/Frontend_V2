@@ -1,11 +1,15 @@
 import { TodoList } from '@/widgets/main';
 import RecentResourceList from '@/widgets/resource/RecentResourceList';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
+import MypageProfileIcon from '@/shared/assets/mypage/update-profile.svg?react';
+import MypageNoticeIcon from '@/shared/assets/mypage/loudspeaker.svg?react';
+import MypageTermOfServiceIcon from '@/shared/assets/mypage/term-of-service.svg?react';
 
 interface RouteConfig {
   label: string; // 네비게이션 링크에 표시될 텍스트
   to: string; // 경로
   component?: React.ComponentType; // 해당 경로에 렌더링될 컴포넌트
+  icon?: React.ComponentType; // 메뉴에서 렌더링 될 아이콘
 }
 
 export const PATHS = {
@@ -44,10 +48,11 @@ export const mainRoutes: RouteConfig[] = [
 ];
 
 export const mypageRoutes: RouteConfig[] = [
-  { label: '프로필 수정', to: PATHS.PROFILE },
-  { label: '공지사항', to: PATHS.NOTICE },
+  { label: '프로필 수정', to: PATHS.PROFILE, icon: MypageProfileIcon },
+  { label: '공지사항', to: PATHS.NOTICE, icon: MypageNoticeIcon },
   {
     label: '이용약관 및 개인정보처리방침',
     to: PATHS.TERMS_OF_SERVICE,
+    icon: MypageTermOfServiceIcon,
   },
 ];
