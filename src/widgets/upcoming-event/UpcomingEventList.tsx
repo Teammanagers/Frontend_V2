@@ -1,37 +1,20 @@
 import { UpcomingSchedule } from '@/entities/calendar/ui';
-import { RoutingButton } from '@/entities/main/ui';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import useEventQueries from '@/features/calendar/model/useEventQueries';
 
 function UpcomingEventList() {
-  const location = useLocation();
-  const path = location.pathname;
-
   const { useUpcomingEventQuery } = useEventQueries();
   const { isPending, isSuccess, data: eventList } = useUpcomingEventQuery();
 
   return (
     <Container>
-      {path === '/' && (
-        <RoutingButton url="/calendar">다가오는 일정</RoutingButton>
-      )}
-
-      {path === '/calendar' && (
-        <UpcomingScheduleTitle>다가오는 일정</UpcomingScheduleTitle>
-      )}
-
       {isPending &&
-        Array.from({ length: path === '/' ? 3 : 6 }).map((_, idx) => (
-          <Skeleton
-            key={`notice-skeleton-${idx}`}
-            width={path === '/' ? 518 : 436}
-            height={66}
-          />
+        Array.from({ length: 3 }).map((_, idx) => (
+          <Skeleton key={`notice-skeleton-${idx}`} width={518} height={66} />
         ))}
 
-      <SchedulListWrapper $path={path}>
+      <EventListWrapper>
         {isSuccess &&
           eventList.map((event, idx) => (
             <UpcomingSchedule
@@ -39,7 +22,7 @@ function UpcomingEventList() {
               key={`upcoming-schedule-${idx}`}
             />
           ))}
-      </SchedulListWrapper>
+      </EventListWrapper>
 
       {isSuccess && eventList.length === 0 && (
         <EmptySchedule>아직 생성된 일정이 없습니다.</EmptySchedule>
@@ -59,18 +42,12 @@ const Container = styled.section`
   width: 100%;
 `;
 
-const UpcomingScheduleTitle = styled.h2`
-  font-size: 20px;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.black};
-`;
-
-const SchedulListWrapper = styled.ul<{ $path: string }>`
+const EventListWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  height: ${({ $path }) => ($path === '/' ? '222px' : '534px')};
+  height: 222px;
   overflow-y: auto;
 `;
 

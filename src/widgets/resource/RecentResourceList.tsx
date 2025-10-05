@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { RoutingButton } from '@/entities/main/ui';
 import resourceData from '@/entities/resource/resource.json';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
 
@@ -8,8 +7,6 @@ export default function RecentResourceList() {
 
   return (
     <Container>
-      <RoutingButton url="/resource">최근 업데이트 된 자료</RoutingButton>
-
       <ResourceList>
         {data.map((resource) => (
           <ResourceCard key={resource.dataId} resourceInfo={resource} />
