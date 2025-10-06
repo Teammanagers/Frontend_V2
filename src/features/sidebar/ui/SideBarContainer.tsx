@@ -17,7 +17,7 @@ export default function SideBarContainer() {
   // const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
 
   const { useMyTeamListQuery } = useSideBarQueries();
-  const { data: myTeams, isPending: isMyTeamLoading } = useMyTeamListQuery();
+  const { data: myTeams } = useMyTeamListQuery();
   console.log('내 팀 목록: ', myTeams);
 
   const navigate = useNavigate();
@@ -36,18 +36,28 @@ export default function SideBarContainer() {
     // navigate
   };
 
-  // 사이드바 팀 정보
-  const currentTeam = myTeams?.[0];
-  console.log('현재 팀: ', currentTeam);
-  console.log('팀이 맞는지? ', currentTeam?.team.id === TEAM_ID);
+  // api 데이터 매핑
+  const teamList: TeamProps[] =
+    myTeams?.map((item) => ({
+      teamId: item.team.id,
+      title: item.team.title,
+      imageUrl: item.imgUrl ?? null,
+    })) ?? [];
+
+  const currentTeam: TeamProps | null = teamList[0] ?? null;
 
   const teamData = currentTeam
-    ? { title: currentTeam.team.title, imageUrl: currentTeam.imgUrl }
-    : { title: '로딩중...', imageUrl: null };
+    ? {
+        teamId: currentTeam.teamId,
+        title: currentTeam.title,
+        imageUrl: currentTeam.imageUrl,
+      }
+    : { teamId: null, title: '로딩중...', imageUrl: null };
 
   console.log('드롭다운 오픈? ', isTeamListOpen);
-
-  console.log('둘다 true여야돼....', isTeamListOpen, myTeams);
+  console.log('현재 팀: ', currentTeam);
+  console.log('팀이 맞는지? ', currentTeam?.teamId === TEAM_ID);
+  console.log('둘다 true여야돼....', isTeamListOpen, Boolean(myTeams));
 
   return (
     <Wrapper
@@ -72,7 +82,7 @@ export default function SideBarContainer() {
       {isTeamListOpen && myTeams && (
         <DropdownWrapper>
           <TeamDropdown
-            teams={myTeams}
+            teams={teamList}
             currentTeam={currentTeam}
             onTeamSelected={handleTeamSelected}
           />

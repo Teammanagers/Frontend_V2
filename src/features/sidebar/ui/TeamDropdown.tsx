@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { TEAM_ID } from '@/entities/management/model/useTeamQueries.ts';
 import { TeamProps } from '@/widgets/sidebar';
 
-interface DropDownProps {
+interface DropdownProps {
   teams: TeamProps[];
   currentTeam: TeamProps | null;
   onTeamSelected: (team: TeamProps) => void;
@@ -13,14 +12,15 @@ export const TeamDropdown = ({
   teams,
   currentTeam,
   onTeamSelected,
-}: DropDownProps) => {
-  console.log(`팀목록: ${teams}`);
-  console.log(`현재 내 팀: ${currentTeam}`);
+}: DropdownProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
 
   // 선택된 팀이 젤 위로 오도록 teams 배열 재정렬
   const sortedTeams = currentTeam
-    ? [currentTeam, ...teams.filter((team) => TEAM_ID !== currentTeam.team.id)]
+    ? [
+        currentTeam,
+        ...teams.filter((team) => team.teamId !== currentTeam.teamId),
+      ]
     : teams;
 
   // const handleModal = () => {
@@ -31,15 +31,19 @@ export const TeamDropdown = ({
     <DropDownContainer>
       {sortedTeams.map((team) => (
         <TeamContainer
-          key={team.team.id}
-          $isSelected={currentTeam?.team.id === team.team.id}
-          $isHovered={hovered === team.team.id}
-          onMouseEnter={() => setHovered(team.team.id)}
+          key={team.teamId}
+          $isSelected={currentTeam?.teamId === team.teamId}
+          $isHovered={hovered === team.teamId}
+          onMouseEnter={() => setHovered(team.teamId)}
           onMouseLeave={() => setHovered(null)}
           onClick={() => onTeamSelected(team)}
         >
-          <LogoImg src={team.imageUrl} alt={team.team.title} />
-          {team.team.title}
+          {team.imageUrl ? (
+            <LogoImg src={team.imageUrl} alt={team.title} />
+          ) : (
+            <FallbackLogo>{team.title.charAt(0)}</FallbackLogo>
+          )}
+          <span>{team.title}</span>
         </TeamContainer>
       ))}
 
@@ -75,24 +79,45 @@ interface TeamContainerProps {
 const TeamContainer = styled.div<TeamContainerProps>`
   display: flex;
   align-items: center;
-  padding-left: 10px;
+  gap: 10px;
   width: 140px;
   height: 32px;
-  background: ${(props) =>
-    (props.$isSelected && props.theme.colors.mainBlue) ||
-    (props.$isHovered && props.theme.colors.background) ||
-    'white'};
-  gap: 12px;
+  padding-left: 10px;
+  border-radius: 4px;
+
+  background: ${({ $isSelected, $isHovered, theme }) =>
+    $isSelected
+      ? theme.colors.mainBlue
+      : $isHovered
+        ? theme.colors.background
+        : theme.colors.white};
+
+  color: ${({ $isSelected, theme }) =>
+    $isSelected ? theme.colors.white : theme.colors.black};
+
   font-size: 12px;
-  color: ${(props) => (props.$isSelected ? 'white' : props.theme.colors.black)};
   font-weight: 500;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 `;
 
 const LogoImg = styled.img`
   width: 24px;
   height: 24px;
   border-radius: 3px;
+`;
+
+const FallbackLogo = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.black};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
 `;
 
 const AddTeamBtn = styled.div`
