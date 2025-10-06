@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
 import SideBar from '@/widgets/sidebar/ui/SideBar';
 
 export default function SideBarContainer() {
   const [hover, setHover] = useState(false);
   const [isAlarmOpen, setIsAlarmOpen] = useState(false);
   const [endSelected, setEndSelected] = useState(false);
+
+  const { useTeamByIdQuery } = useTeamQueries();
+  const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -15,7 +19,12 @@ export default function SideBarContainer() {
     navigate(path);
   };
 
-  const team = { title: '테수투', imageUrl: null }; // API 연동 필요
+  const teamData = isTeamLoading
+    ? { title: '로딩 중..', imageUrl: null }
+    : {
+        title: team?.team?.title ?? '',
+        imageUrl: team?.imgUrl ?? null,
+      };
 
   return (
     <div
@@ -27,7 +36,7 @@ export default function SideBarContainer() {
         activePath={pathname}
         isAlarmOpen={isAlarmOpen}
         endSelected={endSelected}
-        team={team}
+        team={teamData}
         onNavigate={handleNavigate}
         onToggleAlarm={() => setIsAlarmOpen((v) => !v)}
         onEndClick={() => {
