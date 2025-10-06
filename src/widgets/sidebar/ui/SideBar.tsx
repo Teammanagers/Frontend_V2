@@ -9,6 +9,7 @@ import HomeOutlineSvg from '@/shared/assets/sidebar/home-outline.svg?react';
 import TodoSvg from '@/shared/assets/sidebar/list.svg?react';
 import MemoSvg from '@/shared/assets/sidebar/memo.svg?react';
 import MyPageSvg from '@/shared/assets/sidebar/mypage.svg?react';
+import TeamDropdown from '@/shared/assets/sidebar/team-dropdown.svg?react';
 import TeamSvg from '@/shared/assets/sidebar/team.svg?react';
 import { SideBarUIProps } from '@/widgets/sidebar';
 
@@ -23,6 +24,7 @@ export default function SideBar({
   team,
   onNavigate,
   onToggleAlarm,
+  onToggleTeamList,
   onEndClick,
 }: SideBarUIProps) {
   const isActive = (path: string) => activePath === path;
@@ -38,7 +40,12 @@ export default function SideBar({
           </FallbackLogo>
         ) : null}
         {expanded && team && (
-          <LogoText title={team.title}>{team.title}</LogoText>
+          <TeamInfoWrapper>
+            <LogoText title={team.title}>{team.title}</LogoText>
+            <TeamDropdownBtn onClick={onToggleTeamList}>
+              <TeamDropdown />
+            </TeamDropdownBtn>
+          </TeamInfoWrapper>
         )}
       </LogoContainer>
 
@@ -240,6 +247,7 @@ const LogoContainer = styled.div`
   height: 50px;
   margin-top: 49px;
   gap: 19px;
+  background: cadetblue;
 `;
 
 const LogoText = styled.p`
@@ -269,6 +277,20 @@ const FallbackLogo = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: 700;
+`;
+
+const TeamInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: pink;
+`;
+
+const TeamDropdownBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: darkseagreen;
 `;
 
 interface ItemProps {

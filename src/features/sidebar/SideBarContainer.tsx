@@ -4,9 +4,10 @@ import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
 import SideBar from '@/widgets/sidebar/ui/SideBar';
 
 export default function SideBarContainer() {
-  const [hover, setHover] = useState(false);
-  const [isAlarmOpen, setIsAlarmOpen] = useState(false);
-  const [endSelected, setEndSelected] = useState(false);
+  const [hover, setHover] = useState<boolean>(false);
+  const [isAlarmOpen, setIsAlarmOpen] = useState<boolean>(false);
+  const [isTeamListOpen, setIsTeamListOpen] = useState<boolean>(false);
+  const [endSelected, setEndSelected] = useState<boolean>(false);
 
   const { useTeamByIdQuery } = useTeamQueries();
   const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
@@ -19,12 +20,16 @@ export default function SideBarContainer() {
     navigate(path);
   };
 
+  const handleToggleTeamList = () => setIsTeamListOpen((prev) => !prev);
+
   const teamData = isTeamLoading
     ? { title: '로딩 중..', imageUrl: null }
     : {
         title: team?.team?.title ?? '',
         imageUrl: team?.imgUrl ?? null,
       };
+
+  console.log('드롭다운 오픈? ', isTeamListOpen);
 
   return (
     <div
@@ -39,9 +44,10 @@ export default function SideBarContainer() {
         team={teamData}
         onNavigate={handleNavigate}
         onToggleAlarm={() => setIsAlarmOpen((v) => !v)}
+        onToggleTeamList={handleToggleTeamList}
         onEndClick={() => {
           setEndSelected(true);
-          navigate('/management'); // /end로 분리되면 교체
+          navigate('/management'); // / end로 분리되면 교체
         }}
       />
     </div>

@@ -12,5 +12,6 @@ export interface SideBarUIProps {
 
   onNavigate: (path: string) => void;
   onToggleAlarm: () => void;
+  onToggleTeamList: () => void;
   onEndClick: () => void;
 }
