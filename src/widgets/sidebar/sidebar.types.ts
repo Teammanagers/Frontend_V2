@@ -1,4 +1,5 @@
 export interface TeamProps {
+  id?: number;
   title: string | '';
   imageUrl?: string | null;
 }
