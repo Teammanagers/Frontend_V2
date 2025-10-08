@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import Plus from '@/shared/assets/common/plus.svg?react';
 import { TeamProps } from '@/widgets/sidebar';
 
 interface DropdownProps {
@@ -14,6 +15,7 @@ export const TeamDropdown = ({
   onTeamSelected,
 }: DropdownProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // 선택된 팀이 젤 위로 오도록 teams 배열 재정렬
   const sortedTeams = currentTeam
@@ -23,9 +25,10 @@ export const TeamDropdown = ({
       ]
     : teams;
 
-  // const handleModal = () => {
-  //   setModal(!modal);
-  // };
+  const handleModal = () => {
+    console.log('모달 오픈!', isModalOpen);
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <DropDownContainer>
@@ -43,14 +46,14 @@ export const TeamDropdown = ({
           ) : (
             <FallbackLogo>{team.title.charAt(0)}</FallbackLogo>
           )}
-          <span>{team.title}</span>
+          <TeamName>{team.title}</TeamName>
         </TeamContainer>
       ))}
 
       {/* 팀 추가 누르면 팝업 띄우기? */}
-      <AddTeamBtn /* onClick={handleModal} */>
+      <AddTeamBtn onClick={handleModal}>
         팀 추가하기
-        {/*<Plus />*/}
+        <Plus stroke="#1D1D1D" strokeWidth={2} />
       </AddTeamBtn>
     </DropDownContainer>
   );
@@ -65,9 +68,10 @@ const DropDownContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 150px;
-  padding: 8px 0 8px 0;
+  padding: 9px 0 9px 0;
   gap: 12px;
   background: white;
+  border-radius: 4px;
   box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.1);
 `;
 
@@ -80,10 +84,8 @@ const TeamContainer = styled.div<TeamContainerProps>`
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 140px;
   height: 32px;
   padding-left: 10px;
-  border-radius: 4px;
 
   background: ${({ $isSelected, $isHovered, theme }) =>
     $isSelected
@@ -120,6 +122,11 @@ const FallbackLogo = styled.div`
   font-weight: 700;
 `;
 
+const TeamName = styled.span`
+  font-weight: 500;
+  font-size: 12px;
+`;
+
 const AddTeamBtn = styled.div`
   width: 100%;
   height: 32px;
@@ -130,4 +137,8 @@ const AddTeamBtn = styled.div`
   font-weight: 500;
   gap: 12px;
   cursor: pointer;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.background};
+  }
 `;

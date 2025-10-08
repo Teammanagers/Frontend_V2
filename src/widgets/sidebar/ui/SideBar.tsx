@@ -247,7 +247,6 @@ const LogoContainer = styled.div`
   height: 50px;
   margin-top: 49px;
   gap: 19px;
-  background: cadetblue;
 `;
 
 const LogoText = styled.p`
@@ -283,14 +282,12 @@ const TeamInfoWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  background: pink;
 `;
 
 const TeamDropdownBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: darkseagreen;
 `;
 
 interface ItemProps {

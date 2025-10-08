@@ -57,12 +57,14 @@ export default function SideBarContainer() {
   console.log('드롭다운 오픈? ', isTeamListOpen);
   console.log('현재 팀: ', currentTeam);
   console.log('팀이 맞는지? ', currentTeam?.teamId === TEAM_ID);
-  console.log('둘다 true여야돼....', isTeamListOpen, Boolean(myTeams));
 
   return (
     <Wrapper
       onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseLeave={() => {
+        setHover(false);
+        setIsTeamListOpen(false);
+      }}
     >
       <SideBar
         expanded={hover /* 알림 패널 붙이면 hover || isAlarmOpen */}
