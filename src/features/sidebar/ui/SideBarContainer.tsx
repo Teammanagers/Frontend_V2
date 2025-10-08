@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { TEAM_ID } from '@/entities/management/model/useTeamQueries.ts';
 import useSideBarQueries from '@/features/sidebar/model/useSideBarQueries.ts';
+import { AddTeamModal } from '@/features/sidebar/ui/AddTeamModal.tsx';
 import { TeamDropdown } from '@/features/sidebar/ui/TeamDropdown.tsx';
+import Modal from '@/shared/components/modal/Modal.tsx';
 import { TeamProps } from '@/widgets/sidebar';
 import SideBar from '@/widgets/sidebar/ui/SideBar.tsx';
 
@@ -12,13 +13,11 @@ export default function SideBarContainer() {
   const [isAlarmOpen, setIsAlarmOpen] = useState<boolean>(false);
   const [isTeamListOpen, setIsTeamListOpen] = useState<boolean>(false);
   const [endSelected, setEndSelected] = useState<boolean>(false);
-
-  // const { useTeamByIdQuery } = useTeamQueries();
-  // const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
+  const [isAddTeamModalOpen, setIsAddTeamModalOpen] = useState<boolean>(false);
 
   const { useMyTeamListQuery } = useSideBarQueries();
   const { data: myTeams } = useMyTeamListQuery();
-  console.log('내 팀 목록: ', myTeams);
+  // console.log('내 팀 목록: ', myTeams);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -34,6 +33,16 @@ export default function SideBarContainer() {
     console.log('선택한 팀: ', team);
     setIsTeamListOpen(false);
     // navigate
+  };
+
+  const handleModalOpen = () => {
+    setIsAddTeamModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsAddTeamModalOpen(false);
+    setHover(false); // 사이드바 접힘
+    setIsTeamListOpen(false); // 드롭다운 닫힘
   };
 
   // api 데이터 매핑
@@ -55,8 +64,8 @@ export default function SideBarContainer() {
     : { teamId: null, title: '로딩중...', imageUrl: null };
 
   console.log('드롭다운 오픈? ', isTeamListOpen);
-  console.log('현재 팀: ', currentTeam);
-  console.log('팀이 맞는지? ', currentTeam?.teamId === TEAM_ID);
+  // console.log('현재 팀: ', currentTeam);
+  // console.log('팀이 맞는지? ', currentTeam?.teamId === TEAM_ID);
 
   return (
     <Wrapper
@@ -87,8 +96,14 @@ export default function SideBarContainer() {
             teams={teamList}
             currentTeam={currentTeam}
             onTeamSelected={handleTeamSelected}
+            onAddTeamClick={handleModalOpen}
           />
         </DropdownWrapper>
+      )}
+      {isAddTeamModalOpen && (
+        <Modal isOpen={isAddTeamModalOpen} toggle={handleModalClose}>
+          <AddTeamModal modalClose={handleModalClose} />
+        </Modal>
       )}
     </Wrapper>
   );

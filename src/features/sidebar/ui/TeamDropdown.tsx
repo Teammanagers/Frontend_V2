@@ -1,23 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { AddTeamModal } from '@/features/sidebar/ui/AddTeamModal.tsx';
 import Plus from '@/shared/assets/common/plus.svg?react';
-import Modal from '@/shared/components/modal/Modal.tsx';
 import { TeamProps } from '@/widgets/sidebar';
 
 interface DropdownProps {
   teams: TeamProps[];
   currentTeam: TeamProps | null;
   onTeamSelected: (team: TeamProps) => void;
+  onAddTeamClick: () => void;
 }
 
 export const TeamDropdown = ({
   teams,
   currentTeam,
   onTeamSelected,
+  onAddTeamClick,
 }: DropdownProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // 선택된 팀이 젤 위로 오도록 teams 배열 재정렬
   const sortedTeams = currentTeam
@@ -26,14 +25,6 @@ export const TeamDropdown = ({
         ...teams.filter((team) => team.teamId !== currentTeam.teamId),
       ]
     : teams;
-
-  const handleModal = () => {
-    setIsModalOpen(true);
-  };
-
-  useEffect(() => {
-    console.log('팀 추가 모달 열림?: ', isModalOpen);
-  }, [isModalOpen]);
 
   return (
     <DropDownContainer>
@@ -54,17 +45,11 @@ export const TeamDropdown = ({
           <TeamName>{team.title}</TeamName>
         </TeamContainer>
       ))}
-
       {/* 팀 추가 누르면 팝업 띄우기? */}
-      <AddTeamBtn onClick={handleModal}>
+      <AddTeamBtn onClick={onAddTeamClick}>
         팀 추가하기
         <Plus stroke="#1D1D1D" strokeWidth={2} />
       </AddTeamBtn>
-      {isModalOpen && (
-        <Modal isOpen={isModalOpen} toggle={() => setIsModalOpen(false)}>
-          <AddTeamModal modalClose={() => setIsModalOpen(false)} />
-        </Modal>
-      )}
     </DropDownContainer>
   );
 };
