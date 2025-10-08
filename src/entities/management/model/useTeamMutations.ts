@@ -14,6 +14,7 @@ interface ITeamTagInput {
 }
 
 export default function useTeamMutations() {
+  // 팀 수정
   const useEditTeamMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ title, imageFile }: IUseTeamMutations) => {
@@ -38,6 +39,7 @@ export default function useTeamMutations() {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
+  // 팀 태그 생성
   const useCreateTeamTagMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ tagName }: { tagName: string }) => {
@@ -57,6 +59,7 @@ export default function useTeamMutations() {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
+  // 팀 태그 삭제
   const useDeleteTeamTagMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (tagId: number) => {
@@ -74,6 +77,7 @@ export default function useTeamMutations() {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
+  // 팀 태그 수정
   const useEditTeamTagMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ tagId, tagName }: ITeamTagInput) => {

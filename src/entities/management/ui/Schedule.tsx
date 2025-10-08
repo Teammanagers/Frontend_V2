@@ -19,8 +19,6 @@ export const Schedule = ({ schedule, mySchedule }: ScheduleProps) => {
     submit,
     toggleRegister,
   } = useSchedule(mySchedule);
-  console.log(schedule);
-  console.log('내스케줄:', mySchedule);
 
   return (
     <Container>

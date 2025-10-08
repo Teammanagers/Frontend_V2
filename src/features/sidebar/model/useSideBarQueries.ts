@@ -9,6 +9,7 @@ interface IMyTeamResponse {
 }
 
 export default function useSideBarQueries() {
+  // 내 팀 조회
   const useMyTeamListQuery = () => {
     const { isPending, isError, isSuccess, data } = useQuery({
       queryKey: ['sidebar', 'myTeamList'],

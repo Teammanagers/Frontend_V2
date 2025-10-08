@@ -17,7 +17,6 @@ export default function SideBarContainer() {
 
   const { useMyTeamListQuery } = useSideBarQueries();
   const { data: myTeams } = useMyTeamListQuery();
-  // console.log('내 팀 목록: ', myTeams);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -32,7 +31,6 @@ export default function SideBarContainer() {
   const handleTeamSelected = (team: TeamProps) => {
     console.log('선택한 팀: ', team);
     setIsTeamListOpen(false);
-    // navigate
   };
 
   const handleModalOpen = () => {
@@ -62,10 +60,6 @@ export default function SideBarContainer() {
         imageUrl: currentTeam.imageUrl,
       }
     : { teamId: null, title: '로딩중...', imageUrl: null };
-
-  console.log('드롭다운 오픈? ', isTeamListOpen);
-  // console.log('현재 팀: ', currentTeam);
-  // console.log('팀이 맞는지? ', currentTeam?.teamId === TEAM_ID);
 
   return (
     <Wrapper
