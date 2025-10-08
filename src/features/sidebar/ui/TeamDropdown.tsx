@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { AddTeamModal } from '@/features/sidebar/ui/AddTeamModal.tsx';
 import Plus from '@/shared/assets/common/plus.svg?react';
+import Modal from '@/shared/components/modal/Modal.tsx';
 import { TeamProps } from '@/widgets/sidebar';
 
 interface DropdownProps {
@@ -26,9 +28,12 @@ export const TeamDropdown = ({
     : teams;
 
   const handleModal = () => {
-    console.log('모달 오픈!', isModalOpen);
-    setIsModalOpen(!isModalOpen);
+    setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    console.log('팀 추가 모달 열림?: ', isModalOpen);
+  }, [isModalOpen]);
 
   return (
     <DropDownContainer>
@@ -55,6 +60,11 @@ export const TeamDropdown = ({
         팀 추가하기
         <Plus stroke="#1D1D1D" strokeWidth={2} />
       </AddTeamBtn>
+      {isModalOpen && (
+        <Modal isOpen={isModalOpen} toggle={() => setIsModalOpen(false)}>
+          <AddTeamModal modalClose={() => setIsModalOpen(false)} />
+        </Modal>
+      )}
     </DropDownContainer>
   );
 };
