@@ -8,7 +8,7 @@ import { LoginPage } from '@/pages/LoginPage';
 import { MainPage } from '@/pages/MainPage';
 import MakeTeamPage from '@/pages/MakeTeamPage/make-team';
 import { ManagementPage } from '@/pages/ManagementPage';
-import { ExtraMemoPage, MemoPage } from '@/pages/MemoPage';
+import { ExtraMemoPage, RedirectToRootFolder } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
 import Redirect from '@/pages/RedirectPage/redirect';
 import { ResourcePage } from '@/pages/ResourcePage';
@@ -47,7 +47,7 @@ export default function AppRoutes() {
           {/* Todo Page */}
           <Route path="/todo-list" element={<TodoPage />} />
           {/* Memo Page */}
-          <Route path="/memo" element={<MemoPage />} />
+          <Route path="/memo" element={<RedirectToRootFolder />} />
           <Route path="/memo/*" element={<ExtraMemoPage />} />
           {/* Resource Page */}
           <Route path="/resource" element={<ResourcePage />} />
