@@ -4,7 +4,9 @@ import google from '@/shared/assets/common/google-logo.svg?url';
 import kakao from '@/shared/assets/common/kakao-logo.svg?url';
 import logo from '@/shared/assets/common/logo.svg?url';
 import naver from '@/shared/assets/common/naver-logo.svg?url';
-import useSocialLogin from '../../model/onBoarding/useSocialLogin';
+import useSocialLogin, {
+  SOCIAL_PROVIDERS,
+} from '../../model/onBoarding/useSocialLogin';
 
 export default function LoginOptions() {
   const { socialLoginProvider } = useSocialLogin();
@@ -24,19 +26,25 @@ export default function LoginOptions() {
       </LogoContainer>
       <Options>
         <LoginBtn>
-          <KakaoWrapper onClick={() => socialLoginProvider('kakao')}>
+          <KakaoWrapper
+            onClick={() => socialLoginProvider(SOCIAL_PROVIDERS.KAKAO)}
+          >
             <OauthLogo src={kakao} />
             <LoginSpan>카카오로 1초만에 시작하기</LoginSpan>
           </KakaoWrapper>
         </LoginBtn>
         <LoginBtn>
-          <NaverWrapper onClick={() => socialLoginProvider('naver')}>
+          <NaverWrapper
+            onClick={() => socialLoginProvider(SOCIAL_PROVIDERS.NAVER)}
+          >
             <OauthLogo src={naver} />
             <LoginSpan>네이버로 1초만에 시작하기</LoginSpan>
           </NaverWrapper>
         </LoginBtn>
         <LoginBtn>
-          <GoogleWrapper onClick={() => socialLoginProvider('google')}>
+          <GoogleWrapper
+            onClick={() => socialLoginProvider(SOCIAL_PROVIDERS.GOOGLE)}
+          >
             <OauthLogo src={google} />
             <LoginSpan>구글로 1초만에 시작하기</LoginSpan>
           </GoogleWrapper>
