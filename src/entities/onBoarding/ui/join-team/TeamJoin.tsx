@@ -11,6 +11,7 @@ export default function TeamJoin() {
 
   const { useSearchTeamMutation } = useJoinTeam();
   const [inputValue, setInputValue] = useState<string>('');
+  const [teamId, setTeamId] = useState<number | null>(null);
   const {
     data: teamData,
     isPending,
@@ -25,9 +26,16 @@ export default function TeamJoin() {
     }
   };
 
+  const handleJoinBtn = () => {
+    toggle();
+    setTeamId(teamData?.team.id ?? null);
+  };
+
   return (
     <PageContainer>
-      <TeamJoinModal isOpen={isOpen} toggle={toggle} teamId={inputValue} />
+      {teamId !== null && (
+        <TeamJoinModal isOpen={isOpen} toggle={toggle} teamId={teamId} />
+      )}
       <JoinContainer>
         <TopContainer>
           <Input
@@ -75,8 +83,8 @@ export default function TeamJoin() {
               ) : null}
             </ContentContainer>
           )}
-          {!teamData && (
-            <Button size="xxl" style="main" onClick={toggle}>
+          {teamData && teamData.team.id !== null && (
+            <Button size="xxl" style="main" onClick={handleJoinBtn}>
               팀 참여하기
             </Button>
           )}

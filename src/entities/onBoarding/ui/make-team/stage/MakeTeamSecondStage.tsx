@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { MakeTeamStages } from '@/entities/onBoarding/lib/makeTeam/makeTeamStages';
@@ -9,21 +10,21 @@ import { Button } from '@/shared/components/button/Button';
 export default function MakeTeamSecondStage({
   createdTeamId,
   setStage,
+  createdTeamCode,
 }: {
   createdTeamId: number | null;
   setStage: Dispatch<SetStateAction<number>>;
+  createdTeamCode: string | null;
 }) {
-  console.log(createdTeamId);
   const {
     isShowHelperMessage,
-    setTeamCode,
     isValid,
     handleCopyToClipboard,
     setPassword,
     password,
   } = MakeTeamStages();
   const { createTeamPasswordMutation } = useCreateTeam();
-
+  const navigate = useNavigate();
   return (
     <StageContainer>
       <BackContainer onClick={() => setStage(1)}>
@@ -38,16 +39,16 @@ export default function MakeTeamSecondStage({
               showHelperMessage={isShowHelperMessage}
               helperMessage="코드가 복사되었습니다."
               textColor="rgba(92, 158, 255, 1)"
-              onChange={(e) => {
-                setTeamCode(e.target.value); // TODO 서버에서 발급받는 방식으로 변경(API 완성되면)
-              }}
+              value={createdTeamCode || ''}
             />
           </InputWrapper>
           <ButtonWrapper>
             <Button
               size="mini"
               style="main"
-              onClick={() => handleCopyToClipboard}
+              onClick={() => {
+                handleCopyToClipboard(createdTeamCode);
+              }}
             >
               팀 코드 복사
             </Button>
@@ -73,10 +74,17 @@ export default function MakeTeamSecondStage({
           style="main"
           disabled={!isValid}
           onClick={() =>
-            createTeamPasswordMutation.mutate({
-              teamId: createdTeamId,
-              password: password,
-            })
+            createTeamPasswordMutation.mutate(
+              {
+                teamId: createdTeamId,
+                password: password,
+              },
+              {
+                onSuccess: () => {
+                  navigate(`/team/${createdTeamId}`);
+                },
+              },
+            )
           }
         >
           워크 스페이스로 이동

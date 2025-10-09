@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import apiRequest from '@/shared/api/apiRequest';
 
@@ -32,9 +33,17 @@ interface TeamSearchResult {
   teamTagList: TeamTag[];
 }
 
+interface ErrorResponse {
+  message: string;
+  code?: string;
+  error?: string;
+}
+
 export default function useJoinTeam() {
   const [teamJoinPassword, setTeamJoinPassword] = useState<string>('');
   const [showHelperMessage, setShowHelperMessage] = useState<boolean>(false);
+  const [helperMessage, setHelperMessage] =
+    useState<string>('비밀번호가 일치하지 않습니다.');
 
   const useSearchTeamMutation = useMutation<TeamSearchResult, Error, string>({
     mutationFn: async (code: string) => {
@@ -47,21 +56,35 @@ export default function useJoinTeam() {
     retry: false,
   });
 
-  const useJoinTeamMutation = useMutation({
-    mutationFn: async ({ teamId }: { teamId: string }) => {
+  const useJoinTeamMutation = useMutation<
+    unknown,
+    AxiosError<ErrorResponse>,
+    { teamId: number; password: string }
+  >({
+    mutationFn: async ({
+      teamId,
+      password,
+    }: {
+      teamId: number;
+      password: string;
+    }) => {
       const data = await apiRequest({
         url: `/api/v2/team/${teamId}/join`,
         method: 'POST',
-        data: { password: teamJoinPassword },
+        data: { password: password },
       });
       return data;
     },
-    onError: () => {
+    onError: (error) => {
       setShowHelperMessage(true);
+      setHelperMessage(
+        error.response?.data?.message || '비밀번호가 일치하지 않습니다.',
+      );
     },
   });
 
   return {
+    helperMessage,
     useSearchTeamMutation,
     useJoinTeamMutation,
     teamJoinPassword,
