@@ -1,18 +1,24 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import { EndModal } from '@/entities/end/ui/EndModal.tsx';
 import End from '@/shared/assets/end/end.svg?react';
 import Quit from '@/shared/assets/end/quit.svg?react';
+import Modal from '@/shared/components/modal/Modal.tsx';
 
-export const EndProject = () => {
-  // const [showModal, setShowModal] = useState<boolean>(false);
-  //
-  // const openModal = () => {
-  //   setShowModal(true);
-  // };
-  //
-  // const closeModal = () => {
-  //   setShowModal(false);
-  // };
+interface EndProps {
+  teamName: string;
+}
+
+export const EndProject = ({ teamName }: EndProps) => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <EndProjectContainer>
@@ -22,11 +28,13 @@ export const EndProject = () => {
         프로젝트 종료시, 그동안 고생한 팀원들에게 코멘트를 남길 수 있어요.
       </ContentText>
       <ContentText>이 프로젝트는 내 포트폴리오에 저장돼요.</ContentText>
-      <EndBtn /*onClick={openModal}*/>
+      <EndBtn onClick={openModal}>
         <QuitIcon />
         <BtnText>프로젝트 종료</BtnText>
       </EndBtn>
-      {/*{showModal && <EndProjectModal closeModal={closeModal} />}*/}
+      <Modal isOpen={showModal} toggle={closeModal}>
+        <EndModal teamName={teamName} onClose={closeModal} />
+      </Modal>
     </EndProjectContainer>
   );
 };
@@ -42,7 +50,7 @@ const EndProjectContainer = styled.div`
 
 const TitleText = styled.h1`
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.black};
   margin: 32px 0 10px 0;
 `;
