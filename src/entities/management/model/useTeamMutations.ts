@@ -26,6 +26,7 @@ export default function useTeamMutations() {
           url: `/api/v2/team/${TEAM_ID}`,
           method: 'PATCH',
           data: formData,
+          headers: { 'Content-Type': 'multipart/form-data' },
         });
       },
       onSuccess: () => {
