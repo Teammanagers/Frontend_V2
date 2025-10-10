@@ -78,9 +78,8 @@ export default function ProfileUpdateForm() {
 }
 
 const FormContainer = styled.form`
-  width: 75%;
-  margin-top: 46px;
-  margin: 46px 0 0 10%;
+  width: 100%;
+  margin-bottom: 24px;
 `;
 
 const Header = styled.div`
