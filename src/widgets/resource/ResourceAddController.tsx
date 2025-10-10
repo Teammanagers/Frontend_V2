@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import ResourceUploader from '@/features/resource/ui/ResourceUploader';
+import FileUploader from '@/shared/components/fileUploader/FileUploader';
+import AddResourceButton from '@/features/resource/ui/AddResourceButton';
+import { useUploadResource } from '@/features/resource/model/useResourceQueries';
 
 /**
  * 자료 추가 버튼 컨트롤러
@@ -11,14 +13,32 @@ export default function ResourceAddController({
 }: {
   resourceCount: number;
 }) {
+  const { mutate: uploadResource, isPending } = useUploadResource();
+
   return resourceCount > 0 ? (
-    <ResourceUploader size="large" />
+    <FileUploader onFileSelect={uploadResource}>
+      {({ triggerUpload }) => (
+        <AddResourceButton
+          size="large"
+          onClick={triggerUpload}
+          disabled={isPending}
+        />
+      )}
+    </FileUploader>
   ) : (
     <EmptyWrapper>
       <p>
         파일을 드래그하거나 아래 버튼을 클릭하여 <br /> 공유할 수 있습니다.
       </p>
-      <ResourceUploader size="small" />
+      <FileUploader onFileSelect={uploadResource}>
+        {({ triggerUpload }) => (
+          <AddResourceButton
+            size="small"
+            onClick={triggerUpload}
+            disabled={isPending}
+          />
+        )}
+      </FileUploader>
     </EmptyWrapper>
   );
 }
