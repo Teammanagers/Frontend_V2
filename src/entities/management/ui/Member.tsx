@@ -10,9 +10,14 @@ import { IMemberResponse } from '@/shared/types/member.types.ts';
 interface IMemberProps {
   member: IMemberResponse;
   onCreateRoleTag: (tagName: string) => void;
+  onDeleteRoleTag: (tagId: number) => void;
 }
 
-export const Member = ({ member, onCreateRoleTag }: IMemberProps) => {
+export const Member = ({
+  member,
+  onCreateRoleTag,
+  onDeleteRoleTag,
+}: IMemberProps) => {
   const {
     tags,
     showTagInput,
@@ -32,7 +37,7 @@ export const Member = ({ member, onCreateRoleTag }: IMemberProps) => {
     })),
     onCreateRoleTag,
     onEditRoleTag: (id, name) => console.log('태그수정', id, name),
-    onDeleteRoleTag: (id) => console.log('태그삭제', id),
+    onDeleteRoleTag,
   });
   const { imgUrl, member: memberInfo } = member;
 

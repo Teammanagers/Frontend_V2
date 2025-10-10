@@ -10,11 +10,17 @@ interface ITeamMemberProps {
 }
 
 export const TeamMember = ({ members }: ITeamMemberProps) => {
-  const { useCreateMemberTagMutation } = useTeamMutations();
+  const { useCreateMemberTagMutation, useDeleteMemberTagMutation } =
+    useTeamMutations();
   const { mutate: createMemberTag } = useCreateMemberTagMutation();
+  const { mutate: deleteMemberTag } = useDeleteMemberTagMutation();
 
   const handleAddTag = async (memberId: number, tagName: string) => {
     await createMemberTag({ memberId, tagName });
+  };
+
+  const handleDeleteTag = async (memberId: number, tagId: number) => {
+    await deleteMemberTag({ tagId, memberId });
   };
   return (
     <MemberContainer>
@@ -32,8 +38,11 @@ export const TeamMember = ({ members }: ITeamMemberProps) => {
           <Member
             key={member.teamMemberId}
             member={member}
-            onCreateRoleTag={(tagName: string) =>
+            onCreateRoleTag={(tagName) =>
               handleAddTag(member.member.id, tagName)
+            }
+            onDeleteRoleTag={(tagId) =>
+              handleDeleteTag(member.member.id, tagId)
             }
           />
         ))}
