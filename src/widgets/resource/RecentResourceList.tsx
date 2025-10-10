@@ -1,19 +1,22 @@
 import styled from 'styled-components';
 import { RoutingButton } from '@/entities/main/ui';
-import resourceData from '@/entities/resource/resource.json';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
+import { useGetResourceList } from './model/useResourceQueries';
 
 export default function RecentResourceList() {
-  const data = resourceData.dataList.slice(0, 3);
+  const { data } = useGetResourceList();
 
   return (
     <Container>
       <RoutingButton url="/resource">최근 업데이트 된 자료</RoutingButton>
 
       <ResourceList>
-        {data.map((resource) => (
-          <ResourceCard key={resource.dataId} resourceInfo={resource} />
-        ))}
+        {data &&
+          data
+            .slice(0, 3)
+            .map((resource) => (
+              <ResourceCard key={resource.dataId} data={resource} />
+            ))}
       </ResourceList>
     </Container>
   );

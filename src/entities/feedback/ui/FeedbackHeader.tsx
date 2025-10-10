@@ -1,18 +1,20 @@
 import styled from 'styled-components';
-import ResourceMetaData from '@/entities/resource/ui/ResourceMetaData';
-import resourceData from '@/entities/resource/resource.json';
 import RoleTag from '@/shared/components/tag/RoleTag';
+import { Resource } from '@/entities/resource/resource.types';
+import ResourceMetaData from '@/entities/resource/ui/ResourceMetaData';
 
-export default function FeedbackHeader() {
-  const data = resourceData.dataList[0];
-
+export default function FeedbackHeader({
+  selectedResource,
+}: {
+  selectedResource: Resource;
+}) {
   return (
     <Container>
       <InnerWrapper>
         <Title>제목입니다2</Title>
         <ResourceMetaData
-          fileSize={data.fileInfo.fileSize}
-          createdAt={data.fileInfo.createdAt}
+          fileSize={selectedResource.fileInfo.fileSize}
+          createdAt={selectedResource.fileInfo.createdAt}
         />
         <RoleTag variants="filled" height={24}>
           작성자

@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import PlusIcon from '@/shared/assets/common/plus.svg?react';
 import { Theme } from '@/app/styles/theme';
 
+export type AddResourceButtonSize = 'small' | 'large';
+
 interface IAddResourceButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: 'small' | 'large';
+  size?: AddResourceButtonSize;
 }
 
 export default function AddResourceButton({

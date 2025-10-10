@@ -12,11 +12,16 @@ interface ResourceInfo {
   useYn: string;
 }
 
-interface ResourceInfoResponse {
+interface Resource {
   dataId: number;
   teamMemberId: number;
   fileInfo: ResourceInfo;
   fileUrl: string;
 }
 
-export type { ResourceInfoResponse };
+// API 응답 타입
+interface ResourceListResponse {
+  dataList: Resource[];
+}
+
+export type { ResourceInfo, Resource, ResourceListResponse };
