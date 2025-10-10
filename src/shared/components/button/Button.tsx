@@ -16,7 +16,7 @@ import { IButtonProps } from '@/shared/types/button.types.ts';
  *   클릭!
  * </Button>
  *  ```
- *
+ * @param {'button' | 'submit' | 'reset'} type='button' - 버튼 타입 (기본값: 'button')
  * @param {'tiny' | 'mini' | 'small' | 'medium' | 'large' | 'long' | 'xl' | 'xxl'} size - 버튼 크기
  * @param {'main' | 'sub' | 'red' | 'disabled'} style - 버튼 스타일
  * @param {React.ReactNode} children - 버튼 내부의 텍스트
@@ -69,12 +69,16 @@ export const Button = ({
   onClick,
   disabled = false,
   icon,
-}: IButtonProps) => {
+  type = 'button',
+  ...props
+}: IButtonProps & Omit<React.ComponentProps<'button'>, keyof IButtonProps>) => {
   const selectedSize = buttonSizes[size];
   const selectedStyle = buttonStyles[style];
 
   return (
     <ButtonContainer
+      {...props}
+      type={type}
       $sizes={selectedSize}
       $styles={selectedStyle}
       onClick={disabled ? undefined : onClick}
