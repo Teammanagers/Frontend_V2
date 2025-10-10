@@ -1,5 +1,5 @@
-import MypageMenu from '@/widgets/mypage/MyPageMenu';
 import styled from 'styled-components';
+import MypageMenu from '@/widgets/mypage/MypageMenu';
 
 export function MyPage() {
   return (
