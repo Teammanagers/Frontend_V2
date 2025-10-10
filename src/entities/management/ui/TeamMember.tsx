@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import useTeamMutations from '@/entities/management/model/useTeamMutations.ts';
 import { Member } from '@/entities/management/ui/Member.tsx';
 import { InfoTitle } from '@/entities/management/ui/TeamInfo.tsx';
 import Arrow from '@/shared/assets/common/arrow.svg?react';
@@ -9,6 +10,12 @@ interface ITeamMemberProps {
 }
 
 export const TeamMember = ({ members }: ITeamMemberProps) => {
+  const { useCreateMemberTagMutation } = useTeamMutations();
+  const { mutate: createMemberTag } = useCreateMemberTagMutation();
+
+  const handleAddTag = async (memberId: number, tagName: string) => {
+    await createMemberTag({ memberId, tagName });
+  };
   return (
     <MemberContainer>
       <TitleContainer>
@@ -22,7 +29,13 @@ export const TeamMember = ({ members }: ITeamMemberProps) => {
       </TitleContainer>
       <MembersContainer>
         {members.map((member: IMemberResponse) => (
-          <Member key={member.teamMemberId} member={member} />
+          <Member
+            key={member.teamMemberId}
+            member={member}
+            onCreateRoleTag={(tagName: string) =>
+              handleAddTag(member.member.id, tagName)
+            }
+          />
         ))}
       </MembersContainer>
     </MemberContainer>

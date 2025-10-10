@@ -13,6 +13,11 @@ interface ITeamTagInput {
   tagName: string;
 }
 
+interface ICreateMemberTagInput {
+  memberId: number;
+  tagName: string;
+}
+
 export default function useTeamMutations() {
   // 팀 수정
   const useEditTeamMutation = () => {
@@ -98,10 +103,31 @@ export default function useTeamMutations() {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
+  // 팀원 태그 생성
+  const useCreateMemberTagMutation = () => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async ({ memberId, tagName }: ICreateMemberTagInput) => {
+        return await apiRequest({
+          url: `/api/v2/tag/team/${TEAM_ID}/member/${memberId}`,
+          method: 'POST',
+          data: { tagName },
+        });
+      },
+      onSuccess: (_, variables) => {
+        console.log('팀원 태그 생성!', variables.tagName);
+        queryClient.invalidateQueries({
+          queryKey: ['management', 'teamMember', 'tag', variables.memberId],
+        });
+      },
+    });
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
   return {
     useEditTeamMutation,
     useCreateTeamTagMutation,
     useDeleteTeamTagMutation,
     useEditTeamTagMutation,
+    useCreateMemberTagMutation,
   };
 }

@@ -9,9 +9,10 @@ import { IMemberResponse } from '@/shared/types/member.types.ts';
 
 interface IMemberProps {
   member: IMemberResponse;
+  onCreateRoleTag: (tagName: string) => void;
 }
 
-export const Member = ({ member }: IMemberProps) => {
+export const Member = ({ member, onCreateRoleTag }: IMemberProps) => {
   const {
     tags,
     showTagInput,
@@ -29,7 +30,7 @@ export const Member = ({ member }: IMemberProps) => {
       tagId: role.id,
       name: role.name,
     })),
-    onCreateRoleTag: (name) => console.log('태그생성', name),
+    onCreateRoleTag,
     onEditRoleTag: (id, name) => console.log('태그수정', id, name),
     onDeleteRoleTag: (id) => console.log('태그삭제', id),
   });
