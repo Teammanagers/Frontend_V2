@@ -140,7 +140,7 @@ const TagContainer = styled.div`
   gap: 8px;
 `;
 
-export const TagBox = styled.div<{ $isEditing: boolean }>`
+export const TagBox = styled.div<{ $isEditing?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
