@@ -28,7 +28,7 @@ export default function EditableResourceList({
             data.map((resource) => (
               <ResourceWrapper key={resource.dataId}>
                 <ResourceCard
-                  resourceInfo={resource}
+                  data={resource}
                   deleteButton={
                     <DeleteResourceButton
                       resourceId={resource.fileInfo.createdBy}
