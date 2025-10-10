@@ -15,12 +15,12 @@ export const TeamMember = ({ members }: ITeamMemberProps) => {
   const { mutate: createMemberTag } = useCreateMemberTagMutation();
   const { mutate: deleteMemberTag } = useDeleteMemberTagMutation();
 
-  const handleAddTag = async (memberId: number, tagName: string) => {
-    await createMemberTag({ memberId, tagName });
+  const handleAddTag = (memberId: number, tagName: string) => {
+    createMemberTag({ memberId, tagName });
   };
 
-  const handleDeleteTag = async (memberId: number, tagId: number) => {
-    await deleteMemberTag({ tagId, memberId });
+  const handleDeleteTag = (memberId: number, tagId: number) => {
+    deleteMemberTag({ tagId, memberId });
   };
   return (
     <MemberContainer>
