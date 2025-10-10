@@ -23,5 +23,15 @@ export interface IMemberResponse {
   teamMemberId: number;
   member: Member;
   imgUrl: string | null;
-  grantedRoleList: string[];
+  grantedRoleList: IGrantedRole[];
+}
+
+export interface IGrantedRole {
+  id: number;
+  name: string;
+  createdAt: string;
+  createdBy: number;
+  updatedAt: string;
+  updatedBy: number;
+  useYn: string;
 }
