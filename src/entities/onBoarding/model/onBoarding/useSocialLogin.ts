@@ -1,12 +1,8 @@
+import { SOCIAL_PROVIDERS_EN } from '@/shared/config/constants/auth.constants';
 import { useState } from 'react';
 
-const SOCIAL_PROVIDERS = {
-  GOOGLE: 'google',
-  KAKAO: 'kakao',
-  NAVER: 'naver',
-} as const;
-
-type SocialProvider = (typeof SOCIAL_PROVIDERS)[keyof typeof SOCIAL_PROVIDERS];
+type SocialProvider =
+  (typeof SOCIAL_PROVIDERS_EN)[keyof typeof SOCIAL_PROVIDERS_EN];
 
 export default function useSocialLogin() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,9 +15,9 @@ export default function useSocialLogin() {
     const baseUrl = import.meta.env.VITE_BASE_URL;
 
     const urls: Record<SocialProvider, string> = {
-      [SOCIAL_PROVIDERS.GOOGLE]: `${baseUrl}/oauth2/authorization/google`,
-      [SOCIAL_PROVIDERS.KAKAO]: `${baseUrl}/oauth2/authorization/kakao`,
-      [SOCIAL_PROVIDERS.NAVER]: `${baseUrl}/oauth2/authorization/naver`,
+      [SOCIAL_PROVIDERS_EN.GOOGLE]: `${baseUrl}/oauth2/authorization/google`,
+      [SOCIAL_PROVIDERS_EN.KAKAO]: `${baseUrl}/oauth2/authorization/kakao`,
+      [SOCIAL_PROVIDERS_EN.NAVER]: `${baseUrl}/oauth2/authorization/naver`,
     };
 
     const hrefUrl = urls[provider];
@@ -36,5 +32,3 @@ export default function useSocialLogin() {
 
   return { socialLoginProvider, isLoading, error };
 }
-
-export { SOCIAL_PROVIDERS };
