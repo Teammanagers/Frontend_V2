@@ -50,7 +50,7 @@ const EmptyResourceWrapper = styled.div`
   gap: 19px;
   width: 100%;
   height: 100%;
-s`;
+`;
 
 const EmptyLabel = styled.span`
   font-size: 14px;

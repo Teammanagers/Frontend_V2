@@ -1,12 +1,9 @@
-// import { Todo } from '@/features/todo/ui/Todo';
 import styled from 'styled-components';
-import { RoutingButton } from '@/entities/main/ui';
+// import { Todo } from '@/features/todo/ui/Todo';
 
 function TodoList() {
   return (
     <Container>
-      <RoutingButton url="/todo-list">투두리스트</RoutingButton>
-
       <MyTodoListWrapper>
         <MyTodoTitle>내가 해야할 일</MyTodoTitle>
 

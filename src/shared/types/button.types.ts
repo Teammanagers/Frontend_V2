@@ -12,10 +12,11 @@ export interface IButtonStyle {
 }
 
 export interface IButtonProps {
+  type?: 'button' | 'submit' | 'reset';
   size: keyof typeof buttonSizes;
   style: keyof typeof buttonStyles;
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   icon?: React.ReactNode;
 }

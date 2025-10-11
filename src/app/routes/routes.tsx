@@ -15,6 +15,8 @@ import { ResourcePage } from '@/pages/ResourcePage';
 import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
 import { SignupPage } from '@/pages/SignupPage';
 import { TodoPage } from '@/pages/TodoPage';
+import NoticePage from '@/pages/NoticePage/notice';
+import ProfilePage from '@/pages/MyPage/profile';
 
 export default function AppRoutes() {
   return (
@@ -55,6 +57,9 @@ export default function AppRoutes() {
           <Route path="/management" element={<ManagementPage />} />
           {/* My Page */}
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/mypage/profile" element={<ProfilePage />} />
+          {/* Notice Page */}
+          <Route path="/notice" element={<NoticePage />} />
         </Route>
 
         {/* Error Page */}
