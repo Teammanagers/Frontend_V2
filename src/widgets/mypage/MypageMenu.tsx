@@ -11,7 +11,7 @@ export default function MypageMenu() {
         const IconComponent = menu.icon;
 
         return (
-          <MypageMenuLink to={menu.to} icon={<IconComponent />}>
+          <MypageMenuLink key={menu.to} to={menu.to} icon={<IconComponent />}>
             {menu.label}
           </MypageMenuLink>
         );
