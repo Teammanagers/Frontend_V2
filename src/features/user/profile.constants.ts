@@ -2,9 +2,9 @@ import { ProfileFormValues } from './model/profile.schema';
 
 // 프로필 폼의 각 필드에 대한 키
 export const PROFILE_FORM_KEYS = {
-  USERNAME: 'username',
-  PHONE: 'phone',
-  ORGANIZATION: 'organization',
+  USERNAME: 'name',
+  PHONE: 'telNum',
+  ORGANIZATION: 'belong',
   IMG_URL: 'imgUrl',
   ROLE_TAG: 'roleTag',
 } as const;
