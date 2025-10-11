@@ -32,3 +32,5 @@ export default function useSocialLogin() {
 
   return { socialLoginProvider, isLoading, error };
 }
+
+export { SOCIAL_PROVIDERS };
