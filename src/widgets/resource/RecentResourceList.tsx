@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { RoutingButton } from '@/entities/main/ui';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
 import { useGetResourceList } from './model/useResourceQueries';
 
