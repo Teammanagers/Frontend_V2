@@ -26,6 +26,11 @@ export interface IMemberResponse {
   grantedRoleList: IGrantedRole[];
 }
 
+export interface ITeamMemberResponse {
+  leader: IMemberResponse;
+  members: IMemberResponse[];
+}
+
 export interface IGrantedRole {
   id: number;
   name: string;

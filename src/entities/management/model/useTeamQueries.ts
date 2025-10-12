@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { IScheduleDto } from '@/entities/management/management.types.ts';
 import apiRequest from '@/shared/api/apiRequest.ts';
-import { IMemberResponse } from '@/shared/types/member.types.ts';
+import { ITeamMemberResponse } from '@/shared/types/member.types.ts';
 import { Team, TeamTag } from '@/shared/types/team.types.ts';
 
 export const TEAM_ID = 3;
@@ -74,7 +74,7 @@ export default function useTeamQueries() {
           url: `/api/v2/team/${TEAM_ID}/member-list`,
           method: 'GET',
         }),
-      select: (res): IMemberResponse[] => res.result,
+      select: (res): ITeamMemberResponse => res.result,
       staleTime: 60 * 1000,
     });
     return { isPending, isError, isSuccess, data };

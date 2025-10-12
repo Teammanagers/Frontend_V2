@@ -27,7 +27,11 @@ export function ManagementPage() {
   const transformedMySchedule = transformScheduleData(mySchedule);
 
   if (isMembersLoading || !members) return <div>로딩중...</div>;
-  // console.log('팀 멤버:', members);
+  console.log('팀 멤버:', members);
+  const transformedMembers = members.leader
+    ? [members.leader, ...members.members]
+    : members.members;
+  console.log('팀 멤버 최종: ', transformedMembers);
 
   console.log('팀 조회:', team?.team, team?.teamTagList);
   if (isTeamLoading || !team) return <div>로딩중..</div>; // 추후 스켈레톤 적용
@@ -41,7 +45,7 @@ export function ManagementPage() {
         teamCode={team.team.code}
         tagList={team.teamTagList}
       />
-      <TeamMember members={members} />
+      <TeamMember members={transformedMembers} />
       <Schedule
         schedule={transformedSchedule}
         mySchedule={transformedMySchedule}
