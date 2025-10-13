@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { EndModal } from '@/entities/end/ui/EndModal.tsx';
-import End from '@/shared/assets/end/end.svg?react';
+import End from '@/shared/assets/end/end-team.svg?react';
 import Quit from '@/shared/assets/end/quit.svg?react';
 import Modal from '@/shared/components/modal/Modal.tsx';
 
@@ -48,21 +48,21 @@ const EndProjectContainer = styled.div`
   align-items: center;
 `;
 
-const TitleText = styled.h1`
+export const TitleText = styled.h1`
   font-size: 18px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.black};
   margin: 32px 0 10px 0;
 `;
 
-const ContentText = styled.p`
+export const ContentText = styled.p`
   font-size: 12px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.darkGray};
   margin: 0;
 `;
 
-const EndBtn = styled.div`
+export const EndBtn = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,11 +77,11 @@ const EndBtn = styled.div`
   background: white;
 `;
 
-const QuitIcon = styled(Quit)`
+export const QuitIcon = styled(Quit)`
   width: 37px;
   height: 37px;
 `;
 
-const BtnText = styled(ContentText)`
+export const BtnText = styled(ContentText)`
   color: ${({ theme }) => theme.colors.red};
 `;
