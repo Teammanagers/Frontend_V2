@@ -3,26 +3,48 @@ import { Button } from '@/shared/components/button/Button.tsx';
 
 interface ModalStateProps {
   teamName: string;
+  isLeader: boolean;
   onClose: () => void;
 }
 
-export const EndModal = ({ teamName, onClose }: ModalStateProps) => {
+export const EndModal = ({ teamName, isLeader, onClose }: ModalStateProps) => {
   return (
     <ModalContainer>
-      <TitleText>
-        <TeamName>'{teamName}'</TeamName>를 정말 종료하실건가요?
-      </TitleText>
-      <ContentText>
-        종료된 프로젝트는 마이페이지에서 확인 가능합니다
-      </ContentText>
-      <BtnContainer>
-        <Button size="small" style="main" onClick={onClose}>
-          유지하기
-        </Button>
-        <Button size="small" style="red">
-          종료하기
-        </Button>
-      </BtnContainer>
+      {isLeader ? (
+        <>
+          <TitleText>
+            <TeamName>'{teamName}'</TeamName>를 정말 종료하실건가요?
+          </TitleText>
+          <ContentText>
+            종료된 프로젝트는 마이페이지에서 확인 가능합니다
+          </ContentText>
+          <BtnContainer>
+            <Button size="small" style="main" onClick={onClose}>
+              유지하기
+            </Button>
+            <Button size="small" style="red">
+              종료하기
+            </Button>
+          </BtnContainer>
+        </>
+      ) : (
+        <>
+          <TitleText>
+            <TeamName>'{teamName}'</TeamName>를 정말 나가실건가요?
+          </TitleText>
+          <ContentText>
+            팀에서 나가기 전, 다시 한 번 확인 해 주세요.
+          </ContentText>
+          <BtnContainer>
+            <Button size="small" style="main" onClick={onClose}>
+              유지하기
+            </Button>
+            <Button size="small" style="red">
+              종료하기
+            </Button>
+          </BtnContainer>
+        </>
+      )}
     </ModalContainer>
   );
 };
