@@ -10,13 +10,21 @@ interface ITeamMemberProps {
 }
 
 export const TeamMember = ({ members }: ITeamMemberProps) => {
-  const { useCreateMemberTagMutation, useDeleteMemberTagMutation } =
-    useTeamMutations();
+  const {
+    useCreateMemberTagMutation,
+    useEditMemberTagMutation,
+    useDeleteMemberTagMutation,
+  } = useTeamMutations();
   const { mutate: createMemberTag } = useCreateMemberTagMutation();
+  const { mutate: editMemberTag } = useEditMemberTagMutation();
   const { mutate: deleteMemberTag } = useDeleteMemberTagMutation();
 
   const handleAddTag = (memberId: number, tagName: string) => {
     createMemberTag({ memberId, tagName });
+  };
+
+  const handleEditTag = (tagId: number, memberId: number, tagName: string) => {
+    editMemberTag({ tagId, memberId, tagName });
   };
 
   const handleDeleteTag = (memberId: number, tagId: number) => {
@@ -40,6 +48,9 @@ export const TeamMember = ({ members }: ITeamMemberProps) => {
             member={member}
             onCreateRoleTag={(tagName) =>
               handleAddTag(member.member.id, tagName)
+            }
+            onEditRoleTag={(tagId: number, tagName: string) =>
+              handleEditTag(tagId, member.member.id, tagName)
             }
             onDeleteRoleTag={(tagId) =>
               handleDeleteTag(member.member.id, tagId)

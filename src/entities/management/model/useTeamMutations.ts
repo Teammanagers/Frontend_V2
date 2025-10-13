@@ -18,6 +18,12 @@ interface ICreateMemberTagInput {
   tagName: string;
 }
 
+interface IEditMemberTagInput {
+  tagId: number;
+  memberId: number;
+  tagName: string;
+}
+
 interface IDeleteMemberTag {
   tagId: number;
   memberId: number;
@@ -128,6 +134,27 @@ export default function useTeamMutations() {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
+  // 팀원 태그 수정
+  const useEditMemberTagMutation = () => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async ({ tagId, memberId, tagName }: IEditMemberTagInput) => {
+        return await apiRequest({
+          url: `/api/v2/tag/${tagId}/team/${TEAM_ID}/member/${memberId}`,
+          method: 'PATCH',
+          data: { tagName },
+        });
+      },
+      onSuccess: (_, variables) => {
+        console.log('팀원 태그 수정', variables.tagName);
+        queryClient.invalidateQueries({
+          queryKey: ['management', 'teamMember', 'tag', variables.memberId],
+        });
+      },
+    });
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
+  // 팀원 태그 삭제
   const useDeleteMemberTagMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ memberId, tagId }: IDeleteMemberTag) => {
@@ -152,6 +179,7 @@ export default function useTeamMutations() {
     useDeleteTeamTagMutation,
     useEditTeamTagMutation,
     useCreateMemberTagMutation,
+    useEditMemberTagMutation,
     useDeleteMemberTagMutation,
   };
 }

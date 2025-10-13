@@ -10,12 +10,14 @@ import { IMemberResponse } from '@/shared/types/member.types.ts';
 interface IMemberProps {
   member: IMemberResponse;
   onCreateRoleTag: (tagName: string) => void;
+  onEditRoleTag: (tagId: number, tagName: string) => void;
   onDeleteRoleTag: (tagId: number) => void;
 }
 
 export const Member = ({
   member,
   onCreateRoleTag,
+  onEditRoleTag,
   onDeleteRoleTag,
 }: IMemberProps) => {
   const {
@@ -36,7 +38,7 @@ export const Member = ({
       name: role.name,
     })),
     onCreateRoleTag,
-    onEditRoleTag: (id, name) => console.log('태그수정', id, name),
+    onEditRoleTag,
     onDeleteRoleTag,
   });
   const { imgUrl, member: memberInfo } = member;
