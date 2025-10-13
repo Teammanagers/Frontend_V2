@@ -13,6 +13,7 @@ const DEFAULT_WEEKLY_TIMES: Record<Weekday, TimeSlot[]> = {
 
 export const useSchedule = (
   initialSchedule?: Partial<Record<Weekday, { value: TimeSlot[] }>>,
+  onSubmit?: (weeklyTimes: Record<Weekday, TimeSlot[]>) => void,
 ) => {
   // 시작과 끝이 모두 00:00 인 경우에도 스케줄이 없다고 판단
   const hasSchedule =
@@ -64,6 +65,7 @@ export const useSchedule = (
 
   const submit = () => {
     console.log('등록된 시간:', weeklyTimes);
+    onSubmit?.(weeklyTimes);
     setShowRegister(false);
   };
 

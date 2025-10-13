@@ -29,6 +29,22 @@ interface IDeleteMemberTag {
   memberId: number;
 }
 
+interface ITimeRange {
+  startHour: number;
+  startMinute: number;
+  endHour: number;
+  endMinute: number;
+}
+
+export interface IDaySchedule {
+  dayOfWeek: 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
+  timeRanges: ITimeRange[];
+}
+
+interface IRegisterScheduleInput {
+  times: IDaySchedule[];
+}
+
 export default function useTeamMutations() {
   // 팀 수정
   const useEditTeamMutation = () => {
@@ -173,6 +189,26 @@ export default function useTeamMutations() {
     return { mutate, data, isPending, isError, isSuccess };
   };
 
+  // 스케줄 등록 및 수정
+  const useRegisterScheduleMutation = () => {
+    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+      mutationFn: async ({ times }: IRegisterScheduleInput) => {
+        return await apiRequest({
+          url: `/api/v2/schedule/teams/${TEAM_ID}`,
+          method: 'POST',
+          data: { times },
+        });
+      },
+      onSuccess: (res) => {
+        console.log('스케줄 등록/수정 성공!', res);
+        queryClient.invalidateQueries({
+          queryKey: ['management', 'teamMember', 'schedule', TEAM_ID],
+        });
+      },
+    });
+    return { mutate, data, isPending, isError, isSuccess };
+  };
+
   return {
     useEditTeamMutation,
     useCreateTeamTagMutation,
@@ -181,5 +217,6 @@ export default function useTeamMutations() {
     useCreateMemberTagMutation,
     useEditMemberTagMutation,
     useDeleteMemberTagMutation,
+    useRegisterScheduleMutation,
   };
 }

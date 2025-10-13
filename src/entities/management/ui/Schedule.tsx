@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { ScheduleProps } from '@/entities/management/management.types.ts';
+import { transformScheduleRequest } from '@/entities/management/lib/transformScheduleData.ts';
+import {
+  ScheduleProps,
+  TimeSlot,
+  Weekday,
+} from '@/entities/management/management.types.ts';
+import useTeamMutations from '@/entities/management/model/useTeamMutations.ts';
 import { TagBox, TagText } from '@/entities/management/ui/Member.tsx';
 import { NoSchedule } from '@/entities/management/ui/NoSchedule.tsx';
 import { RegisterSchedule } from '@/entities/management/ui/RegisterSchedule.tsx';
@@ -11,6 +17,15 @@ import Plus from '@/shared/assets/common/plus.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
 
 export const Schedule = ({ schedule, mySchedule }: ScheduleProps) => {
+  const { useRegisterScheduleMutation } = useTeamMutations();
+  const { mutate: registerSchedule } = useRegisterScheduleMutation();
+
+  const handleSubmit = (weeklyTimes: Record<Weekday, TimeSlot[]>) => {
+    const requestBody = transformScheduleRequest(weeklyTimes);
+    console.log('스케줄 등록 요청: ', requestBody);
+    registerSchedule(requestBody);
+  };
+
   const {
     showRegister,
     weeklyTimes,
@@ -18,7 +33,7 @@ export const Schedule = ({ schedule, mySchedule }: ScheduleProps) => {
     reset,
     submit,
     toggleRegister,
-  } = useSchedule(mySchedule);
+  } = useSchedule(mySchedule, handleSubmit);
 
   return (
     <Container>

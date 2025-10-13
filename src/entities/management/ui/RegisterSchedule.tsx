@@ -1,18 +1,9 @@
 import styled from 'styled-components';
-import { TimeSlot } from '@/entities/management/management.types.ts';
+import { TimeSlot, Weekday } from '@/entities/management/management.types.ts';
 import { TimeSelector } from '@/entities/management/ui/TimeSelector.tsx';
 import Reset from '@/shared/assets/management/reset.svg?react';
 import Submit from '@/shared/assets/management/submit.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
-
-type Weekday =
-  | 'Monday'
-  | 'Tuesday'
-  | 'Wednesday'
-  | 'Thursday'
-  | 'Friday'
-  | 'Saturday'
-  | 'Sunday';
 
 interface RegisterScheduleProps {
   weeklyTimes: Record<Weekday, TimeSlot[]>;
