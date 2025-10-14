@@ -5,9 +5,15 @@ interface ModalStateProps {
   teamName: string;
   isLeader: boolean;
   onClose: () => void;
+  onEnd: () => void;
 }
 
-export const EndModal = ({ teamName, isLeader, onClose }: ModalStateProps) => {
+export const EndModal = ({
+  teamName,
+  isLeader,
+  onClose,
+  onEnd,
+}: ModalStateProps) => {
   return (
     <ModalContainer>
       {isLeader ? (
@@ -39,8 +45,8 @@ export const EndModal = ({ teamName, isLeader, onClose }: ModalStateProps) => {
             <Button size="small" style="main" onClick={onClose}>
               유지하기
             </Button>
-            <Button size="small" style="red">
-              종료하기
+            <Button size="small" style="red" onClick={onEnd}>
+              나가기
             </Button>
           </BtnContainer>
         </>
