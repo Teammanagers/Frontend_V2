@@ -43,6 +43,16 @@ export default function SideBarContainer() {
     setIsTeamListOpen(false); // 드롭다운 닫힘
   };
 
+  const handleCreateTeam = () => {
+    handleModalClose();
+    navigate(`/make-team`);
+  };
+
+  const handleJoinTeam = () => {
+    handleModalClose();
+    navigate(`/team-join`);
+  };
+
   // api 데이터 매핑
   const teamList: TeamProps[] =
     myTeams?.map((item) => ({
@@ -96,7 +106,11 @@ export default function SideBarContainer() {
       )}
       {isAddTeamModalOpen && (
         <Modal isOpen={isAddTeamModalOpen} toggle={handleModalClose}>
-          <AddTeamModal modalClose={handleModalClose} />
+          <AddTeamModal
+            modalClose={handleModalClose}
+            onCreateTeamClick={handleCreateTeam}
+            onJoinTeamClick={handleJoinTeam}
+          />
         </Modal>
       )}
     </Wrapper>

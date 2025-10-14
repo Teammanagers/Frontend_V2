@@ -6,9 +6,15 @@ import Search from '@/shared/assets/sidebar/search.svg?react';
 
 interface AddTeamModalProps {
   modalClose: () => void;
+  onCreateTeamClick: () => void;
+  onJoinTeamClick: () => void;
 }
 
-export const AddTeamModal = ({ modalClose }: AddTeamModalProps) => {
+export const AddTeamModal = ({
+  modalClose,
+  onCreateTeamClick,
+  onJoinTeamClick,
+}: AddTeamModalProps) => {
   const [hover, setHover] = useState<number | null>(null);
 
   const handleHover = (index: number | null) => {
@@ -29,6 +35,7 @@ export const AddTeamModal = ({ modalClose }: AddTeamModalProps) => {
           handleHover(null);
         }}
         $isHovered={hover === 0}
+        onClick={onCreateTeamClick}
       >
         <MenuText>새로운 팀 생성하기</MenuText>
         <Plus stroke="#1D1D1D" strokeWidth={2} />
@@ -41,6 +48,7 @@ export const AddTeamModal = ({ modalClose }: AddTeamModalProps) => {
           handleHover(null);
         }}
         $isHovered={hover === 1}
+        onClick={onJoinTeamClick}
       >
         <MenuText>다른 팀 참가하기</MenuText>
         <Search />
