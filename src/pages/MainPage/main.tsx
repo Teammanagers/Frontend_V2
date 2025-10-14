@@ -1,9 +1,9 @@
-import { TeamCodeCopy } from '@/entities/main/ui';
-import { TodoList } from '@/widgets/main';
-import { NoticeBanner } from '@/widgets/notice/NoticeBanner';
-import RecentResourceList from '@/widgets/resource/RecentResourceList';
-import { UpcomingEventList } from '@/widgets/upcoming-event';
 import styled from 'styled-components';
+import { TeamCodeCopy } from '@/entities/main/ui/TeamCodeCopy';
+import { NoticeBanner } from '@/widgets/notice/NoticeBanner';
+import { mainRoutes } from '@/app/routes/paths';
+import MainSectionLayout from '../_layouts/MainSectionLayout';
+import MainSectionLink from '@/entities/main/ui/MainSectionLink';
 
 export function MainPage() {
   return (
@@ -15,13 +15,25 @@ export function MainPage() {
         <TeamCodeCopy />
       </MainHeader>
 
-      <SectionWrapper>
-        <UpcomingScheduleListWrapper>
-          <UpcomingEventList />
-        </UpcomingScheduleListWrapper>
-        <TodoList />
-        <RecentResourceList />
-      </SectionWrapper>
+      <ContentWrapper>
+        {mainRoutes.map((item) => {
+          if (!item.component) return null;
+
+          // React가 인식할 수 있도록 대문자로 시작하는 컴포넌트로 변환하여 변수에 할당
+          const ContentComponent = item.component;
+
+          return (
+            <SectionWrapper key={item.to}>
+              <MainSectionLayout
+                navLink={
+                  <MainSectionLink to={item.to}>{item.label}</MainSectionLink>
+                }
+                content={<ContentComponent />}
+              />
+            </SectionWrapper>
+          );
+        })}
+      </ContentWrapper>
     </Container>
   );
 }
@@ -41,7 +53,7 @@ const MainHeader = styled.header`
   gap: 17px;
 `;
 
-const SectionWrapper = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   column-gap: 20px;
@@ -49,6 +61,6 @@ const SectionWrapper = styled.div`
   width: 1056px;
 `;
 
-const UpcomingScheduleListWrapper = styled.div`
+const SectionWrapper = styled.div`
   width: 518px;
 `;

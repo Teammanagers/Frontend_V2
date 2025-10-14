@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import fallbackImg from '@/shared/assets/common/profile-fallback.svg';
 
-interface IAvatarProps {
-  imgUrl: string;
+interface IAvatarProps extends React.ComponentProps<'div'> {
+  imgUrl?: string | null;
   size?: number;
 }
 
@@ -17,14 +17,18 @@ interface IAvatarProps {
  * <Avatar imgUrl="https://example.com/profile.jpg" size={40} />
  */
 
-export default function Avatar({ imgUrl, size = 32 }: IAvatarProps) {
+export default function Avatar({ imgUrl, size = 32, ...props }: IAvatarProps) {
   const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = fallbackImg;
   };
 
   return (
-    <AvatarImgContainer $size={size}>
-      <img src={imgUrl} alt="profile-image" onError={handleImgError} />
+    <AvatarImgContainer $size={size} {...props}>
+      <img
+        src={imgUrl || fallbackImg}
+        alt="profile-image"
+        onError={handleImgError}
+      />
     </AvatarImgContainer>
   );
 }
@@ -40,5 +44,6 @@ const AvatarImgContainer = styled.div<{ $size?: number }>`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
   }
 `;

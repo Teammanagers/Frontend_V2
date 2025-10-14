@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Input from '@/entities/onBoarding/lib/input/Input';
 import { Button } from '@/shared/components/button/Button';
@@ -7,7 +8,7 @@ import useJoinTeam from '../../model/useJoinTeam';
 interface TeamJoinModalProps {
   isOpen: boolean;
   toggle: () => void;
-  teamId: string;
+  teamId: number;
 }
 
 export default function TeamJoinModal({
@@ -20,11 +21,21 @@ export default function TeamJoinModal({
     setTeamJoinPassword,
     teamJoinPassword,
     showHelperMessage,
+    helperMessage,
   } = useJoinTeam();
+  const navigate = useNavigate();
 
   const clickSubmitBtn = () => {
     if (!teamJoinPassword.trim()) return;
-    useJoinTeamMutation.mutate({ teamId });
+    useJoinTeamMutation.mutate(
+      { teamId: teamId, password: teamJoinPassword },
+      {
+        onSuccess: () => {
+          toggle();
+          navigate(`/team/${teamId}`);
+        },
+      },
+    );
   };
 
   return (
@@ -34,7 +45,7 @@ export default function TeamJoinModal({
           title="비밀번호"
           placeholder="참가를 위한 비밀번호를 입력해 주세요."
           inputSize="small"
-          helperMessage="비밀번호가 일치하지 않습니다."
+          helperMessage={helperMessage}
           helperMessageColor="red"
           showHelperMessage={showHelperMessage}
           onChange={(e) => setTeamJoinPassword(e.target.value)}

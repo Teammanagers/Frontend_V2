@@ -1,17 +1,17 @@
 import styled from 'styled-components';
-import { ResourceInfoResponse } from '../resource.types';
+import { Resource } from '../resource.types';
 import FileThumbnail from '@/entities/resource/ui/FileThumbnail';
 import RoleTag from '@/shared/components/tag/RoleTag';
 import ResourceMetaData from './ResourceMetaData';
 
 interface ResourceCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  resourceInfo: ResourceInfoResponse;
+  data: Resource;
   onClick?: () => void;
   deleteButton?: React.ReactNode; // 삭제 버튼 렌더링
 }
 
 export default function ResourceCard({
-  resourceInfo,
+  data,
   onClick,
   deleteButton,
 }: ResourceCardProps) {
@@ -22,12 +22,11 @@ export default function ResourceCard({
 
         <ResourceInfoWrapper>
           <Title>
-            {resourceInfo.fileInfo.originalFileName}.
-            {resourceInfo.fileInfo.fileNameExtension}
+            {data.fileInfo.originalFileName}.{data.fileInfo.fileNameExtension}
           </Title>
           <ResourceMetaData
-            fileSize={resourceInfo.fileInfo.fileSize}
-            createdAt={resourceInfo.fileInfo.createdAt}
+            fileSize={data.fileInfo.fileSize}
+            createdAt={data.fileInfo.createdAt}
           />
         </ResourceInfoWrapper>
       </ThumbnailWithInfo>

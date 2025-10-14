@@ -2,15 +2,29 @@ import styled from 'styled-components';
 import FeedbackHeader from '@/entities/feedback/ui/FeedbackHeader';
 import FeedbackForm from '@/features/feedback/ui/FeedbackForm';
 import FeedbackList from './FeedbackList';
+import { Resource } from '@/entities/resource/resource.types';
+import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
 
-export default function FeedbackWidget() {
+export default function FeedbackWidget({
+  selectedResource,
+}: {
+  selectedResource: Resource | null;
+}) {
   return (
     <Container>
-      {/* <EmptyLabel>아직 피드백 남길 자료가 없습니다.</EmptyLabel> */}
+      {selectedResource ? (
+        <>
+          <FeedbackHeader selectedResource={selectedResource} />
+          <FeedbackForm />
+          <FeedbackList />
+        </>
+      ) : (
+        <EmptyResourceWrapper>
+          <EmptyLabel>아직 피드백 남길 자료가 없습니다.</EmptyLabel>
 
-      <FeedbackHeader />
-      <FeedbackForm />
-      <FeedbackList />
+          <AddFeedbackButton />
+        </EmptyResourceWrapper>
+      )}
     </Container>
   );
 }
@@ -28,8 +42,18 @@ const Container = styled.section`
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
-// const EmptyLabel = styled.span`
-//   font-size: 14px;
-//   font-weight: 500;
-//   color: ${({ theme }) => theme.colors.black};
-// `;
+const EmptyResourceWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 19px;
+  width: 100%;
+  height: 100%;
+`;
+
+const EmptyLabel = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
+`;

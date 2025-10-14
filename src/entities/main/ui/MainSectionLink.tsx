@@ -1,19 +1,27 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ArrowIcon from '@/shared/assets/common/arrow.svg?react';
-import { IRoutingButtonProps } from '../main.types';
+import AppLink from '@/shared/components/link/AppLink';
+import { AppPath } from '@/app/routes/paths';
+
+interface MainSectionLinkProps {
+  children: React.ReactNode;
+  to: AppPath;
+}
 
 /**
- * RoutingButton 컴포넌트를 통해 라우팅.
+ * MainSectionLink 컴포넌트를 통해 라우팅.
  *
  * @param children - 컴포넌트 안에 들어갈 내용
- * @param url - 링크 URL
+ * @param to - 링크 URL
  *
  */
 
-function RoutingButton({ children, url }: IRoutingButtonProps) {
+export default function MainSectionLink({
+  children,
+  to,
+}: MainSectionLinkProps) {
   return (
-    <StyledLink to={url}>
+    <StyledLink to={to}>
       <ContentWrapper>
         <RoutingLabel>{children}</RoutingLabel>
       </ContentWrapper>
@@ -25,9 +33,7 @@ function RoutingButton({ children, url }: IRoutingButtonProps) {
   );
 }
 
-export { RoutingButton };
-
-const StyledLink = styled(Link)`
+const StyledLink = styled(AppLink)`
   display: flex;
   align-items: center;
   gap: 16px;

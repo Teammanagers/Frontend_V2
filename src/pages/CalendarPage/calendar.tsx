@@ -28,6 +28,7 @@ export function CalendarPage() {
 
         {/* 다가오는 일정 */}
         <UpcomingSchedulesWrapper>
+          <UpcomingScheduleTitle>다가오는 일정</UpcomingScheduleTitle>
           <UpcomingEventList />
         </UpcomingSchedulesWrapper>
       </Container>
@@ -50,4 +51,10 @@ const UpcomingSchedulesWrapper = styled.div`
   flex-direction: column;
   gap: 16px;
   width: 436px;
+`;
+
+const UpcomingScheduleTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
 `;
