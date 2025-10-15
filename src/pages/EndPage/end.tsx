@@ -29,7 +29,7 @@ export function EndPage() {
     } else {
       withdrawTeam(undefined, {
         onSuccess: () => {
-          navigate(`/select-team`);
+          navigate(`/select-team`, { replace: true });
         },
       });
     }
