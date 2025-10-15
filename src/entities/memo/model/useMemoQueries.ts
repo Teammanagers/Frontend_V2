@@ -53,7 +53,7 @@ export default function useMemoQueries() {
   // 메모 전체 조회
   const useMemoListQuery = (folderId: number) => {
     const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['memo', folderId],
+      queryKey: ['memo', folderId, TEAM_ID],
       enabled: Number.isFinite(folderId),
       queryFn: () =>
         apiRequest({
