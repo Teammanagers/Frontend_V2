@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useSideBarQueries from '@/features/sidebar/model/useSideBarQueries.ts';
@@ -17,9 +17,27 @@ export default function SideBarContainer() {
 
   const { useMyTeamListQuery } = useSideBarQueries();
   const { data: myTeams } = useMyTeamListQuery();
+  console.log('내 팀: ', myTeams);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  // api 데이터 매핑
+  const teamList: TeamProps[] =
+    myTeams?.map((item) => ({
+      teamId: item.team.id,
+      title: item.team.title,
+      imageUrl: item.imgUrl ?? null,
+    })) ?? [];
+
+  const [currentTeam, setCurrentTeam] = useState<TeamProps | null>(null);
+
+  useEffect(() => {
+    if (teamList.length > 0 && !currentTeam) {
+      setCurrentTeam(teamList[0]);
+    }
+  }, [teamList]);
+  console.log('현재 팀: ', currentTeam);
 
   const handleNavigate = (path: string) => {
     setEndSelected(false);
@@ -31,6 +49,7 @@ export default function SideBarContainer() {
   const handleTeamSelected = (team: TeamProps) => {
     console.log('선택한 팀: ', team);
     setIsTeamListOpen(false);
+    // 다른 팀으로 이동
   };
 
   const handleModalOpen = () => {
@@ -52,16 +71,6 @@ export default function SideBarContainer() {
     handleModalClose();
     navigate(`/team-join`);
   };
-
-  // api 데이터 매핑
-  const teamList: TeamProps[] =
-    myTeams?.map((item) => ({
-      teamId: item.team.id,
-      title: item.team.title,
-      imageUrl: item.imgUrl ?? null,
-    })) ?? [];
-
-  const currentTeam: TeamProps | null = teamList[0] ?? null;
 
   const teamData = currentTeam
     ? {
