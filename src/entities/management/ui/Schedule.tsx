@@ -15,8 +15,14 @@ import { useSchedule } from '@/features/management/model/useSchedule.ts';
 import Delete from '@/shared/assets/common/delete-tag.svg?react';
 import Plus from '@/shared/assets/common/plus.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
+import { IMemberResponse } from '@/shared/types/member.types.ts';
 
-export const Schedule = ({ schedule, mySchedule }: ScheduleProps) => {
+interface IScheduleProps extends ScheduleProps {
+  members: IMemberResponse[];
+}
+
+export const Schedule = ({ members, schedule, mySchedule }: IScheduleProps) => {
+  console.log('멤버?: ', members);
   const { useRegisterScheduleMutation } = useTeamMutations();
   const { mutate: registerSchedule } = useRegisterScheduleMutation();
 
@@ -52,23 +58,12 @@ export const Schedule = ({ schedule, mySchedule }: ScheduleProps) => {
               <PeopleLabelContainer>
                 <Text>현재 참여자들의 가능 시간: </Text>
                 <TagContainer>
-                  {/* 사람 태그 부분 */}
-                  <TagBox>
-                    <TagText>기획자</TagText>
-                    <DeleteBtn width={20} height={20} />
-                  </TagBox>
-                  <TagBox>
-                    <TagText>기획자</TagText>
-                    <DeleteBtn width={20} height={20} />
-                  </TagBox>
-                  <TagBox>
-                    <TagText>기획자</TagText>
-                    <DeleteBtn width={20} height={20} />
-                  </TagBox>
-                  <TagBox>
-                    <TagText>기획자</TagText>
-                    <DeleteBtn width={20} height={20} />
-                  </TagBox>
+                  {members.map((m) => (
+                    <TagBox key={m.teamMemberId}>
+                      <TagText>{m.member.name}</TagText>
+                      <DeleteBtn width={20} height={20} />
+                    </TagBox>
+                  ))}
                   <AddBtn>
                     <Plus stroke="#5C9EFF" strokeWidth={1} />
                   </AddBtn>

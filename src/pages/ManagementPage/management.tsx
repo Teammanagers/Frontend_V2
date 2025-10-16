@@ -47,6 +47,7 @@ export function ManagementPage() {
       />
       <TeamMember members={transformedMembers} />
       <Schedule
+        members={transformedMembers}
         schedule={transformedSchedule}
         mySchedule={transformedMySchedule}
       />
