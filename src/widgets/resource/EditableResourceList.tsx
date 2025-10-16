@@ -38,7 +38,10 @@ export default function EditableResourceList({
                     <DeleteResourceButton
                       resourceId={resource.fileInfo.createdBy}
                       myId={OWNER_TEAMMANAGE_ID}
-                      onClick={toggle}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggle();
+                      }}
                     />
                   }
                 />

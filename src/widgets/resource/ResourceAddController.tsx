@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import FileUploader from '@/shared/components/fileUploader/FileUploader';
 import AddResourceButton from '@/features/resource/ui/AddResourceButton';
 import { useUploadResource } from '@/features/resource/model/useResourceQueries';
-import { queryClient } from '@/shared/config/queryClient';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ResourceAddControllerProps {
   /* 현재 자료 개수 */
@@ -20,6 +20,7 @@ export default function ResourceAddController({
   resourceCount,
   onUploadSuccess,
 }: ResourceAddControllerProps) {
+  const queryClient = useQueryClient();
   const { mutate: uploadResource, isPending } = useUploadResource();
 
   // 파일 선택 핸들러

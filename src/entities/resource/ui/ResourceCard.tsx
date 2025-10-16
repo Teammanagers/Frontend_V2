@@ -15,8 +15,21 @@ export default function ResourceCard({
   onClick,
   deleteButton,
 }: ResourceCardProps) {
+  // 키보드 접근성 처리 (Enter 또는 Space 키로 클릭 이벤트 트리거)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
-    <Container role="button" onClick={onClick}>
+    <Container
+      role="button"
+      onClick={onClick}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
       <ThumbnailWithInfo>
         <FileThumbnail extension={data.fileInfo.fileNameExtension} />
 
@@ -52,6 +65,11 @@ const Container = styled.div`
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.mainBlue};
+    outline-offset: 2px;
+  }
 `;
 
 const ThumbnailWithInfo = styled.div`

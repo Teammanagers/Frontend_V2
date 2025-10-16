@@ -18,7 +18,11 @@ export default function FileThumbnail({
       lowercaseExtension
     ] || DEFAULT_ICON;
 
-  return <Container>{<ExtensionIcon />}</Container>;
+  return (
+    <Container>
+      <ExtensionIcon />
+    </Container>
+  );
 }
 
 const Container = styled.div`
