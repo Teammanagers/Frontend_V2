@@ -18,7 +18,7 @@ export default function ResourceCard({
   return (
     <Container role="button" onClick={onClick}>
       <ThumbnailWithInfo>
-        <FileThumbnail type="pdf" />
+        <FileThumbnail extension={data.fileInfo.fileNameExtension} />
 
         <ResourceInfoWrapper>
           <Title>
