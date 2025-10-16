@@ -45,7 +45,8 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 66px;
+  min-height: 66px;
+  height: fit-content;
   padding: 13.5px 18px;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: 6px;
@@ -69,13 +70,19 @@ const ResourceInfoWrapper = styled.div`
 `;
 
 const Title = styled.strong`
+  width: 100%;
   font-size: 12px;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.black};
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const TagAndDeleteWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 `;

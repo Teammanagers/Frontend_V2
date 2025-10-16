@@ -62,6 +62,7 @@ const Container = styled.div<{
   align-items: center;
   justify-content: center;
   gap: 4px;
+  width: fit-content;
   height: ${({ $height }) => `${$height}px`};
   padding: 0 ${({ $height }) => ($height >= TAG_MAX_HEIGHT ? '12px' : '8px')};
   border-radius: 3px;
