@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import FileUploader from '@/shared/components/fileUploader/FileUploader';
 import AddResourceButton from '@/features/resource/ui/AddResourceButton';
 import { useUploadResource } from '@/features/resource/model/useResourceQueries';
+import { queryClient } from '@/shared/config/queryClient';
 
 interface ResourceAddControllerProps {
   /* 현재 자료 개수 */
@@ -24,8 +25,12 @@ export default function ResourceAddController({
   // 파일 선택 핸들러
   const handleFileSelect = (file: File) => {
     uploadResource(file, {
-      onSuccess: () => {
-        onUploadSuccess(); // 업로드 성공 시 스크롤 콜백 호출
+      onSuccess: async () => {
+        await queryClient.refetchQueries({ queryKey: ['resource', 'list'] });
+        // 렌더링이 모두 완료된 후에 스크롤 콜백 호출
+        setTimeout(() => {
+          onUploadSuccess();
+        }, 0);
       },
     });
   };
