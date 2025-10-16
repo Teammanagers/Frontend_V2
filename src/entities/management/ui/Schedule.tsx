@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { transformScheduleRequest } from '@/entities/management/lib/transformScheduleData.ts';
 import {
@@ -11,10 +12,12 @@ import { NoSchedule } from '@/entities/management/ui/NoSchedule.tsx';
 import { RegisterSchedule } from '@/entities/management/ui/RegisterSchedule.tsx';
 import { ShowSchedule } from '@/entities/management/ui/ShowSchedule.tsx';
 import { InfoTitle } from '@/entities/management/ui/TeamInfo.tsx';
+import { TeamMemberDropdown } from '@/entities/management/ui/TeamMemberDropdown.tsx';
 import { useSchedule } from '@/features/management/model/useSchedule.ts';
 import Delete from '@/shared/assets/common/delete-tag.svg?react';
 import Plus from '@/shared/assets/common/plus.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
+import useToggle from '@/shared/hooks/action/useToggle.ts';
 import { IMemberResponse } from '@/shared/types/member.types.ts';
 
 interface IScheduleProps extends ScheduleProps {
@@ -23,8 +26,28 @@ interface IScheduleProps extends ScheduleProps {
 
 export const Schedule = ({ members, schedule, mySchedule }: IScheduleProps) => {
   console.log('멤버?: ', members);
+
   const { useRegisterScheduleMutation } = useTeamMutations();
   const { mutate: registerSchedule } = useRegisterScheduleMutation();
+
+  const { isOpen, setIsOpen, toggle } = useToggle();
+
+  const [selectedMembers, setSelectedMembers] = useState<IMemberResponse[]>([]);
+
+  useEffect(() => {
+    if (members?.length) {
+      setSelectedMembers(members);
+    }
+  }, [members]);
+
+  const handleAddMember = (member: IMemberResponse) => {
+    setSelectedMembers((prev) => [...prev, member]);
+    toggle();
+  };
+
+  const handleRemoveMember = (id: number) => {
+    setSelectedMembers((prev) => prev.filter((m) => m.teamMemberId !== id));
+  };
 
   const handleSubmit = (weeklyTimes: Record<Weekday, TimeSlot[]>) => {
     const requestBody = transformScheduleRequest(weeklyTimes);
@@ -58,15 +81,33 @@ export const Schedule = ({ members, schedule, mySchedule }: IScheduleProps) => {
               <PeopleLabelContainer>
                 <Text>현재 참여자들의 가능 시간: </Text>
                 <TagContainer>
-                  {members.map((m) => (
+                  {selectedMembers.map((m) => (
                     <TagBox key={m.teamMemberId}>
                       <TagText>{m.member.name}</TagText>
-                      <DeleteBtn width={20} height={20} />
+                      <DeleteBtn
+                        width={20}
+                        height={20}
+                        onClick={() => handleRemoveMember(m.teamMemberId)}
+                      />
                     </TagBox>
                   ))}
-                  <AddBtn>
-                    <Plus stroke="#5C9EFF" strokeWidth={1} />
-                  </AddBtn>
+                  <ButtonWrapper>
+                    <AddBtn onClick={toggle}>
+                      <Plus stroke="#5C9EFF" strokeWidth={1} />
+                    </AddBtn>
+                    {isOpen && (
+                      <DropdownWrapper>
+                        <TeamMemberDropdown
+                          isOpen={isOpen}
+                          setIsOpen={setIsOpen}
+                          toggle={toggle}
+                          members={members}
+                          selectedMembers={selectedMembers}
+                          onAddMember={handleAddMember}
+                        />
+                      </DropdownWrapper>
+                    )}
+                  </ButtonWrapper>
                 </TagContainer>
               </PeopleLabelContainer>
             </PeopleContainer>
@@ -125,6 +166,11 @@ export const DeleteBtn = styled(Delete)`
   cursor: pointer;
 `;
 
+const ButtonWrapper = styled.div`
+  position: relative;
+  display: flex;
+`;
+
 const AddBtn = styled.button`
   display: flex;
   width: 28px;
@@ -133,4 +179,9 @@ const AddBtn = styled.button`
   background: white;
   justify-content: center;
   align-items: center;
+`;
+
+const DropdownWrapper = styled.div`
+  position: absolute;
+  z-index: 20;
 `;
