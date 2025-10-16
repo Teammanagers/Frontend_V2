@@ -7,7 +7,7 @@ import useToggle from '@/shared/hooks/action/useToggle';
 import DeleteResourceModal from '@/features/resource/ui/DeleteResourceModal';
 import { useGetResourceList } from './model/useResourceQueries';
 import ResourceAddController from './ResourceAddController';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 import { Resource } from '@/entities/resource/resource.types';
 
 export default function EditableResourceList({
@@ -18,6 +18,11 @@ export default function EditableResourceList({
 }) {
   const { data } = useGetResourceList();
   const { isOpen, toggle } = useToggle();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -33,7 +38,10 @@ export default function EditableResourceList({
                     <DeleteResourceButton
                       resourceId={resource.fileInfo.createdBy}
                       myId={OWNER_TEAMMANAGE_ID}
-                      onClick={toggle}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggle();
+                      }}
                     />
                   }
                 />
@@ -44,10 +52,16 @@ export default function EditableResourceList({
                 />
               </ResourceWrapper>
             ))}
+
+          {/* 스크롤 타겟 - 업로드 성공 시 이곳으로 스크롤되는 더미 태그 */}
+          <ScrollTarget ref={scrollRef} />
         </ResourceList>
 
         {/* 자료 추가 컨트롤 위젯 */}
-        <ResourceAddController resourceCount={data ? data.length : 0} />
+        <ResourceAddController
+          resourceCount={data ? data.length : 0}
+          onUploadSuccess={scrollToBottom}
+        />
       </Container>
 
       <DeleteResourceModal isOpen={isOpen} toggle={toggle} />
@@ -81,3 +95,5 @@ const ResourceWrapper = styled.li`
   align-items: center;
   gap: 18px;
 `;
+
+const ScrollTarget = styled.div``;

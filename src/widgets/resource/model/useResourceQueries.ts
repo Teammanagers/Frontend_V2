@@ -17,7 +17,7 @@ export const useGetResourceList = () => {
     queryKey: ['resource', 'list'],
     queryFn: async () => {
       return await apiRequest({
-        url: `/api/v2/data?teamId=${TEAM_ID}`,
+        url: `/api/v2/data/${TEAM_ID}`,
         method: 'GET',
       });
     },

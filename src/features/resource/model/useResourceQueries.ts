@@ -1,12 +1,10 @@
 import apiRequest from '@/shared/api/apiRequest';
 import { TEAM_ID } from '@/shared/config/constants/team.constants';
 import { APIResponse } from '@/shared/types/api.types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 /* 자료 업로드 */
 export const useUploadResource = () => {
-  const queryClient = useQueryClient();
-
   return useMutation<APIResponse<{ dataId: number }>, Error, File>({
     mutationFn: async (file: File) => {
       const formData = new FormData();
@@ -20,10 +18,6 @@ export const useUploadResource = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-    },
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['resource', 'list'] });
     },
 
     onError: () => {

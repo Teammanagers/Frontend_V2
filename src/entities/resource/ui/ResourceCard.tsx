@@ -15,10 +15,23 @@ export default function ResourceCard({
   onClick,
   deleteButton,
 }: ResourceCardProps) {
+  // 키보드 접근성 처리 (Enter 또는 Space 키로 클릭 이벤트 트리거)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
-    <Container role="button" onClick={onClick}>
+    <Container
+      role="button"
+      onClick={onClick}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
       <ThumbnailWithInfo>
-        <FileThumbnail type="pdf" />
+        <FileThumbnail extension={data.fileInfo.fileNameExtension} />
 
         <ResourceInfoWrapper>
           <Title>
@@ -45,12 +58,18 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 66px;
+  min-height: 66px;
+  height: fit-content;
   padding: 13.5px 18px;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.mainBlue};
+    outline-offset: 2px;
+  }
 `;
 
 const ThumbnailWithInfo = styled.div`
@@ -69,13 +88,19 @@ const ResourceInfoWrapper = styled.div`
 `;
 
 const Title = styled.strong`
+  width: 100%;
   font-size: 12px;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.black};
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const TagAndDeleteWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 `;

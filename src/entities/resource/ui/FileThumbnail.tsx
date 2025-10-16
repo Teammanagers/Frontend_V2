@@ -1,9 +1,28 @@
 import styled from 'styled-components';
-import PDFIcon from '@/shared/assets/resource/thumbnail-pdf.svg?react';
+import {
+  DEFAULT_ICON,
+  EXTENSION_ICON_MAP,
+  Extensions,
+} from '../resource.constants';
 
-// 파일 확장자에 따라 다른 아이콘 처리 필요
-export default function FileThumbnail({ type }: { type: 'pdf' | 'image' }) {
-  return <Container>{type === 'pdf' ? <PDFIcon /> : null}</Container>;
+export default function FileThumbnail({
+  extension,
+}: {
+  extension: Extensions | string;
+}) {
+  const lowercaseExtension = extension.toLowerCase();
+
+  // 확장자에 해당하는 아이콘 컴포넌트를 가져오고, 없으면 기본 아이콘 사용
+  const ExtensionIcon =
+    (EXTENSION_ICON_MAP as Record<string, typeof DEFAULT_ICON>)[
+      lowercaseExtension
+    ] || DEFAULT_ICON;
+
+  return (
+    <Container>
+      <ExtensionIcon />
+    </Container>
+  );
 }
 
 const Container = styled.div`
