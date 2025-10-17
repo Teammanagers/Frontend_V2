@@ -27,7 +27,7 @@ export default function ResourceAddController({
   const handleFileSelect = (file: File) => {
     uploadResource(file, {
       onSuccess: async () => {
-        await queryClient.refetchQueries({ queryKey: ['resource', 'list'] });
+        await queryClient.invalidateQueries({ queryKey: ['resource', 'list'] });
         // 렌더링이 모두 완료된 후에 스크롤 콜백 호출
         setTimeout(() => {
           onUploadSuccess();
