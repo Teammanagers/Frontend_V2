@@ -65,6 +65,27 @@ export default function useTeamQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
+  // 팀 부분 스케줄 조회
+  const usePartialScheduleQuery = (teamMemberIds: number[]) => {
+    const enabled = teamMemberIds.length > 0;
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'partialSchedule', TEAM_ID, teamMemberIds],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/schedule/teams/${TEAM_ID}/partial`,
+          method: 'GET',
+          data: {
+            teamMemberIdList: teamMemberIds,
+          },
+        }),
+      select: (res): IScheduleDto[] =>
+        res.result.map((r: IScheduleResponse) => r.scheduleDto),
+      enabled,
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
   // 팀 멤버 조회
   const useTeamMemberQuery = () => {
     const { isPending, isError, isSuccess, data } = useQuery({
@@ -84,6 +105,7 @@ export default function useTeamQueries() {
     useTeamByIdQuery,
     useTeamScheduleQuery,
     useMyScheduleQuery,
+    usePartialScheduleQuery,
     useTeamMemberQuery,
   };
 }

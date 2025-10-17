@@ -1,40 +1,49 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { transformScheduleData } from '@/entities/management/lib/transformScheduleData.ts';
 import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
 import { Schedule } from '@/entities/management/ui/Schedule.tsx';
 import { TeamInfo } from '@/entities/management/ui/TeamInfo.tsx';
 import { TeamMember } from '@/entities/management/ui/TeamMember.tsx';
+import { IMemberResponse } from '@/shared/types/member.types.ts';
 
 export function ManagementPage() {
+  const [selectedMembers, setSelectedMembers] = useState<IMemberResponse[]>([]);
+
   const {
     useTeamByIdQuery,
     useTeamScheduleQuery,
     useMyScheduleQuery,
+    usePartialScheduleQuery,
     useTeamMemberQuery,
   } = useTeamQueries();
+  const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
   const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
   const { data: schedule, isPending: isScheduleLoading } =
     useTeamScheduleQuery();
   const { data: mySchedule, isPending: isMyScheduleLoading } =
     useMyScheduleQuery();
-  const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
 
-  if (isScheduleLoading || !schedule) return <div>로딩중...</div>; // 추후 스켈레톤 적용
-  const transformedSchedule = transformScheduleData(schedule);
-  // console.log('스케줄: ', transformedSchedule);
-
-  if (isMyScheduleLoading || !mySchedule) return <div>로딩중...</div>; // 추후 스켈레톤 적용
-  const transformedMySchedule = transformScheduleData(mySchedule);
-
-  if (isMembersLoading || !members) return <div>로딩중...</div>;
-  console.log('팀 멤버:', members);
-  const transformedMembers = members.leader
+  const transformedMembers = members?.leader
     ? [members.leader, ...members.members]
-    : members.members;
-  console.log('팀 멤버 최종: ', transformedMembers);
+    : (members?.members ?? []);
 
-  console.log('팀 조회:', team?.team, team?.teamTagList);
-  if (isTeamLoading || !team) return <div>로딩중..</div>; // 추후 스켈레톤 적용
+  const teamMemberIds = selectedMembers.map((m) => m.teamMemberId);
+
+  const { data: partialSchedule } = usePartialScheduleQuery(teamMemberIds);
+
+  // 추후 스켈레톤 적용
+  if (isTeamLoading || !team) return <div>로딩중..</div>;
+  if (isScheduleLoading || !schedule) return <div>로딩중...</div>;
+  if (isMyScheduleLoading || !mySchedule) return <div>로딩중...</div>;
+  if (isMembersLoading || !members) return <div>로딩중...</div>;
+
+  const transformedSchedule = transformScheduleData(schedule);
+  const transformedMySchedule = transformScheduleData(mySchedule);
+  const transformedPartialSchedule = transformScheduleData(partialSchedule);
+
+  // console.log('팀 조회:', team?.team, team?.teamTagList);
+  // console.log('팀 멤버 최종: ', transformedMembers);
 
   return (
     <Container>
@@ -49,7 +58,10 @@ export function ManagementPage() {
       <Schedule
         members={transformedMembers}
         schedule={transformedSchedule}
+        partialSchedule={transformedPartialSchedule}
         mySchedule={transformedMySchedule}
+        selectedMembers={selectedMembers}
+        setSelectedMembers={setSelectedMembers}
       />
     </Container>
   );

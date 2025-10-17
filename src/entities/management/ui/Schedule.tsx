@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import styled from 'styled-components';
 import { transformScheduleRequest } from '@/entities/management/lib/transformScheduleData.ts';
 import {
@@ -22,23 +22,31 @@ import { IMemberResponse } from '@/shared/types/member.types.ts';
 
 interface IScheduleProps extends ScheduleProps {
   members: IMemberResponse[];
+  selectedMembers: IMemberResponse[];
+  setSelectedMembers: Dispatch<SetStateAction<IMemberResponse[]>>;
 }
 
-export const Schedule = ({ members, schedule, mySchedule }: IScheduleProps) => {
-  console.log('멤버?: ', members);
+export const Schedule = ({
+  members,
+  schedule,
+  mySchedule,
+  selectedMembers,
+  setSelectedMembers,
+  partialSchedule,
+}: IScheduleProps) => {
+  console.log('부분스케줄: ', partialSchedule);
 
   const { useRegisterScheduleMutation } = useTeamMutations();
   const { mutate: registerSchedule } = useRegisterScheduleMutation();
 
   const { isOpen, setIsOpen, toggle } = useToggle();
 
-  const [selectedMembers, setSelectedMembers] = useState<IMemberResponse[]>([]);
-
   useEffect(() => {
-    if (members?.length) {
+    if (members?.length && selectedMembers.length === 0) {
       setSelectedMembers(members);
     }
-  }, [members]);
+  }, [members, selectedMembers]); // selectedMembers 추가
+  console.log(members);
 
   const handleAddMember = (member: IMemberResponse) => {
     setSelectedMembers((prev) => [...prev, member]);
@@ -63,6 +71,20 @@ export const Schedule = ({ members, schedule, mySchedule }: IScheduleProps) => {
     submit,
     toggleRegister,
   } = useSchedule(mySchedule, handleSubmit);
+
+  const renderSchedule = () => {
+    if (Object.values(schedule).some((day) => day.value.length > 0)) {
+      return <ShowSchedule schedule={schedule} />;
+    }
+
+    if (
+      Object.values(partialSchedule ?? {}).some((day) => day.value.length > 0)
+    ) {
+      return <ShowSchedule schedule={partialSchedule!} />;
+    }
+
+    return <NoSchedule />;
+  };
 
   return (
     <Container>
@@ -115,11 +137,7 @@ export const Schedule = ({ members, schedule, mySchedule }: IScheduleProps) => {
               내 스케줄 등록
             </Button>
           </ScheduleContainer>
-          {Object.values(schedule).some((day) => day.value.length > 0) ? (
-            <ShowSchedule schedule={schedule} />
-          ) : (
-            <NoSchedule />
-          )}
+          {renderSchedule()}
         </>
       )}
     </Container>

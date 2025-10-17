@@ -17,7 +17,7 @@ const DAY_MAP: Record<string, Weekday> = {
   SUN: 'Sunday',
 };
 
-export const transformScheduleData = (data: IScheduleDto[]) => {
+export const transformScheduleData = (data?: IScheduleDto[]) => {
   const result: Partial<Record<Weekday, { value: TimeSlot[] }>> = {
     Monday: { value: [] },
     Tuesday: { value: [] },
@@ -27,6 +27,8 @@ export const transformScheduleData = (data: IScheduleDto[]) => {
     Saturday: { value: [] },
     Sunday: { value: [] },
   };
+
+  if (!data) return result;
 
   data.forEach((item) => {
     const day = DAY_MAP[item.dayOfWeek];
