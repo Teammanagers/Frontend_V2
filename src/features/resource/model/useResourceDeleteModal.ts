@@ -1,5 +1,5 @@
 import useToggle from '@/shared/hooks/action/useToggle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // 자료 삭제 모달을 관리하고 선택된 자료 ID를 추적하는 커스텀 훅
 export const useResourceDeleteModal = () => {
@@ -14,9 +14,16 @@ export const useResourceDeleteModal = () => {
     resourceId: number,
   ) => {
     e.stopPropagation();
-    toggle();
     setSelectedResourceId(resourceId);
+    toggle();
   };
+
+  // 모달이 닫힐 때 선택된 자료 초기화
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedResourceId(null);
+    }
+  }, [isOpen]);
 
   return {
     isDeleteModalOpen: isOpen,
