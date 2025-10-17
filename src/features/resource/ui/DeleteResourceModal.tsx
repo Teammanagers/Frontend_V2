@@ -3,19 +3,21 @@ import Modal from '@/shared/components/modal/Modal';
 import { IModal } from '@/shared/types';
 import { Button } from '@/shared/components/button/Button';
 
-interface IDeleteResourceModalProps extends Omit<IModal, 'children'> {}
+interface IDeleteResourceModalProps extends Omit<IModal, 'children'> {
+  onDelete: () => void;
+}
 
 export default function DeleteResourceModal({
   isOpen,
   toggle,
+  onDelete,
 }: IDeleteResourceModalProps) {
   const handleCancel = () => {
     toggle();
   };
 
   const handleDelete = () => {
-    // 삭제 로직 구현
-    toggle();
+    onDelete();
   };
 
   return (
