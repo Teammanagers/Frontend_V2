@@ -3,12 +3,12 @@ import ResourceCard from '@/entities/resource/ui/ResourceCard';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
 import DeleteResourceButton from '@/features/resource/ui/DeleteResourceButton';
 import { OWNER_TEAMMANAGE_ID } from '@/shared/config/constants/team.constants';
-import useToggle from '@/shared/hooks/action/useToggle';
 import DeleteResourceModal from '@/features/resource/ui/DeleteResourceModal';
-import { useGetResourceList } from './model/useResourceQueries';
 import ResourceAddController from './ResourceAddController';
 import { Dispatch, SetStateAction, useRef } from 'react';
 import { Resource } from '@/entities/resource/resource.types';
+import { useResourceDeletion } from '@/features/resource/model/useResourceDeletion';
+import { useGetResourceList } from '@/entities/resource/model/useResourceQueries';
 
 export default function EditableResourceList({
   onSelectedResource,
@@ -16,8 +16,15 @@ export default function EditableResourceList({
   /* 선택된 자료를 상위 컴포넌트로 전달하는 콜백 함수 */
   onSelectedResource: Dispatch<SetStateAction<Resource | null>>;
 }) {
-  const { data } = useGetResourceList();
-  const { isOpen, toggle } = useToggle();
+  const { data: resources } = useGetResourceList(); // 자료 목록 조회
+  // 자료 삭제 로직 훅
+  const {
+    isDeleteModalOpen,
+    toggleDeleteModal,
+    openDeleteModal,
+    confirmDelete,
+  } = useResourceDeletion();
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -29,8 +36,8 @@ export default function EditableResourceList({
       <Container>
         {/* 자료 목록 */}
         <ResourceList>
-          {data &&
-            data.map((resource) => (
+          {resources &&
+            resources.map((resource) => (
               <ResourceWrapper key={resource.dataId}>
                 <ResourceCard
                   data={resource}
@@ -38,10 +45,7 @@ export default function EditableResourceList({
                     <DeleteResourceButton
                       resourceId={resource.fileInfo.createdBy}
                       myId={OWNER_TEAMMANAGE_ID}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggle();
-                      }}
+                      onClick={(e) => openDeleteModal(e, resource.dataId)}
                     />
                   }
                 />
@@ -59,12 +63,16 @@ export default function EditableResourceList({
 
         {/* 자료 추가 컨트롤 위젯 */}
         <ResourceAddController
-          resourceCount={data ? data.length : 0}
+          resourceCount={resources ? resources.length : 0}
           onUploadSuccess={scrollToBottom}
         />
       </Container>
 
-      <DeleteResourceModal isOpen={isOpen} toggle={toggle} />
+      <DeleteResourceModal
+        isOpen={isDeleteModalOpen}
+        toggle={toggleDeleteModal}
+        onDelete={confirmDelete}
+      />
     </>
   );
 }

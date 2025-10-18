@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
-import { useGetResourceList } from './model/useResourceQueries';
+import { useGetResourceList } from '../../entities/resource/model/useResourceQueries';
 
 export default function RecentResourceList() {
   const { data } = useGetResourceList();
