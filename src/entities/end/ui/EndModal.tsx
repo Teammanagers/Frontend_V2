@@ -28,7 +28,7 @@ export const EndModal = ({
             <Button size="small" style="main" onClick={onClose}>
               유지하기
             </Button>
-            <Button size="small" style="red">
+            <Button size="small" style="red" onClick={onEnd}>
               종료하기
             </Button>
           </BtnContainer>

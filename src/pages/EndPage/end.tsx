@@ -14,18 +14,22 @@ export function EndPage() {
 
   // 팀 관리 PR 머지 후 API에서 teamName, isLeader 받아온 뒤 수정
   const teamName = '팀 매니저';
-  const isLeader = false;
+  const isLeader = true;
   console.log('팀아이디: ', TEAM_ID);
 
-  const { useWithdrawTeamMutation } = useEndMutations();
+  const { useWithdrawTeamMutation, useCompleteTeamMutation } =
+    useEndMutations();
   const { mutate: withdrawTeam } = useWithdrawTeamMutation();
+  const { mutate: completeTeam } = useCompleteTeamMutation();
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
   const handleEnd = () => {
     if (isLeader) {
-      console.log('팀 종료 api 연결');
+      completeTeam(undefined, {
+        onSuccess: () => navigate(`/select-team`, { replace: true }),
+      });
     } else {
       withdrawTeam(undefined, {
         onSuccess: () => {
