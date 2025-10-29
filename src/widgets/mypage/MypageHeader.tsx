@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import ArrowIcon from '@/shared/assets/common/arrow.svg?react';
-import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/app/routes/paths';
+import ArrowIcon from '@/shared/assets/common/arrow.svg?react';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate';
 
 interface MypageHeaderProps {
   children: React.ReactNode;
@@ -24,10 +24,10 @@ export default function MypageHeader({
   showBackButton = false,
   onBackButton,
 }: MypageHeaderProps) {
-  const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
 
   const handleBackButtonClick = () => {
-    navigate(PATHS.MY_PAGE);
+    teamNavigate(PATHS.MY_PAGE);
     if (onBackButton) onBackButton();
   };
 
@@ -43,7 +43,6 @@ export default function MypageHeader({
           />
         </BackButton>
       )}
-
       <Label>{children}</Label>
     </Container>
   );

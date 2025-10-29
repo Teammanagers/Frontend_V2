@@ -1,8 +1,11 @@
 import { Link, LinkProps } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { useTeamStore } from '@/shared/model/store/teamStore';
 
-interface AppLinkProps extends LinkProps {
-  to: string;
+export type LinkToType = string | ((teamId: number) => string);
+
+interface AppLinkProps extends Omit<LinkProps, 'to'> {
+  to: LinkToType;
   children: React.ReactNode;
 }
 
@@ -13,44 +16,69 @@ interface AppLinkProps extends LinkProps {
  * @returns {React.ReactElement} 경로 유형에 따라 `Link` 또는 `a` 태그로 렌더링된 엘리먼트
  *
  * @example
- * // 내부 링크
- * <AppLink to="/user/profile">프로필</AppLink>
+ * // 내부 팀 링크
+ * <AppLink to={PATHS.CALENDAR}>프로필</AppLink>
  *
- * @example
  * // 외부 링크
  * <AppLink to="https://google.com">구글로 이동</AppLink>
  */
 export default function AppLink({ to, children, ...props }: AppLinkProps) {
-  let isExternalURL = false;
+  const teamId = useTeamStore((state) => state.teamId);
 
-  if (typeof to === 'string') {
-    try {
-      new URL(to); // to가 유효한 URL인지 체크
-      isExternalURL = true;
-    } catch (e) {
-      isExternalURL = false;
-    }
-  }
+  // --- to가 함수인 경우 (내부 팀 링크 e.g. /team/2/calendar) ---
+  if (typeof to === 'function') {
+    if (!teamId) return null;
 
-  // 외부 링크인 경우
-  if (isExternalURL) {
+    const destinationUrl = to(teamId);
+
+    // 내부 팀 링크인 경우
     return (
-      <StyledLink to={to} target="_blank" rel="noopener noreferrer" {...props}>
+      <InternalStyledLink to={destinationUrl} {...props}>
         {children}
-      </StyledLink>
+      </InternalStyledLink>
     );
   }
 
-  // 내부 링크인 경우
+  // --- to가 문자열인 경우 (외부 링크 또는 단순 내부 링크) ---
+  const destinationUrl = to;
+  let isExternalUrl = false;
+
+  try {
+    new URL(destinationUrl); // to가 유효한 URL인지 체크
+    isExternalUrl = true;
+  } catch {
+    isExternalUrl = false;
+  }
+
+  // 외부 링크인 경우
+  if (isExternalUrl) {
+    return (
+      <ExternalStyledLink
+        as="a"
+        href={destinationUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...props}
+      >
+        {children}
+      </ExternalStyledLink>
+    );
+  }
+
+  // 단순 내부 링크인 경우 (예: '/login')
   return (
-    <StyledLink to={to} {...props}>
+    <InternalStyledLink to={destinationUrl} {...props}>
       {children}
-    </StyledLink>
+    </InternalStyledLink>
   );
 }
 
-const StyledLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  text-decoration: none;
+const sharedLinkStyles = css``;
+
+const InternalStyledLink = styled(Link)`
+  ${sharedLinkStyles}
+`;
+
+const ExternalStyledLink = styled.a`
+  ${sharedLinkStyles}
 `;

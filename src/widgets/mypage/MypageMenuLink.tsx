@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import AppLink from '@/shared/components/link/AppLink';
 import ArrowIcon from '@/shared/assets/common/arrow.svg?react';
-import { AppPath } from '@/app/routes/paths';
+import AppLink, { LinkToType } from '@/shared/components/link/AppLink';
 
 interface MypageMenuLinkProps {
-  to: AppPath;
+  to: LinkToType;
   icon: React.ReactNode;
   children: React.ReactNode;
 }
