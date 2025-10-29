@@ -17,7 +17,6 @@ export default function SideBarContainer() {
 
   const { useMyTeamListQuery } = useSideBarQueries();
   const { data: myTeams } = useMyTeamListQuery();
-  console.log('내 팀: ', myTeams);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -37,7 +36,6 @@ export default function SideBarContainer() {
       setCurrentTeam(teamList[0]);
     }
   }, [teamList]);
-  console.log('현재 팀: ', currentTeam);
 
   const handleNavigate = (path: string) => {
     setEndSelected(false);

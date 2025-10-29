@@ -34,8 +34,6 @@ export const Schedule = ({
   setSelectedMembers,
   partialSchedule,
 }: IScheduleProps) => {
-  console.log('부분스케줄: ', partialSchedule);
-
   const { useRegisterScheduleMutation } = useTeamMutations();
   const { mutate: registerSchedule } = useRegisterScheduleMutation();
 
@@ -46,7 +44,6 @@ export const Schedule = ({
       setSelectedMembers(members);
     }
   }, [members, selectedMembers]); // selectedMembers 추가
-  console.log(members);
 
   const handleAddMember = (member: IMemberResponse) => {
     setSelectedMembers((prev) => [...prev, member]);
@@ -59,7 +56,7 @@ export const Schedule = ({
 
   const handleSubmit = (weeklyTimes: Record<Weekday, TimeSlot[]>) => {
     const requestBody = transformScheduleRequest(weeklyTimes);
-    console.log('스케줄 등록 요청: ', requestBody);
+    // console.log('스케줄 등록 요청: ', requestBody);
     registerSchedule(requestBody);
   };
 

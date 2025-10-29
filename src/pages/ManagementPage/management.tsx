@@ -42,9 +42,6 @@ export function ManagementPage() {
   const transformedMySchedule = transformScheduleData(mySchedule);
   const transformedPartialSchedule = transformScheduleData(partialSchedule);
 
-  // console.log('팀 조회:', team?.team, team?.teamTagList);
-  // console.log('팀 멤버 최종: ', transformedMembers);
-
   return (
     <Container>
       <TeamInfo

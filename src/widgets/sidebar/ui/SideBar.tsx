@@ -28,7 +28,7 @@ export default function SideBar({
   onEndClick,
 }: SideBarUIProps) {
   const isActive = (path: string) => activePath === path;
-  console.log(team);
+
   return (
     <SideBarContainer $isHovered={expanded}>
       <LogoContainer>
