@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { PATHS, ROUTE_SEGMENTS } from '@/app/routes/paths';
 import plus from '@/shared/assets/common/plus-icon.svg?url';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate';
+import { useTeamStore } from '@/shared/model/store/teamStore';
 
 interface TeamInfo {
   id: number;
@@ -14,9 +17,22 @@ interface TeamCardProps {
 }
 
 export const TeamCard: React.FC<TeamCardProps> = ({ team }) => {
-  const navigate = useNavigate();
+  const setTeamId = useTeamStore((state) => state.setTeamId);
+  const teamNavigate = useTeamNavigate();
+
+  const handleTeamSelect = () => {
+    // TODO: 팀 ID가 없을 때 적절한 예외 처리 필요
+    if (!team?.id) {
+      console.error('유효한 팀 ID가 없습니다.');
+      return;
+    }
+
+    setTeamId(team.id);
+    teamNavigate(PATHS.MAIN);
+  };
+
   return (
-    <TeamContent onClick={() => navigate(`/team/${team.id}`)}>
+    <TeamContent onClick={handleTeamSelect}>
       <ImgContainer>
         <TeamImage src={team.img} width={160} height={160} alt={team.title} />
       </ImgContainer>
@@ -34,7 +50,7 @@ export const AddTeamCard = () => {
   const navigate = useNavigate();
 
   return (
-    <TeamContent onClick={() => navigate('/make-team')}>
+    <TeamContent onClick={() => navigate(ROUTE_SEGMENTS.MAKE_TEAM)}>
       <PlusImgContainer>
         <img src={plus} width={128} height={80} alt="새 팀 생성" />
       </PlusImgContainer>
