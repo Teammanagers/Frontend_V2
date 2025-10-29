@@ -4,6 +4,7 @@ interface IAPIRequestConfig {
   url: string;
   method?: APIMethodType;
   data?: unknown;
+  params?: { teamMemberId: number[] };
   headers?: Record<string, string>;
 }
 
