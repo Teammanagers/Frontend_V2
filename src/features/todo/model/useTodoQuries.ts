@@ -1,17 +1,19 @@
-import apiRequest from '@/shared/api/apiRequest';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
-import { queryClient } from '@/shared/config/queryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { queryClient } from '@/app/provider/queryClient';
+import apiRequest from '@/shared/api/apiRequest';
+import { useTeamStore } from '@/shared/model/store/teamStore';
 
 export default function useTodoQuries() {
+  const { teamId } = useTeamStore.getState();
+
   // 팀 투두 조회
   const useTeamTodoQuery = () => {
     const { isPending, isError, error, isSuccess, data } = useQuery({
-      queryKey: ['teamTodo', TEAM_ID],
+      queryKey: ['teamTodo', teamId],
       queryFn: async () => {
         return await apiRequest({
-          url: `/api/v2/todo?teamId=${TEAM_ID}`,
+          url: `/api/v2/todo?teamId=${teamId}`,
           method: 'GET',
         });
       },
@@ -23,7 +25,7 @@ export default function useTodoQuries() {
       if (isError) {
         console.error(`팀 투두 조회 실패`, error);
       }
-    }, [isError, isSuccess, data]);
+    }, [isError, isSuccess, data, error]);
 
     return { isPending, isError, isSuccess, data };
   };
@@ -40,7 +42,7 @@ export default function useTodoQuries() {
       },
       onSuccess: () => {
         queryClient.refetchQueries({
-          queryKey: ['teamTodo', TEAM_ID],
+          queryKey: ['teamTodo', teamId],
         });
       },
     });
@@ -60,7 +62,7 @@ export default function useTodoQuries() {
       },
       onSuccess: () => {
         queryClient.refetchQueries({
-          queryKey: ['teamTodo', TEAM_ID],
+          queryKey: ['teamTodo', teamId],
         });
       },
     });
@@ -79,7 +81,7 @@ export default function useTodoQuries() {
       },
       onSuccess: () => {
         queryClient.refetchQueries({
-          queryKey: ['teamTodo', TEAM_ID],
+          queryKey: ['teamTodo', teamId],
         });
       },
     });
@@ -98,7 +100,7 @@ export default function useTodoQuries() {
       },
       onSuccess: () => {
         queryClient.refetchQueries({
-          queryKey: ['teamTodo', TEAM_ID],
+          queryKey: ['teamTodo', teamId],
         });
       },
     });
