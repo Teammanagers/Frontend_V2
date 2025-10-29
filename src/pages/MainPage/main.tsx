@@ -23,7 +23,7 @@ export function MainPage() {
           const ContentComponent = item.component;
 
           return (
-            <SectionWrapper key={item.to}>
+            <SectionWrapper key={item.label}>
               <MainSectionLayout
                 navLink={
                   <MainSectionLink to={item.to}>{item.label}</MainSectionLink>
