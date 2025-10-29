@@ -1,9 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import SideBarContainer from '@/features/sidebar/SideBarContainer.tsx';
+import { useSyncTeamIdWithStore } from '@/shared/hooks/useSyncTeamIdWithStore';
 
 const COLLAPSED = 73;
 
 export default function AppShellLayout() {
+  useSyncTeamIdWithStore();
+
   return (
     <>
       <SideBarContainer />
