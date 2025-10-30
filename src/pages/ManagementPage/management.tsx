@@ -45,7 +45,6 @@ export function ManagementPage() {
   return (
     <Container>
       <TeamInfo
-        // id={team.team.id}
         title={team.team.title}
         imageUrl={team.imgUrl}
         teamCode={team.team.code}

@@ -4,14 +4,12 @@ import styled from 'styled-components';
 import { TeamInfoProps } from '@/entities/management/management.types.ts';
 import useTeamMutations from '@/entities/management/model/useTeamMutations.ts';
 import { TeamTag } from '@/entities/management/ui/TeamTag.tsx';
-// import DeleteIcon from '@/shared/assets/management/delete-icon.svg?react';
 import EditIcon from '@/shared/assets/management/edit.svg?react';
 import DefaultProfileImg from '@/shared/assets/management/profile-img-default.svg?react';
 import UploadIcon from '@/shared/assets/management/upload-icon.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
 
 export const TeamInfo = ({
-  // id,
   title,
   imageUrl,
   teamCode,
@@ -22,7 +20,6 @@ export const TeamInfo = ({
   const [copyCode, setCopyCode] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [teamName, setTeamName] = useState<string>(title);
-  // const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const {
     useEditTeamMutation,
