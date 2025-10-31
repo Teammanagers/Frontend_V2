@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import SideBarContainer from '@/features/sidebar/SideBarContainer.tsx';
+import SideBarContainer from '@/features/sidebar/ui/SideBarContainer.tsx';
 
 const COLLAPSED = 73;
 

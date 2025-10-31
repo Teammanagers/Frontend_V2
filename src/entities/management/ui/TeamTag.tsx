@@ -1,0 +1,160 @@
+import { ChangeEvent, KeyboardEvent } from 'react';
+import styled from 'styled-components';
+import { useTeamTags } from '@/entities/management/model/useTeamTags';
+import { TagInputContainer } from '@/entities/memo/ui/MemoForm.tsx';
+import Delete from '@/shared/assets/common/delete-tag.svg?react';
+import Plus from '@/shared/assets/common/plus.svg?react';
+
+interface TeamTagManagerProps {
+  tagList: { name: string }[];
+  onCreateTeamTag: (tagName: string) => void;
+  onDeleteTeamTag: (tagId: number) => void;
+  onEditTeamTag: (tagId: number, tagName: string) => void;
+}
+
+export const TeamTag = ({
+  tagList,
+  onCreateTeamTag,
+  onDeleteTeamTag,
+  onEditTeamTag,
+}: TeamTagManagerProps) => {
+  const {
+    tags,
+    showTagInput,
+    newTag,
+    editTagIndex,
+    handleAddTag,
+    handleEditTag,
+    startEditingTag,
+    handleDeleteTag,
+    setShowTagInput,
+    setEditTagIndex,
+    setNewTag,
+  } = useTeamTags({
+    initialTags: tagList,
+    onCreateTeamTag,
+    onDeleteTeamTag,
+    onEditTeamTag,
+  });
+
+  return (
+    <TagContainer>
+      {tags.map((tag, index) => (
+        <TagBox
+          key={tag.tagId}
+          $isEditing={editTagIndex === index}
+          onClick={() => startEditingTag(index)}
+        >
+          {editTagIndex === index ? (
+            <TagInputContainer>
+              <TagInput
+                value={newTag}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setNewTag(e.target.value)
+                }
+                onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
+                  handleEditTag(e, index)
+                }
+                maxLength={5}
+                autoFocus
+              />
+              <DeleteBtn
+                onClick={() => {
+                  // tagId가 있으면 외부 삭제 호출
+                  if ('tagId' in tag && typeof tag.tagId === 'number') {
+                    onDeleteTeamTag(tag.tagId);
+                  }
+                  handleDeleteTag(index); // 내부 상태 업데이트
+                }}
+              />
+            </TagInputContainer>
+          ) : (
+            <TagText>{tag.name}</TagText>
+          )}
+        </TagBox>
+      ))}
+
+      {showTagInput && editTagIndex === null && (
+        <TagInputContainer>
+          <TagInput
+            value={newTag}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setNewTag(e.target.value)
+            }
+            onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleAddTag(e)}
+            maxLength={5}
+            autoFocus
+          />
+          <DeleteBtn
+            onClick={() => {
+              setShowTagInput(false);
+              setNewTag('');
+              setEditTagIndex(null);
+            }}
+          />
+        </TagInputContainer>
+      )}
+
+      {!showTagInput && tags.length < 3 && (
+        <AddBtn
+          onClick={() => {
+            setShowTagInput(true);
+            setEditTagIndex(null);
+          }}
+        >
+          <Plus stroke="#5C9EFF" strokeWidth={2} />
+        </AddBtn>
+      )}
+    </TagContainer>
+  );
+};
+
+const TagContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+`;
+
+const TagBox = styled.div<{ $isEditing: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background: ${({ $isEditing }) => ($isEditing ? 'transparent' : 'white')};
+`;
+
+const TagText = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.mainBlue};
+`;
+
+const AddBtn = styled.button`
+  display: flex;
+  width: 36px;
+  height: 36px;
+  border-radius: 5px;
+  background: white;
+  justify-content: center;
+  align-items: center;
+`;
+
+const TagInput = styled.input`
+  width: 100px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  border: 1px solid ${({ theme }) => theme.colors.mainBlue};
+  outline: none;
+`;
+
+const DeleteBtn = styled(Delete)`
+  position: absolute;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+`;
