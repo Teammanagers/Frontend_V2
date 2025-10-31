@@ -31,7 +31,6 @@ export default function useTeamMutations() {
         queryClient.invalidateQueries({
           queryKey: ['management', 'team', TEAM_ID],
         });
-        console.log('이미지 변경!');
       },
       onError: (err) => console.error(err),
     });
@@ -87,7 +86,6 @@ export default function useTeamMutations() {
         });
       },
       onSuccess: () => {
-        console.log('태그 수정 완^^');
         queryClient.invalidateQueries({
           queryKey: ['management', 'team', 'tag', TEAM_ID],
         });
@@ -107,7 +105,6 @@ export default function useTeamMutations() {
         });
       },
       onSuccess: (_, variables) => {
-        console.log('팀원 태그 생성!', variables.tagName);
         queryClient.invalidateQueries({
           queryKey: ['management', 'teamMember', 'tag', variables.memberId],
         });
@@ -127,7 +124,6 @@ export default function useTeamMutations() {
         });
       },
       onSuccess: (_, variables) => {
-        console.log('팀원 태그 수정', variables.tagName);
         queryClient.invalidateQueries({
           queryKey: ['management', 'teamMember', 'tag', variables.memberId],
         });
@@ -146,7 +142,6 @@ export default function useTeamMutations() {
         });
       },
       onSuccess: (_, variables) => {
-        console.log('팀원 태그 삭제!', variables.tagId);
         queryClient.invalidateQueries({
           queryKey: ['management', 'teamMember', 'tag', variables.memberId],
         });
@@ -165,8 +160,7 @@ export default function useTeamMutations() {
           data: { times },
         });
       },
-      onSuccess: (res) => {
-        console.log('스케줄 등록/수정 성공!', res);
+      onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ['management', 'teamMember', 'schedule', TEAM_ID],
         });
