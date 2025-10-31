@@ -3,7 +3,7 @@ import {
   TimeSlot,
   Weekday,
 } from '@/entities/management/management.types';
-import { IDaySchedule } from '@/entities/management/model/useTeamMutations.ts';
+import { IDaySchedule } from '@/entities/management/model/teamMutations.types.ts';
 
 /* ----------------------------- 조회용 변환 ----------------------------- */
 

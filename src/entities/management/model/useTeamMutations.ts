@@ -1,49 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
+import {
+  ICreateMemberTagInput,
+  IDeleteMemberTag,
+  IEditMemberTagInput,
+  IRegisterScheduleInput,
+  ITeamTagInput,
+  IUseTeamMutations,
+} from '@/entities/management/model/teamMutations.types.ts';
 import { TEAM_ID } from '@/entities/management/model/useTeamQueries.ts';
 import apiRequest from '@/shared/api/apiRequest.ts';
 import { queryClient } from '@/shared/config/queryClient.ts';
-
-interface IUseTeamMutations {
-  title: string;
-  imageFile: File | null;
-}
-
-interface ITeamTagInput {
-  tagId: number;
-  tagName: string;
-}
-
-interface ICreateMemberTagInput {
-  memberId: number;
-  tagName: string;
-}
-
-interface IEditMemberTagInput {
-  tagId: number;
-  memberId: number;
-  tagName: string;
-}
-
-interface IDeleteMemberTag {
-  tagId: number;
-  memberId: number;
-}
-
-interface ITimeRange {
-  startHour: number;
-  startMinute: number;
-  endHour: number;
-  endMinute: number;
-}
-
-export interface IDaySchedule {
-  dayOfWeek: 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
-  timeRanges: ITimeRange[];
-}
-
-interface IRegisterScheduleInput {
-  times: IDaySchedule[];
-}
 
 export default function useTeamMutations() {
   // 팀 수정

@@ -4,7 +4,6 @@ export interface TeamTag {
 }
 
 export interface TeamInfoProps {
-  // id: number;
   title: string;
   imageUrl: string | null;
   teamCode: string;
