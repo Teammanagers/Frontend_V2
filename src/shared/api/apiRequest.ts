@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { IAPIRequestConfig } from '../types/api.types';
 import { axiosInstance } from './axiosInstance';
+import { IAPIRequestConfig } from '../types/api.types';
 
 /**
  * API 호출 시 사용하는 공용 유틸 함수
@@ -17,6 +17,7 @@ const apiRequest = async ({
   url,
   method = 'GET',
   data,
+  params,
   headers = {},
 }: IAPIRequestConfig) => {
   try {
@@ -24,6 +25,7 @@ const apiRequest = async ({
       url,
       method,
       data,
+      params,
       headers,
     });
 

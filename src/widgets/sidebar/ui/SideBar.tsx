@@ -9,6 +9,7 @@ import HomeOutlineSvg from '@/shared/assets/sidebar/home-outline.svg?react';
 import TodoSvg from '@/shared/assets/sidebar/list.svg?react';
 import MemoSvg from '@/shared/assets/sidebar/memo.svg?react';
 import MyPageSvg from '@/shared/assets/sidebar/mypage.svg?react';
+import TeamDropdown from '@/shared/assets/sidebar/team-dropdown.svg?react';
 import TeamSvg from '@/shared/assets/sidebar/team.svg?react';
 import { SideBarUIProps } from '@/widgets/sidebar';
 
@@ -23,12 +24,13 @@ export default function SideBar({
   team,
   onNavigate,
   onToggleAlarm,
+  onToggleTeamList,
   onEndClick,
 }: SideBarUIProps) {
   const isActive = (path: string) => activePath === path;
 
   return (
-    <SideBarContainer isHovered={expanded}>
+    <SideBarContainer $isHovered={expanded}>
       <LogoContainer>
         {team?.imageUrl ? (
           <LogoImg src={team.imageUrl} alt={team.title} />
@@ -38,7 +40,12 @@ export default function SideBar({
           </FallbackLogo>
         ) : null}
         {expanded && team && (
-          <LogoText title={team.title}>{team.title}</LogoText>
+          <TeamInfoWrapper>
+            <LogoText title={team.title}>{team.title}</LogoText>
+            <TeamDropdownBtn onClick={onToggleTeamList}>
+              <TeamDropdown />
+            </TeamDropdownBtn>
+          </TeamInfoWrapper>
         )}
       </LogoContainer>
 
@@ -47,7 +54,7 @@ export default function SideBar({
       {/* 홈 */}
       <IconContainer
         $selected={isActive(`/`)}
-        isHovered={expanded}
+        $isHovered={expanded}
         onClick={() => onNavigate(`/`)}
       >
         {isActive(`/`) ? (
@@ -69,7 +76,7 @@ export default function SideBar({
       {/* 알림 */}
       <IconContainer
         $selected={isAlarmOpen}
-        isHovered={expanded}
+        $isHovered={expanded}
         onClick={onToggleAlarm}
       >
         <StrokeIcon
@@ -83,7 +90,7 @@ export default function SideBar({
       {/* 투두리스트 */}
       <IconContainer
         $selected={isActive(`/todo-list`)}
-        isHovered={expanded}
+        $isHovered={expanded}
         onClick={() => onNavigate(`/todo-list`)}
       >
         <StrokeIcon
@@ -103,7 +110,7 @@ export default function SideBar({
       {/* 캘린더 */}
       <IconContainer
         $selected={isActive(`/calendar`)}
-        isHovered={expanded}
+        $isHovered={expanded}
         onClick={() => onNavigate(`/calendar`)}
       >
         <StrokeIcon
@@ -123,7 +130,7 @@ export default function SideBar({
       {/* 메모 */}
       <IconContainer
         $selected={isActive(`/memo`)}
-        isHovered={expanded}
+        $isHovered={expanded}
         onClick={() => onNavigate(`/memo`)}
       >
         <StrokeIcon
@@ -139,7 +146,7 @@ export default function SideBar({
       {/* 자료실 */}
       <IconContainer
         $selected={isActive(`/resource`)}
-        isHovered={expanded}
+        $isHovered={expanded}
         onClick={() => onNavigate(`/resource`)}
       >
         <StrokeIcon
@@ -159,7 +166,7 @@ export default function SideBar({
       {/* 팀 관리 */}
       <IconContainer
         $selected={isActive(`/management`)}
-        isHovered={expanded}
+        $isHovered={expanded}
         onClick={() => onNavigate(`/management`)}
       >
         <StrokeIcon
@@ -179,7 +186,7 @@ export default function SideBar({
       {/* 마이페이지 */}
       <IconContainer
         $selected={isActive(`/mypage`)}
-        isHovered={expanded}
+        $isHovered={expanded}
         onClick={() => onNavigate(`/mypage`)}
       >
         <StrokeIcon
@@ -195,7 +202,7 @@ export default function SideBar({
       {/* 프로젝트 종료 */}
       <IconContainer
         $selected={endSelected}
-        isHovered={expanded}
+        $isHovered={expanded}
         $danger
         onClick={onEndClick}
       >
@@ -205,7 +212,7 @@ export default function SideBar({
           style={{ color: endSelected ? COLOR_ACTIVE : COLOR_DEFAULT }}
         />
         {expanded && (
-          <SideBarText $selected={endSelected} redText>
+          <SideBarText $selected={endSelected} $redText>
             프로젝트
             <br />
             종료
@@ -216,12 +223,12 @@ export default function SideBar({
   );
 }
 
-const SideBarContainer = styled.div<{ isHovered: boolean }>`
+const SideBarContainer = styled.div<{ $isHovered: boolean }>`
   position: fixed;
   z-index: 1000;
   top: 0;
   left: 0;
-  width: ${({ isHovered }) => (isHovered ? '158px' : '73px')};
+  width: ${({ $isHovered }) => ($isHovered ? '158px' : '73px')};
   height: 832px;
   background-color: white;
   display: flex;
@@ -271,10 +278,22 @@ const FallbackLogo = styled.div`
   font-weight: 700;
 `;
 
+const TeamInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const TeamDropdownBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 interface ItemProps {
   $selected?: boolean;
-  redText?: boolean;
-  isHovered?: boolean;
+  $redText?: boolean;
+  $isHovered?: boolean;
   $danger?: boolean;
 }
 
@@ -288,8 +307,8 @@ const SideBarText = styled.p<ItemProps>`
   white-space: nowrap;
   overflow: hidden;
 
-  ${({ redText, theme }) =>
-    redText &&
+  ${({ $redText, theme }) =>
+    $redText &&
     `
     color: ${theme.colors.red};
   `}
@@ -301,8 +320,9 @@ const IconContainer = styled.div<ItemProps>`
   background-color: ${({ $selected, theme, $danger }) =>
     $selected ? ($danger ? '#FFE9E9' : theme.colors.background) : 'white'};
   display: flex;
-  justify-content: ${({ isHovered }) => (isHovered ? 'flex-start' : 'center')};
-  padding-left: ${({ isHovered }) => (isHovered ? '20px' : '0')};
+  justify-content: ${({ $isHovered }) =>
+    $isHovered ? 'flex-start' : 'center'};
+  padding-left: ${({ $isHovered }) => ($isHovered ? '20px' : '0')};
   box-sizing: border-box;
   overflow: hidden;
   align-items: center;
