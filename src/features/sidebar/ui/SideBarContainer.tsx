@@ -97,7 +97,7 @@ export default function SideBarContainer() {
         onToggleTeamList={handleToggleTeamList}
         onEndClick={() => {
           setEndSelected(true);
-          navigate('/management'); // / end로 분리되면 교체
+          navigate('/end');
         }}
       />
       {/* 버튼 누르면 드롭다운 표시 */}
