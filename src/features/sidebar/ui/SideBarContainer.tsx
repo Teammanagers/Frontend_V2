@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate';
 import SideBar from '@/widgets/sidebar/ui/SideBar';
 
 export default function SideBarContainer() {
@@ -8,11 +9,12 @@ export default function SideBarContainer() {
   const [endSelected, setEndSelected] = useState(false);
 
   const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
   const { pathname } = useLocation();
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = (path: (teamId: number) => string) => {
     setEndSelected(false);
-    navigate(path);
+    teamNavigate(path);
   };
 
   const team = { title: '테수투', imageUrl: null }; // API 연동 필요
