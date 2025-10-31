@@ -1,20 +1,21 @@
 import styled from 'styled-components';
+import { END_TEXT } from '@/entities/end/end.constants.ts';
 import { EndProps } from '@/entities/end/end.types.ts';
 import End from '@/shared/assets/end/end-team.svg?react';
 import Quit from '@/shared/assets/end/quit.svg?react';
 
 export const EndProject = ({ onOpenModal }: EndProps) => {
+  const text = END_TEXT.PROJECT;
+
   return (
     <EndProjectContainer>
       <End />
-      <TitleText>프로젝트가 완료되었나요?</TitleText>
-      <ContentText>
-        프로젝트 종료시, 그동안 고생한 팀원들에게 코멘트를 남길 수 있어요.
-      </ContentText>
-      <ContentText>이 프로젝트는 내 포트폴리오에 저장돼요.</ContentText>
+      <TitleText>{text.TITLE}</TitleText>
+      <ContentText>{text.LINE_1}</ContentText>
+      <ContentText>{text.LINE_2}</ContentText>
       <EndBtn onClick={onOpenModal}>
         <QuitIcon />
-        <BtnText>프로젝트 종료</BtnText>
+        <BtnText>{text.BUTTON}</BtnText>
       </EndBtn>
     </EndProjectContainer>
   );

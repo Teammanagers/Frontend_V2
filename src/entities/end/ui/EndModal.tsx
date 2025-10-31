@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { END_TEXT } from '@/entities/end/end.constants.ts';
 import { Button } from '@/shared/components/button/Button.tsx';
 
 interface ModalStateProps {
@@ -14,43 +15,23 @@ export const EndModal = ({
   onClose,
   onEnd,
 }: ModalStateProps) => {
+  const text = isLeader ? END_TEXT.MODAL.LEADER : END_TEXT.MODAL.MEMBER;
+
   return (
     <ModalContainer>
-      {isLeader ? (
-        <>
-          <TitleText>
-            <TeamName>'{teamName}'</TeamName>를 정말 종료하실건가요?
-          </TitleText>
-          <ContentText>
-            종료된 프로젝트는 마이페이지에서 확인 가능합니다
-          </ContentText>
-          <BtnContainer>
-            <Button size="small" style="main" onClick={onClose}>
-              유지하기
-            </Button>
-            <Button size="small" style="red" onClick={onEnd}>
-              종료하기
-            </Button>
-          </BtnContainer>
-        </>
-      ) : (
-        <>
-          <TitleText>
-            <TeamName>'{teamName}'</TeamName>를 정말 나가실건가요?
-          </TitleText>
-          <ContentText>
-            팀에서 나가기 전, 다시 한 번 확인 해 주세요.
-          </ContentText>
-          <BtnContainer>
-            <Button size="small" style="main" onClick={onClose}>
-              유지하기
-            </Button>
-            <Button size="small" style="red" onClick={onEnd}>
-              나가기
-            </Button>
-          </BtnContainer>
-        </>
-      )}
+      <TitleText>
+        <TeamName>'{teamName}'</TeamName>
+        {text.SUFFIX}
+      </TitleText>
+      <ContentText>{text.CONTENT}</ContentText>
+      <BtnContainer>
+        <Button size="small" style="main" onClick={onClose}>
+          {text.BUTTON_MAIN}
+        </Button>
+        <Button size="small" style="red" onClick={onEnd}>
+          {text.BUTTON_SUB}
+        </Button>
+      </BtnContainer>
     </ModalContainer>
   );
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { END_TEXT } from '@/entities/end/end.constants.ts';
 import { EndProps } from '@/entities/end/end.types.ts';
 import {
   BtnText,
@@ -10,15 +11,16 @@ import {
 import End from '@/shared/assets/end/end-member.svg?react';
 
 export const EndMember = ({ onOpenModal }: EndProps) => {
+  const text = END_TEXT.MEMBER;
   return (
     <EndMemberContainer>
       <End />
-      <TitleText>프로젝트가 완료되기 전에 팀을 나가시나요?</TitleText>
-      <ContentText>팀장의 종료 이전에 팀을 나가면 포트폴리오에</ContentText>
-      <ContentText>프로젝트 기록이 남지 않습니다.</ContentText>
+      <TitleText>{text.TITLE}</TitleText>
+      <ContentText>{text.LINE_1}</ContentText>
+      <ContentText>{text.LINE_2}</ContentText>
       <EndBtn onClick={onOpenModal}>
         <QuitIcon />
-        <BtnText>팀 나가기</BtnText>
+        <BtnText>{text.BUTTON}</BtnText>
       </EndBtn>
     </EndMemberContainer>
   );
