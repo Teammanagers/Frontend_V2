@@ -15,7 +15,6 @@ export default function useEndMutations() {
         });
       },
       onSuccess: () => {
-        console.log('팀 나가기 성공');
         queryClient.invalidateQueries({
           queryKey: ['end', 'team', TEAM_ID],
         });
@@ -34,7 +33,6 @@ export default function useEndMutations() {
         });
       },
       onSuccess: () => {
-        console.log('팀 종료 성공');
         queryClient.invalidateQueries({
           queryKey: ['end', 'team', TEAM_ID],
         });

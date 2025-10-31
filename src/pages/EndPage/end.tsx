@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useEndMutations, {
-  TEAM_ID,
-} from '@/entities/end/model/useEndMutations.ts';
+import useEndMutations from '@/entities/end/model/useEndMutations.ts';
 import { EndMember } from '@/entities/end/ui/EndMember.tsx';
 import { EndModal } from '@/entities/end/ui/EndModal.tsx';
 import { EndProject } from '@/entities/end/ui/EndProject.tsx';
@@ -15,7 +13,6 @@ export function EndPage() {
   // 팀 관리 PR 머지 후 API에서 teamName, isLeader 받아온 뒤 수정
   const teamName = '팀 매니저';
   const isLeader = true;
-  console.log('팀아이디: ', TEAM_ID);
 
   const { useWithdrawTeamMutation, useCompleteTeamMutation } =
     useEndMutations();
