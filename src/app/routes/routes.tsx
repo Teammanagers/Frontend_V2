@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import AppShellLayout from '@/pages/_layouts/AppShellLayout.tsx';
 import { AdminLoginPage } from '@/pages/AdminLoginPage/admin-login';
 import { CalendarPage } from '@/pages/CalendarPage';
+import { EndPage } from '@/pages/EndPage';
 import { ErrorPage } from '@/pages/ErrorPage';
 import JoinPage from '@/pages/JoinPage/join-page';
 import { LoginPage } from '@/pages/LoginPage';
@@ -60,6 +61,8 @@ export default function AppRoutes() {
           <Route path="/mypage/profile" element={<ProfilePage />} />
           {/* Notice Page */}
           <Route path="/notice" element={<NoticePage />} />
+          {/* End-Project Page */}
+          <Route path="/end" element={<EndPage />} />
         </Route>
 
         {/* Error Page */}
