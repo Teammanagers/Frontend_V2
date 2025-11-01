@@ -10,7 +10,7 @@ import { useTeamStore } from '@/shared/model/store/teamStore';
 import { QueryResponse } from '@/shared/types/api.types';
 
 export default function useEventQueries(yearMonth?: string) {
-  const { teamId } = useTeamStore.getState();
+  const teamId = useTeamStore((state) => state.teamId);
 
   // 다가오는 일정 조회
   const useUpcomingEventQuery = (): QueryResponse & {

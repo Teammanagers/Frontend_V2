@@ -50,7 +50,7 @@ export const AddTeamCard = () => {
   const navigate = useNavigate();
 
   return (
-    <TeamContent onClick={() => navigate(ROUTE_SEGMENTS.MAKE_TEAM)}>
+    <TeamContent onClick={() => navigate(`/${ROUTE_SEGMENTS.MAKE_TEAM}`)}>
       <PlusImgContainer>
         <img src={plus} width={128} height={80} alt="새 팀 생성" />
       </PlusImgContainer>

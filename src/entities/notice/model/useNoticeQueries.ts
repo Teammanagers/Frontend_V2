@@ -7,7 +7,7 @@ import { QueryResponse } from '@/shared/types/api.types';
 import { CreateNoticeRequest, FetchNoticeResponse } from '../notice.types';
 
 export default function useNoticeQueries() {
-  const { teamId } = useTeamStore.getState();
+  const teamId = useTeamStore((state) => state.teamId);
 
   // 최신 공지 조회
   const useRecentNoticeQuery = (): QueryResponse & {

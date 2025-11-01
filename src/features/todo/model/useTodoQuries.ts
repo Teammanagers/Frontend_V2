@@ -5,7 +5,7 @@ import apiRequest from '@/shared/api/apiRequest';
 import { useTeamStore } from '@/shared/model/store/teamStore';
 
 export default function useTodoQuries() {
-  const { teamId } = useTeamStore.getState();
+  const teamId = useTeamStore((state) => state.teamId);
 
   // 팀 투두 조회
   const useTeamTodoQuery = () => {

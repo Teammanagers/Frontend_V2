@@ -73,7 +73,11 @@ export default function AppLink({ to, children, ...props }: AppLinkProps) {
   );
 }
 
-const sharedLinkStyles = css``;
+const sharedLinkStyles = css`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+`;
 
 const InternalStyledLink = styled(Link)`
   ${sharedLinkStyles}

@@ -13,6 +13,7 @@ export const useSyncTeamIdWithStore = () => {
   useEffect(() => {
     const teamId = Number(teamIdFromUrl);
 
-    if (teamId) setTeamIdStore(teamId);
+    if (!Number.isNaN(teamId) && teamId !== null && teamIdFromUrl !== '')
+      setTeamIdStore(teamId);
   }, [teamIdFromUrl, setTeamIdStore]);
 };
