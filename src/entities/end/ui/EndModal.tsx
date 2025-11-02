@@ -1,0 +1,76 @@
+import styled from 'styled-components';
+import { END_TEXT } from '@/entities/end/end.constants.ts';
+import { Button } from '@/shared/components/button/Button.tsx';
+
+interface ModalStateProps {
+  teamName: string;
+  isLeader: boolean;
+  onClose: () => void;
+  onEnd: () => void;
+}
+
+export const EndModal = ({
+  teamName,
+  isLeader,
+  onClose,
+  onEnd,
+}: ModalStateProps) => {
+  const text = isLeader ? END_TEXT.MODAL.LEADER : END_TEXT.MODAL.MEMBER;
+
+  return (
+    <ModalContainer>
+      <TitleText>
+        <TeamName>'{teamName}'</TeamName>
+        {text.SUFFIX}
+      </TitleText>
+      <ContentText>{text.CONTENT}</ContentText>
+      <BtnContainer>
+        <Button size="small" style="main" onClick={onClose}>
+          {text.BUTTON_MAIN}
+        </Button>
+        <Button size="small" style="red" onClick={onEnd}>
+          {text.BUTTON_SUB}
+        </Button>
+      </BtnContainer>
+    </ModalContainer>
+  );
+};
+
+const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 352px;
+  height: 162px;
+  background: white;
+  border-radius: 6px;
+  gap: 4px;
+  box-shadow: 1.52px 3.04px 9.12px rgba(0, 0, 0 0.08);
+`;
+
+const TitleText = styled.h1`
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
+  line-height: 150%;
+  margin-top: 32px;
+`;
+
+const TeamName = styled.span`
+  font-size: 16px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
+  line-height: 150%;
+`;
+
+const ContentText = styled.p`
+  font-size: 12px;
+  line-height: 18px;
+  color: ${({ theme }) => theme.colors.darkGray};
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  margin-top: 24px;
+  gap: 4px;
+`;

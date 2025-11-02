@@ -84,6 +84,7 @@ export const TimeSelector = ({
 const Row = styled.div`
   display: flex;
   align-items: center;
+  height: 28px;
   gap: 16px;
 `;
 
@@ -98,14 +99,12 @@ const Slots = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  background: coral;
 `;
 
 const Slot = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  background: cadetblue;
 `;
 
 const Select = styled.select`
@@ -114,7 +113,6 @@ const Select = styled.select`
   padding: 4px;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: 3px;
-  background: pink;
 `;
 
 const Dash = styled.span`

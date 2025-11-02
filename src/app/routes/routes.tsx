@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import AppShellLayout from '@/pages/_layouts/AppShellLayout.tsx';
 import { AdminLoginPage } from '@/pages/AdminLoginPage/admin-login';
 import { CalendarPage } from '@/pages/CalendarPage';
+import { EndPage } from '@/pages/EndPage';
 import { ErrorPage } from '@/pages/ErrorPage';
 import JoinPage from '@/pages/JoinPage/join-page';
 import { LoginPage } from '@/pages/LoginPage';
@@ -92,6 +93,9 @@ export default function AppRoutes() {
 
           {/* 공지 페이지 */}
           <Route path={ROUTE_SEGMENTS.NOTICE} element={<NoticePage />} />
+
+          {/* 팀 종료 페이지 */}
+          <Route path="/end" element={<EndPage />} />
         </Route>
 
         {/* 404 */}

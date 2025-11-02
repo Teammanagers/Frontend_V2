@@ -1,15 +1,14 @@
 import styled from 'styled-components';
-import { ShowScheduleProps } from '@/entities/management/management.types.ts';
-import { convertTimeTableToTimeSlots } from '../lib/timeSlots';
+import { ScheduleProps } from '@/entities/management/management.types.ts';
 
-export const ShowSchedule = ({ schedule }: ShowScheduleProps) => {
+export const ShowSchedule = ({ schedule }: ScheduleProps) => {
   return (
     <ScheduleContainer>
       {Object.entries(schedule).map(([day, timeTable]) => (
         <DayContainer key={day}>
           <DayText>{day.charAt(0).toUpperCase() + day.slice(1)}</DayText>
-          {convertTimeTableToTimeSlots(timeTable.value).length > 0 ? (
-            convertTimeTableToTimeSlots(timeTable.value).map((slot, index) => (
+          {timeTable.value.length > 0 ? (
+            timeTable.value.map((slot, index) => (
               <TimeContainer key={index}>
                 <TimeBox>{slot.start}</TimeBox>
                 <SwungDash>~</SwungDash>

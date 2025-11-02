@@ -1,5 +1,6 @@
 export interface TeamProps {
-  title: string;
+  teamId: number | null;
+  title: string | '';
   imageUrl?: string | null;
 }
 
@@ -12,5 +13,6 @@ export interface SideBarUIProps {
 
   onNavigate: (path: (teamId: number) => string) => void;
   onToggleAlarm: () => void;
+  onToggleTeamList: () => void;
   onEndClick: () => void;
 }
