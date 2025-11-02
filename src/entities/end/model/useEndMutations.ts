@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/app/provider/queryClient';
 import apiRequest from '@/shared/api/apiRequest.ts';
-import { queryClient } from '@/shared/config/queryClient.ts';
 
 export const TEAM_ID = 3;
 

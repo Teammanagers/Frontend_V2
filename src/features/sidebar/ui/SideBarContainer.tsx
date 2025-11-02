@@ -16,12 +16,11 @@ export default function SideBarContainer() {
   const [endSelected, setEndSelected] = useState<boolean>(false);
   const [isAddTeamModalOpen, setIsAddTeamModalOpen] = useState<boolean>(false);
 
-  const teamNavigate = useTeamNavigate();
-
   const { useMyTeamListQuery } = useSideBarQueries();
   const { data: myTeams } = useMyTeamListQuery();
 
   const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
   const { pathname } = useLocation();
 
   // api 데이터 매핑
@@ -42,6 +41,7 @@ export default function SideBarContainer() {
 
   const handleNavigate = (path: (teamId: number) => string) => {
     setEndSelected(false);
+
     teamNavigate(path);
   };
 

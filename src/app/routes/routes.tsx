@@ -95,7 +95,7 @@ export default function AppRoutes() {
           <Route path={ROUTE_SEGMENTS.NOTICE} element={<NoticePage />} />
 
           {/* 팀 종료 페이지 */}
-          <Route path="/end" element={<EndPage />} />
+          <Route path="end" element={<EndPage />} />
         </Route>
 
         {/* 404 */}
