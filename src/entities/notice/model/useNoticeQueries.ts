@@ -1,12 +1,14 @@
-import apiRequest from '@/shared/api/apiRequest';
-import { queryClient } from '@/shared/config/queryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { CreateNoticeRequest, FetchNoticeResponse } from '../notice.types';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
+import { queryClient } from '@/app/provider/queryClient';
+import apiRequest from '@/shared/api/apiRequest';
+import { useTeamStore } from '@/shared/model/store/teamStore';
 import { QueryResponse } from '@/shared/types/api.types';
+import { CreateNoticeRequest, FetchNoticeResponse } from '../notice.types';
 
 export default function useNoticeQueries() {
+  const teamId = useTeamStore((state) => state.teamId);
+
   // 최신 공지 조회
   const useRecentNoticeQuery = (): QueryResponse & {
     data: FetchNoticeResponse;
@@ -15,7 +17,7 @@ export default function useNoticeQueries() {
       queryKey: ['notice', 'recent'],
       queryFn: async () => {
         return await apiRequest({
-          url: `/api/v2/team/${TEAM_ID}/notice`,
+          url: `/api/v2/team/${teamId}/notice`,
           method: 'GET',
         });
       },
@@ -27,7 +29,7 @@ export default function useNoticeQueries() {
       if (isError) {
         console.error('최신 공지 조회 실패', error);
       }
-    }, [isError, isSuccess, data]);
+    }, [isError, isSuccess, data, error]);
 
     return { isPending, isError, isSuccess, data };
   };
@@ -40,7 +42,7 @@ export default function useNoticeQueries() {
       queryKey: ['notice'],
       queryFn: async () => {
         return await apiRequest({
-          url: `/api/v2/team/${TEAM_ID}/notice/list`,
+          url: `/api/v2/team/${teamId}/notice/list`,
           method: 'GET',
         });
       },
@@ -53,7 +55,7 @@ export default function useNoticeQueries() {
       if (isError) {
         console.error('전체 공지 조회 실패', error);
       }
-    }, [isError, isSuccess, data]);
+    }, [isError, isSuccess, data, error]);
 
     return { isPending, isError, isSuccess, data };
   };
@@ -63,7 +65,7 @@ export default function useNoticeQueries() {
     const { mutate, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (content: CreateNoticeRequest) => {
         return await apiRequest({
-          url: `/api/v2/team/${TEAM_ID}/notice`,
+          url: `/api/v2/team/${teamId}/notice`,
           method: 'POST',
           data: content,
         });

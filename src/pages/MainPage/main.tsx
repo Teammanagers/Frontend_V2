@@ -1,9 +1,9 @@
 import styled from 'styled-components';
+import { mainRoutes } from '@/app/routes/paths';
+import MainSectionLink from '@/entities/main/ui/MainSectionLink';
 import { TeamCodeCopy } from '@/entities/main/ui/TeamCodeCopy';
 import { NoticeBanner } from '@/widgets/notice/NoticeBanner';
-import { mainRoutes } from '@/app/routes/paths';
 import MainSectionLayout from '../_layouts/MainSectionLayout';
-import MainSectionLink from '@/entities/main/ui/MainSectionLink';
 
 export function MainPage() {
   return (
@@ -23,7 +23,7 @@ export function MainPage() {
           const ContentComponent = item.component;
 
           return (
-            <SectionWrapper key={item.to}>
+            <SectionWrapper key={item.label}>
               <MainSectionLayout
                 navLink={
                   <MainSectionLink to={item.to}>{item.label}</MainSectionLink>

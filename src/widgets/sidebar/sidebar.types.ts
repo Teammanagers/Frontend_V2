@@ -11,7 +11,7 @@ export interface SideBarUIProps {
   endSelected: boolean;
   team: TeamProps | null;
 
-  onNavigate: (path: string) => void;
+  onNavigate: (path: (teamId: number) => string) => void;
   onToggleAlarm: () => void;
   onToggleTeamList: () => void;
   onEndClick: () => void;

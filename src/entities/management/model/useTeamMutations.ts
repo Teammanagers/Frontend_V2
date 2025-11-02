@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/app/provider/queryClient';
 import {
   ICreateMemberTagInput,
   IDeleteMemberTag,
@@ -9,7 +10,6 @@ import {
 } from '@/entities/management/model/teamMutations.types.ts';
 import { TEAM_ID } from '@/entities/management/model/useTeamQueries.ts';
 import apiRequest from '@/shared/api/apiRequest.ts';
-import { queryClient } from '@/shared/config/queryClient.ts';
 
 export default function useTeamMutations() {
   // 팀 수정

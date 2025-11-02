@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import ArrowIcon from '@/shared/assets/common/arrow.svg?react';
-import AppLink from '@/shared/components/link/AppLink';
-import { AppPath } from '@/app/routes/paths';
+import AppLink, { LinkToType } from '@/shared/components/link/AppLink';
 
 interface MainSectionLinkProps {
   children: React.ReactNode;
-  to: AppPath;
+  to: LinkToType;
 }
 
 /**

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { PATHS, ROUTE_SEGMENTS } from '@/app/routes/paths';
 import useSideBarQueries from '@/features/sidebar/model/useSideBarQueries.ts';
 import { AddTeamModal } from '@/features/sidebar/ui/AddTeamModal.tsx';
 import { TeamDropdown } from '@/features/sidebar/ui/TeamDropdown.tsx';
 import Modal from '@/shared/components/modal/Modal.tsx';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate';
 import { TeamProps } from '@/widgets/sidebar';
 import SideBar from '@/widgets/sidebar/ui/SideBar.tsx';
 
@@ -14,11 +16,13 @@ export default function SideBarContainer() {
   const [isTeamListOpen, setIsTeamListOpen] = useState<boolean>(false);
   const [endSelected, setEndSelected] = useState<boolean>(false);
   const [isAddTeamModalOpen, setIsAddTeamModalOpen] = useState<boolean>(false);
+  const [currentTeam, setCurrentTeam] = useState<TeamProps | null>(null);
 
   const { useMyTeamListQuery } = useSideBarQueries();
   const { data: myTeams } = useMyTeamListQuery();
 
   const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
   const { pathname } = useLocation();
 
   // api 데이터 매핑
@@ -29,17 +33,16 @@ export default function SideBarContainer() {
       imageUrl: item.imgUrl ?? null,
     })) ?? [];
 
-  const [currentTeam, setCurrentTeam] = useState<TeamProps | null>(null);
-
   useEffect(() => {
     if (teamList.length > 0 && !currentTeam) {
       setCurrentTeam(teamList[0]);
     }
   }, [teamList]);
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = (path: (teamId: number) => string) => {
     setEndSelected(false);
-    navigate(path);
+
+    teamNavigate(path);
   };
 
   const handleToggleTeamList = () => setIsTeamListOpen((prev) => !prev);
@@ -62,12 +65,12 @@ export default function SideBarContainer() {
 
   const handleCreateTeam = () => {
     handleModalClose();
-    navigate(`/make-team`);
+    navigate(`/${ROUTE_SEGMENTS.MAKE_TEAM}`);
   };
 
   const handleJoinTeam = () => {
     handleModalClose();
-    navigate(`/team-join`);
+    navigate(`/${ROUTE_SEGMENTS.TEAM_JOIN}`);
   };
 
   const teamData = currentTeam
@@ -97,7 +100,7 @@ export default function SideBarContainer() {
         onToggleTeamList={handleToggleTeamList}
         onEndClick={() => {
           setEndSelected(true);
-          navigate('/end');
+          teamNavigate(PATHS.END);
         }}
       />
       {/* 버튼 누르면 드롭다운 표시 */}

@@ -11,13 +11,14 @@ import MakeTeamPage from '@/pages/MakeTeamPage/make-team';
 import { ManagementPage } from '@/pages/ManagementPage';
 import { ExtraMemoPage, RedirectToRootFolder } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
+import ProfilePage from '@/pages/MyPage/profile';
+import NoticePage from '@/pages/NoticePage/notice';
 import Redirect from '@/pages/RedirectPage/redirect';
 import { ResourcePage } from '@/pages/ResourcePage';
 import SelectTeamPage from '@/pages/SelectTeamPage/select-team';
 import { SignupPage } from '@/pages/SignupPage';
 import { TodoPage } from '@/pages/TodoPage';
-import NoticePage from '@/pages/NoticePage/notice';
-import ProfilePage from '@/pages/MyPage/profile';
+import { ROUTE_SEGMENTS, TEAM_BASE_PATH } from './paths';
 
 export default function AppRoutes() {
   return (
@@ -25,47 +26,79 @@ export default function AppRoutes() {
       <Routes>
         {/* onBoarding 관련 페이지들 */}
         <Route>
-          {/* Login Page */}
-          <Route path="/login" element={<LoginPage />} />
-          {/* sign-up or select Team redirect */}
-          <Route path="/redirect" element={<Redirect />} />
-          {/* Admin Login Page */}
-          <Route path="/login-admin" element={<AdminLoginPage />} />
-          {/* Sign Up Page */}
-          <Route path="/sign-up" element={<SignupPage />} />
-          {/* Make Team Page */}
-          <Route path="/make-team" element={<MakeTeamPage />} />
-          {/* Team Join page */}
-          <Route path="/team-join" element={<JoinPage />} />
-          {/* Select Team Page */}
-          <Route path="/select-team" element={<SelectTeamPage />} />
+          {/* 로그인 페이지 */}
+          <Route path={ROUTE_SEGMENTS.LOGIN} element={<LoginPage />} />
+
+          {/* 회원가입 or 팀 선택 리다이렉트 */}
+          <Route path={ROUTE_SEGMENTS.REDIRECT} element={<Redirect />} />
+
+          {/* 어드민 로그인 페이지 */}
+          <Route
+            path={ROUTE_SEGMENTS.LOGIN_ADMIN}
+            element={<AdminLoginPage />}
+          />
+
+          {/* 회원가입 페이지 */}
+          <Route path={ROUTE_SEGMENTS.SIGN_UP} element={<SignupPage />} />
+
+          {/* 팀 만들기 페이지*/}
+          <Route path={ROUTE_SEGMENTS.MAKE_TEAM} element={<MakeTeamPage />} />
+
+          {/* 팀 참가 페이지 */}
+          <Route path={ROUTE_SEGMENTS.TEAM_JOIN} element={<JoinPage />} />
+
+          {/* 팀 선택 페이지 */}
+          <Route
+            path={ROUTE_SEGMENTS.SELECT_TEAM}
+            element={<SelectTeamPage />}
+          />
         </Route>
 
         {/* 사이드바 띄워지는 페이지 */}
-        <Route element={<AppShellLayout />}>
-          {/* Main page */}
-          <Route path="/" element={<MainPage />} />
-          {/* Calendar Page */}
-          <Route path="/calendar" element={<CalendarPage />} />
-          {/* Todo Page */}
-          <Route path="/todo-list" element={<TodoPage />} />
-          {/* Memo Page */}
-          <Route path="/memo" element={<RedirectToRootFolder />} />
-          <Route path="/memo/*" element={<ExtraMemoPage />} />
-          {/* Resource Page */}
-          <Route path="/resource" element={<ResourcePage />} />
-          {/* ManagementPage */}
-          <Route path="/management" element={<ManagementPage />} />
-          {/* My Page */}
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/mypage/profile" element={<ProfilePage />} />
-          {/* Notice Page */}
-          <Route path="/notice" element={<NoticePage />} />
-          {/* End-Project Page */}
-          <Route path="/end" element={<EndPage />} />
+        <Route path={TEAM_BASE_PATH} element={<AppShellLayout />}>
+          {/* 메인 페이지 */}
+          <Route index element={<MainPage />} />
+
+          {/* 투두 페이지 */}
+          <Route path={ROUTE_SEGMENTS.TODO_LIST} element={<TodoPage />} />
+
+          {/* 캘린더 페이지 */}
+          <Route path={ROUTE_SEGMENTS.CALENDAR} element={<CalendarPage />} />
+
+          {/* 메모 페이지 */}
+          <Route
+            path={ROUTE_SEGMENTS.MEMO}
+            element={<RedirectToRootFolder />}
+          />
+          <Route
+            path={`${ROUTE_SEGMENTS.MEMO}/*`}
+            element={<ExtraMemoPage />}
+          />
+
+          {/* 자료 페이지 */}
+          <Route path={ROUTE_SEGMENTS.RESOURCE} element={<ResourcePage />} />
+
+          {/* 팀 관리 페이지 */}
+          <Route
+            path={ROUTE_SEGMENTS.MANAGEMENT}
+            element={<ManagementPage />}
+          />
+
+          {/* 마이 페이지 */}
+          <Route path={ROUTE_SEGMENTS.MY_PAGE} element={<MyPage />} />
+          <Route
+            path={ROUTE_SEGMENTS.MY_PAGE_PROFILE}
+            element={<ProfilePage />}
+          />
+
+          {/* 공지 페이지 */}
+          <Route path={ROUTE_SEGMENTS.NOTICE} element={<NoticePage />} />
+
+          {/* 팀 종료 페이지 */}
+          <Route path={ROUTE_SEGMENTS.END} element={<EndPage />} />
         </Route>
 
-        {/* Error Page */}
+        {/* 404 */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>

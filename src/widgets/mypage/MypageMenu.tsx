@@ -1,5 +1,5 @@
-import { mypageRoutes } from '@/app/routes/paths';
 import styled from 'styled-components';
+import { mypageRoutes } from '@/app/routes/paths';
 import MypageMenuLink from './MypageMenuLink';
 
 export default function MypageMenu() {
@@ -11,7 +11,11 @@ export default function MypageMenu() {
         const IconComponent = menu.icon;
 
         return (
-          <MypageMenuLink key={menu.to} to={menu.to} icon={<IconComponent />}>
+          <MypageMenuLink
+            key={menu.label}
+            to={menu.to}
+            icon={<IconComponent />}
+          >
             {menu.label}
           </MypageMenuLink>
         );
