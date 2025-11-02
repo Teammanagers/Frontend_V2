@@ -29,6 +29,7 @@ export const ROUTE_SEGMENTS = {
   MY_PAGE: 'mypage',
   MY_PAGE_PROFILE: 'mypage/profile',
   NOTICE: 'notice',
+  END: 'end',
 } as const;
 
 // 팀 ID를 기반으로 기본 경로를 생성하는 헬퍼 함수
@@ -67,6 +68,9 @@ export const PATHS = {
 
   /* 공지사항 페이지 */
   NOTICE: (teamId: number) => `${basePath(teamId)}/${ROUTE_SEGMENTS.NOTICE}`,
+
+  /* 프로젝트 종료 페이지 */
+  END: (teamId: number) => `${basePath(teamId)}/${ROUTE_SEGMENTS.END}`,
 
   /* 이용약관 및 개인정보처리방침 페이지 */
   TERMS_OF_SERVICE:
