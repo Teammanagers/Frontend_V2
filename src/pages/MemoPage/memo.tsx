@@ -4,9 +4,12 @@ import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { useFolderPathStore } from '@/features/memo/model/folderStore.ts';
 import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
 import apiRequest from '@/shared/api/apiRequest.ts';
+import { useTeamStore } from '@/shared/model/store/teamStore.ts';
 import { MemoList } from '@/widgets/memo/MemoList.tsx';
 
 export function MemoPage() {
+  const teamId = useTeamStore((state) => state.teamId);
+
   const navigate = useNavigate();
   const { setPath, resetPath } = useFolderPathStore();
   const {
@@ -97,7 +100,7 @@ export function MemoPage() {
   });
 
   const handleFolderClick = (folderId: number) => {
-    navigate(`/memo/${folderId}`);
+    navigate(`/team/${teamId}/memo/${folderId}`);
   };
 
   const isEmpty =
