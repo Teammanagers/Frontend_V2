@@ -1,9 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 
 export const WriteMemo = () => {
   const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
   const { folderId } = useParams<{ folderId?: string }>();
   const currentFolderId = Number(folderId);
 
@@ -27,7 +30,8 @@ export const WriteMemo = () => {
         folderId: currentFolderId,
       },
       {
-        onSuccess: () => navigate(`/memo/${currentFolderId}`),
+        onSuccess: () =>
+          teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${currentFolderId}`),
         onError: (err) => console.error('메모 생성 오류 ', err),
       },
     );

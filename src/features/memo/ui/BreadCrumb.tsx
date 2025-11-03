@@ -1,15 +1,16 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { PATHS } from '@/app/routes/paths.ts';
 import { useFolderPathStore } from '@/features/memo/model/folderStore';
 import Arrow from '@/shared/assets/memo/path-arrow.svg?react';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 
 export const BreadCrumb = () => {
   const { path, setPath } = useFolderPathStore();
-  const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
 
   const handleClick = (index: number) => {
     const selected = path[index];
-    navigate(`/memo/${selected.id}`);
+    teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${selected.id}`);
     setPath(path.slice(0, index + 1));
   };
 
