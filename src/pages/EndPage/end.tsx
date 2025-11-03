@@ -4,6 +4,7 @@ import useEndMutations from '@/entities/end/model/useEndMutations.ts';
 import { EndMember } from '@/entities/end/ui/EndMember.tsx';
 import { EndModal } from '@/entities/end/ui/EndModal.tsx';
 import { EndProject } from '@/entities/end/ui/EndProject.tsx';
+import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
 import Modal from '@/shared/components/modal/Modal.tsx';
 
 export function EndPage() {
@@ -11,13 +12,17 @@ export function EndPage() {
   const navigate = useNavigate();
 
   // 팀 관리 PR 머지 후 API에서 teamName, isLeader 받아온 뒤 수정
-  const teamName = '팀 매니저';
   const isLeader = true;
 
+  const { useTeamByIdQuery } = useTeamQueries();
+  const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
   const { useWithdrawTeamMutation, useCompleteTeamMutation } =
     useEndMutations();
   const { mutate: withdrawTeam } = useWithdrawTeamMutation();
   const { mutate: completeTeam } = useCompleteTeamMutation();
+
+  if (isTeamLoading || !team) return <div>로딩중..</div>;
+  const teamName = team?.team?.title ?? '';
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
