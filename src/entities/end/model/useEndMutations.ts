@@ -1,22 +1,23 @@
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/app/provider/queryClient';
 import apiRequest from '@/shared/api/apiRequest.ts';
-
-export const TEAM_ID = 3;
+import { useTeamStore } from '@/shared/model/store/teamStore.ts';
 
 export default function useEndMutations() {
+  const teamId = useTeamStore((state) => state.teamId);
+
   // 팀 제거 (팀 나가기) - 팀원
   const useWithdrawTeamMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async () => {
         return await apiRequest({
-          url: `/api/v2/team/${TEAM_ID}/withdrawal`,
+          url: `/api/v2/team/${teamId}/withdrawal`,
           method: 'DELETE',
         });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['end', 'team', TEAM_ID],
+          queryKey: ['end', 'team', teamId],
         });
       },
     });
@@ -28,13 +29,13 @@ export default function useEndMutations() {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async () => {
         return await apiRequest({
-          url: `/api/v2/team/${TEAM_ID}/complete`,
+          url: `/api/v2/team/${teamId}/complete`,
           method: 'PATCH',
         });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['end', 'team', TEAM_ID],
+          queryKey: ['end', 'team', teamId],
         });
       },
     });

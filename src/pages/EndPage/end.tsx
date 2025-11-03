@@ -4,20 +4,29 @@ import useEndMutations from '@/entities/end/model/useEndMutations.ts';
 import { EndMember } from '@/entities/end/ui/EndMember.tsx';
 import { EndModal } from '@/entities/end/ui/EndModal.tsx';
 import { EndProject } from '@/entities/end/ui/EndProject.tsx';
+import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
 import Modal from '@/shared/components/modal/Modal.tsx';
+import { getMemberIdFromToken } from '@/shared/lib/utils/getMemberIdFromToken.ts';
 
 export function EndPage() {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const memberId = getMemberIdFromToken();
 
-  // 팀 관리 PR 머지 후 API에서 teamName, isLeader 받아온 뒤 수정
-  const teamName = '팀 매니저';
-  const isLeader = true;
+  const { useTeamByIdQuery, useTeamMemberQuery } = useTeamQueries();
+  const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
+  const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
 
   const { useWithdrawTeamMutation, useCompleteTeamMutation } =
     useEndMutations();
   const { mutate: withdrawTeam } = useWithdrawTeamMutation();
   const { mutate: completeTeam } = useCompleteTeamMutation();
+
+  if (isTeamLoading || isMembersLoading || !team || !members)
+    return <div>로딩중..</div>;
+  const teamName = team?.team?.title ?? '';
+  const leaderId = members?.leader.member.id;
+  const isLeader = memberId === leaderId;
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
