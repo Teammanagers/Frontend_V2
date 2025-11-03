@@ -8,10 +8,12 @@ import {
   ITeamTagInput,
   IUseTeamMutations,
 } from '@/entities/management/model/teamMutations.types.ts';
-import { TEAM_ID } from '@/entities/management/model/useTeamQueries.ts';
 import apiRequest from '@/shared/api/apiRequest.ts';
+import { useTeamStore } from '@/shared/model/store/teamStore.ts';
 
 export default function useTeamMutations() {
+  const teamId = useTeamStore((state) => state.teamId);
+
   // 팀 수정
   const useEditTeamMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
@@ -21,7 +23,7 @@ export default function useTeamMutations() {
         if (imageFile) formData.append('imageFile', imageFile);
 
         return await apiRequest({
-          url: `/api/v2/team/${TEAM_ID}`,
+          url: `/api/v2/team/${teamId}`,
           method: 'PATCH',
           data: formData,
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -29,7 +31,7 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', TEAM_ID],
+          queryKey: ['management', 'team', teamId],
         });
       },
       onError: (err) => console.error(err),
@@ -42,14 +44,14 @@ export default function useTeamMutations() {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ tagName }: { tagName: string }) => {
         return await apiRequest({
-          url: `/api/v2/tag/team/${TEAM_ID}`,
+          url: `/api/v2/tag/team/${teamId}`,
           method: 'POST',
           data: { tagName },
         });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', 'tag', TEAM_ID],
+          queryKey: ['management', 'team', 'tag', teamId],
         });
       },
       onError: (err) => console.error(err),
@@ -62,13 +64,13 @@ export default function useTeamMutations() {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (tagId: number) => {
         await apiRequest({
-          url: `/api/v2/tag/${tagId}/team/${TEAM_ID}`,
+          url: `/api/v2/tag/${tagId}/team/${teamId}`,
           method: 'DELETE',
         });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', 'tag', TEAM_ID],
+          queryKey: ['management', 'team', 'tag', teamId],
         });
       },
     });
@@ -80,14 +82,14 @@ export default function useTeamMutations() {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ tagId, tagName }: ITeamTagInput) => {
         await apiRequest({
-          url: `/api/v2/tag/${tagId}/team/${TEAM_ID}`,
+          url: `/api/v2/tag/${tagId}/team/${teamId}`,
           method: 'PATCH',
           data: { tagName },
         });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', 'tag', TEAM_ID],
+          queryKey: ['management', 'team', 'tag', teamId],
         });
       },
     });
@@ -99,7 +101,7 @@ export default function useTeamMutations() {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ memberId, tagName }: ICreateMemberTagInput) => {
         return await apiRequest({
-          url: `/api/v2/tag/team/${TEAM_ID}/member/${memberId}`,
+          url: `/api/v2/tag/team/${teamId}/member/${memberId}`,
           method: 'POST',
           data: { tagName },
         });
@@ -118,7 +120,7 @@ export default function useTeamMutations() {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ tagId, memberId, tagName }: IEditMemberTagInput) => {
         return await apiRequest({
-          url: `/api/v2/tag/${tagId}/team/${TEAM_ID}/member/${memberId}`,
+          url: `/api/v2/tag/${tagId}/team/${teamId}/member/${memberId}`,
           method: 'PATCH',
           data: { tagName },
         });
@@ -137,7 +139,7 @@ export default function useTeamMutations() {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ memberId, tagId }: IDeleteMemberTag) => {
         return await apiRequest({
-          url: `/api/v2/tag/${tagId}/team/${TEAM_ID}/member/${memberId}`,
+          url: `/api/v2/tag/${tagId}/team/${teamId}/member/${memberId}`,
           method: 'DELETE',
         });
       },
@@ -155,14 +157,14 @@ export default function useTeamMutations() {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ times }: IRegisterScheduleInput) => {
         return await apiRequest({
-          url: `/api/v2/schedule/teams/${TEAM_ID}`,
+          url: `/api/v2/schedule/teams/${teamId}`,
           method: 'POST',
           data: { times },
         });
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'teamMember', 'schedule', TEAM_ID],
+          queryKey: ['management', 'teamMember', 'schedule', teamId],
         });
       },
     });

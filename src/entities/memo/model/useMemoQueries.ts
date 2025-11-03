@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { TEAM_ID } from '@/entities/management/model/useTeamQueries.ts';
 import apiRequest from '@/shared/api/apiRequest';
+import { useTeamStore } from '@/shared/model/store/teamStore.ts';
 import { MemoType, FolderType } from '@/shared/types/memo.types';
 
 interface IMemoResponse {
@@ -34,13 +34,15 @@ interface IFolderResponse {
 }
 
 export default function useMemoQueries() {
+  const teamId = useTeamStore((state) => state.teamId);
+
   // 루트 폴더 조회
   const useRootFolderQuery = () => {
     const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['rootFolder', TEAM_ID],
+      queryKey: ['rootFolder', teamId],
       queryFn: () =>
         apiRequest({
-          url: `/api/v2/folder/root/${TEAM_ID}`,
+          url: `/api/v2/folder/root/${teamId}`,
           method: 'GET',
         }),
       select: (res): IFolderDto => res.result.folderDto,
@@ -53,7 +55,7 @@ export default function useMemoQueries() {
   // 메모 전체 조회
   const useMemoListQuery = (folderId: number) => {
     const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['memo', folderId, TEAM_ID],
+      queryKey: ['memo', folderId, teamId],
       enabled: Number.isFinite(folderId),
       queryFn: () =>
         apiRequest({
