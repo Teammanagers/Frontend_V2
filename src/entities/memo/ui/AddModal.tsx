@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { PATHS } from '@/app/routes/paths.ts';
 import AddFolderIcon from '@/shared/assets/memo/add-folder.svg?react';
 import AddMemoIcon from '@/shared/assets/memo/add-memo.svg?react';
 import Modal from '@/shared/components/modal/Modal.tsx';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 import { ModalProps } from '@/shared/types/modal.types.ts';
 
 interface IAddModalProps extends ModalProps {
@@ -18,10 +19,10 @@ export const AddModal = ({
   canAddFolder,
   parentId,
 }: IAddModalProps) => {
-  const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
 
   const handleAddMemo = () => {
-    navigate(`/memo/${parentId}/write`);
+    teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${parentId}/write`);
     toggle();
   };
   return (

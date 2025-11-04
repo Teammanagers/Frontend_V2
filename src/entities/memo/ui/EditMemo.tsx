@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 
 export const EditMemo = () => {
   const { memoId } = useParams<{ memoId: string }>();
-  const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
 
   const { useMemoDetailQuery } = useMemoQueries();
   const { useEditMemoMutation } = useMemoMutations();
@@ -35,7 +37,7 @@ export const EditMemo = () => {
       },
       {
         onSuccess: () => {
-          navigate(`/memo/${memoDto.folderId}`);
+          teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${memoDto.folderId}`);
         },
         onError: (err) => {
           console.log('메모 수정 실패', err);
@@ -55,7 +57,9 @@ export const EditMemo = () => {
         initialContent={memoDto.content}
         initialTags={memoTagList.map((tag) => ({ name: tag.name }))}
         onSubmit={onSubmit}
-        onBack={() => navigate(-1)}
+        onBack={() =>
+          teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${memoDto.folderId}`)
+        }
         submitButtonText="메모 수정"
         onDelete={onDelete}
         showDeleteButton={true}
@@ -69,7 +73,7 @@ export const EditMemo = () => {
         toggle={() => setIsDeleteOpen(false)}
         parentId={memoDto.folderId} // 폴더 삭제일 때만 쓰이지만 prop 형태 맞춰 전달
         onAfterDelete={() => {
-          navigate(`/memo/${memoDto.folderId}`);
+          teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${memoDto.folderId}`);
         }}
       />
     </>

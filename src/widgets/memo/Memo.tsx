@@ -1,11 +1,12 @@
 import { ButtonHTMLAttributes, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import Next from '@/shared/assets/memo/next-button.svg?react';
 import PinIcon from '@/shared/assets/memo/pin.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 import { MemoProps } from '@/shared/types/memo.types.ts';
 import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 
@@ -52,7 +53,7 @@ export const Memo = ({
   const { useTogglePinMemoMutation } = useMemoMutations();
   const { mutate: togglePinMemo } = useTogglePinMemoMutation();
 
-  const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
   const selectedSize = memoSizes[size];
 
   const handlePinToggle = () => {
@@ -65,7 +66,7 @@ export const Memo = ({
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
-      navigate(`/memo/edit/${id}`);
+      teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/edit/${id}`);
       setIsOpen(true);
     } else if (menu === '이동') {
       onMoveRequest(id);
