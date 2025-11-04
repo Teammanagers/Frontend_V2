@@ -1,11 +1,10 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
 import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 
 export const WriteMemo = () => {
-  const navigate = useNavigate();
   const teamNavigate = useTeamNavigate();
   const { folderId } = useParams<{ folderId?: string }>();
   const currentFolderId = Number(folderId);
@@ -40,7 +39,9 @@ export const WriteMemo = () => {
   return (
     <MemoForm
       onSubmit={onSubmit}
-      onBack={() => navigate(-1)}
+      onBack={() =>
+        teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${currentFolderId}`)
+      }
       submitButtonText="메모 등록"
     />
   );

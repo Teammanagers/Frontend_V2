@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
@@ -10,7 +10,6 @@ import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 export const EditMemo = () => {
   const { memoId } = useParams<{ memoId: string }>();
   const teamNavigate = useTeamNavigate();
-  const navigate = useNavigate();
 
   const { useMemoDetailQuery } = useMemoQueries();
   const { useEditMemoMutation } = useMemoMutations();
@@ -58,7 +57,9 @@ export const EditMemo = () => {
         initialContent={memoDto.content}
         initialTags={memoTagList.map((tag) => ({ name: tag.name }))}
         onSubmit={onSubmit}
-        onBack={() => navigate(-1)}
+        onBack={() =>
+          teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${memoDto.folderId}`)
+        }
         submitButtonText="메모 수정"
         onDelete={onDelete}
         showDeleteButton={true}
