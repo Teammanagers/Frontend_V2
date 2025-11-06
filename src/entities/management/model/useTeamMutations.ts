@@ -31,7 +31,7 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', teamId],
+          queryKey: ['team', teamId],
         });
       },
       onError: (err) => console.error(err),
