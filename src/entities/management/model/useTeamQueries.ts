@@ -1,0 +1,116 @@
+import { useQuery } from '@tanstack/react-query';
+import { IScheduleDto } from '@/entities/management/management.types.ts';
+import apiRequest from '@/shared/api/apiRequest.ts';
+import { useTeamStore } from '@/shared/model/store/teamStore.ts';
+import { ITeamMemberResponse } from '@/shared/types/member.types.ts';
+import { Team, TeamTag } from '@/shared/types/team.types.ts';
+
+interface ITeamResponse {
+  team: Team;
+  imgUrl: string;
+  teamTagList: TeamTag[];
+}
+
+interface IScheduleResponse {
+  scheduleDto: IScheduleDto;
+}
+
+export default function useTeamQueries() {
+  const teamId = useTeamStore((state) => state.teamId);
+
+  // 팀 정보 조회 (팀 아이디)
+  const useTeamByIdQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'team', teamId],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/team/${teamId}`,
+          method: 'GET',
+        }),
+      select: (res): ITeamResponse => res.result,
+      staleTime: 60 * 1000,
+    });
+
+    return { isPending, isError, isSuccess, data };
+  };
+
+  // 팀 스케줄 조회
+  const useTeamScheduleQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'schedule', teamId],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/schedule/teams/${teamId}`,
+          method: 'GET',
+        }),
+      select: (res): IScheduleDto[] =>
+        res.result.map((r: IScheduleResponse) => r.scheduleDto),
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
+  // 개인 스케줄 조회
+  const useMyScheduleQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'mySchedule', teamId],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/schedule/teams/${teamId}/my-schedules`,
+          method: 'GET',
+        }),
+      select: (res): IScheduleDto[] =>
+        res.result.map((r: IScheduleResponse) => r.scheduleDto),
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
+  // 팀 스케줄 부분 조회
+  const usePartialScheduleQuery = (teamMemberIds: number[]) => {
+    const enabled = teamMemberIds.length > 0;
+    const sortedIds = [...teamMemberIds].sort((a, b) => a - b);
+
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'partialSchedule', teamId, sortedIds],
+      queryFn: () => {
+        const queryString = sortedIds
+          .map((id) => `teamMemberId=${encodeURIComponent(id)}`)
+          .join('&');
+        const url = `/api/v2/schedule/teams/${teamId}/partial?${queryString}`;
+        return apiRequest({
+          url,
+          method: 'GET',
+        });
+      },
+      select: (res): IScheduleDto[] =>
+        res.result.map((r: IScheduleResponse) => r.scheduleDto),
+      enabled,
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
+  // 팀 멤버 조회
+  const useTeamMemberQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'member', teamId],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/team/${teamId}/member-list`,
+          method: 'GET',
+        }),
+      select: (res): ITeamMemberResponse => res.result,
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
+  return {
+    useTeamByIdQuery,
+    useTeamScheduleQuery,
+    useMyScheduleQuery,
+    usePartialScheduleQuery,
+    useTeamMemberQuery,
+  };
+}

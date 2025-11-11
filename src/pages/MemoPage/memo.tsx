@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { PATHS } from '@/app/routes/paths.ts';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { useFolderPathStore } from '@/features/memo/model/folderStore.ts';
 import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
 import apiRequest from '@/shared/api/apiRequest.ts';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 import { MemoList } from '@/widgets/memo/MemoList.tsx';
 
 export function MemoPage() {
-  const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
   const { setPath, resetPath } = useFolderPathStore();
   const {
     deleteTarget,
@@ -97,7 +99,7 @@ export function MemoPage() {
   });
 
   const handleFolderClick = (folderId: number) => {
-    navigate(`/memo/${folderId}`);
+    teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${folderId}`);
   };
 
   const isEmpty =

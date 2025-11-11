@@ -1,15 +1,17 @@
-import apiRequest from '@/shared/api/apiRequest';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
-import { queryClient } from '@/shared/config/queryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { QueryResponse } from '@/shared/types/api.types';
 import { useEffect } from 'react';
+import { queryClient } from '@/app/provider/queryClient';
 import {
   CalendarEvent,
   FetchEventResponse,
 } from '@/entities/calendar/calendar.types';
+import apiRequest from '@/shared/api/apiRequest';
+import { useTeamStore } from '@/shared/model/store/teamStore';
+import { QueryResponse } from '@/shared/types/api.types';
 
 export default function useEventQueries(yearMonth?: string) {
+  const teamId = useTeamStore((state) => state.teamId);
+
   // 다가오는 일정 조회
   const useUpcomingEventQuery = (): QueryResponse & {
     data: FetchEventResponse[];
@@ -18,7 +20,7 @@ export default function useEventQueries(yearMonth?: string) {
       queryKey: ['event', 'upcoming'],
       queryFn: async () => {
         return await apiRequest({
-          url: `/api/v2/calendar/upcoming?teamId=${TEAM_ID}`,
+          url: `/api/v2/calendar/upcoming?teamId=${teamId}`,
           method: 'GET',
         });
       },
@@ -30,7 +32,7 @@ export default function useEventQueries(yearMonth?: string) {
       if (isError) {
         console.error(`다가오는 일정 조회 실패`, error);
       }
-    }, [isError, isSuccess, data]);
+    }, [isError, isSuccess, data, error]);
 
     return { isPending, isError, isSuccess, data };
   };
@@ -44,7 +46,7 @@ export default function useEventQueries(yearMonth?: string) {
       enabled: !!yearMonth,
       queryFn: async () => {
         return await apiRequest({
-          url: `/api/v2/calendar/list?teamId=${TEAM_ID}&yearMonth=${yearMonth}`,
+          url: `/api/v2/calendar/list?teamId=${teamId}&yearMonth=${yearMonth}`,
           method: 'GET',
         });
       },
@@ -56,7 +58,7 @@ export default function useEventQueries(yearMonth?: string) {
       if (isError) {
         console.error(`${yearMonth} 일정 조회 실패`, error);
       }
-    }, [isError, isSuccess, data]);
+    }, [isError, isSuccess, data, error]);
 
     return { isPending, isError, isSuccess, data };
   };
@@ -66,7 +68,7 @@ export default function useEventQueries(yearMonth?: string) {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (data: CalendarEvent) => {
         await apiRequest({
-          url: `/api/v2/calendar/${TEAM_ID}`,
+          url: `/api/v2/calendar/${teamId}`,
           method: 'POST',
           data,
         });

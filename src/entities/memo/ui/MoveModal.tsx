@@ -1,9 +1,10 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { ModalContainer } from '@/entities/memo/ui/AddModal.tsx';
 import Modal from '@/shared/components/modal/Modal.tsx';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 import { ModalProps } from '@/shared/types/modal.types.ts';
 
 interface IMoveModalProps extends ModalProps {
@@ -21,14 +22,14 @@ export const MoveModal = ({
   const { useMoveMemoMutation } = useMemoMutations();
   const { data: folders } = useFolderListQuery(parentId);
   const { mutate: moveMemo } = useMoveMemoMutation();
-  const navigate = useNavigate();
+  const teamNavigate = useTeamNavigate();
 
   const handleMove = (targetFolderId: number) => {
     moveMemo(
       { memoId, folderId: targetFolderId },
       {
         onSuccess: () => {
-          navigate(`/memo/${targetFolderId}`);
+          teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${targetFolderId}`);
           toggle();
         },
       },

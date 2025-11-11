@@ -1,10 +1,9 @@
-import { Accordion } from '@/shared/components/accordion';
-import TodoForm from '@/features/todo/ui/TodoForm';
-import { Todo } from '@/features/todo/ui/Todo';
-import { ITeamMemberTodo } from '@/entities/todo/todo.type';
-import { OWNER_TEAMMANAGE_ID } from '@/shared/config/constants/team.constants';
 import { useTodoForm } from '@/entities/todo/model/useTodoForm';
+import { ITeamMemberTodo } from '@/entities/todo/todo.type';
 import AddTodoButton from '@/entities/todo/ui/AddTodoButton';
+import { Todo } from '@/features/todo/ui/Todo';
+import TodoForm from '@/features/todo/ui/TodoForm';
+import { Accordion } from '@/shared/components/accordion';
 
 export default function MemberTodoAccordion({
   teamMember,
@@ -26,7 +25,9 @@ export default function MemberTodoAccordion({
           key={`${teamMember.teamMemberId}-todo-${todo.id}-${idx}`}
           buttonType={
             // 내 투두이면 'menu', 아니면 'alarm' 버튼을 렌더링
-            teamMember.teamMemberId === OWNER_TEAMMANAGE_ID ? 'menu' : 'alarm'
+            // TODO: OWNER_TEAMMANAGE_ID 를 실제 내 팀원 ID로 교체 필요 (아래 예시 주석 참고)
+            // teamMember.teamMemberId === OWNER_TEAMMANAGE_ID ? 'menu' : 'alarm'
+            teamMember.teamMemberId === 1 ? 'menu' : 'alarm'
           }
           {...todo}
         />

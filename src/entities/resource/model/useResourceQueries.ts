@@ -4,11 +4,13 @@ import {
   ResourceListResponse,
 } from '@/entities/resource/resource.types';
 import apiRequest from '@/shared/api/apiRequest';
-import { TEAM_ID } from '@/shared/config/constants/team.constants';
+import { useTeamStore } from '@/shared/model/store/teamStore';
 import { APIResponse } from '@/shared/types/api.types';
 
 /* 팀 자료 조회 */
 export const useGetResourceList = () => {
+  const teamId = useTeamStore((state) => state.teamId);
+
   const queryResult = useQuery<
     APIResponse<ResourceListResponse>,
     Error,
@@ -17,7 +19,7 @@ export const useGetResourceList = () => {
     queryKey: ['resource', 'list'],
     queryFn: async () => {
       return await apiRequest({
-        url: `/api/v2/data/${TEAM_ID}`,
+        url: `/api/v2/data/${teamId}`,
         method: 'GET',
       });
     },

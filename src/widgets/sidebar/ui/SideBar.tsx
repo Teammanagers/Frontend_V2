@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { PATHS } from '@/app/routes/paths';
 
 import BellSvg from '@/shared/assets/sidebar/bell.svg?react';
 import CalendarSvg from '@/shared/assets/sidebar/calendar.svg?react';
@@ -9,7 +10,9 @@ import HomeOutlineSvg from '@/shared/assets/sidebar/home-outline.svg?react';
 import TodoSvg from '@/shared/assets/sidebar/list.svg?react';
 import MemoSvg from '@/shared/assets/sidebar/memo.svg?react';
 import MyPageSvg from '@/shared/assets/sidebar/mypage.svg?react';
+import TeamDropdown from '@/shared/assets/sidebar/team-dropdown.svg?react';
 import TeamSvg from '@/shared/assets/sidebar/team.svg?react';
+import { useTeamStore } from '@/shared/model/store/teamStore';
 import { SideBarUIProps } from '@/widgets/sidebar';
 
 const COLOR_DEFAULT = '#5A5A5A';
@@ -23,12 +26,18 @@ export default function SideBar({
   team,
   onNavigate,
   onToggleAlarm,
+  onToggleTeamList,
   onEndClick,
 }: SideBarUIProps) {
   const isActive = (path: string) => activePath === path;
+  const teamId = useTeamStore((state) => state.teamId);
+
+  if (!teamId) {
+    return null;
+  }
 
   return (
-    <SideBarContainer isHovered={expanded}>
+    <SideBarContainer $isHovered={expanded}>
       <LogoContainer>
         {team?.imageUrl ? (
           <LogoImg src={team.imageUrl} alt={team.title} />
@@ -38,7 +47,12 @@ export default function SideBar({
           </FallbackLogo>
         ) : null}
         {expanded && team && (
-          <LogoText title={team.title}>{team.title}</LogoText>
+          <TeamInfoWrapper>
+            <LogoText title={team.title}>{team.title}</LogoText>
+            <TeamDropdownBtn onClick={onToggleTeamList}>
+              <TeamDropdown />
+            </TeamDropdownBtn>
+          </TeamInfoWrapper>
         )}
       </LogoContainer>
 
@@ -46,11 +60,11 @@ export default function SideBar({
 
       {/* 홈 */}
       <IconContainer
-        $selected={isActive(`/`)}
-        isHovered={expanded}
-        onClick={() => onNavigate(`/`)}
+        $selected={isActive(PATHS.MAIN(teamId))}
+        $isHovered={expanded}
+        onClick={() => onNavigate(PATHS.MAIN)}
       >
-        {isActive(`/`) ? (
+        {isActive(PATHS.MAIN(teamId)) ? (
           <StrokeIcon
             as={HomeFilledSvg}
             aria-hidden
@@ -63,13 +77,15 @@ export default function SideBar({
             style={{ color: COLOR_DEFAULT }}
           />
         )}
-        {expanded && <SideBarText $selected={isActive(`/`)}>홈</SideBarText>}
+        {expanded && (
+          <SideBarText $selected={isActive(PATHS.MAIN(teamId))}>홈</SideBarText>
+        )}
       </IconContainer>
 
       {/* 알림 */}
       <IconContainer
         $selected={isAlarmOpen}
-        isHovered={expanded}
+        $isHovered={expanded}
         onClick={onToggleAlarm}
       >
         <StrokeIcon
@@ -82,19 +98,21 @@ export default function SideBar({
 
       {/* 투두리스트 */}
       <IconContainer
-        $selected={isActive(`/todo-list`)}
-        isHovered={expanded}
-        onClick={() => onNavigate(`/todo-list`)}
+        $selected={isActive(PATHS.TODO_LIST(teamId))}
+        $isHovered={expanded}
+        onClick={() => onNavigate(PATHS.TODO_LIST)}
       >
         <StrokeIcon
           as={TodoSvg}
           aria-hidden
           style={{
-            color: isActive(`/todo-list`) ? COLOR_ACTIVE : COLOR_DEFAULT,
+            color: isActive(PATHS.TODO_LIST(teamId))
+              ? COLOR_ACTIVE
+              : COLOR_DEFAULT,
           }}
         />
         {expanded && (
-          <SideBarText $selected={isActive(`/todo-list`)}>
+          <SideBarText $selected={isActive(PATHS.TODO_LIST(teamId))}>
             투두리스트
           </SideBarText>
         )}
@@ -102,19 +120,23 @@ export default function SideBar({
 
       {/* 캘린더 */}
       <IconContainer
-        $selected={isActive(`/calendar`)}
-        isHovered={expanded}
-        onClick={() => onNavigate(`/calendar`)}
+        $selected={isActive(PATHS.CALENDAR(teamId))}
+        $isHovered={expanded}
+        onClick={() => onNavigate(PATHS.CALENDAR)}
       >
         <StrokeIcon
           as={CalendarSvg}
           aria-hidden
           style={{
-            color: isActive(`/calendar`) ? COLOR_ACTIVE : COLOR_DEFAULT,
+            color: isActive(PATHS.CALENDAR(teamId))
+              ? COLOR_ACTIVE
+              : COLOR_DEFAULT,
           }}
         />
         {expanded && (
-          <SideBarText $selected={isActive(`/calendar`)}>캘린더</SideBarText>
+          <SideBarText $selected={isActive(PATHS.CALENDAR(teamId))}>
+            캘린더
+          </SideBarText>
         )}
       </IconContainer>
 
@@ -122,35 +144,43 @@ export default function SideBar({
 
       {/* 메모 */}
       <IconContainer
-        $selected={isActive(`/memo`)}
-        isHovered={expanded}
-        onClick={() => onNavigate(`/memo`)}
+        $selected={isActive(PATHS.MEMO(teamId))}
+        $isHovered={expanded}
+        onClick={() => onNavigate(PATHS.MEMO)}
       >
         <StrokeIcon
           as={MemoSvg}
           aria-hidden
-          style={{ color: isActive(`/memo`) ? COLOR_ACTIVE : COLOR_DEFAULT }}
+          style={{
+            color: isActive(PATHS.MEMO(teamId)) ? COLOR_ACTIVE : COLOR_DEFAULT,
+          }}
         />
         {expanded && (
-          <SideBarText $selected={isActive(`/memo`)}>메모</SideBarText>
+          <SideBarText $selected={isActive(PATHS.MEMO(teamId))}>
+            메모
+          </SideBarText>
         )}
       </IconContainer>
 
       {/* 자료실 */}
       <IconContainer
-        $selected={isActive(`/resource`)}
-        isHovered={expanded}
-        onClick={() => onNavigate(`/resource`)}
+        $selected={isActive(PATHS.RESOURCE(teamId))}
+        $isHovered={expanded}
+        onClick={() => onNavigate(PATHS.RESOURCE)}
       >
         <StrokeIcon
           as={FileSvg}
           aria-hidden
           style={{
-            color: isActive(`/resource`) ? COLOR_ACTIVE : COLOR_DEFAULT,
+            color: isActive(PATHS.RESOURCE(teamId))
+              ? COLOR_ACTIVE
+              : COLOR_DEFAULT,
           }}
         />
         {expanded && (
-          <SideBarText $selected={isActive(`/resource`)}>자료실</SideBarText>
+          <SideBarText $selected={isActive(PATHS.RESOURCE(teamId))}>
+            자료실
+          </SideBarText>
         )}
       </IconContainer>
 
@@ -158,19 +188,23 @@ export default function SideBar({
 
       {/* 팀 관리 */}
       <IconContainer
-        $selected={isActive(`/management`)}
-        isHovered={expanded}
-        onClick={() => onNavigate(`/management`)}
+        $selected={isActive(PATHS.MANAGEMENT(teamId))}
+        $isHovered={expanded}
+        onClick={() => onNavigate(PATHS.MANAGEMENT)}
       >
         <StrokeIcon
           as={TeamSvg}
           aria-hidden
           style={{
-            color: isActive(`/management`) ? COLOR_ACTIVE : COLOR_DEFAULT,
+            color: isActive(PATHS.MANAGEMENT(teamId))
+              ? COLOR_ACTIVE
+              : COLOR_DEFAULT,
           }}
         />
         {expanded && (
-          <SideBarText $selected={isActive(`/management`)}>팀 관리</SideBarText>
+          <SideBarText $selected={isActive(PATHS.MANAGEMENT(teamId))}>
+            팀 관리
+          </SideBarText>
         )}
       </IconContainer>
 
@@ -178,24 +212,30 @@ export default function SideBar({
 
       {/* 마이페이지 */}
       <IconContainer
-        $selected={isActive(`/mypage`)}
-        isHovered={expanded}
-        onClick={() => onNavigate(`/mypage`)}
+        $selected={isActive(PATHS.MY_PAGE(teamId))}
+        $isHovered={expanded}
+        onClick={() => onNavigate(PATHS.MY_PAGE)}
       >
         <StrokeIcon
           as={MyPageSvg}
           aria-hidden
-          style={{ color: isActive(`/mypage`) ? COLOR_ACTIVE : COLOR_DEFAULT }}
+          style={{
+            color: isActive(PATHS.MY_PAGE(teamId))
+              ? COLOR_ACTIVE
+              : COLOR_DEFAULT,
+          }}
         />
         {expanded && (
-          <SideBarText $selected={isActive(`/mypage`)}>마이페이지</SideBarText>
+          <SideBarText $selected={isActive(PATHS.MY_PAGE(teamId))}>
+            마이페이지
+          </SideBarText>
         )}
       </IconContainer>
 
       {/* 프로젝트 종료 */}
       <IconContainer
         $selected={endSelected}
-        isHovered={expanded}
+        $isHovered={expanded}
         $danger
         onClick={onEndClick}
       >
@@ -205,7 +245,7 @@ export default function SideBar({
           style={{ color: endSelected ? COLOR_ACTIVE : COLOR_DEFAULT }}
         />
         {expanded && (
-          <SideBarText $selected={endSelected} redText>
+          <SideBarText $selected={endSelected} $redText>
             프로젝트
             <br />
             종료
@@ -216,12 +256,12 @@ export default function SideBar({
   );
 }
 
-const SideBarContainer = styled.div<{ isHovered: boolean }>`
+const SideBarContainer = styled.div<{ $isHovered: boolean }>`
   position: fixed;
   z-index: 1000;
   top: 0;
   left: 0;
-  width: ${({ isHovered }) => (isHovered ? '158px' : '73px')};
+  width: ${({ $isHovered }) => ($isHovered ? '158px' : '73px')};
   height: 832px;
   background-color: white;
   display: flex;
@@ -271,10 +311,22 @@ const FallbackLogo = styled.div`
   font-weight: 700;
 `;
 
+const TeamInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const TeamDropdownBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 interface ItemProps {
   $selected?: boolean;
-  redText?: boolean;
-  isHovered?: boolean;
+  $redText?: boolean;
+  $isHovered?: boolean;
   $danger?: boolean;
 }
 
@@ -288,8 +340,8 @@ const SideBarText = styled.p<ItemProps>`
   white-space: nowrap;
   overflow: hidden;
 
-  ${({ redText, theme }) =>
-    redText &&
+  ${({ $redText, theme }) =>
+    $redText &&
     `
     color: ${theme.colors.red};
   `}
@@ -301,8 +353,9 @@ const IconContainer = styled.div<ItemProps>`
   background-color: ${({ $selected, theme, $danger }) =>
     $selected ? ($danger ? '#FFE9E9' : theme.colors.background) : 'white'};
   display: flex;
-  justify-content: ${({ isHovered }) => (isHovered ? 'flex-start' : 'center')};
-  padding-left: ${({ isHovered }) => (isHovered ? '20px' : '0')};
+  justify-content: ${({ $isHovered }) =>
+    $isHovered ? 'flex-start' : 'center'};
+  padding-left: ${({ $isHovered }) => ($isHovered ? '20px' : '0')};
   box-sizing: border-box;
   overflow: hidden;
   align-items: center;

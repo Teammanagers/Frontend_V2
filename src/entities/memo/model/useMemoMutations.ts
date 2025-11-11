@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/app/provider/queryClient';
 import apiRequest from '@/shared/api/apiRequest';
-import { queryClient } from '@/shared/config/queryClient';
+import { useTeamStore } from '@/shared/model/store/teamStore.ts';
 
 interface IMemoInput {
   title: string;
@@ -21,16 +22,16 @@ interface IMemoFolderMoveInput {
   folderId: number;
 }
 
-const TEAM_ID = 3;
-
 export default function useMemoMutations() {
+  const teamId = useTeamStore((state) => state.teamId);
+
   // 메모 생성
   const useCreateMemoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (data: IMemoInput) => {
         const { title, content, tags, folderId } = data;
         await apiRequest({
-          url: `/api/v2/memo/folders/${folderId}/teams/${TEAM_ID}`,
+          url: `/api/v2/memo/folders/${folderId}/teams/${teamId}`,
           method: 'POST',
           data: {
             title,

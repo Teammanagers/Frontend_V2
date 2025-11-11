@@ -1,14 +1,13 @@
+import { Dispatch, SetStateAction, useRef } from 'react';
 import styled from 'styled-components';
+import { useGetResourceList } from '@/entities/resource/model/useResourceQueries';
+import { Resource } from '@/entities/resource/resource.types';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
+import { useResourceDeletion } from '@/features/resource/model/useResourceDeletion';
 import DeleteResourceButton from '@/features/resource/ui/DeleteResourceButton';
-import { OWNER_TEAMMANAGE_ID } from '@/shared/config/constants/team.constants';
 import DeleteResourceModal from '@/features/resource/ui/DeleteResourceModal';
 import ResourceAddController from './ResourceAddController';
-import { Dispatch, SetStateAction, useRef } from 'react';
-import { Resource } from '@/entities/resource/resource.types';
-import { useResourceDeletion } from '@/features/resource/model/useResourceDeletion';
-import { useGetResourceList } from '@/entities/resource/model/useResourceQueries';
 
 export default function EditableResourceList({
   onSelectedResource,
@@ -44,7 +43,7 @@ export default function EditableResourceList({
                   deleteButton={
                     <DeleteResourceButton
                       resourceId={resource.fileInfo.createdBy}
-                      myId={OWNER_TEAMMANAGE_ID}
+                      myId={1} // TODO: 실제 사용자 ID로 교체 필요
                       onClick={(e) => openDeleteModal(e, resource.dataId)}
                     />
                   }
