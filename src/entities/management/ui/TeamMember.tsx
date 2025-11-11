@@ -137,4 +137,5 @@ const MembersContainer = styled.div`
   grid-auto-rows: 44px;
   column-gap: 20px;
   row-gap: 12px;
+  min-height: calc(44px * 3 + 12px * 2);
 `;

@@ -34,7 +34,6 @@ export const BreadCrumb = () => {
 const BreadCrumbContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 4px;
   gap: 8px;
 `;
 

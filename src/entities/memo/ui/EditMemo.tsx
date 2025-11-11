@@ -5,6 +5,7 @@ import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
+import { MemoFormContainer } from '@/entities/memo/ui/WriteMemo.tsx';
 import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 
 export const EditMemo = () => {
@@ -51,7 +52,7 @@ export const EditMemo = () => {
   };
 
   return (
-    <>
+    <MemoFormContainer>
       <MemoForm
         initialTitle={memoDto.title}
         initialContent={memoDto.content}
@@ -76,6 +77,6 @@ export const EditMemo = () => {
           teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${memoDto.folderId}`);
         }}
       />
-    </>
+    </MemoFormContainer>
   );
 };

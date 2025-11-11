@@ -43,27 +43,37 @@ export function ManagementPage() {
   const transformedPartialSchedule = transformScheduleData(partialSchedule);
 
   return (
-    <Container>
-      <TeamInfo
-        title={team.team.title}
-        imageUrl={team.imgUrl}
-        teamCode={team.team.code}
-        tagList={team.teamTagList}
-      />
-      <TeamMember members={transformedMembers} />
-      <Schedule
-        members={transformedMembers}
-        schedule={transformedSchedule}
-        partialSchedule={transformedPartialSchedule}
-        mySchedule={transformedMySchedule}
-        selectedMembers={selectedMembers}
-        setSelectedMembers={setSelectedMembers}
-      />
-    </Container>
+    <Wrapper>
+      <ManagementContainer>
+        <TeamInfo
+          title={team.team.title}
+          imageUrl={team.imgUrl}
+          teamCode={team.team.code}
+          tagList={team.teamTagList}
+        />
+        <TeamMember members={transformedMembers} />
+        <Schedule
+          members={transformedMembers}
+          schedule={transformedSchedule}
+          partialSchedule={transformedPartialSchedule}
+          mySchedule={transformedMySchedule}
+          selectedMembers={selectedMembers}
+          setSelectedMembers={setSelectedMembers}
+        />
+      </ManagementContainer>
+    </Wrapper>
   );
 }
 
-const Container = styled.div`
+const Wrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ManagementContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 1088px;
