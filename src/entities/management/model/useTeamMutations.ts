@@ -164,7 +164,7 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'teamMember', 'schedule', teamId],
+          queryKey: ['management', 'schedule', teamId],
         });
       },
     });
