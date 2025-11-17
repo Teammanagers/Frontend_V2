@@ -32,7 +32,6 @@ export const Schedule = ({
   mySchedule,
   selectedMembers,
   setSelectedMembers,
-  partialSchedule,
 }: IScheduleProps) => {
   const { useRegisterScheduleMutation } = useTeamMutations();
   const { mutate: registerSchedule } = useRegisterScheduleMutation();
@@ -70,14 +69,8 @@ export const Schedule = ({
   } = useSchedule(mySchedule, handleSubmit);
 
   const renderSchedule = () => {
-    if (Object.values(schedule).some((day) => day.value.length > 0)) {
-      return <ShowSchedule schedule={schedule} />;
-    }
-
-    if (
-      Object.values(partialSchedule ?? {}).some((day) => day.value.length > 0)
-    ) {
-      return <ShowSchedule schedule={partialSchedule!} />;
+    if (Object.values(schedule ?? {}).some((day) => day.value.length > 0)) {
+      return <ShowSchedule schedule={schedule!} />;
     }
 
     return <NoSchedule />;
