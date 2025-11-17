@@ -33,6 +33,7 @@ export default function useTeamMutations() {
         queryClient.invalidateQueries({
           queryKey: ['management', 'team', teamId],
         });
+        queryClient.invalidateQueries({ queryKey: ['sidebar', 'myTeamList'] });
       },
       onError: (err) => console.error(err),
     });
