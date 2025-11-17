@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import styled from 'styled-components';
+import { checkHasSchedule } from '@/entities/management/lib/checkHasSchedule.ts';
 import { transformScheduleRequest } from '@/entities/management/lib/transformScheduleData.ts';
 import {
   ScheduleProps,
@@ -55,7 +56,6 @@ export const Schedule = ({
 
   const handleSubmit = (weeklyTimes: Record<Weekday, TimeSlot[]>) => {
     const requestBody = transformScheduleRequest(weeklyTimes);
-    // console.log('스케줄 등록 요청: ', requestBody);
     registerSchedule(requestBody);
   };
 
@@ -75,6 +75,8 @@ export const Schedule = ({
 
     return <NoSchedule />;
   };
+
+  const hasMySchedule = checkHasSchedule(mySchedule);
 
   return (
     <Container>
@@ -123,8 +125,12 @@ export const Schedule = ({
                 </TagContainer>
               </PeopleLabelContainer>
             </PeopleContainer>
-            <Button size="mini" style="main" onClick={toggleRegister}>
-              내 스케줄 등록
+            <Button
+              size="mini"
+              style={hasMySchedule ? 'sub' : 'main'}
+              onClick={toggleRegister}
+            >
+              {hasMySchedule ? '스케줄 수정' : '내 스케줄 등록'}
             </Button>
           </ScheduleContainer>
           {renderSchedule()}
