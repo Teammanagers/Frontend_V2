@@ -1,14 +1,21 @@
 import styled from 'styled-components';
+import { useTeamById } from '@/entities/team/model/useTeamQueries';
 
 function TeamCodeCopy() {
+  const { data } = useTeamById();
+
   const handleCopyClipBoard = () => {
-    alert('팀 코드가 클립보드에 복사되었습니다.');
-    navigator.clipboard.writeText('X65VRG34');
+    if (data?.team.code) {
+      navigator.clipboard.writeText(data?.team.code);
+      alert('팀 코드가 클립보드에 복사되었습니다.');
+    } else {
+      alert('팀 코드를 복사하는데 실패했습니다.');
+    }
   };
 
   return (
     <Container>
-      <TeamCode>X65VRG34</TeamCode>
+      <TeamCode>{data?.team.code}</TeamCode>
       <Button onClick={handleCopyClipBoard}>팀 코드복사</Button>
     </Container>
   );
