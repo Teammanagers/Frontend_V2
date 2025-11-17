@@ -168,7 +168,6 @@ const TagContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  background: darkseagreen;
 `;
 
 export const DeleteBtn = styled(Delete)`

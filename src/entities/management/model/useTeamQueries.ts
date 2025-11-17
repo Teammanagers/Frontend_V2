@@ -56,7 +56,7 @@ export default function useTeamQueries() {
     const sortedIds = [...teamMemberIds].sort((a, b) => a - b);
 
     const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['management', 'partialSchedule', teamId, sortedIds],
+      queryKey: ['management', 'schedule', teamId, sortedIds],
       queryFn: () => {
         const queryString = sortedIds
           .map((id) => `teamMemberId=${encodeURIComponent(id)}`)
