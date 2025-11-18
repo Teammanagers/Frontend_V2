@@ -13,6 +13,7 @@ import { Memo } from '@/widgets/memo/Memo';
 export const MemoList = ({
   memos,
   folders,
+  myMemosIds,
   isEmpty,
   isRootFolder,
   uiState,
@@ -58,6 +59,7 @@ export const MemoList = ({
                 key={memo.id}
                 size="large"
                 memo={memo}
+                isMyMemo={myMemosIds?.includes(memo.id)}
                 onDeleteRequest={(id: number) =>
                   handlers.handleDeleteRequest({
                     type: 'memo',

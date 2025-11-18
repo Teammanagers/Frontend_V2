@@ -13,6 +13,7 @@ export interface MemoType {
 export interface MemoProps {
   size: keyof typeof memoSizes;
   memo: MemoType;
+  isMyMemo?: boolean;
   onDeleteRequest: (id: number) => void;
   onMoveRequest: (id: number) => void;
 }

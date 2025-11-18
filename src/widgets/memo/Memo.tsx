@@ -41,6 +41,7 @@ import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 export const Memo = ({
   size,
   memo,
+  isMyMemo,
   onDeleteRequest,
   onMoveRequest,
 }: MemoProps) => {
@@ -66,11 +67,23 @@ export const Memo = ({
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
+      if (!isMyMemo) {
+        alert('내가 쓴 메모가 아닌 메모는 수정할 수 없습니다.');
+        return;
+      }
       teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/edit/${id}`);
       setIsOpen(true);
     } else if (menu === '이동') {
+      if (!isMyMemo) {
+        alert('내가 쓴 메모가 아닌 메모는 이동할 수 없습니다.');
+        return;
+      }
       onMoveRequest(id);
     } else if (menu === '삭제') {
+      if (!isMyMemo) {
+        alert('내가 쓴 메모가 아닌 메모는 삭제할 수 없습니다.');
+        return;
+      }
       setIsOpen(true);
       onDeleteRequest(id);
     }
