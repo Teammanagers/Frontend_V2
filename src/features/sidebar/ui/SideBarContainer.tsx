@@ -59,8 +59,9 @@ export default function SideBarContainer() {
 
   const handleTeamSelected = (team: TeamProps) => {
     console.log('선택한 팀: ', team);
+    setCurrentTeam(team);
     setIsTeamListOpen(false);
-    // 다른 팀으로 이동
+    teamNavigate(() => `/team/${team.teamId}`);
   };
 
   const handleModalOpen = () => {
