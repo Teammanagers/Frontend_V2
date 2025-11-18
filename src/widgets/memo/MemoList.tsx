@@ -21,13 +21,18 @@ export const MemoList = ({
   currentFolderId,
   canAddFolder,
 }: MemoListViewProps) => {
+  const showEmptyState = isEmpty && isRootFolder;
+
   return (
-    <>
-      {isEmpty && isRootFolder ? (
+    <Container $center={showEmptyState}>
+      {showEmptyState ? (
         <AddButtonLarge onClick={handlers.handleOpenAddModal} />
       ) : (
-        <MemoContainer>
-          <BreadCrumb />
+        <>
+          <BreadCrumbWrapper>
+            <BreadCrumb />
+          </BreadCrumbWrapper>
+
           <ListContainer>
             <AddButtonSmall onClick={handlers.handleOpenAddModal} />
             {folders.map((folder) => (
@@ -70,9 +75,10 @@ export const MemoList = ({
               />
             ))}
           </ListContainer>
-        </MemoContainer>
+        </>
       )}
 
+      {/* 모달들 그대로 유지 */}
       {uiState.openAddModal && (
         <AddModal
           isOpen={true}
@@ -113,24 +119,25 @@ export const MemoList = ({
           parentId={currentFolderId}
         />
       )}
-    </>
+    </Container>
   );
 };
 
-export const Container = styled.div`
+const Container = styled.div<{ $center?: boolean }>`
   width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const MemoContainer = styled.div`
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  gap: 12px;
+  align-items: center;
+  justify-content: ${({ $center }) => ($center ? 'center' : 'flex-start')};
+  padding-top: ${({ $center }) => ($center ? '0' : '48px')};
+  transition: all 0.3s ease;
+`;
+
+const BreadCrumbWrapper = styled.div`
+  width: 1088px;
+  display: flex;
+  margin-bottom: 12px;
 `;
 
 const ListContainer = styled.div`

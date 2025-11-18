@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
@@ -37,12 +38,22 @@ export const WriteMemo = () => {
   };
 
   return (
-    <MemoForm
-      onSubmit={onSubmit}
-      onBack={() =>
-        teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${currentFolderId}`)
-      }
-      submitButtonText="메모 등록"
-    />
+    <MemoFormContainer>
+      <MemoForm
+        onSubmit={onSubmit}
+        onBack={() =>
+          teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${currentFolderId}`)
+        }
+        submitButtonText="메모 등록"
+      />
+    </MemoFormContainer>
   );
 };
+
+export const MemoFormContainer = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
