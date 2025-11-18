@@ -34,22 +34,6 @@ export default function useTeamQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
-  // 팀 스케줄 조회
-  const useTeamScheduleQuery = () => {
-    const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['management', 'schedule', teamId],
-      queryFn: () =>
-        apiRequest({
-          url: `/api/v2/schedule/teams/${teamId}`,
-          method: 'GET',
-        }),
-      select: (res): IScheduleDto[] =>
-        res.result.map((r: IScheduleResponse) => r.scheduleDto),
-      staleTime: 60 * 1000,
-    });
-    return { isPending, isError, isSuccess, data };
-  };
-
   // 개인 스케줄 조회
   const useMyScheduleQuery = () => {
     const { isPending, isError, isSuccess, data } = useQuery({
@@ -66,13 +50,13 @@ export default function useTeamQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
-  // 팀 스케줄 부분 조회
+  // 팀 스케줄 부분 조회 (팀 스케줄 조회)
   const usePartialScheduleQuery = (teamMemberIds: number[]) => {
     const enabled = teamMemberIds.length > 0;
     const sortedIds = [...teamMemberIds].sort((a, b) => a - b);
 
     const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['management', 'partialSchedule', teamId, sortedIds],
+      queryKey: ['management', 'schedule', teamId, sortedIds],
       queryFn: () => {
         const queryString = sortedIds
           .map((id) => `teamMemberId=${encodeURIComponent(id)}`)
@@ -108,7 +92,6 @@ export default function useTeamQueries() {
 
   return {
     useTeamByIdQuery,
-    useTeamScheduleQuery,
     useMyScheduleQuery,
     usePartialScheduleQuery,
     useTeamMemberQuery,

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import styled from 'styled-components';
+import { checkHasSchedule } from '@/entities/management/lib/checkHasSchedule.ts';
 import { transformScheduleRequest } from '@/entities/management/lib/transformScheduleData.ts';
 import {
   ScheduleProps,
@@ -32,7 +33,6 @@ export const Schedule = ({
   mySchedule,
   selectedMembers,
   setSelectedMembers,
-  partialSchedule,
 }: IScheduleProps) => {
   const { useRegisterScheduleMutation } = useTeamMutations();
   const { mutate: registerSchedule } = useRegisterScheduleMutation();
@@ -56,7 +56,6 @@ export const Schedule = ({
 
   const handleSubmit = (weeklyTimes: Record<Weekday, TimeSlot[]>) => {
     const requestBody = transformScheduleRequest(weeklyTimes);
-    // console.log('스케줄 등록 요청: ', requestBody);
     registerSchedule(requestBody);
   };
 
@@ -70,18 +69,14 @@ export const Schedule = ({
   } = useSchedule(mySchedule, handleSubmit);
 
   const renderSchedule = () => {
-    if (Object.values(schedule).some((day) => day.value.length > 0)) {
-      return <ShowSchedule schedule={schedule} />;
-    }
-
-    if (
-      Object.values(partialSchedule ?? {}).some((day) => day.value.length > 0)
-    ) {
-      return <ShowSchedule schedule={partialSchedule!} />;
+    if (Object.values(schedule ?? {}).some((day) => day.value.length > 0)) {
+      return <ShowSchedule schedule={schedule!} />;
     }
 
     return <NoSchedule />;
   };
+
+  const hasMySchedule = checkHasSchedule(mySchedule);
 
   return (
     <Container>
@@ -130,8 +125,12 @@ export const Schedule = ({
                 </TagContainer>
               </PeopleLabelContainer>
             </PeopleContainer>
-            <Button size="mini" style="main" onClick={toggleRegister}>
-              내 스케줄 등록
+            <Button
+              size="mini"
+              style={hasMySchedule ? 'sub' : 'main'}
+              onClick={toggleRegister}
+            >
+              {hasMySchedule ? '스케줄 수정' : '내 스케줄 등록'}
             </Button>
           </ScheduleContainer>
           {renderSchedule()}

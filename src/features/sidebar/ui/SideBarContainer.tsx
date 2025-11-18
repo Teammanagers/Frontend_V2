@@ -39,6 +39,16 @@ export default function SideBarContainer() {
     }
   }, [teamList]);
 
+  useEffect(() => {
+    if (!currentTeam) return;
+
+    const updated = teamList.find((t) => t.teamId === currentTeam.teamId);
+
+    if (updated && updated.imageUrl !== currentTeam.imageUrl) {
+      setCurrentTeam(updated);
+    }
+  }, [teamList, currentTeam]);
+
   const handleNavigate = (path: (teamId: number) => string) => {
     setEndSelected(false);
 
@@ -49,8 +59,9 @@ export default function SideBarContainer() {
 
   const handleTeamSelected = (team: TeamProps) => {
     console.log('선택한 팀: ', team);
+    setCurrentTeam(team);
     setIsTeamListOpen(false);
-    // 다른 팀으로 이동
+    teamNavigate(() => `/team/${team.teamId}`);
   };
 
   const handleModalOpen = () => {
@@ -59,8 +70,8 @@ export default function SideBarContainer() {
 
   const handleModalClose = () => {
     setIsAddTeamModalOpen(false);
-    setHover(false); // 사이드바 접힘
-    setIsTeamListOpen(false); // 드롭다운 닫힘
+    setHover(false);
+    setIsTeamListOpen(false);
   };
 
   const handleCreateTeam = () => {

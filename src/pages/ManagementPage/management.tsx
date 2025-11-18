@@ -12,15 +12,12 @@ export function ManagementPage() {
 
   const {
     useTeamByIdQuery,
-    useTeamScheduleQuery,
     useMyScheduleQuery,
     usePartialScheduleQuery,
     useTeamMemberQuery,
   } = useTeamQueries();
   const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
   const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
-  const { data: schedule, isPending: isScheduleLoading } =
-    useTeamScheduleQuery();
   const { data: mySchedule, isPending: isMyScheduleLoading } =
     useMyScheduleQuery();
 
@@ -30,17 +27,15 @@ export function ManagementPage() {
 
   const teamMemberIds = selectedMembers.map((m) => m.teamMemberId);
 
-  const { data: partialSchedule } = usePartialScheduleQuery(teamMemberIds);
+  const { data: schedule } = usePartialScheduleQuery(teamMemberIds);
 
   // 추후 스켈레톤 적용
   if (isTeamLoading || !team) return <div>로딩중..</div>;
-  if (isScheduleLoading || !schedule) return <div>로딩중...</div>;
   if (isMyScheduleLoading || !mySchedule) return <div>로딩중...</div>;
   if (isMembersLoading || !members) return <div>로딩중...</div>;
 
-  const transformedSchedule = transformScheduleData(schedule);
   const transformedMySchedule = transformScheduleData(mySchedule);
-  const transformedPartialSchedule = transformScheduleData(partialSchedule);
+  const transformedPartialSchedule = transformScheduleData(schedule);
 
   return (
     <Wrapper>
@@ -54,8 +49,7 @@ export function ManagementPage() {
         <TeamMember members={transformedMembers} />
         <Schedule
           members={transformedMembers}
-          schedule={transformedSchedule}
-          partialSchedule={transformedPartialSchedule}
+          schedule={transformedPartialSchedule}
           mySchedule={transformedMySchedule}
           selectedMembers={selectedMembers}
           setSelectedMembers={setSelectedMembers}
