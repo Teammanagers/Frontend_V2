@@ -16,6 +16,7 @@ export const useTeamById = () => {
       }),
     select: (res): TeamResponse => res.result,
     staleTime: 60 * 1000,
+    enabled: !!teamId,
   });
 
   return { isPending, isError, isSuccess, data };
