@@ -5,19 +5,16 @@ import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
 import { Schedule } from '@/entities/management/ui/Schedule.tsx';
 import { TeamInfo } from '@/entities/management/ui/TeamInfo.tsx';
 import { TeamMember } from '@/entities/management/ui/TeamMember.tsx';
+import { useTeamById } from '@/entities/team/model/useTeamQueries';
 import { IMemberResponse } from '@/shared/types/member.types.ts';
 
 export function ManagementPage() {
   const [selectedMembers, setSelectedMembers] = useState<IMemberResponse[]>([]);
 
-  const {
-    useTeamByIdQuery,
-    useMyScheduleQuery,
-    usePartialScheduleQuery,
-    useTeamMemberQuery,
-  } = useTeamQueries();
+  const { useMyScheduleQuery, usePartialScheduleQuery, useTeamMemberQuery } =
+    useTeamQueries();
   const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
-  const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
+  const { data: team, isPending: isTeamLoading } = useTeamById();
   const { data: mySchedule, isPending: isMyScheduleLoading } =
     useMyScheduleQuery();
 

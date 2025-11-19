@@ -1,16 +1,42 @@
 import styled from 'styled-components';
+import { useTeamById } from '@/entities/team/model/useTeamQueries';
+import Skeleton from '@/shared/components/skeleton/Skeleton';
 
 function TeamCodeCopy() {
+  const { data, isPending, isSuccess, isError } = useTeamById();
+
   const handleCopyClipBoard = () => {
+    const teamCode = data?.team.code;
+
+    if (!teamCode) {
+      alert('팀 코드를 복사하는데 실패했습니다.');
+      return;
+    }
+    navigator.clipboard.writeText(data?.team.code);
     alert('팀 코드가 클립보드에 복사되었습니다.');
-    navigator.clipboard.writeText('X65VRG34');
   };
 
   return (
-    <Container>
-      <TeamCode>X65VRG34</TeamCode>
-      <Button onClick={handleCopyClipBoard}>팀 코드복사</Button>
-    </Container>
+    <div>
+      {isPending && <Skeleton key="skeleton" width={163} height={76} />}
+
+      {!isPending && (
+        <Container>
+          {isSuccess && (
+            <>
+              <TeamCode>{data?.team.code}</TeamCode>
+              <Button onClick={handleCopyClipBoard}>팀 코드복사</Button>
+            </>
+          )}
+
+          {isError && (
+            <TeamCodeError>
+              팀 코드를 불러오는데 <br /> 실패했습니다
+            </TeamCodeError>
+          )}
+        </Container>
+      )}
+    </div>
   );
 }
 
@@ -53,4 +79,10 @@ const Button = styled.button`
     transition: background-color 0.3s;
     box-shadow: 0 1px 4px 0 rgba(60, 139, 255, 0.06);
   }
+`;
+
+const TeamCodeError = styled.p`
+  text-align: center;
+  color: ${({ theme }) => theme.colors.darkGray};
+  font-size: 14px;
 `;
