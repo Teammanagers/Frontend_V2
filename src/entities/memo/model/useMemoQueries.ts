@@ -76,22 +76,6 @@ export default function useMemoQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
-  // 메모 단건 조회
-  const useMemoDetailQuery = (memoId: number) => {
-    const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['memoDetail', memoId],
-      enabled: !!memoId,
-      queryFn: () =>
-        apiRequest({
-          url: `/api/v2/memo/${memoId}`,
-          method: 'GET',
-        }),
-      select: (res): IMemoResponse => res.result,
-    });
-
-    return { isPending, isError, isSuccess, data };
-  };
-
   // 내가 쓴 메모 조회
   const useMyMemoListQuery = () => {
     const { isPending, isError, isSuccess, data } = useQuery({
@@ -110,6 +94,22 @@ export default function useMemoQueries() {
           isFixed: memo.memoDto.isFixed,
         })),
       enabled: !!teamId,
+    });
+
+    return { isPending, isError, isSuccess, data };
+  };
+
+  // 메모 단건 조회
+  const useMemoDetailQuery = (memoId: number) => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['memoDetail', memoId],
+      enabled: !!memoId,
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/memo/${memoId}`,
+          method: 'GET',
+        }),
+      select: (res): IMemoResponse => res.result,
     });
 
     return { isPending, isError, isSuccess, data };
