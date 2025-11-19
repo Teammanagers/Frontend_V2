@@ -7,6 +7,11 @@ import { TeamInfo } from '@/entities/management/ui/TeamInfo.tsx';
 import { TeamMember } from '@/entities/management/ui/TeamMember.tsx';
 import { useTeamById } from '@/entities/team/model/useTeamQueries';
 import { IMemberResponse } from '@/shared/types/member.types.ts';
+import {
+  ScheduleSkeleton,
+  TeamInfoSkeleton,
+  TeamMemberSkeleton,
+} from '@/widgets/management/ui/ManagementSkeleton.tsx';
 
 export function ManagementPage() {
   const [selectedMembers, setSelectedMembers] = useState<IMemberResponse[]>([]);
@@ -26,11 +31,20 @@ export function ManagementPage() {
 
   const { data: schedule } = usePartialScheduleQuery(teamMemberIds);
 
-  // 추후 스켈레톤 적용
-  if (isTeamLoading || !team) return <div>로딩중..</div>;
-  if (isMyScheduleLoading || !mySchedule) return <div>로딩중...</div>;
-  if (isMembersLoading || !members) return <div>로딩중...</div>;
+  const isLoading = isTeamLoading || isMembersLoading || isMyScheduleLoading;
+  const isReady = !!team && !!members && !!mySchedule;
 
+  if (!isReady || isLoading) {
+    return (
+      <Wrapper>
+        <ManagementContainer>
+          <TeamInfoSkeleton />
+          <TeamMemberSkeleton />
+          <ScheduleSkeleton />
+        </ManagementContainer>
+      </Wrapper>
+    );
+  }
   const transformedMySchedule = transformScheduleData(mySchedule);
   const transformedPartialSchedule = transformScheduleData(schedule);
 
