@@ -31,6 +31,7 @@ interface MemoListViewHandlers {
 export interface MemoListViewProps {
   memos: MemoType[];
   folders: FolderType[];
+  myMemosIds: number[];
   isEmpty: boolean;
   isRootFolder: boolean;
   uiState: MemoListViewUIState;

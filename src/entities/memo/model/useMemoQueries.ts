@@ -92,14 +92,37 @@ export default function useMemoQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
-  // 폴더 전체 조회
-  const useFolderListQuery = (folderId: number) => {
+  // 내가 쓴 메모 조회
+  const useMyMemoListQuery = () => {
     const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['folder', folderId],
-      enabled: Number.isFinite(folderId),
+      queryKey: ['myMemo', teamId],
       queryFn: () =>
         apiRequest({
-          url: `/api/v2/folder/${folderId}/list`,
+          url: `/api/v2/memo/my?teamId=${teamId}`,
+          method: 'GET',
+        }),
+      select: (res): MemoType[] =>
+        res.result.map((memo: IMemoResponse) => ({
+          id: memo.memoDto.id,
+          title: memo.memoDto.title,
+          content: memo.memoDto.content,
+          tags: memo.memoTagList.map((t) => t.name),
+          isFixed: memo.memoDto.isFixed,
+        })),
+      enabled: !!teamId,
+    });
+
+    return { isPending, isError, isSuccess, data };
+  };
+
+  // 폴더 전체 조회
+  const useFolderListQuery = (parentId: number) => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['folder', parentId],
+      enabled: Number.isFinite(parentId),
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/folder/${parentId}/list`,
           method: 'GET',
         }),
       select: (res): FolderType[] =>
@@ -132,6 +155,7 @@ export default function useMemoQueries() {
     useRootFolderQuery,
     useMemoListQuery,
     useMemoDetailQuery,
+    useMyMemoListQuery,
     useFolderListQuery,
     useFolderDetailQuery,
   };

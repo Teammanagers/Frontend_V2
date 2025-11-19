@@ -44,7 +44,12 @@ export const DeleteModal = ({
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalContainer>
-        {`'${displayName}' ${type === 'folder' ? '폴더' : '메모'}를 삭제하시겠습니까?`}
+        <ModalTextContainer>
+          {`'${displayName}' ${type === 'folder' ? '폴더' : '메모'}를 삭제하시겠습니까?`}
+          {type === 'folder' && (
+            <DeleteText>(폴더 내의 메모도 함께 삭제됩니다.)</DeleteText>
+          )}
+        </ModalTextContainer>
         <ButtonContainer>
           <Button size="mini" style="main" onClick={toggle}>
             유지
@@ -67,11 +72,22 @@ const ModalContainer = styled.div`
   min-height: 148px;
   padding: 32px 36px;
   border-radius: 8px;
-  font-size: 16px;
   gap: 24px;
   color: ${({ theme }) => theme.colors.black};
   background: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+`;
+
+const ModalTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+`;
+
+const DeleteText = styled.p`
+  font-size: 14px;
 `;
 
 const ButtonContainer = styled.div`

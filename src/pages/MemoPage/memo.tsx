@@ -25,6 +25,7 @@ export function MemoPage() {
     useFolderListQuery,
     useMemoListQuery,
     useFolderDetailQuery,
+    useMyMemoListQuery,
   } = useMemoQueries();
   const { data: rootFolder, isPending: isRootLoading } = useRootFolderQuery();
 
@@ -41,6 +42,7 @@ export function MemoPage() {
   const { data: folders, isPending: isFoldersLoading } =
     useFolderListQuery(fid);
   const { data: currentFolder } = useFolderDetailQuery(fid);
+  const { data: myMemos } = useMyMemoListQuery();
 
   useEffect(() => {
     if (!ready) return;
@@ -110,10 +112,13 @@ export function MemoPage() {
 
   const isRootFolder = fid === rootFolder?.id;
 
+  const myMemoIds = (myMemos ?? []).map((memo) => memo.id);
+
   return (
     <MemoList
       folders={folders || []}
       memos={sortedMemos || []}
+      myMemosIds={myMemoIds}
       isEmpty={isEmpty}
       isRootFolder={isRootFolder}
       uiState={{
