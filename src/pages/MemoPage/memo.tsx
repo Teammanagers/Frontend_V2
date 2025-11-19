@@ -91,8 +91,6 @@ export function MemoPage() {
     };
   }, [ready, fid, setPath, resetPath]);
 
-  if (!ready || isRootLoading) return <div>로딩 중...</div>;
-
   const canAddFolder = (currentFolder?.depth ?? 1) < 3;
 
   const sortedMemos = [...(memos ?? [])].sort((a, b) => {
@@ -110,9 +108,9 @@ export function MemoPage() {
     (memos?.length ?? 0) === 0 &&
     (folders?.length ?? 0) === 0;
 
-  const isRootFolder = fid === rootFolder?.id;
-
   const myMemoIds = (myMemos ?? []).map((memo) => memo.id);
+
+  const isLoading = isMemosLoading || isFoldersLoading || isRootLoading;
 
   return (
     <MemoList
@@ -120,7 +118,7 @@ export function MemoPage() {
       memos={sortedMemos || []}
       myMemosIds={myMemoIds}
       isEmpty={isEmpty}
-      isRootFolder={isRootFolder}
+      isLoading={isLoading}
       uiState={{
         deleteTarget,
         moveTarget,
