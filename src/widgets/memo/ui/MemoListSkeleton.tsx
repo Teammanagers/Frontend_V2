@@ -8,9 +8,9 @@ interface MemoListSkeletonProps {
 export default function MemoListSkeleton({ variant }: MemoListSkeletonProps) {
   if (variant === 'empty') {
     return (
-      <SingleSkeletonWrapper>
+      <SkeletonWrapper>
         <Skeleton width={1088} height={632} />
-      </SingleSkeletonWrapper>
+      </SkeletonWrapper>
     );
   }
 
@@ -27,7 +27,7 @@ export default function MemoListSkeleton({ variant }: MemoListSkeletonProps) {
   );
 }
 
-const SingleSkeletonWrapper = styled.div`
+const SkeletonWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
