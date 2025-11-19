@@ -116,13 +116,13 @@ export default function useMemoQueries() {
   };
 
   // 폴더 전체 조회
-  const useFolderListQuery = (folderId: number) => {
+  const useFolderListQuery = (parentId: number) => {
     const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['folder', folderId],
-      enabled: Number.isFinite(folderId),
+      queryKey: ['folder', parentId],
+      enabled: Number.isFinite(parentId),
       queryFn: () =>
         apiRequest({
-          url: `/api/v2/folder/${folderId}/list`,
+          url: `/api/v2/folder/${parentId}/list`,
           method: 'GET',
         }),
       select: (res): FolderType[] =>
