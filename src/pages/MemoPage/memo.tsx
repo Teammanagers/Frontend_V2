@@ -1,16 +1,13 @@
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { PATHS } from '@/app/routes/paths.ts';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
-import { useFolderPathStore } from '@/features/memo/model/folderStore.ts';
+import { useFolderPathBuilder } from '@/features/memo/model/useFolderPathBuilder.ts';
 import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
-import apiRequest from '@/shared/api/apiRequest.ts';
 import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 import { MemoList } from '@/widgets/memo/MemoList.tsx';
 
 export function MemoPage() {
   const teamNavigate = useTeamNavigate();
-  const { setPath, resetPath } = useFolderPathStore();
   const {
     deleteTarget,
     moveTarget,
@@ -27,6 +24,7 @@ export function MemoPage() {
     useFolderDetailQuery,
     useMyMemoListQuery,
   } = useMemoQueries();
+
   const { data: rootFolder, isPending: isRootLoading } = useRootFolderQuery();
 
   const { folderId } = useParams<{ folderId?: string }>();
@@ -44,53 +42,6 @@ export function MemoPage() {
   const { data: currentFolder } = useFolderDetailQuery(fid);
   const { data: myMemos } = useMyMemoListQuery();
 
-  useEffect(() => {
-    if (!ready) return;
-
-    let cancelled = false;
-
-    async function buildPathFrom(id: number) {
-      try {
-        const chain: { id: number; name: string }[] = [];
-        let curId: number | null = id;
-
-        while (curId) {
-          const res = await apiRequest({
-            url: `/api/v2/folder/${curId}`,
-            method: 'GET',
-          });
-          const dto = res?.result?.folderDto as
-            | {
-                id: number;
-                name: string;
-                parentId: number | null;
-                depth: number;
-              }
-            | undefined;
-          if (!dto) break;
-
-          chain.unshift({
-            id: dto.id,
-            name: dto.depth === 1 ? '전체' : dto.name,
-          });
-          if (dto.depth === 1 || dto.parentId == null) break;
-          curId = dto.parentId;
-        }
-
-        if (!cancelled) setPath(chain.slice(0, 3));
-      } catch (e) {
-        console.error('buildPathFrom 실패', e);
-        if (!cancelled) resetPath();
-      }
-    }
-
-    void buildPathFrom(fid);
-
-    return () => {
-      cancelled = true;
-    };
-  }, [ready, fid, setPath, resetPath]);
-
   const canAddFolder = (currentFolder?.depth ?? 1) < 3;
 
   const sortedMemos = [...(memos ?? [])].sort((a, b) => {
@@ -98,11 +49,12 @@ export function MemoPage() {
     return a.isFixed ? -1 : 1;
   });
 
-  const handleFolderClick = (folderId: number) => {
-    teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${folderId}`);
-  };
+  useFolderPathBuilder(fid, ready);
+
+  const isRootFolder = fid === rootFolder?.id;
 
   const isEmpty =
+    isRootFolder &&
     !isMemosLoading &&
     !isFoldersLoading &&
     (memos?.length ?? 0) === 0 &&
@@ -111,6 +63,10 @@ export function MemoPage() {
   const myMemoIds = (myMemos ?? []).map((memo) => memo.id);
 
   const isLoading = isMemosLoading || isFoldersLoading || isRootLoading;
+
+  const handleFolderClick = (folderId: number) => {
+    teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${folderId}`);
+  };
 
   return (
     <MemoList
