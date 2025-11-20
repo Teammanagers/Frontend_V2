@@ -15,7 +15,26 @@ export const useTeamById = () => {
         method: 'GET',
       }),
     select: (res): TeamResponse => res.result,
-    staleTime: 60 * 1000,
+    staleTime: 60 * 1000 * 5,
+    enabled: !!teamId,
+  });
+
+  return { isPending, isError, isSuccess, data };
+};
+
+// 내 팀 멤버 아이디 조회
+export const useMyTeamMemberId = () => {
+  const teamId = useTeamStore((state) => state.teamId);
+
+  const { isPending, isError, isSuccess, data } = useQuery({
+    queryKey: ['team', teamId, 'members'],
+    queryFn: () =>
+      apiRequest({
+        url: `/api/v2/team/${teamId}/team-member-id`,
+        method: 'GET',
+      }),
+    select: (res): TeamResponse => res.result,
+    staleTime: 60 * 1000 * 5,
     enabled: !!teamId,
   });
 
