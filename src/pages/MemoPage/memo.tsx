@@ -3,6 +3,7 @@ import { PATHS } from '@/app/routes/paths.ts';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { useFolderPathBuilder } from '@/features/memo/model/useFolderPathBuilder.ts';
 import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
+import LoadingSpinner from '@/shared/components/loadingSpinner/loadingSpinner.tsx';
 import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 import { MemoList } from '@/widgets/memo/MemoList.tsx';
 
@@ -42,6 +43,26 @@ export function MemoPage() {
   const { data: currentFolder } = useFolderDetailQuery(fid);
   const { data: myMemos } = useMyMemoListQuery();
 
+  useFolderPathBuilder(fid, ready);
+
+  const isRootResolved = rootFolder !== undefined; // rootFolder가 도착했는가?
+
+  // rootFolder가 아직 안 왔으면 fid 계산도 의미 없음 → 스피너
+  if (!isRootResolved) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <LoadingSpinner size={48} />
+      </div>
+    );
+  }
+
   const canAddFolder = (currentFolder?.depth ?? 1) < 3;
 
   const sortedMemos = [...(memos ?? [])].sort((a, b) => {
@@ -49,20 +70,12 @@ export function MemoPage() {
     return a.isFixed ? -1 : 1;
   });
 
-  useFolderPathBuilder(fid, ready);
-
   const isRootFolder = fid === rootFolder?.id;
-
+  const isLoading = isRootLoading || isMemosLoading || isFoldersLoading;
   const isEmpty =
-    isRootFolder &&
-    !isMemosLoading &&
-    !isFoldersLoading &&
-    (memos?.length ?? 0) === 0 &&
-    (folders?.length ?? 0) === 0;
+    isRootFolder && (memos?.length ?? 0) === 0 && (folders?.length ?? 0) === 0;
 
   const myMemoIds = (myMemos ?? []).map((memo) => memo.id);
-
-  const isLoading = isMemosLoading || isFoldersLoading || isRootLoading;
 
   const handleFolderClick = (folderId: number) => {
     teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${folderId}`);
