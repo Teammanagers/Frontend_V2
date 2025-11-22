@@ -17,7 +17,7 @@ interface IMemoResponse {
   }[];
 }
 
-interface IFolderDto {
+export interface IFolderDto {
   id: number;
   name: string;
   depth: number;
@@ -130,6 +130,7 @@ export default function useMemoQueries() {
           id: folder.folderDto.id,
           title: folder.folderDto.name,
         })),
+      staleTime: 60 * 1000,
     });
 
     return { isPending, isError, isSuccess, data };

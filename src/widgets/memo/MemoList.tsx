@@ -14,24 +14,6 @@ export const MemoList = ({
   currentFolderId,
   canAddFolder,
 }: MemoListViewProps) => {
-  // 빈 화면 스켈레톤
-  if (isEmpty && isLoading) {
-    return (
-      <Container $center={true}>
-        <MemoListSkeleton variant="empty" />
-      </Container>
-    );
-  }
-
-  // 나열 스켈레톤
-  if (!isEmpty && isLoading) {
-    return (
-      <Container $center={true}>
-        <MemoListSkeleton variant="list" />
-      </Container>
-    );
-  }
-
   // 빈 화면 UI
   if (isEmpty && !isLoading) {
     return (
@@ -46,6 +28,15 @@ export const MemoList = ({
         canAddFolder={canAddFolder}
         onFolderClick={onFolderClick}
       />
+    );
+  }
+
+  // 나열 스켈레톤
+  if (!isEmpty && isLoading) {
+    return (
+      <Container $center={true}>
+        <MemoListSkeleton variant="list" />
+      </Container>
     );
   }
 
