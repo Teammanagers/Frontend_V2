@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { PATHS, ROUTE_SEGMENTS } from '@/app/routes/paths';
 import useSideBarQueries from '@/features/sidebar/model/useSideBarQueries.ts';
@@ -23,7 +23,10 @@ export default function SideBarContainer() {
 
   const navigate = useNavigate();
   const teamNavigate = useTeamNavigate();
+
   const { pathname } = useLocation();
+  const { teamId } = useParams<{ teamId?: string }>();
+  const parsedTeamId = Number(teamId);
 
   // api 데이터 매핑
   const teamList: TeamProps[] =
@@ -34,20 +37,19 @@ export default function SideBarContainer() {
     })) ?? [];
 
   useEffect(() => {
-    if (teamList.length > 0 && !currentTeam) {
-      setCurrentTeam(teamList[0]);
+    if (!parsedTeamId || teamList.length === 0) return;
+
+    const matchedTeam = teamList.find((t) => t.teamId === parsedTeamId);
+    if (!matchedTeam) return;
+
+    if (
+      !currentTeam ||
+      matchedTeam.imageUrl !== currentTeam.imageUrl ||
+      matchedTeam.title !== currentTeam.title
+    ) {
+      setCurrentTeam(matchedTeam);
     }
-  }, [teamList]);
-
-  useEffect(() => {
-    if (!currentTeam) return;
-
-    const updated = teamList.find((t) => t.teamId === currentTeam.teamId);
-
-    if (updated && updated.imageUrl !== currentTeam.imageUrl) {
-      setCurrentTeam(updated);
-    }
-  }, [teamList, currentTeam]);
+  }, [parsedTeamId, teamList]);
 
   const handleNavigate = (path: (teamId: number) => string) => {
     setEndSelected(false);
@@ -58,7 +60,6 @@ export default function SideBarContainer() {
   const handleToggleTeamList = () => setIsTeamListOpen((prev) => !prev);
 
   const handleTeamSelected = (team: TeamProps) => {
-    console.log('선택한 팀: ', team);
     setCurrentTeam(team);
     setIsTeamListOpen(false);
     teamNavigate(() => `/team/${team.teamId}`);
