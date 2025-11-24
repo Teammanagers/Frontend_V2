@@ -71,11 +71,6 @@ export const Schedule = ({
     toggleRegister,
   } = useSchedule(mySchedule, handleSubmit);
 
-  useEffect(() => {
-    console.log('==========');
-    console.log('isScheduleFetching? ', isScheduleFetching);
-  }, [isScheduleFetching]);
-
   const renderSchedule = () => {
     if (!schedule || isScheduleFetching) {
       return (

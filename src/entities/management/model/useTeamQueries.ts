@@ -11,38 +11,6 @@ interface IScheduleResponse {
 export default function useTeamQueries() {
   const teamId = useTeamStore((state) => state.teamId);
 
-  // 팀 스케줄 조회
-  const useTeamScheduleQuery = () => {
-    const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['management', 'schedule', teamId],
-      queryFn: () =>
-        apiRequest({
-          url: `/api/v2/schedule/teams/${teamId}`,
-          method: 'GET',
-        }),
-      select: (res): IScheduleDto[] =>
-        res.result.map((r: IScheduleResponse) => r.scheduleDto),
-      staleTime: 60 * 1000,
-    });
-    return { isPending, isError, isSuccess, data };
-  };
-
-  // 개인 스케줄 조회
-  const useMyScheduleQuery = () => {
-    const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['management', 'mySchedule', teamId],
-      queryFn: () =>
-        apiRequest({
-          url: `/api/v2/schedule/teams/${teamId}/my-schedules`,
-          method: 'GET',
-        }),
-      select: (res): IScheduleDto[] =>
-        res.result.map((r: IScheduleResponse) => r.scheduleDto),
-      staleTime: 60 * 1000,
-    });
-    return { isPending, isError, isSuccess, data };
-  };
-
   // 팀 스케줄 부분 조회 (팀 스케줄 조회)
   const usePartialScheduleQuery = (teamMemberIds: number[]) => {
     const enabled = teamMemberIds.length > 0;
@@ -68,6 +36,22 @@ export default function useTeamQueries() {
     return { isPending, isError, isSuccess, isFetching, data };
   };
 
+  // 개인 스케줄 조회
+  const useMyScheduleQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'mySchedule', teamId],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/schedule/teams/${teamId}/my-schedules`,
+          method: 'GET',
+        }),
+      select: (res): IScheduleDto[] =>
+        res.result.map((r: IScheduleResponse) => r.scheduleDto),
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
   // 팀 멤버 조회
   const useTeamMemberQuery = () => {
     const { isPending, isError, isSuccess, data } = useQuery({
@@ -84,9 +68,8 @@ export default function useTeamQueries() {
   };
 
   return {
-    useTeamScheduleQuery,
-    useMyScheduleQuery,
     usePartialScheduleQuery,
+    useMyScheduleQuery,
     useTeamMemberQuery,
   };
 }
