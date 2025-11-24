@@ -48,7 +48,7 @@ export default function useTeamQueries() {
     const enabled = teamMemberIds.length > 0;
     const sortedIds = [...teamMemberIds].sort((a, b) => a - b);
 
-    const { isPending, isError, isSuccess, data } = useQuery({
+    const { isPending, isError, isSuccess, isFetching, data } = useQuery({
       queryKey: ['management', 'schedule', teamId, sortedIds],
       queryFn: () => {
         const queryString = sortedIds
@@ -65,7 +65,7 @@ export default function useTeamQueries() {
       enabled,
       staleTime: 60 * 1000,
     });
-    return { isPending, isError, isSuccess, data };
+    return { isPending, isError, isSuccess, isFetching, data };
   };
 
   // 팀 멤버 조회
