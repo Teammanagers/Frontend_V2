@@ -167,6 +167,9 @@ export default function useTeamMutations() {
         queryClient.invalidateQueries({
           queryKey: ['management', 'schedule', teamId],
         });
+        queryClient.invalidateQueries({
+          queryKey: ['management', 'mySchedule', teamId],
+        });
       },
     });
     return { mutate, data, isPending, isError, isSuccess };
