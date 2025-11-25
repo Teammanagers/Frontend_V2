@@ -20,7 +20,7 @@ export default function SideBar({
   if (!teamId) return null;
 
   return (
-    <SideBarContainer $isHovered={expanded}>
+    <SideBarContainer $expanded={expanded}>
       <SideBarLogo
         expanded={expanded}
         team={team}
@@ -43,12 +43,12 @@ export default function SideBar({
   );
 }
 
-const SideBarContainer = styled.div<{ $isHovered: boolean }>`
+const SideBarContainer = styled.div<{ $expanded: boolean }>`
   position: fixed;
   z-index: 1000;
   top: 0;
   left: 0;
-  width: ${({ $isHovered }) => ($isHovered ? '158px' : '73px')};
+  width: ${({ $expanded }) => ($expanded ? '158px' : '80px')};
   height: 832px;
   background-color: white;
   display: flex;

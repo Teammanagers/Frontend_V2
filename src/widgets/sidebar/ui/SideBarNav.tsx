@@ -42,7 +42,7 @@ export default function SideBarNav({
       {/* 홈 */}
       <IconContainer
         $selected={isActive(PATHS.MAIN(teamId))}
-        $isHovered={expanded}
+        $expanded={expanded}
         onClick={() => onNavigate(PATHS.MAIN)}
       >
         <StrokeIcon
@@ -60,7 +60,7 @@ export default function SideBarNav({
       {/* 알림 */}
       <IconContainer
         $selected={isAlarmOpen}
-        $isHovered={expanded}
+        $expanded={expanded}
         onClick={onToggleAlarm}
       >
         <StrokeIcon
@@ -74,7 +74,7 @@ export default function SideBarNav({
       {/* 투두 */}
       <IconContainer
         $selected={isActive(PATHS.TODO_LIST(teamId))}
-        $isHovered={expanded}
+        $expanded={expanded}
         onClick={() => onNavigate(PATHS.TODO_LIST)}
       >
         <StrokeIcon
@@ -96,7 +96,7 @@ export default function SideBarNav({
       {/* 캘린더 */}
       <IconContainer
         $selected={isActive(PATHS.CALENDAR(teamId))}
-        $isHovered={expanded}
+        $expanded={expanded}
         onClick={() => onNavigate(PATHS.CALENDAR)}
       >
         <StrokeIcon
@@ -120,7 +120,7 @@ export default function SideBarNav({
       {/* 메모 */}
       <IconContainer
         $selected={isActive(PATHS.MEMO(teamId))}
-        $isHovered={expanded}
+        $expanded={expanded}
         onClick={() => onNavigate(PATHS.MEMO)}
       >
         <StrokeIcon
@@ -140,7 +140,7 @@ export default function SideBarNav({
       {/* 자료실 */}
       <IconContainer
         $selected={isActive(PATHS.RESOURCE(teamId))}
-        $isHovered={expanded}
+        $expanded={expanded}
         onClick={() => onNavigate(PATHS.RESOURCE)}
       >
         <StrokeIcon
@@ -164,7 +164,7 @@ export default function SideBarNav({
       {/* 팀관리 */}
       <IconContainer
         $selected={isActive(PATHS.MANAGEMENT(teamId))}
-        $isHovered={expanded}
+        $expanded={expanded}
         onClick={() => onNavigate(PATHS.MANAGEMENT)}
       >
         <StrokeIcon
@@ -188,7 +188,7 @@ export default function SideBarNav({
       {/* 마이페이지 */}
       <IconContainer
         $selected={isActive(PATHS.MY_PAGE(teamId))}
-        $isHovered={expanded}
+        $expanded={expanded}
         onClick={() => onNavigate(PATHS.MY_PAGE)}
       >
         <StrokeIcon
@@ -210,7 +210,7 @@ export default function SideBarNav({
       {/* 종료 */}
       <IconContainer
         $selected={endSelected}
-        $isHovered={expanded}
+        $expanded={expanded}
         $danger
         onClick={onEndClick}
       >
@@ -231,15 +231,21 @@ export default function SideBarNav({
   );
 }
 
+interface ItemProps {
+  $selected?: boolean;
+  $redText?: boolean;
+  $expanded?: boolean;
+  $danger?: boolean;
+}
+
 const IconContainer = styled.div<ItemProps>`
   width: 100%;
   height: 50px;
   background-color: ${({ $selected, theme, $danger }) =>
     $selected ? ($danger ? '#FFE9E9' : theme.colors.background) : 'white'};
   display: flex;
-  justify-content: ${({ $isHovered }) =>
-    $isHovered ? 'flex-start' : 'center'};
-  padding-left: ${({ $isHovered }) => ($isHovered ? '20px' : '0')};
+  justify-content: flex-start;
+  padding-left: ${({ $expanded }) => ($expanded ? '20px' : '22px')};
   box-sizing: border-box;
   overflow: hidden;
   align-items: center;
@@ -251,13 +257,6 @@ const IconContainer = styled.div<ItemProps>`
     margin-top: 18px;
   }
 `;
-
-interface ItemProps {
-  $selected?: boolean;
-  $redText?: boolean;
-  $isHovered?: boolean;
-  $danger?: boolean;
-}
 
 const SideBarText = styled.p<ItemProps>`
   font-size: 12px;

@@ -14,9 +14,9 @@ export default function SideBarLogo({
   onToggleTeamList,
 }: SideBarLogoProps) {
   return (
-    <LogoContainer>
+    <LogoContainer $expanded={expanded}>
       {team?.imageUrl ? (
-        <LogoImg src={team.imageUrl} alt={team.title} />
+        <LogoImg src={team.imageUrl} $expanded={expanded} />
       ) : (
         <FallbackLogo>{team?.title?.slice(0, 1)}</FallbackLogo>
       )}
@@ -33,14 +33,16 @@ export default function SideBarLogo({
   );
 }
 
-const LogoContainer = styled.div`
+const LogoContainer = styled.div<{ $expanded: boolean }>`
   display: flex;
-  justify-content: center;
   align-items: center;
   width: 100%;
   height: 50px;
   margin-top: 49px;
   gap: 19px;
+
+  justify-content: flex-start;
+  padding-left: ${({ $expanded }) => ($expanded ? '16px' : '21px')};
 `;
 
 const LogoText = styled.p`
@@ -53,7 +55,7 @@ const LogoText = styled.p`
   max-width: 40px;
 `;
 
-const LogoImg = styled.img`
+const LogoImg = styled.img<{ $expanded: boolean }>`
   width: 37px;
   height: 37px;
   border-radius: 8px;
