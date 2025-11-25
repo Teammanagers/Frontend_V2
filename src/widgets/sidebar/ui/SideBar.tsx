@@ -1,22 +1,8 @@
 import styled from 'styled-components';
-import { PATHS } from '@/app/routes/paths';
-
-import BellSvg from '@/shared/assets/sidebar/bell.svg?react';
-import CalendarSvg from '@/shared/assets/sidebar/calendar.svg?react';
-import EndSvg from '@/shared/assets/sidebar/end.svg?react';
-import FileSvg from '@/shared/assets/sidebar/file.svg?react';
-import HomeFilledSvg from '@/shared/assets/sidebar/home-filled.svg?react';
-import HomeOutlineSvg from '@/shared/assets/sidebar/home-outline.svg?react';
-import TodoSvg from '@/shared/assets/sidebar/list.svg?react';
-import MemoSvg from '@/shared/assets/sidebar/memo.svg?react';
-import MyPageSvg from '@/shared/assets/sidebar/mypage.svg?react';
-import TeamDropdown from '@/shared/assets/sidebar/team-dropdown.svg?react';
-import TeamSvg from '@/shared/assets/sidebar/team.svg?react';
 import { useTeamStore } from '@/shared/model/store/teamStore';
-import { SideBarUIProps } from '@/widgets/sidebar';
-
-const COLOR_DEFAULT = '#5A5A5A';
-const COLOR_ACTIVE = '#1D1D1D';
+import { SideBarProps } from '@/widgets/sidebar/sidebar.types.ts';
+import SideBarLogo from '@/widgets/sidebar/ui/SideBarLogo';
+import SideBarNav from '@/widgets/sidebar/ui/SideBarNav';
 
 export default function SideBar({
   expanded,
@@ -28,230 +14,31 @@ export default function SideBar({
   onToggleAlarm,
   onToggleTeamList,
   onEndClick,
-}: SideBarUIProps) {
-  const isActive = (path: string) => activePath === path;
+}: SideBarProps) {
   const teamId = useTeamStore((state) => state.teamId);
 
-  if (!teamId) {
-    return null;
-  }
+  if (!teamId) return null;
 
   return (
     <SideBarContainer $isHovered={expanded}>
-      <LogoContainer>
-        {team?.imageUrl ? (
-          <LogoImg src={team.imageUrl} alt={team.title} />
-        ) : team ? (
-          <FallbackLogo aria-label={team.title}>
-            {team.title.slice(0, 1)}
-          </FallbackLogo>
-        ) : null}
-        {expanded && team && (
-          <TeamInfoWrapper>
-            <LogoText title={team.title}>{team.title}</LogoText>
-            <TeamDropdownBtn onClick={onToggleTeamList}>
-              <TeamDropdown />
-            </TeamDropdownBtn>
-          </TeamInfoWrapper>
-        )}
-      </LogoContainer>
+      <SideBarLogo
+        expanded={expanded}
+        team={team}
+        onToggleTeamList={onToggleTeamList}
+      />
 
       <Hr style={{ margin: '11px 0 11px 0' }} />
 
-      {/* 홈 */}
-      <IconContainer
-        $selected={isActive(PATHS.MAIN(teamId))}
-        $isHovered={expanded}
-        onClick={() => onNavigate(PATHS.MAIN)}
-      >
-        {isActive(PATHS.MAIN(teamId)) ? (
-          <StrokeIcon
-            as={HomeFilledSvg}
-            aria-hidden
-            style={{ color: COLOR_ACTIVE }}
-          />
-        ) : (
-          <StrokeIcon
-            as={HomeOutlineSvg}
-            aria-hidden
-            style={{ color: COLOR_DEFAULT }}
-          />
-        )}
-        {expanded && (
-          <SideBarText $selected={isActive(PATHS.MAIN(teamId))}>홈</SideBarText>
-        )}
-      </IconContainer>
-
-      {/* 알림 */}
-      <IconContainer
-        $selected={isAlarmOpen}
-        $isHovered={expanded}
-        onClick={onToggleAlarm}
-      >
-        <StrokeIcon
-          as={BellSvg}
-          aria-hidden
-          style={{ color: isAlarmOpen ? COLOR_ACTIVE : COLOR_DEFAULT }}
-        />
-        {expanded && <SideBarText $selected={isAlarmOpen}>알림</SideBarText>}
-      </IconContainer>
-
-      {/* 투두리스트 */}
-      <IconContainer
-        $selected={isActive(PATHS.TODO_LIST(teamId))}
-        $isHovered={expanded}
-        onClick={() => onNavigate(PATHS.TODO_LIST)}
-      >
-        <StrokeIcon
-          as={TodoSvg}
-          aria-hidden
-          style={{
-            color: isActive(PATHS.TODO_LIST(teamId))
-              ? COLOR_ACTIVE
-              : COLOR_DEFAULT,
-          }}
-        />
-        {expanded && (
-          <SideBarText $selected={isActive(PATHS.TODO_LIST(teamId))}>
-            투두리스트
-          </SideBarText>
-        )}
-      </IconContainer>
-
-      {/* 캘린더 */}
-      <IconContainer
-        $selected={isActive(PATHS.CALENDAR(teamId))}
-        $isHovered={expanded}
-        onClick={() => onNavigate(PATHS.CALENDAR)}
-      >
-        <StrokeIcon
-          as={CalendarSvg}
-          aria-hidden
-          style={{
-            color: isActive(PATHS.CALENDAR(teamId))
-              ? COLOR_ACTIVE
-              : COLOR_DEFAULT,
-          }}
-        />
-        {expanded && (
-          <SideBarText $selected={isActive(PATHS.CALENDAR(teamId))}>
-            캘린더
-          </SideBarText>
-        )}
-      </IconContainer>
-
-      <Hr />
-
-      {/* 메모 */}
-      <IconContainer
-        $selected={isActive(PATHS.MEMO(teamId))}
-        $isHovered={expanded}
-        onClick={() => onNavigate(PATHS.MEMO)}
-      >
-        <StrokeIcon
-          as={MemoSvg}
-          aria-hidden
-          style={{
-            color: isActive(PATHS.MEMO(teamId)) ? COLOR_ACTIVE : COLOR_DEFAULT,
-          }}
-        />
-        {expanded && (
-          <SideBarText $selected={isActive(PATHS.MEMO(teamId))}>
-            메모
-          </SideBarText>
-        )}
-      </IconContainer>
-
-      {/* 자료실 */}
-      <IconContainer
-        $selected={isActive(PATHS.RESOURCE(teamId))}
-        $isHovered={expanded}
-        onClick={() => onNavigate(PATHS.RESOURCE)}
-      >
-        <StrokeIcon
-          as={FileSvg}
-          aria-hidden
-          style={{
-            color: isActive(PATHS.RESOURCE(teamId))
-              ? COLOR_ACTIVE
-              : COLOR_DEFAULT,
-          }}
-        />
-        {expanded && (
-          <SideBarText $selected={isActive(PATHS.RESOURCE(teamId))}>
-            자료실
-          </SideBarText>
-        )}
-      </IconContainer>
-
-      <Hr />
-
-      {/* 팀 관리 */}
-      <IconContainer
-        $selected={isActive(PATHS.MANAGEMENT(teamId))}
-        $isHovered={expanded}
-        onClick={() => onNavigate(PATHS.MANAGEMENT)}
-      >
-        <StrokeIcon
-          as={TeamSvg}
-          aria-hidden
-          style={{
-            color: isActive(PATHS.MANAGEMENT(teamId))
-              ? COLOR_ACTIVE
-              : COLOR_DEFAULT,
-          }}
-        />
-        {expanded && (
-          <SideBarText $selected={isActive(PATHS.MANAGEMENT(teamId))}>
-            팀 관리
-          </SideBarText>
-        )}
-      </IconContainer>
-
-      <Hr />
-
-      {/* 마이페이지 */}
-      <IconContainer
-        $selected={isActive(PATHS.MY_PAGE(teamId))}
-        $isHovered={expanded}
-        onClick={() => onNavigate(PATHS.MY_PAGE)}
-      >
-        <StrokeIcon
-          as={MyPageSvg}
-          aria-hidden
-          style={{
-            color: isActive(PATHS.MY_PAGE(teamId))
-              ? COLOR_ACTIVE
-              : COLOR_DEFAULT,
-          }}
-        />
-        {expanded && (
-          <SideBarText $selected={isActive(PATHS.MY_PAGE(teamId))}>
-            마이페이지
-          </SideBarText>
-        )}
-      </IconContainer>
-
-      {/* 프로젝트 종료 */}
-      <IconContainer
-        $selected={endSelected}
-        $isHovered={expanded}
-        $danger
-        onClick={onEndClick}
-      >
-        <StrokeIcon
-          as={EndSvg}
-          aria-hidden
-          style={{ color: endSelected ? COLOR_ACTIVE : COLOR_DEFAULT }}
-        />
-        {expanded && (
-          <SideBarText $selected={endSelected} $redText>
-            프로젝트
-            <br />
-            종료
-          </SideBarText>
-        )}
-      </IconContainer>
+      <SideBarNav
+        teamId={teamId}
+        activePath={activePath}
+        expanded={expanded}
+        isAlarmOpen={isAlarmOpen}
+        endSelected={endSelected}
+        onNavigate={onNavigate}
+        onToggleAlarm={onToggleAlarm}
+        onEndClick={onEndClick}
+      />
     </SideBarContainer>
   );
 }
@@ -268,115 +55,13 @@ const SideBarContainer = styled.div<{ $isHovered: boolean }>`
   flex-direction: column;
   align-items: center;
   gap: 7px;
-  transition: width 0.3s ease;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 4px 0 16px 0 rgba(0, 0, 0, 0.06);
-`;
-
-const LogoContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 50px;
-  margin-top: 49px;
-  gap: 19px;
-`;
-
-const LogoText = styled.p`
-  font-size: 12px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.black};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 40px;
-`;
-
-const LogoImg = styled.img`
-  width: 37px;
-  height: 37px;
-  border-radius: 8px;
-  object-fit: cover;
-`;
-
-const FallbackLogo = styled.div`
-  width: 37px;
-  height: 37px;
-  border-radius: 8px;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.black};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-`;
-
-const TeamInfoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const TeamDropdownBtn = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-interface ItemProps {
-  $selected?: boolean;
-  $redText?: boolean;
-  $isHovered?: boolean;
-  $danger?: boolean;
-}
-
-const SideBarText = styled.p<ItemProps>`
-  font-size: 12px;
-  font-weight: ${({ $selected }) => ($selected ? 700 : 400)};
-  color: ${({ $selected, theme }) =>
-    $selected ? theme.colors.black : theme.colors.darkGray};
-  margin-left: 16px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-
-  ${({ $redText, theme }) =>
-    $redText &&
-    `
-    color: ${theme.colors.red};
-  `}
-`;
-
-const IconContainer = styled.div<ItemProps>`
-  width: 100%;
-  height: 50px;
-  background-color: ${({ $selected, theme, $danger }) =>
-    $selected ? ($danger ? '#FFE9E9' : theme.colors.background) : 'white'};
-  display: flex;
-  justify-content: ${({ $isHovered }) =>
-    $isHovered ? 'flex-start' : 'center'};
-  padding-left: ${({ $isHovered }) => ($isHovered ? '20px' : '0')};
-  box-sizing: border-box;
-  overflow: hidden;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:last-child {
-    margin-top: 18px;
-  }
 `;
 
 const Hr = styled.div`
   width: 100%;
   height: 1px;
   background-color: ${(props) => props.theme.colors.subLightBlue};
-  margin: 11px 0 11px 0;
-`;
-
-// stroke 아이콘
-const StrokeIcon = styled.svg`
-  width: 37px;
-  height: 37px;
-  flex: 0 0 auto;
+  margin: 11px 0;
 `;
