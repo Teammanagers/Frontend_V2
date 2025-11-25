@@ -29,7 +29,8 @@ export function ManagementPage() {
 
   const teamMemberIds = selectedMembers.map((m) => m.teamMemberId);
 
-  const { data: schedule } = usePartialScheduleQuery(teamMemberIds);
+  const { data: schedule, isFetching: isScheduleFetching } =
+    usePartialScheduleQuery(teamMemberIds);
 
   const isLoading = isTeamLoading || isMembersLoading || isMyScheduleLoading;
   const isReady = !!team && !!members && !!mySchedule;
@@ -61,6 +62,7 @@ export function ManagementPage() {
         <Schedule
           members={transformedMembers}
           schedule={transformedPartialSchedule}
+          isScheduleFetching={isScheduleFetching}
           mySchedule={transformedMySchedule}
           selectedMembers={selectedMembers}
           setSelectedMembers={setSelectedMembers}

@@ -18,10 +18,12 @@ import { useSchedule } from '@/features/management/model/useSchedule.ts';
 import Delete from '@/shared/assets/common/delete-tag.svg?react';
 import Plus from '@/shared/assets/common/plus.svg?react';
 import { Button } from '@/shared/components/button/Button.tsx';
+import LoadingSpinner from '@/shared/components/loadingSpinner/loadingSpinner.tsx';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
 import { IMemberResponse } from '@/shared/types/member.types.ts';
 
 interface IScheduleProps extends ScheduleProps {
+  isScheduleFetching: boolean;
   members: IMemberResponse[];
   selectedMembers: IMemberResponse[];
   setSelectedMembers: Dispatch<SetStateAction<IMemberResponse[]>>;
@@ -30,6 +32,7 @@ interface IScheduleProps extends ScheduleProps {
 export const Schedule = ({
   members,
   schedule,
+  isScheduleFetching,
   mySchedule,
   selectedMembers,
   setSelectedMembers,
@@ -69,6 +72,14 @@ export const Schedule = ({
   } = useSchedule(mySchedule, handleSubmit);
 
   const renderSchedule = () => {
+    if (!schedule || isScheduleFetching) {
+      return (
+        <ScheduleWrapper>
+          <LoadingSpinner size={48} />
+        </ScheduleWrapper>
+      );
+    }
+
     if (Object.values(schedule ?? {}).some((day) => day.value.length > 0)) {
       return <ShowSchedule schedule={schedule!} />;
     }
@@ -198,4 +209,13 @@ const AddBtn = styled.button`
 const DropdownWrapper = styled.div`
   position: absolute;
   z-index: 20;
+`;
+
+const ScheduleWrapper = styled.div`
+  width: 100%;
+  height: 281px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
 `;
