@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import { useSyncTeamIdWithStore } from '@/shared/hooks/useSyncTeamIdWithStore';
 import SideBarContainer from '@/features/sidebar/ui/SideBarContainer';
+import { useSyncTeamIdWithStore } from '@/shared/hooks/useSyncTeamIdWithStore';
 
 const COLLAPSED = 73;
 

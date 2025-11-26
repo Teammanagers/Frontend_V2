@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import { Resource } from '@/entities/resource/resource.types';
 import FeedbackWidget from '@/widgets/feedback/FeedbackWidget';
 import EditableResourceList from '@/widgets/resource/EditableResourceList';
-import { useState } from 'react';
-import { Resource } from '@/entities/resource/resource.types';
 
 export function ResourcePage() {
   const [selectedResource, setSelectedResource] = useState<Resource | null>(
