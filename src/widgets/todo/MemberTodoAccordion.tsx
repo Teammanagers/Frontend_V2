@@ -36,7 +36,7 @@ export default function MemberTodoAccordion({
 
       {/* 투두 추가 폼 */}
       {isInputActive ? (
-        <TodoForm mode="add" id={teamMember.teamMemberId} />
+        <TodoForm mode="add" />
       ) : (
         <AddTodoButton onClick={handleTriggerBtnClick} />
       )}

@@ -60,7 +60,7 @@ function Todo({ buttonType, ...todoInfo }: TodoProps) {
           {isInputActive ? (
             <TodoForm
               mode="edit"
-              id={todoInfo.id}
+              todoId={todoInfo.id}
               initialValue={todoInfo.title}
               setIsInputActive={setIsInputActive}
             />

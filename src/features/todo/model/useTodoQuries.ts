@@ -31,11 +31,11 @@ export default function useTodoQuries() {
   };
 
   // 투두 생성
-  const useCreateTodoMutation = (teamMemberId: number) => {
+  const useCreateTodoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (data: { title: string }) => {
         await apiRequest({
-          url: `/api/v2/todo?teamId=${teamMemberId}`,
+          url: `/api/v2/todo?teamId=${teamId}`,
           method: 'POST',
           data,
         });
@@ -51,9 +51,15 @@ export default function useTodoQuries() {
   };
 
   // 투두 내용 수정
-  const useEditTodoMutation = (todoId: number) => {
+  const useEditTodoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: { title: string }) => {
+      mutationFn: async ({
+        todoId,
+        data,
+      }: {
+        todoId: number;
+        data: { title: string };
+      }) => {
         await apiRequest({
           url: `/api/v2/todo/${todoId}`,
           method: 'POST',
