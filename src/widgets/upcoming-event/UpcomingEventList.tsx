@@ -1,19 +1,16 @@
-import { UpcomingSchedule } from '@/entities/calendar/ui';
-import Skeleton from '@/shared/components/skeleton/Skeleton';
 import styled from 'styled-components';
+import { UpcomingSchedule } from '@/entities/calendar/ui';
 import useEventQueries from '@/features/calendar/model/useEventQueries';
+import Skeleton from '@/shared/components/skeleton/Skeleton';
 
 function UpcomingEventList() {
   const { useUpcomingEventQuery } = useEventQueries();
   const { isPending, isSuccess, data: eventList } = useUpcomingEventQuery();
 
+  if (isPending) return <Skeleton width={518} height={222} />;
+
   return (
     <Container>
-      {isPending &&
-        Array.from({ length: 3 }).map((_, idx) => (
-          <Skeleton key={`notice-skeleton-${idx}`} width={518} height={66} />
-        ))}
-
       <EventListWrapper>
         {isSuccess &&
           eventList.map((event, idx) => (
