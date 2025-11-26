@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useMyTeamMemberId } from '@/entities/team/model/useTeamQueries';
 import { useTeamStore } from '@/shared/model/store/teamStore';
 
 /**
@@ -8,12 +9,21 @@ import { useTeamStore } from '@/shared/model/store/teamStore';
  */
 export const useSyncTeamIdWithStore = () => {
   const { teamId: teamIdFromUrl } = useParams<{ teamId: string }>();
-  const setTeamIdStore = useTeamStore((state) => state.setTeamId);
+  const setTeamId = useTeamStore((state) => state.setTeamId);
+  const setTeamMemberId = useTeamStore((state) => state.setTeamMemberId);
 
+  // url 변경 시 teamId 동기화
   useEffect(() => {
     const teamId = Number(teamIdFromUrl);
 
     if (!Number.isNaN(teamId) && teamId !== null && teamIdFromUrl !== '')
-      setTeamIdStore(teamId);
-  }, [teamIdFromUrl, setTeamIdStore]);
+      setTeamId(teamId);
+  }, [teamIdFromUrl, setTeamId]);
+
+  // 팀 멤버 아이디 동기화
+  const { data: myTeamMemberId, isSuccess } = useMyTeamMemberId();
+
+  useEffect(() => {
+    if (isSuccess && myTeamMemberId) setTeamMemberId(myTeamMemberId);
+  }, [teamIdFromUrl, isSuccess, myTeamMemberId, setTeamMemberId]);
 };
