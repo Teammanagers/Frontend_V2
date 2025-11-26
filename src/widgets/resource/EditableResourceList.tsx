@@ -42,8 +42,7 @@ export default function EditableResourceList({
                   data={resource}
                   deleteButton={
                     <DeleteResourceButton
-                      resourceId={resource.fileInfo.createdBy}
-                      myId={1} // TODO: 실제 사용자 ID로 교체 필요
+                      creatorId={resource.fileInfo.createdBy}
                       onClick={(e) => openDeleteModal(e, resource.dataId)}
                     />
                   }
