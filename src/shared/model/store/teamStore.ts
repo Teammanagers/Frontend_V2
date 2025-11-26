@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface TeamStoreState {
-  teamId: number | null;
-  teamMemberId: number | null;
+  teamId: number | null; // 현재 선택된 팀 아이디
+  teamMemberId: number | null; // 내 팀 멤버 아이디
 
   setTeamId: (id: number) => void;
   setTeamMemberId: (id: number) => void;
