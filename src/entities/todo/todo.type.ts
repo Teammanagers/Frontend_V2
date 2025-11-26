@@ -2,6 +2,16 @@ type ButtonType = 'menu' | 'alarm' | 'none';
 
 type Status = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
 
+interface Tag {
+  id: number;
+  name: string;
+  createdAt: string;
+  createdBy: number;
+  updatedAt: string;
+  updatedBy: number;
+  useYn: 'Y' | 'N';
+}
+
 interface TodoItem {
   id: number;
   title: string;
@@ -11,7 +21,7 @@ interface TodoItem {
 interface MemberTodos {
   teamMemberId: number;
   name: string;
-  tagList: string[];
+  tagList: Tag[];
   todoList: TodoItem[];
 }
 
@@ -30,6 +40,7 @@ interface ITeamTodoResponse {
 
 export type {
   Status,
+  Tag,
   TodoItem,
   ButtonType,
   MemberTodos,

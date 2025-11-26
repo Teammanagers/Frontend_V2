@@ -10,7 +10,7 @@ import { AccordionHeader } from './Header.tsx';
  *
  * @param {ReactNode} children - 아코디언 내부에 들어갈 내용 (예: 투두 리스트 등).
  * @param {string} title - 아코디언의 제목 (예: 팀원 이름).
- * @param {string[]} tagList - 제목 옆에 표시될 태그 목록 (예: 기획자).
+ * @param {Tag[]} tagList - 제목 옆에 표시될 태그 목록 (예: 기획자).
  * @param {() => void} onCloseClear - 아코디언이 닫힐 때 실행되는 함수.
  */
 

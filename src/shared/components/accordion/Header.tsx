@@ -16,7 +16,7 @@ function AccordionHeader({
   isOpen,
   onClick,
   title,
-  tagList,
+  tagList = [],
   teamMemberId,
 }: IAccordionHeaderProps) {
   const myTeamMemberId = useTeamStore((state) => state.teamMemberId);
@@ -30,11 +30,13 @@ function AccordionHeader({
       <TitleWrapper>
         <h3>{title}</h3>
         <TagList>
-          {tagList?.map((tag, idx) => (
-            <Tag $isOpen={isOpen} key={`tag-${idx}`}>
-              {tag}
-            </Tag>
-          ))}
+          {tagList.length > 0
+            ? tagList.map((tag, idx) => (
+                <Tag $isOpen={isOpen} key={`tag-${idx}`}>
+                  {tag.name}
+                </Tag>
+              ))
+            : null}
         </TagList>
       </TitleWrapper>
 
