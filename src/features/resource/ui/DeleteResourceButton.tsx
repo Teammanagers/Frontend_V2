@@ -14,7 +14,7 @@ export default function DeleteResourceButton({
 }: IDeleteResourceButtonProps) {
   const myTeamMemberId = useTeamStore((state) => state.teamMemberId);
 
-  if (creatorId !== myTeamMemberId) return null;
+  if (!myTeamMemberId || creatorId !== myTeamMemberId) return null;
 
   return (
     <ButtonContainer {...props} onClick={onClick}>

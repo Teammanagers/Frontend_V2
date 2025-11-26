@@ -3,6 +3,7 @@ import useNoticeQueries from '@/entities/notice/model/useNoticeQueries';
 import { useIsTeamLeader } from '@/entities/team/model/useIsTeamLeader';
 import NoticeLoudSpeaker from '@/shared/assets/main/loud-speaker.svg?react';
 import { Button } from '@/shared/components/button/Button';
+import Skeleton from '@/shared/components/skeleton/Skeleton';
 import useToggle from '@/shared/hooks/action/useToggle';
 import NoticeModal from '@/widgets/notice/NoticeModal';
 
@@ -10,33 +11,42 @@ function NoticeBanner() {
   const { isOpen, toggle } = useToggle();
 
   const { useRecentNoticeQuery } = useNoticeQueries();
-  const { data: recentNotice, isError, isSuccess } = useRecentNoticeQuery(); // 최신 공지 조회 API 호출
+  const {
+    data: recentNotice,
+    isPending,
+    isError,
+    isSuccess,
+  } = useRecentNoticeQuery(); // 최신 공지 조회 API 호출
 
-  const isTeamLeader = useIsTeamLeader();
+  const { isTeamLeader } = useIsTeamLeader();
+
+  if (isPending) return <Skeleton width={876} height={76} />;
 
   return (
     <>
-      <Container onClick={toggle}>
-        <NoticeContent>
-          <IconWrapper>
-            <NoticeLoudSpeaker />
-          </IconWrapper>
+      {isSuccess && (
+        <Container onClick={toggle}>
+          <NoticeContent>
+            <IconWrapper>
+              <NoticeLoudSpeaker />
+            </IconWrapper>
 
-          <LatestNotice>
-            {isSuccess
-              ? recentNotice.notice.content
-              : isError
-                ? '공지 조회에 실패했습니다'
-                : ''}
-          </LatestNotice>
-        </NoticeContent>
+            <LatestNotice>
+              {isSuccess
+                ? recentNotice.notice.content
+                : isError
+                  ? '공지 조회에 실패했습니다'
+                  : ''}
+            </LatestNotice>
+          </NoticeContent>
 
-        {isTeamLeader && (
-          <Button size="mini" style="sub">
-            공지 수정
-          </Button>
-        )}
-      </Container>
+          {isTeamLeader ? (
+            <Button size="mini" style="sub">
+              공지 수정
+            </Button>
+          ) : null}
+        </Container>
+      )}
 
       <NoticeModal isOpen={isOpen} toggle={toggle} />
     </>
@@ -63,7 +73,7 @@ const NoticeContent = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
-  width: 100%;
+  flex: 1;
   height: 36px;
 `;
 
