@@ -25,5 +25,5 @@ export const useSyncTeamIdWithStore = () => {
 
   useEffect(() => {
     if (isSuccess && myTeamMemberId) setTeamMemberId(myTeamMemberId);
-  }, [teamIdFromUrl, isSuccess, myTeamMemberId, setTeamMemberId]);
+  }, [isSuccess, myTeamMemberId, setTeamMemberId]);
 };
