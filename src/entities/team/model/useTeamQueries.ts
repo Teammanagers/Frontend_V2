@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import apiRequest from '@/shared/api/apiRequest';
 import { useTeamStore } from '@/shared/model/store/teamStore';
-import { TeamResponse } from '../team.types';
+import { TeamMemberResponse, TeamResponse } from '../team.types';
 
 // 팀 아이디로 팀 정보 조회
 export const useTeamById = () => {
@@ -22,19 +22,38 @@ export const useTeamById = () => {
   return { isPending, isError, isSuccess, data };
 };
 
-// 내 팀 멤버 아이디 조회
-export const useMyTeamMemberId = () => {
+// 전체 팀 멤버 조회
+export const useTeamMember = () => {
   const teamId = useTeamStore((state) => state.teamId);
 
   const { isPending, isError, isSuccess, data } = useQuery({
     queryKey: ['team', teamId, 'members'],
     queryFn: () =>
       apiRequest({
+        url: `/api/v2/team/${teamId}/member-list`,
+        method: 'GET',
+      }),
+    select: (res): TeamMemberResponse => res.result,
+    staleTime: 60 * 1000 * 15,
+    enabled: !!teamId,
+  });
+
+  return { isPending, isError, isSuccess, data };
+};
+
+// 내 팀 멤버 아이디 조회
+export const useMyTeamMemberId = () => {
+  const teamId = useTeamStore((state) => state.teamId);
+
+  const { isPending, isError, isSuccess, data } = useQuery({
+    queryKey: ['team', teamId, 'member-id'],
+    queryFn: () =>
+      apiRequest({
         url: `/api/v2/team/${teamId}/team-member-id`,
         method: 'GET',
       }),
-    select: (res): TeamResponse => res.result,
-    staleTime: 60 * 1000 * 5,
+    select: (res) => res.result,
+    staleTime: 60 * 1000 * 15,
     enabled: !!teamId,
   });
 
