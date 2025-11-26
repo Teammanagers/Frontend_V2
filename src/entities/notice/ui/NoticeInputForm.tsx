@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import FormSubmitButton from '@/shared/components/button/FormSubmitButton';
 import useBulletPointConverter from '@/shared/hooks/action/useBulletPointConverter';
 import useNoticeQueries from '../model/useNoticeQueries';
 
-function NoticeInputForm({ toggle }: { toggle: () => void }) {
+function NoticeInputForm({
+  isOpen,
+  toggle,
+}: {
+  isOpen: boolean;
+  toggle: () => void;
+}) {
   const [inputValue, setInputValue] = useState<string>('');
 
   // 공지 생성 API 호출
@@ -23,6 +29,10 @@ function NoticeInputForm({ toggle }: { toggle: () => void }) {
     setInputValue('');
     toggle();
   };
+
+  useEffect(() => {
+    if (!isOpen) setInputValue('');
+  }, [isOpen]);
 
   return (
     <FormContainer onSubmit={handleSubmit}>
