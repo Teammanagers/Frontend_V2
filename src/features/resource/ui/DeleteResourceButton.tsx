@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 import DeleteIcon from '@/shared/assets/common/delete.svg?react';
+import { useTeamStore } from '@/shared/model/store/teamStore';
 
 interface IDeleteResourceButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  resourceId: number;
-  myId: number;
+  creatorId: number;
 }
 
 export default function DeleteResourceButton({
-  resourceId,
-  myId,
+  creatorId,
   onClick,
   ...props
 }: IDeleteResourceButtonProps) {
-  if (resourceId !== myId) return null;
+  const myTeamMemberId = useTeamStore((state) => state.teamMemberId);
+
+  if (creatorId !== myTeamMemberId) return null;
 
   return (
     <ButtonContainer {...props} onClick={onClick}>
