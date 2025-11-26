@@ -39,6 +39,7 @@ interface IActionDropdownProps {
 interface IAccordion {
   title: string;
   tagList?: string[];
+  teamMemberId: number;
 }
 
 interface IAccordionProps extends IAccordion {

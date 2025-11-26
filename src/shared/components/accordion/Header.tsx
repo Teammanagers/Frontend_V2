@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import chevronIcon from '@/shared/assets/common/rotating-chevron.svg';
+import { useTeamStore } from '@/shared/model/store/teamStore.ts';
 import { IAccordionHeaderProps } from '@/shared/types';
 
 /**
@@ -16,9 +17,16 @@ function AccordionHeader({
   onClick,
   title,
   tagList,
+  teamMemberId,
 }: IAccordionHeaderProps) {
+  const myTeamMemberId = useTeamStore((state) => state.teamMemberId);
+
   return (
-    <Container onClick={onClick} $isOpen={isOpen}>
+    <Container
+      onClick={onClick}
+      $isOpen={isOpen}
+      $isMe={teamMemberId === myTeamMemberId} // 내 투두인지
+    >
       <TitleWrapper>
         <h3>{title}</h3>
         <TagList>
@@ -39,7 +47,7 @@ function AccordionHeader({
 
 export { AccordionHeader };
 
-const Container = styled.div<{ $isOpen: boolean }>`
+const Container = styled.div<{ $isOpen: boolean; $isMe: boolean }>`
   box-sizing: border-box;
   width: inherit;
   height: 46px;
@@ -47,7 +55,9 @@ const Container = styled.div<{ $isOpen: boolean }>`
   align-items: center;
   justify-content: space-between;
   padding: 9px 15px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid
+    ${({ $isMe, theme }) =>
+      $isMe ? theme.colors.mainBlue : theme.colors.lightGray};
   border-radius: 6px;
   background-color: ${({ $isOpen }) => ($isOpen ? '#F9FBFF' : '#ffffff')};
   cursor: pointer;

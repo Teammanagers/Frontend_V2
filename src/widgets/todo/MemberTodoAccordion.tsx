@@ -16,6 +16,7 @@ export default function MemberTodoAccordion({
   return (
     <Accordion
       key={teamMember.teamMemberId}
+      teamMemberId={teamMember.teamMemberId}
       title={teamMember.name}
       tagList={teamMember.tagList.map((tag: string) => tag)}
       onCloseClear={() => setIsInputActive(false)}

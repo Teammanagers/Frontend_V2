@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { AccordionHeader } from './Header.tsx';
-import { AccordionBody } from './Body.tsx';
-import { IAccordionProps } from '@/shared/types';
-import useAccordionToggle from '@/shared/hooks/action/useAccordionToggle.ts';
 import { useEffect } from 'react';
+import styled from 'styled-components';
+import useAccordionToggle from '@/shared/hooks/action/useAccordionToggle.ts';
+import { IAccordionProps } from '@/shared/types';
+import { AccordionBody } from './Body.tsx';
+import { AccordionHeader } from './Header.tsx';
 
 /**
  * Accordion 컴포넌트는 아코디언의 구성요소(Header, Body)를 감싸는 Container 컴포넌트입니다.
@@ -19,6 +19,7 @@ const Accordion = ({
   title,
   tagList,
   onCloseClear,
+  teamMemberId,
 }: IAccordionProps) => {
   const { isOpen, toggleAccrodion, parentRef, childRef } = useAccordionToggle();
 
@@ -27,7 +28,7 @@ const Accordion = ({
     if (!isOpen && onCloseClear) {
       onCloseClear();
     }
-  }, [isOpen]);
+  }, [isOpen, onCloseClear]);
 
   return (
     <AccordionContainer>
@@ -36,6 +37,7 @@ const Accordion = ({
         onClick={toggleAccrodion}
         title={title}
         tagList={tagList}
+        teamMemberId={teamMemberId}
       />
       <AccordionBody isOpen={isOpen} parentRef={parentRef} childRef={childRef}>
         {children}
