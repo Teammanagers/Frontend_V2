@@ -16,7 +16,7 @@ export default function NoticeModal({ isOpen, toggle }: INoticeModalProps) {
         </ContentWrapper>
 
         {/* 공지 입력 폼 */}
-        {isTeamLeader && <NoticeInputForm toggle={toggle} />}
+        {isTeamLeader && <NoticeInputForm isOpen={isOpen} toggle={toggle} />}
       </ModalWrapper>
     </Modal>
   );
