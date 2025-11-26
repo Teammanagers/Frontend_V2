@@ -1,9 +1,12 @@
 import styled from 'styled-components';
+import { NoticeInputForm, NoticeList } from '@/entities/notice/ui';
+import { useIsTeamLeader } from '@/entities/team/model/useIsTeamLeader';
 import Modal from '@/shared/components/modal/Modal';
 import { INoticeModalProps } from './notice-modal.types';
-import { NoticeInputForm, NoticeList } from '@/entities/notice/ui';
 
 export default function NoticeModal({ isOpen, toggle }: INoticeModalProps) {
+  const isTeamLeader = useIsTeamLeader();
+
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalWrapper>
@@ -13,7 +16,7 @@ export default function NoticeModal({ isOpen, toggle }: INoticeModalProps) {
         </ContentWrapper>
 
         {/* 공지 입력 폼 */}
-        <NoticeInputForm toggle={toggle} />
+        {isTeamLeader && <NoticeInputForm toggle={toggle} />}
       </ModalWrapper>
     </Modal>
   );
@@ -29,6 +32,7 @@ const ModalWrapper = styled.div`
   padding: 24px 18px;
   border: 1px solid ${({ theme }) => theme.colors.subLightBlue};
   border-radius: 9px;
+  overflow: hidden;
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
@@ -36,8 +40,9 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
+  min-height: 0;
   gap: 18px;
-  max-height: 437px;
 `;
 
 const Title = styled.h2`

@@ -39,8 +39,8 @@ const Container = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
   gap: 18px;
-  width: 498px;
-  min-height: 390px;
+  width: 100%;
   overflow-y: auto;
 `;
