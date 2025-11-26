@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { ROUTE_SEGMENTS } from './paths';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -15,11 +16,17 @@ export function ProtectedRoute({
   const isAuthenticated = !!accessToken;
 
   if (requireAuth && !isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to={`/${ROUTE_SEGMENTS.LOGIN}`}
+        state={{ from: location }}
+        replace
+      />
+    );
   }
 
   if (!requireAuth && isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={`/${ROUTE_SEGMENTS.SELECT_TEAM}`} replace />;
   }
 
   return <>{children}</>;
