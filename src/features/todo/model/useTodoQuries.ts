@@ -10,7 +10,7 @@ export default function useTodoQuries() {
   // 팀 투두 조회
   const useTeamTodoQuery = () => {
     const { isPending, isError, error, isSuccess, data } = useQuery({
-      queryKey: ['teamTodo', teamId],
+      queryKey: ['todos', teamId, 'all'],
       queryFn: async () => {
         return await apiRequest({
           url: `/api/v2/todo?teamId=${teamId}`,
@@ -42,7 +42,7 @@ export default function useTodoQuries() {
       },
       onSuccess: () => {
         queryClient.refetchQueries({
-          queryKey: ['teamTodo', teamId],
+          queryKey: ['todos', teamId],
         });
       },
     });
@@ -68,7 +68,7 @@ export default function useTodoQuries() {
       },
       onSuccess: () => {
         queryClient.refetchQueries({
-          queryKey: ['teamTodo', teamId],
+          queryKey: ['todos', teamId],
         });
       },
     });
@@ -87,7 +87,7 @@ export default function useTodoQuries() {
       },
       onSuccess: () => {
         queryClient.refetchQueries({
-          queryKey: ['teamTodo', teamId],
+          queryKey: ['todos', teamId],
         });
       },
     });
@@ -106,7 +106,7 @@ export default function useTodoQuries() {
       },
       onSuccess: () => {
         queryClient.refetchQueries({
-          queryKey: ['teamTodo', teamId],
+          queryKey: ['todos', teamId],
         });
       },
     });

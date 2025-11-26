@@ -8,7 +8,7 @@ export const useMyTodoList = () => {
   const teamId = useTeamStore((state) => state.teamId);
 
   const { isPending, isError, isSuccess, data } = useQuery({
-    queryKey: ['my-todo', teamId],
+    queryKey: ['todos', teamId, 'my'],
     queryFn: () =>
       apiRequest({
         url: `/api/v2/todo/my?teamId=${teamId}`,
