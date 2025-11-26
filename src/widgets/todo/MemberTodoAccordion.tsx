@@ -1,5 +1,5 @@
 import { useTodoForm } from '@/entities/todo/model/useTodoForm';
-import { ITeamMemberTodo } from '@/entities/todo/todo.type';
+import { MemberTodos } from '@/entities/todo/todo.type';
 import AddTodoButton from '@/entities/todo/ui/AddTodoButton';
 import { Todo } from '@/features/todo/ui/Todo';
 import TodoForm from '@/features/todo/ui/TodoForm';
@@ -8,7 +8,7 @@ import { Accordion } from '@/shared/components/accordion';
 export default function MemberTodoAccordion({
   teamMember,
 }: {
-  teamMember: ITeamMemberTodo;
+  teamMember: MemberTodos;
 }) {
   const { isInputActive, setIsInputActive, handleTriggerBtnClick } =
     useTodoForm();

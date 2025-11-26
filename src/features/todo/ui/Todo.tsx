@@ -1,20 +1,19 @@
 import styled from 'styled-components';
-import { ReactNode } from 'react';
-import { ButtonType, ITodoInfo } from '@/entities/todo/todo.type';
+import { useTodoForm } from '@/entities/todo/model/useTodoForm';
+import { ButtonType, TodoItem } from '@/entities/todo/todo.type';
 import { Button } from '@/entities/todo/ui/Button';
+import TodoPreview from '@/features/todo/ui/TodoPreview';
 import { ActionDropdown } from '@/shared/components/dropdown/ActionDropdown';
 import useToggle from '@/shared/hooks/action/useToggle';
-import useTodoQuries from '../model/useTodoQuries';
 import { ImageUploadModal } from './ImageUploadModal';
-import { useTodoForm } from '@/entities/todo/model/useTodoForm';
 import TodoForm from './TodoForm';
-import TodoPreview from '@/features/todo/ui/TodoPreview';
+import useTodoQuries from '../model/useTodoQuries';
 
-interface ITodo extends ITodoInfo {
+interface TodoProps extends TodoItem {
   buttonType: ButtonType;
 }
 
-function Todo({ buttonType, ...todoInfo }: ITodo) {
+function Todo({ buttonType, ...todoInfo }: TodoProps) {
   // api 호출
   const { useDeleteTodoMutation } = useTodoQuries();
   const { mutate: deleteTodo } = useDeleteTodoMutation(todoInfo.id);
@@ -39,7 +38,7 @@ function Todo({ buttonType, ...todoInfo }: ITodo) {
   };
 
   // 버튼 타입에 따른 컴포넌트 매핑
-  const buttonComponents: { [key in ButtonType]: ReactNode } = {
+  const buttonComponents: { [key in ButtonType]: React.ReactNode } = {
     menu: (
       <ActionDropdown
         isOpen={isDropdownOpen}
