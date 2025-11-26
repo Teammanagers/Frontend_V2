@@ -10,10 +10,23 @@ interface IMemoResponse {
     content: string;
     isFixed: boolean;
     folderId: number;
+    teamId: number;
+    createdAt: string;
+    createdBy: number;
+    createdByName: string;
+    updatedAt: string;
+    updatedBy: number;
+    updatedByName: string;
+    useYn: string;
   };
   memoTagList: {
     id: number;
     name: string;
+    createdAt: string;
+    createdBy: number;
+    updatedAt: string;
+    updatedBy: number;
+    useYn: string;
   }[];
 }
 
@@ -69,6 +82,8 @@ export default function useMemoQueries() {
           content: memo.memoDto.content,
           tags: memo.memoTagList.map((t) => t.name),
           isFixed: memo.memoDto.isFixed,
+          createdBy: memo.memoDto.createdBy,
+          createdByName: memo.memoDto.createdByName,
         })),
       staleTime: 60 * 1000,
     });
@@ -92,6 +107,8 @@ export default function useMemoQueries() {
           content: memo.memoDto.content,
           tags: memo.memoTagList.map((t) => t.name),
           isFixed: memo.memoDto.isFixed,
+          createdBy: memo.memoDto.createdBy,
+          createdByName: memo.memoDto.createdByName,
         })),
       enabled: !!teamId,
     });
