@@ -15,6 +15,7 @@ import { memoSizes } from '@/widgets/memo/memo.constants.ts';
  *
  * @param {'small' | 'large'} size - small은 메인에서, large는 메모에서 사용됩니다.
  * @param memo - 렌더링할 메모 데이터 객체입니다. (예: { id, title, tags, content })
+ * @param isMyMemo - 해당 메모가 로그인한 사용자가 작성한 메모인지를 판별합니다.
  * @param onDeleteRequest - 드롭다운 메뉴에서 "삭제"를 선택했을 때 호출되며, 해당 메모의 id를 전달합니다.
  * @param onMoveRequest - 드롭다운 메뉴에서 "이동"을 선택했을 때 호출되며, 해당 메모의 id를 전달합니다.
  *
