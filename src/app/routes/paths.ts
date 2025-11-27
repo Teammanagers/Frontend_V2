@@ -1,8 +1,8 @@
 import MypageNoticeIcon from '@/shared/assets/mypage/loudspeaker.svg?react';
 import MypageTermOfServiceIcon from '@/shared/assets/mypage/term-of-service.svg?react';
 import MypageProfileIcon from '@/shared/assets/mypage/update-profile.svg?react';
-import { MyTodoList } from '@/widgets/main/MyTodoList';
 import RecentResourceList from '@/widgets/resource/RecentResourceList';
+import { MyTodoList } from '@/widgets/todo/MyTodoList';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
 
 // 팀 관련 기본 경로 패턴
