@@ -24,11 +24,12 @@ function NoticeBanner() {
 
   return (
     <>
-      <Container onClick={toggle}>
-        <NoticeContent>
-          <IconWrapper>
-            <NoticeLoudSpeaker />
-          </IconWrapper>
+      {isSuccess && (
+        <Container onClick={toggle}>
+          <NoticeContent>
+            <IconWrapper>
+              <NoticeLoudSpeaker />
+            </IconWrapper>
 
           <LatestNotice>
             {isSuccess
