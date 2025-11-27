@@ -45,7 +45,7 @@ export const Memo = ({
   onDeleteRequest,
   onMoveRequest,
 }: MemoProps) => {
-  const { id, title, tags, content, isFixed } = memo;
+  const { id, title, tags, content, isFixed, createdByName: name } = memo;
 
   const [isPinned, setIsPinned] = useState<boolean>(isFixed);
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -108,6 +108,7 @@ export const Memo = ({
         </MenuContainer>
       </MemoTitleContainer>
       <TagContainer>
+        <TagBox $isMine={isMyMemo}>{name}</TagBox>
         {tags.map((tag: string, index) => (
           <TagBox key={index}>{tag}</TagBox>
         ))}
@@ -187,18 +188,18 @@ const TagContainer = styled.div`
   gap: 6px;
 `;
 
-const TagBox = styled.div`
+const TagBox = styled.div<{ $isMine?: boolean }>`
   width: auto;
   padding: 5px 8px;
   height: 28px;
   border: 3px;
   border-radius: 3px;
-  background: ${(props) => props.theme.colors.background};
+  background: ${({ theme, $isMine }) =>
+    $isMine ? theme.colors.mainBlue : theme.colors.background};
   display: flex;
   justify-content: center;
   align-items: center;
-
-  color: ${(props) => props.theme.colors.mainBlue};
+  color: ${({ theme, $isMine }) => ($isMine ? 'white' : theme.colors.mainBlue)};
   font-weight: 500;
   font-size: 12px;
   line-height: 150%;
