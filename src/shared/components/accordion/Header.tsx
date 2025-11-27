@@ -9,7 +9,7 @@ import { IAccordionHeaderProps } from '@/shared/types';
  * @param {boolean} isOpen - 아코디언의 열림/닫힘 상태.
  * @param {() => void} onClick - 헤더를 클릭했을 때 호출되는 함수.
  * @param {string} title - 아코디언의 제목 (예: 팀원 이름)
- * @param {string[]} tagList - 아코디언의 태그 리스트.
+ * @param {Tag[]} tagList - 아코디언의 태그 리스트.
  */
 
 function AccordionHeader({
@@ -31,8 +31,8 @@ function AccordionHeader({
         <h3>{title}</h3>
         <TagList>
           {tagList.length > 0
-            ? tagList.map((tag, idx) => (
-                <Tag $isOpen={isOpen} key={`tag-${idx}`}>
+            ? tagList.map((tag) => (
+                <Tag $isOpen={isOpen} key={`tag-${tag.id}`}>
                   {tag.name}
                 </Tag>
               ))

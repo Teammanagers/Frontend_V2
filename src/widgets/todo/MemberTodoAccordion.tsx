@@ -23,9 +23,9 @@ export default function MemberTodoAccordion({
       tagList={teamMember.tagList}
       onCloseClear={() => setIsInputActive(false)}
     >
-      {teamMember.todoList.map((todo, idx) => (
+      {teamMember.todoList.map((todo) => (
         <Todo
-          key={`${teamMember.teamMemberId}-todo-${todo.id}-${idx}`}
+          key={`${teamMember.teamMemberId}-todo-${todo.id}`}
           buttonType={
             // 내 투두이면 'menu', 아니면 'alarm' 렌더링
             teamMember.teamMemberId === myTeamMemberId ? 'menu' : 'alarm'
