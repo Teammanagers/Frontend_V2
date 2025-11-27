@@ -41,7 +41,7 @@ export default function useTodoQuries() {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['todos', teamId],
         });
       },
@@ -67,7 +67,7 @@ export default function useTodoQuries() {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['todos', teamId],
         });
       },
@@ -86,7 +86,7 @@ export default function useTodoQuries() {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['todos', teamId],
         });
       },
@@ -105,7 +105,7 @@ export default function useTodoQuries() {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['todos', teamId],
         });
       },
