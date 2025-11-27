@@ -1,7 +1,7 @@
 import MypageNoticeIcon from '@/shared/assets/mypage/loudspeaker.svg?react';
 import MypageTermOfServiceIcon from '@/shared/assets/mypage/term-of-service.svg?react';
 import MypageProfileIcon from '@/shared/assets/mypage/update-profile.svg?react';
-import { TodoList } from '@/widgets/main';
+import { MyTodoList } from '@/widgets/main/MyTodoList';
 import RecentResourceList from '@/widgets/resource/RecentResourceList';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
 
@@ -93,7 +93,7 @@ interface RouteConfig {
 
 export const mainRoutes: RouteConfig[] = [
   { label: '다가오는 일정', to: PATHS.CALENDAR, component: UpcomingEventList },
-  { label: '투두리스트', to: PATHS.TODO_LIST, component: TodoList },
+  { label: '투두리스트', to: PATHS.TODO_LIST, component: MyTodoList },
   {
     label: '최근 업데이트 된 자료',
     to: PATHS.RESOURCE,

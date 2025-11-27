@@ -1,7 +1,7 @@
-import { STATUS_TO_OPTION } from '@/entities/todo/constants/todo';
-import useTodoQuries from './useTodoQuries';
 import { useState } from 'react';
+import { STATUS_TO_OPTION } from '@/entities/todo/constants/todo';
 import { Status } from '@/entities/todo/todo.type';
+import useTodoQuries from './useTodoQuries';
 
 export const useTodoStatus = (
   status: Status,

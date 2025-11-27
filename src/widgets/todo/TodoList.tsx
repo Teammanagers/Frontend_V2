@@ -1,18 +1,14 @@
 import styled from 'styled-components';
-import { ITeamMemberTodo } from '@/entities/todo/todo.type';
+import { MemberTodos } from '@/entities/todo/todo.type';
 import MemberTodoAccordion from '@/widgets/todo/MemberTodoAccordion';
 
-export function TodoList({
-  teamTodoData,
-}: {
-  teamTodoData: ITeamMemberTodo[];
-}) {
+export function TodoList({ teamTodoData }: { teamTodoData: MemberTodos[] }) {
   // 투두 리스트 전체를 덮는 Container 컴포넌트
   return (
     <Container>
       {/* 팀원별 투두 리스트(아코디언)들을 조절하는 Wrapper 레이아웃 컴포넌트 */}
       <TodosWrapper>
-        {teamTodoData.map((teamMember: ITeamMemberTodo) => (
+        {teamTodoData.map((teamMember: MemberTodos) => (
           <MemberTodoAccordion
             key={`todo-accordion-${teamMember.teamMemberId}`}
             teamMember={teamMember}

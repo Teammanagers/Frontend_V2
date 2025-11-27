@@ -24,29 +24,27 @@ function NoticeBanner() {
 
   return (
     <>
-      {isSuccess && (
-        <Container onClick={toggle}>
-          <NoticeContent>
-            <IconWrapper>
-              <NoticeLoudSpeaker />
-            </IconWrapper>
+      <Container onClick={toggle}>
+        <NoticeContent>
+          <IconWrapper>
+            <NoticeLoudSpeaker />
+          </IconWrapper>
 
-            <LatestNotice>
-              {isSuccess
-                ? recentNotice.notice.content
-                : isError
-                  ? '공지 조회에 실패했습니다'
-                  : ''}
-            </LatestNotice>
-          </NoticeContent>
+          <LatestNotice>
+            {isSuccess
+              ? recentNotice.notice.content
+              : isError
+                ? '공지 조회에 실패했습니다'
+                : ''}
+          </LatestNotice>
+        </NoticeContent>
 
-          {isTeamLeader ? (
-            <Button size="mini" style="sub">
-              공지 수정
-            </Button>
-          ) : null}
-        </Container>
-      )}
+        {isTeamLeader && isSuccess ? (
+          <Button size="mini" style="sub">
+            공지 수정
+          </Button>
+        ) : null}
+      </Container>
 
       <NoticeModal isOpen={isOpen} toggle={toggle} />
     </>

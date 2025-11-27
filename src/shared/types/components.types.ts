@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Tag } from '@/entities/todo/todo.type';
 
 // 모달
 interface IModal {
@@ -38,7 +39,8 @@ interface IActionDropdownProps {
 // 아코디언
 interface IAccordion {
   title: string;
-  tagList?: string[];
+  tagList: Tag[];
+  teamMemberId: number;
 }
 
 interface IAccordionProps extends IAccordion {

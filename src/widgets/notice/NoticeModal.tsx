@@ -5,7 +5,7 @@ import Modal from '@/shared/components/modal/Modal';
 import { INoticeModalProps } from './notice-modal.types';
 
 export default function NoticeModal({ isOpen, toggle }: INoticeModalProps) {
-  const isTeamLeader = useIsTeamLeader();
+  const { isTeamLeader } = useIsTeamLeader();
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>

@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
+import Skeleton from '@/shared/components/skeleton/Skeleton';
 import { useGetResourceList } from '../../entities/resource/model/useResourceQueries';
 
 export default function RecentResourceList() {
-  const { data } = useGetResourceList();
+  const { data, isPending } = useGetResourceList();
+
+  if (isPending) return <Skeleton width={518} height={222} />;
 
   return (
     <Container>

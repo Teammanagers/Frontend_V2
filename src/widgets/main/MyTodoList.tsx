@@ -1,25 +1,35 @@
 import styled from 'styled-components';
-// import { Todo } from '@/features/todo/ui/Todo';
+import { useMyTodoList } from '@/entities/todo/model/useTodoQueries';
+import { Todo } from '@/features/todo/ui/Todo';
+import Skeleton from '@/shared/components/skeleton/Skeleton';
 
-function TodoList() {
+function MyTodoList() {
+  const { data: todoList, isPending, isSuccess } = useMyTodoList();
+
+  if (isPending) return <Skeleton width={518} height={222} />;
+
   return (
-    <Container>
-      <MyTodoListWrapper>
-        <MyTodoTitle>내가 해야할 일</MyTodoTitle>
+    <>
+      {isSuccess && (
+        <Container>
+          <MyTodoListWrapper>
+            <MyTodoTitle>내가 해야할 일</MyTodoTitle>
 
-        <TodosWrapper>
-          {Array.from({ length: 10 }).map((_, idx) => (
-            <TodoWrapper key={`todo-${idx}`}>
-              {/* <Todo buttonType="menu">내가 해야할 일</Todo> */}
-            </TodoWrapper>
-          ))}
-        </TodosWrapper>
-      </MyTodoListWrapper>
-    </Container>
+            <TodosWrapper>
+              {todoList?.todoList.map((todo, idx) => (
+                <TodoWrapper key={`todo-${idx}`}>
+                  <Todo buttonType="menu" {...todo} />
+                </TodoWrapper>
+              ))}
+            </TodosWrapper>
+          </MyTodoListWrapper>
+        </Container>
+      )}
+    </>
   );
 }
 
-export { TodoList };
+export { MyTodoList };
 
 const Container = styled.section`
   display: flex;

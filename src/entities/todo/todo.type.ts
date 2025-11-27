@@ -2,17 +2,27 @@ type ButtonType = 'menu' | 'alarm' | 'none';
 
 type Status = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
 
-interface ITodoInfo {
+interface Tag {
+  id: number;
+  name: string;
+  createdAt: string;
+  createdBy: number;
+  updatedAt: string;
+  updatedBy: number;
+  useYn: 'Y' | 'N';
+}
+
+interface TodoItem {
   id: number;
   title: string;
   status: Status;
 }
 
-interface ITeamMemberTodo {
+interface MemberTodos {
   teamMemberId: number;
   name: string;
-  tagList: string[];
-  todoList: ITodoInfo[];
+  tagList: Tag[];
+  todoList: TodoItem[];
 }
 
 interface ITeamProgressStatus {
@@ -25,14 +35,15 @@ interface ITeamTodoResponse {
   in_progress: number;
   pending: number;
   myTeamMemberId: number;
-  teamTodoList: ITeamMemberTodo[];
+  teamTodoList: MemberTodos[];
 }
 
 export type {
   Status,
-  ITodoInfo,
+  Tag,
+  TodoItem,
   ButtonType,
-  ITeamMemberTodo,
+  MemberTodos,
   ITeamProgressStatus,
   ITeamTodoResponse,
 };
