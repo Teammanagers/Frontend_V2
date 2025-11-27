@@ -7,6 +7,7 @@ import { Button } from '@/shared/components/button/Button.tsx';
 import { useTags } from '@/shared/hooks/useTags';
 
 interface IMemoFormProps {
+  authorName: string | undefined;
   initialTitle?: string;
   initialContent?: string;
   initialTags?: { name: string }[];
@@ -18,6 +19,7 @@ interface IMemoFormProps {
 }
 
 export const MemoForm = ({
+  authorName,
   initialTitle = '',
   initialContent = '',
   initialTags = [],
@@ -61,6 +63,9 @@ export const MemoForm = ({
         </TitleContainer>
         {/* 태그 */}
         <TagContainer>
+          <NameTag>
+            <TagText>{authorName}</TagText>
+          </NameTag>
           {tags.map((tag, index) => (
             <Tag key={index} onClick={() => startEditingTag(index)}>
               {editTagIndex === index ? (
@@ -190,6 +195,22 @@ const TagContainer = styled.div`
   gap: 7px;
 `;
 
+const NameTag = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 5px;
+  background: ${({ theme }) => theme.colors.mainBlue};
+`;
+
+const TagText = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+`;
+
 const Tag = styled.div`
   display: inline-flex;
   justify-content: center;
@@ -202,6 +223,7 @@ const Tag = styled.div`
   font-weight: 500;
   line-height: 14px;
   cursor: pointer;
+  background: darkseagreen;
 `;
 
 const TagInput = styled.input`
@@ -234,6 +256,7 @@ const AddTagBtn = styled.div`
   align-items: center;
   padding: 0;
   cursor: pointer;
+  background: darkseagreen;
 `;
 
 const BottomContainer = styled.div`
