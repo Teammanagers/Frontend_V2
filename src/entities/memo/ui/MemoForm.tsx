@@ -64,7 +64,7 @@ export const MemoForm = ({
         {/* 태그 */}
         <TagContainer>
           <NameTag>
-            <TagText>{authorName}</TagText>
+            <NameTagText>{authorName}</NameTagText>
           </NameTag>
           {tags.map((tag, index) => (
             <Tag key={index} onClick={() => startEditingTag(index)}>
@@ -80,7 +80,7 @@ export const MemoForm = ({
                   <DeleteBtn onClick={() => handleDeleteTag(index)} />
                 </TagInputContainer>
               ) : (
-                <span>{tag.name}</span>
+                <TagText>{tag.name}</TagText>
               )}
             </Tag>
           ))}
@@ -205,25 +205,27 @@ const NameTag = styled.div`
   background: ${({ theme }) => theme.colors.mainBlue};
 `;
 
-const TagText = styled.span`
+const NameTagText = styled.span`
   font-size: 14px;
   font-weight: 500;
   color: white;
+  padding: 0;
 `;
 
 const Tag = styled.div`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 5px 6px;
-  border-radius: 3px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 5px;
   background: ${({ theme }) => theme.colors.background};
   color: ${(props) => props.theme.colors.mainBlue};
-  font-size: 9px;
-  font-weight: 500;
-  line-height: 14px;
   cursor: pointer;
-  background: darkseagreen;
+`;
+
+const TagText = styled(NameTagText)`
+  color: ${({ theme }) => theme.colors.mainBlue};
 `;
 
 const TagInput = styled.input`
@@ -246,8 +248,8 @@ export const DeleteBtn = styled(Delete)<
 `;
 
 const AddTagBtn = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   background: ${({ theme }) => theme.colors.background};
   border-radius: 3px;
   border: none;
@@ -256,7 +258,6 @@ const AddTagBtn = styled.div`
   align-items: center;
   padding: 0;
   cursor: pointer;
-  background: darkseagreen;
 `;
 
 const BottomContainer = styled.div`
