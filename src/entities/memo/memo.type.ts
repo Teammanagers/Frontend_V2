@@ -46,11 +46,7 @@ export interface MemoAddBtnProps {
   onClick: () => void;
 }
 
-export interface MemoDto {
-  id: number;
-  title: string;
-  content: string;
-  isFixed: boolean;
+export interface MemoDto extends Omit<MemoType, 'tags'> {
   folderId: number;
   teamId: number;
   createdAt: string;
