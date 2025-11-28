@@ -179,5 +179,5 @@ export const useFixedMemoList = () => {
     enabled: !!teamId,
   });
 
-  return { isPending, isError, isSuccess, data };
+  return { isPending, isError, isSuccess, data: data ?? [] };
 };
