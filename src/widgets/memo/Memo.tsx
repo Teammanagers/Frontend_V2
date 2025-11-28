@@ -190,10 +190,9 @@ const TagContainer = styled.div`
 `;
 
 const TagBox = styled.div<{ $isMine?: boolean }>`
-  width: auto;
-  padding: 5px 8px;
+  max-width: 50px;
+  padding: 0 8px;
   height: 28px;
-  border: 3px;
   border-radius: 3px;
   background: ${({ theme, $isMine }) =>
     $isMine ? theme.colors.mainBlue : theme.colors.background};
@@ -203,7 +202,10 @@ const TagBox = styled.div<{ $isMine?: boolean }>`
   color: ${({ theme, $isMine }) => ($isMine ? 'white' : theme.colors.mainBlue)};
   font-weight: 500;
   font-size: 12px;
-  line-height: 150%;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const MemoContentContainer = styled.div`
