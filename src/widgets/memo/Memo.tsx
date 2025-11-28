@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, useState } from 'react';
 import styled from 'styled-components';
 import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
-import Next from '@/shared/assets/memo/next-button.svg?react';
+// import Next from '@/shared/assets/memo/next-button.svg?react';
 import PinIcon from '@/shared/assets/memo/pin.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
@@ -48,7 +48,7 @@ export const Memo = ({
   const { id, title, tags, content, isFixed } = memo;
 
   const [isPinned, setIsPinned] = useState<boolean>(isFixed);
-  const [isActive, setIsActive] = useState<boolean>(false);
+  // const [isActive, setIsActive] = useState<boolean>(false);
   const { isOpen, setIsOpen, toggle } = useToggle();
 
   const { useTogglePinMemoMutation } = useMemoMutations();
@@ -98,13 +98,15 @@ export const Memo = ({
           {size === 'large' && (
             <PinBtn onClick={handlePinToggle} $pinned={isPinned} />
           )}
-          <ActionDropdown
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            toggle={toggle}
-            action={handleMenuAction}
-            menus={['수정', '이동', '삭제']}
-          />
+          {size === 'large' && (
+            <ActionDropdown
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              toggle={toggle}
+              action={handleMenuAction}
+              menus={['수정', '이동', '삭제']}
+            />
+          )}
         </MenuContainer>
       </MemoTitleContainer>
       <TagContainer>
@@ -115,13 +117,15 @@ export const Memo = ({
       <MemoContentContainer>
         <Content>{content}</Content>
       </MemoContentContainer>
-      {size === 'small' && (
+
+      {/* TODO: 캐러셀 구현 시 활성화 */}
+      {/* {size === 'small' && (
         <NextBtn
           $active={isActive}
           onMouseLeave={() => setIsActive(false)}
           onMouseDown={() => setIsActive(true)}
         />
-      )}
+      )} */}
     </MemoContainer>
   );
 };
@@ -220,19 +224,19 @@ const Content = styled.p`
   text-overflow: ellipsis;
 `;
 
-const NextBtn = styled(Next)<
-  ButtonHTMLAttributes<HTMLButtonElement> & { $active: boolean }
->`
-  position: absolute;
-  right: 0;
-  top: 50%;
-  opacity: 0;
-  transition: opacity 0.2s;
-  cursor: pointer;
-  stroke: ${({ theme, $active }) =>
-    $active ? theme.colors.mainBlue : '#999999'};
+// const NextBtn = styled(Next)<
+//   ButtonHTMLAttributes<HTMLButtonElement> & { $active: boolean }
+// >`
+//   position: absolute;
+//   right: 0;
+//   top: 50%;
+//   opacity: 0;
+//   transition: opacity 0.2s;
+//   cursor: pointer;
+//   stroke: ${({ theme, $active }) =>
+//     $active ? theme.colors.mainBlue : '#999999'};
 
-  ${MemoContainer}:hover & {
-    opacity: 1;
-  }
-`;
+//   ${MemoContainer}:hover & {
+//     opacity: 1;
+//   }
+// `;
