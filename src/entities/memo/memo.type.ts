@@ -45,3 +45,34 @@ export interface MemoListViewProps {
 export interface MemoAddBtnProps {
   onClick: () => void;
 }
+
+export interface MemoDto {
+  id: number;
+  title: string;
+  content: string;
+  isFixed: boolean;
+  folderId: number;
+  teamId: number;
+  createdAt: string;
+  createdBy: number;
+  createdByName: string;
+  updatedAt: string;
+  updatedBy: number;
+  updatedByName: string;
+  useYn: string;
+}
+
+export interface MemoTag {
+  id: number;
+  name: string;
+  createdAt: string;
+  createdBy: number;
+  updatedAt: string;
+  updatedBy: number;
+  useYn: string;
+}
+
+export interface FixedMemoResponse {
+  memoDto: MemoDto;
+  memoTagList: MemoTag[];
+}

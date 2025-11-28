@@ -1,6 +1,7 @@
 import MypageNoticeIcon from '@/shared/assets/mypage/loudspeaker.svg?react';
 import MypageTermOfServiceIcon from '@/shared/assets/mypage/term-of-service.svg?react';
 import MypageProfileIcon from '@/shared/assets/mypage/update-profile.svg?react';
+import FixedMemoList from '@/widgets/memo/FixedMemoList';
 import RecentResourceList from '@/widgets/resource/RecentResourceList';
 import { MyTodoList } from '@/widgets/todo/MyTodoList';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
@@ -99,7 +100,7 @@ export const mainRoutes: RouteConfig[] = [
     to: PATHS.RESOURCE,
     component: RecentResourceList,
   },
-  { label: '고정된 메모', to: PATHS.MEMO },
+  { label: '고정된 메모', to: PATHS.MEMO, component: FixedMemoList },
 ];
 
 export const mypageRoutes: RouteConfig[] = [
