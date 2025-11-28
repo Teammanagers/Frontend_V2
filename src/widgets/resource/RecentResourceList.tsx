@@ -15,7 +15,7 @@ export default function RecentResourceList() {
   return (
     <Container>
       <ResourceList>
-        {data &&
+        {isSuccess &&
           data
             .slice(0, 3)
             .map((resource) => (

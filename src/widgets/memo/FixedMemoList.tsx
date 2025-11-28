@@ -19,33 +19,31 @@ export default function FixedMemoList() {
       {isSuccess &&
         //TODO: 임시로 2개만 고정메모 노출, 추후 캐러셀 형태로 변경 필요
         memos?.slice(0, 2).map((memo) => (
-          <>
-            <Memo
-              key={memo.memoDto.id}
-              size="small"
-              memo={{
-                id: memo.memoDto.id,
+          <Memo
+            key={memo.memoDto.id}
+            size="small"
+            memo={{
+              id: memo.memoDto.id,
+              title: memo.memoDto.title,
+              content: memo.memoDto.content,
+              tags: memo.memoTagList.map((t) => t.name),
+              isFixed: memo.memoDto.isFixed,
+            }}
+            onDeleteRequest={(id) =>
+              handlers.handleDeleteRequest({
+                type: 'memo',
+                id,
                 title: memo.memoDto.title,
-                content: memo.memoDto.content,
-                tags: memo.memoTagList.map((t) => t.name),
-                isFixed: memo.memoDto.isFixed,
-              }}
-              onDeleteRequest={(id) =>
-                handlers.handleDeleteRequest({
-                  type: 'memo',
-                  id,
-                  title: memo.memoDto.title,
-                })
-              }
-              onMoveRequest={(id) =>
-                handlers.handleMoveRequest({
-                  type: 'memo',
-                  id,
-                  title: memo.memoDto.title,
-                })
-              }
-            />
-          </>
+              })
+            }
+            onMoveRequest={(id) =>
+              handlers.handleMoveRequest({
+                type: 'memo',
+                id,
+                title: memo.memoDto.title,
+              })
+            }
+          />
         ))}
     </Container>
   );

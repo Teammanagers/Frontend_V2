@@ -19,7 +19,7 @@ function MyTodoList() {
 
           <TodosWrapper>
             {todoList?.todoList.length === 0 && (
-              <p>아직 생성된 투두가 없습니다.</p>
+              <Empty>진행 중인 할 일이 없습니다.</Empty>
             )}
             {todoList?.todoList.map((todo, idx) => (
               <TodoWrapper key={`todo-${idx}`}>
@@ -36,6 +36,7 @@ function MyTodoList() {
 export { MyTodoList };
 
 const MyTodoListWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -65,4 +66,14 @@ const TodoWrapper = styled.li`
   justify-content: center;
   align-items: center;
   height: 32px;
+`;
+
+const Empty = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.black};
 `;
