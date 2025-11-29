@@ -1,29 +1,33 @@
 import styled from 'styled-components';
+import FallbackCard from '@/entities/main/ui/FallbackCard';
 import { useMyTodoList } from '@/entities/todo/model/useTodoQueries';
 import { Todo } from '@/features/todo/ui/Todo';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
 
 function MyTodoList() {
-  const { data: todoList, isPending, isSuccess } = useMyTodoList();
+  const { data: todoList, isPending, isSuccess, isError } = useMyTodoList();
 
   if (isPending) return <Skeleton width={518} height={222} />;
+  if (isError)
+    return <FallbackCard>투두리스트를 불러올 수 없습니다.</FallbackCard>;
 
   return (
     <>
       {isSuccess && (
-        <Container>
-          <MyTodoListWrapper>
-            <MyTodoTitle>내가 해야할 일</MyTodoTitle>
+        <MyTodoListWrapper>
+          <MyTodoTitle>내가 해야할 일</MyTodoTitle>
 
-            <TodosWrapper>
-              {todoList?.todoList.map((todo, idx) => (
-                <TodoWrapper key={`todo-${idx}`}>
-                  <Todo buttonType="menu" {...todo} />
-                </TodoWrapper>
-              ))}
-            </TodosWrapper>
-          </MyTodoListWrapper>
-        </Container>
+          <TodosWrapper>
+            {todoList?.todoList.length === 0 && (
+              <Empty>진행 중인 할 일이 없습니다.</Empty>
+            )}
+            {todoList?.todoList.map((todo, idx) => (
+              <TodoWrapper key={`todo-${idx}`}>
+                <Todo buttonType="menu" {...todo} />
+              </TodoWrapper>
+            ))}
+          </TodosWrapper>
+        </MyTodoListWrapper>
       )}
     </>
   );
@@ -31,14 +35,8 @@ function MyTodoList() {
 
 export { MyTodoList };
 
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-`;
-
 const MyTodoListWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -68,4 +66,14 @@ const TodoWrapper = styled.li`
   justify-content: center;
   align-items: center;
   height: 32px;
+`;
+
+const Empty = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.black};
 `;
