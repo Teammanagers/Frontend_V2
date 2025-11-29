@@ -38,12 +38,12 @@ export default function AppRoutes() {
             element={<AdminLoginPage />}
           />
           <Route path={ROUTE_SEGMENTS.SIGN_UP} element={<SignupPage />} />
+          <Route path={ROUTE_SEGMENTS.REDIRECT} element={<Redirect />} />
         </Route>
 
         {/* 로그인 사용자 전용 페이지 */}
         <Route element={<AuthGuard />}>
           {/* 온보딩 */}
-          <Route path={ROUTE_SEGMENTS.REDIRECT} element={<Redirect />} />
           <Route path={ROUTE_SEGMENTS.MAKE_TEAM} element={<MakeTeamPage />} />
           <Route path={ROUTE_SEGMENTS.TEAM_JOIN} element={<JoinPage />} />
           <Route
