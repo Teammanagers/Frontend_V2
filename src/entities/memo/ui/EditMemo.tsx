@@ -6,6 +6,7 @@ import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { DeleteModal } from '@/entities/memo/ui/DeleteModal.tsx';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
 import { MemoFormContainer } from '@/entities/memo/ui/WriteMemo.tsx';
+import { useGetName } from '@/entities/onBoarding/model/selectTeam/useGetName.ts';
 import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 
 export const EditMemo = () => {
@@ -16,6 +17,7 @@ export const EditMemo = () => {
   const { useEditMemoMutation } = useMemoMutations();
   const { data: memoDetail, isPending } = useMemoDetailQuery(Number(memoId));
   const { mutate: editMemo } = useEditMemoMutation();
+  const { name } = useGetName();
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
@@ -54,6 +56,7 @@ export const EditMemo = () => {
   return (
     <MemoFormContainer>
       <MemoForm
+        authorName={name}
         initialTitle={memoDto.title}
         initialContent={memoDto.content}
         initialTags={memoTagList.map((tag) => ({ name: tag.name }))}

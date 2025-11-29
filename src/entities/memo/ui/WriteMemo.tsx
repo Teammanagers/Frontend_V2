@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
 import { MemoForm } from '@/entities/memo/ui/MemoForm.tsx';
+import { useGetName } from '@/entities/onBoarding/model/selectTeam/useGetName.ts';
 import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 
 export const WriteMemo = () => {
@@ -12,6 +13,7 @@ export const WriteMemo = () => {
 
   const { useCreateMemoMutation } = useMemoMutations();
   const { mutate: createMemo } = useCreateMemoMutation();
+  const { name } = useGetName();
 
   const onSubmit = (
     title: string,
@@ -40,6 +42,7 @@ export const WriteMemo = () => {
   return (
     <MemoFormContainer>
       <MemoForm
+        authorName={name}
         onSubmit={onSubmit}
         onBack={() =>
           teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${currentFolderId}`)
