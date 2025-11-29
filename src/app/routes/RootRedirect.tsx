@@ -7,7 +7,7 @@ export default function RootRedirect() {
 
   const target = isAuthenticated
     ? `/${ROUTE_SEGMENTS.SELECT_TEAM}`
-    : `/${ROUTE_SEGMENTS.SELECT_TEAM}`;
+    : `/${ROUTE_SEGMENTS.LOGIN}`;
 
   return <Navigate to={target} replace />;
 }
