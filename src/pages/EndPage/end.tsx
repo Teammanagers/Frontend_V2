@@ -5,6 +5,7 @@ import { EndMember } from '@/entities/end/ui/EndMember.tsx';
 import { EndModal } from '@/entities/end/ui/EndModal.tsx';
 import { EndProject } from '@/entities/end/ui/EndProject.tsx';
 import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
+import { useTeamById } from '@/entities/team/model/useTeamQueries';
 import Modal from '@/shared/components/modal/Modal.tsx';
 import { getMemberIdFromToken } from '@/shared/lib/utils/getMemberIdFromToken.ts';
 
@@ -13,8 +14,8 @@ export function EndPage() {
   const navigate = useNavigate();
   const memberId = getMemberIdFromToken();
 
-  const { useTeamByIdQuery, useTeamMemberQuery } = useTeamQueries();
-  const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
+  const { useTeamMemberQuery } = useTeamQueries();
+  const { data: team, isPending: isTeamLoading } = useTeamById();
   const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
 
   const { useWithdrawTeamMutation, useCompleteTeamMutation } =

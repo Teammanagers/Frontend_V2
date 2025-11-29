@@ -5,22 +5,21 @@ import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
 import { Schedule } from '@/entities/management/ui/Schedule.tsx';
 import { TeamInfo } from '@/entities/management/ui/TeamInfo.tsx';
 import { TeamMember } from '@/entities/management/ui/TeamMember.tsx';
+import { useTeamById } from '@/entities/team/model/useTeamQueries';
 import { IMemberResponse } from '@/shared/types/member.types.ts';
+import {
+  ScheduleSkeleton,
+  TeamInfoSkeleton,
+  TeamMemberSkeleton,
+} from '@/widgets/management/ui/ManagementSkeleton.tsx';
 
 export function ManagementPage() {
   const [selectedMembers, setSelectedMembers] = useState<IMemberResponse[]>([]);
 
-  const {
-    useTeamByIdQuery,
-    useTeamScheduleQuery,
-    useMyScheduleQuery,
-    usePartialScheduleQuery,
-    useTeamMemberQuery,
-  } = useTeamQueries();
+  const { useMyScheduleQuery, usePartialScheduleQuery, useTeamMemberQuery } =
+    useTeamQueries();
   const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
-  const { data: team, isPending: isTeamLoading } = useTeamByIdQuery();
-  const { data: schedule, isPending: isScheduleLoading } =
-    useTeamScheduleQuery();
+  const { data: team, isPending: isTeamLoading } = useTeamById();
   const { data: mySchedule, isPending: isMyScheduleLoading } =
     useMyScheduleQuery();
 
@@ -30,40 +29,58 @@ export function ManagementPage() {
 
   const teamMemberIds = selectedMembers.map((m) => m.teamMemberId);
 
-  const { data: partialSchedule } = usePartialScheduleQuery(teamMemberIds);
+  const { data: schedule, isFetching: isScheduleFetching } =
+    usePartialScheduleQuery(teamMemberIds);
 
-  // 추후 스켈레톤 적용
-  if (isTeamLoading || !team) return <div>로딩중..</div>;
-  if (isScheduleLoading || !schedule) return <div>로딩중...</div>;
-  if (isMyScheduleLoading || !mySchedule) return <div>로딩중...</div>;
-  if (isMembersLoading || !members) return <div>로딩중...</div>;
+  const isLoading = isTeamLoading || isMembersLoading || isMyScheduleLoading;
+  const isReady = !!team && !!members && !!mySchedule;
 
-  const transformedSchedule = transformScheduleData(schedule);
+  if (!isReady || isLoading) {
+    return (
+      <Wrapper>
+        <ManagementContainer>
+          <TeamInfoSkeleton />
+          <TeamMemberSkeleton />
+          <ScheduleSkeleton />
+        </ManagementContainer>
+      </Wrapper>
+    );
+  }
   const transformedMySchedule = transformScheduleData(mySchedule);
-  const transformedPartialSchedule = transformScheduleData(partialSchedule);
+  const transformedPartialSchedule = transformScheduleData(schedule);
 
   return (
-    <Container>
-      <TeamInfo
-        title={team.team.title}
-        imageUrl={team.imgUrl}
-        teamCode={team.team.code}
-        tagList={team.teamTagList}
-      />
-      <TeamMember members={transformedMembers} />
-      <Schedule
-        members={transformedMembers}
-        schedule={transformedSchedule}
-        partialSchedule={transformedPartialSchedule}
-        mySchedule={transformedMySchedule}
-        selectedMembers={selectedMembers}
-        setSelectedMembers={setSelectedMembers}
-      />
-    </Container>
+    <Wrapper>
+      <ManagementContainer>
+        <TeamInfo
+          title={team.team.title}
+          imageUrl={team.imgUrl}
+          teamCode={team.team.code}
+          tagList={team.teamTagList}
+        />
+        <TeamMember members={transformedMembers} />
+        <Schedule
+          members={transformedMembers}
+          schedule={transformedPartialSchedule}
+          isScheduleFetching={isScheduleFetching}
+          mySchedule={transformedMySchedule}
+          selectedMembers={selectedMembers}
+          setSelectedMembers={setSelectedMembers}
+        />
+      </ManagementContainer>
+    </Wrapper>
   );
 }
 
-const Container = styled.div`
+const Wrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ManagementContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 1088px;

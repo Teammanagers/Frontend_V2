@@ -31,8 +31,9 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', teamId],
+          queryKey: ['team', teamId],
         });
+        queryClient.invalidateQueries({ queryKey: ['sidebar', 'myTeamList'] });
       },
       onError: (err) => console.error(err),
     });
@@ -164,7 +165,10 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'teamMember', 'schedule', teamId],
+          queryKey: ['management', 'schedule', teamId],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['management', 'mySchedule', teamId],
         });
       },
     });

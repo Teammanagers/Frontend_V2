@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, useState } from 'react';
 import styled from 'styled-components';
 import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
-import Next from '@/shared/assets/memo/next-button.svg?react';
+// import Next from '@/shared/assets/memo/next-button.svg?react';
 import PinIcon from '@/shared/assets/memo/pin.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
@@ -41,13 +41,14 @@ import { memoSizes } from '@/widgets/memo/memo.constants.ts';
 export const Memo = ({
   size,
   memo,
+  isMyMemo,
   onDeleteRequest,
   onMoveRequest,
 }: MemoProps) => {
   const { id, title, tags, content, isFixed } = memo;
 
   const [isPinned, setIsPinned] = useState<boolean>(isFixed);
-  const [isActive, setIsActive] = useState<boolean>(false);
+  // const [isActive, setIsActive] = useState<boolean>(false);
   const { isOpen, setIsOpen, toggle } = useToggle();
 
   const { useTogglePinMemoMutation } = useMemoMutations();
@@ -66,11 +67,23 @@ export const Memo = ({
 
   const handleMenuAction = (menu: string) => {
     if (menu === '수정') {
+      if (!isMyMemo) {
+        alert('내가 쓴 메모가 아닌 메모는 수정할 수 없습니다.');
+        return;
+      }
       teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/edit/${id}`);
       setIsOpen(true);
     } else if (menu === '이동') {
+      if (!isMyMemo) {
+        alert('내가 쓴 메모가 아닌 메모는 이동할 수 없습니다.');
+        return;
+      }
       onMoveRequest(id);
     } else if (menu === '삭제') {
+      if (!isMyMemo) {
+        alert('내가 쓴 메모가 아닌 메모는 삭제할 수 없습니다.');
+        return;
+      }
       setIsOpen(true);
       onDeleteRequest(id);
     }
@@ -85,13 +98,15 @@ export const Memo = ({
           {size === 'large' && (
             <PinBtn onClick={handlePinToggle} $pinned={isPinned} />
           )}
-          <ActionDropdown
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            toggle={toggle}
-            action={handleMenuAction}
-            menus={['수정', '이동', '삭제']}
-          />
+          {size === 'large' && (
+            <ActionDropdown
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              toggle={toggle}
+              action={handleMenuAction}
+              menus={['수정', '이동', '삭제']}
+            />
+          )}
         </MenuContainer>
       </MemoTitleContainer>
       <TagContainer>
@@ -102,13 +117,15 @@ export const Memo = ({
       <MemoContentContainer>
         <Content>{content}</Content>
       </MemoContentContainer>
-      {size === 'small' && (
+
+      {/* TODO: 캐러셀 구현 시 활성화 */}
+      {/* {size === 'small' && (
         <NextBtn
           $active={isActive}
           onMouseLeave={() => setIsActive(false)}
           onMouseDown={() => setIsActive(true)}
         />
-      )}
+      )} */}
     </MemoContainer>
   );
 };
@@ -207,19 +224,19 @@ const Content = styled.p`
   text-overflow: ellipsis;
 `;
 
-const NextBtn = styled(Next)<
-  ButtonHTMLAttributes<HTMLButtonElement> & { $active: boolean }
->`
-  position: absolute;
-  right: 0;
-  top: 50%;
-  opacity: 0;
-  transition: opacity 0.2s;
-  cursor: pointer;
-  stroke: ${({ theme, $active }) =>
-    $active ? theme.colors.mainBlue : '#999999'};
+// const NextBtn = styled(Next)<
+//   ButtonHTMLAttributes<HTMLButtonElement> & { $active: boolean }
+// >`
+//   position: absolute;
+//   right: 0;
+//   top: 50%;
+//   opacity: 0;
+//   transition: opacity 0.2s;
+//   cursor: pointer;
+//   stroke: ${({ theme, $active }) =>
+//     $active ? theme.colors.mainBlue : '#999999'};
 
-  ${MemoContainer}:hover & {
-    opacity: 1;
-  }
-`;
+//   ${MemoContainer}:hover & {
+//     opacity: 1;
+//   }
+// `;

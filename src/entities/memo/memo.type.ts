@@ -29,10 +29,12 @@ interface MemoListViewHandlers {
 }
 
 export interface MemoListViewProps {
+  state?: string;
   memos: MemoType[];
   folders: FolderType[];
-  isEmpty: boolean;
-  isRootFolder: boolean;
+  myMemosIds: number[];
+  isEmpty?: boolean;
+  isLoading?: boolean;
   uiState: MemoListViewUIState;
   handlers: MemoListViewHandlers;
   onFolderClick?: (folderId: number) => void;
@@ -42,4 +44,31 @@ export interface MemoListViewProps {
 
 export interface MemoAddBtnProps {
   onClick: () => void;
+}
+
+export interface MemoDto extends Omit<MemoType, 'tags'> {
+  folderId: number;
+  teamId: number;
+  createdAt: string;
+  createdBy: number;
+  createdByName: string;
+  updatedAt: string;
+  updatedBy: number;
+  updatedByName: string;
+  useYn: string;
+}
+
+export interface MemoTag {
+  id: number;
+  name: string;
+  createdAt: string;
+  createdBy: number;
+  updatedAt: string;
+  updatedBy: number;
+  useYn: string;
+}
+
+export interface FixedMemoResponse {
+  memoDto: MemoDto;
+  memoTagList: MemoTag[];
 }

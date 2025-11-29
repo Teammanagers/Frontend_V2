@@ -1,10 +1,16 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
+import FormSubmitButton from '@/shared/components/button/FormSubmitButton';
 import useBulletPointConverter from '@/shared/hooks/action/useBulletPointConverter';
 import useNoticeQueries from '../model/useNoticeQueries';
-import FormSubmitButton from '@/shared/components/button/FormSubmitButton';
 
-function NoticeInputForm({ toggle }: { toggle: () => void }) {
+function NoticeInputForm({
+  isOpen,
+  toggle,
+}: {
+  isOpen: boolean;
+  toggle: () => void;
+}) {
   const [inputValue, setInputValue] = useState<string>('');
 
   // 공지 생성 API 호출
@@ -23,6 +29,10 @@ function NoticeInputForm({ toggle }: { toggle: () => void }) {
     setInputValue('');
     toggle();
   };
+
+  useEffect(() => {
+    if (!isOpen) setInputValue('');
+  }, [isOpen]);
 
   return (
     <FormContainer onSubmit={handleSubmit}>
@@ -48,7 +58,7 @@ const FormContainer = styled.form`
   justify-content: center;
   gap: 6px;
   width: 498px;
-  height: 54px;
+  min-height: 54px;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: 5px;
 `;

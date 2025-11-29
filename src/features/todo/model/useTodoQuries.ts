@@ -10,7 +10,7 @@ export default function useTodoQuries() {
   // 팀 투두 조회
   const useTeamTodoQuery = () => {
     const { isPending, isError, error, isSuccess, data } = useQuery({
-      queryKey: ['teamTodo', teamId],
+      queryKey: ['todos', teamId, 'all'],
       queryFn: async () => {
         return await apiRequest({
           url: `/api/v2/todo?teamId=${teamId}`,
@@ -31,18 +31,18 @@ export default function useTodoQuries() {
   };
 
   // 투두 생성
-  const useCreateTodoMutation = (teamMemberId: number) => {
+  const useCreateTodoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (data: { title: string }) => {
         await apiRequest({
-          url: `/api/v2/todo?teamId=${teamMemberId}`,
+          url: `/api/v2/todo?teamId=${teamId}`,
           method: 'POST',
           data,
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
-          queryKey: ['teamTodo', teamId],
+        queryClient.invalidateQueries({
+          queryKey: ['todos', teamId],
         });
       },
     });
@@ -51,9 +51,15 @@ export default function useTodoQuries() {
   };
 
   // 투두 내용 수정
-  const useEditTodoMutation = (todoId: number) => {
+  const useEditTodoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: { title: string }) => {
+      mutationFn: async ({
+        todoId,
+        data,
+      }: {
+        todoId: number;
+        data: { title: string };
+      }) => {
         await apiRequest({
           url: `/api/v2/todo/${todoId}`,
           method: 'POST',
@@ -61,8 +67,8 @@ export default function useTodoQuries() {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
-          queryKey: ['teamTodo', teamId],
+        queryClient.invalidateQueries({
+          queryKey: ['todos', teamId],
         });
       },
     });
@@ -80,8 +86,8 @@ export default function useTodoQuries() {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
-          queryKey: ['teamTodo', teamId],
+        queryClient.invalidateQueries({
+          queryKey: ['todos', teamId],
         });
       },
     });
@@ -99,8 +105,8 @@ export default function useTodoQuries() {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
-          queryKey: ['teamTodo', teamId],
+        queryClient.invalidateQueries({
+          queryKey: ['todos', teamId],
         });
       },
     });

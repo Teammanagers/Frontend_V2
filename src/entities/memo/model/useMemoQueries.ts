@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import apiRequest from '@/shared/api/apiRequest';
 import { useTeamStore } from '@/shared/model/store/teamStore.ts';
 import { MemoType, FolderType } from '@/shared/types/memo.types';
+import { FixedMemoResponse } from '../memo.type';
 
 interface IMemoResponse {
   memoDto: {
@@ -17,7 +18,7 @@ interface IMemoResponse {
   }[];
 }
 
-interface IFolderDto {
+export interface IFolderDto {
   id: number;
   name: string;
   depth: number;
@@ -76,6 +77,29 @@ export default function useMemoQueries() {
     return { isPending, isError, isSuccess, data };
   };
 
+  // 내가 쓴 메모 조회
+  const useMyMemoListQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['myMemo', teamId],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/memo/my?teamId=${teamId}`,
+          method: 'GET',
+        }),
+      select: (res): MemoType[] =>
+        res.result.map((memo: IMemoResponse) => ({
+          id: memo.memoDto.id,
+          title: memo.memoDto.title,
+          content: memo.memoDto.content,
+          tags: memo.memoTagList.map((t) => t.name),
+          isFixed: memo.memoDto.isFixed,
+        })),
+      enabled: !!teamId,
+    });
+
+    return { isPending, isError, isSuccess, data };
+  };
+
   // 메모 단건 조회
   const useMemoDetailQuery = (memoId: number) => {
     const { isPending, isError, isSuccess, data } = useQuery({
@@ -93,13 +117,13 @@ export default function useMemoQueries() {
   };
 
   // 폴더 전체 조회
-  const useFolderListQuery = (folderId: number) => {
+  const useFolderListQuery = (parentId: number) => {
     const { isPending, isError, isSuccess, data } = useQuery({
-      queryKey: ['folder', folderId],
-      enabled: Number.isFinite(folderId),
+      queryKey: ['folder', parentId],
+      enabled: Number.isFinite(parentId),
       queryFn: () =>
         apiRequest({
-          url: `/api/v2/folder/${folderId}/list`,
+          url: `/api/v2/folder/${parentId}/list`,
           method: 'GET',
         }),
       select: (res): FolderType[] =>
@@ -107,6 +131,7 @@ export default function useMemoQueries() {
           id: folder.folderDto.id,
           title: folder.folderDto.name,
         })),
+      staleTime: 60 * 1000,
     });
 
     return { isPending, isError, isSuccess, data };
@@ -132,7 +157,27 @@ export default function useMemoQueries() {
     useRootFolderQuery,
     useMemoListQuery,
     useMemoDetailQuery,
+    useMyMemoListQuery,
     useFolderListQuery,
     useFolderDetailQuery,
   };
 }
+
+// 고정된 메모 조회
+export const useFixedMemoList = () => {
+  const teamId = useTeamStore((state) => state.teamId);
+
+  const { isPending, isError, isSuccess, data } = useQuery({
+    queryKey: ['memo', teamId, 'fixed'],
+    queryFn: () =>
+      apiRequest({
+        url: `/api/v2/memo/fixed?teamId=${teamId}`,
+        method: 'GET',
+      }),
+    select: (res): FixedMemoResponse[] => res.result,
+    staleTime: 60 * 1000 * 5,
+    enabled: !!teamId,
+  });
+
+  return { isPending, isError, isSuccess, data: data ?? [] };
+};

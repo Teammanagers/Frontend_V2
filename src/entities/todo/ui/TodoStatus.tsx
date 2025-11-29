@@ -5,16 +5,9 @@ import { Status } from '../todo.type';
 
 interface ITodoStatus extends ButtonHTMLAttributes<HTMLButtonElement> {
   todoStatus: Status;
-  modalToggle: () => void;
-  todoId: number;
 }
 
-function TodoStatus({
-  todoStatus,
-  todoId,
-  modalToggle,
-  ...props
-}: ITodoStatus) {
+function TodoStatus({ todoStatus, ...props }: ITodoStatus) {
   return (
     <TodoStatusButton $todoStatus={todoStatus} {...props}>
       <IconWrapper $todoStatus={todoStatus}>

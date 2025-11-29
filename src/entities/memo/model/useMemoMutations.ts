@@ -42,6 +42,7 @@ export default function useMemoMutations() {
       },
       onSuccess: (_, { folderId }) => {
         queryClient.invalidateQueries({ queryKey: ['memo', folderId] });
+        queryClient.invalidateQueries({ queryKey: ['myMemo', teamId] });
       },
     });
     return { mutate, data, isPending, isError, isSuccess };
