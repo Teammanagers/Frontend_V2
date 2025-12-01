@@ -265,7 +265,6 @@ const SideBarText = styled.p<ItemProps>`
   margin-left: 16px;
   text-align: center;
   white-space: nowrap;
-  overflow: hidden;
 
   ${({ $redText, theme }) =>
     $redText &&
