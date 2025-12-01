@@ -8,12 +8,10 @@ export default function SideBar({
   expanded,
   activePath,
   isAlarmOpen,
-  endSelected,
   team,
   onNavigate,
   onToggleAlarm,
   onToggleTeamList,
-  onEndClick,
 }: SideBarProps) {
   const teamId = useTeamStore((state) => state.teamId);
 
@@ -34,10 +32,8 @@ export default function SideBar({
         activePath={activePath}
         expanded={expanded}
         isAlarmOpen={isAlarmOpen}
-        endSelected={endSelected}
         onNavigate={onNavigate}
         onToggleAlarm={onToggleAlarm}
-        onEndClick={onEndClick}
       />
     </SideBarContainer>
   );

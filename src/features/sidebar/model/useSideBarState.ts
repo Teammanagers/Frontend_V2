@@ -9,7 +9,6 @@ export default function useSideBarState() {
   const [hover, setHover] = useState(false);
   const [isAlarmOpen, setIsAlarmOpen] = useState(false);
   const [isTeamListOpen, setIsTeamListOpen] = useState(false);
-  const [endSelected, setEndSelected] = useState(false);
   const [isAddTeamModalOpen, setIsAddTeamModalOpen] = useState(false);
   const [currentTeam, setCurrentTeam] = useState<TeamProps | null>(null);
 
@@ -64,7 +63,6 @@ export default function useSideBarState() {
   };
 
   const handleNavigate = (path: (teamId: number) => string) => {
-    setEndSelected(false);
     teamNavigate(path);
   };
 
@@ -72,7 +70,6 @@ export default function useSideBarState() {
     hover,
     isAlarmOpen,
     isTeamListOpen,
-    endSelected,
     isAddTeamModalOpen,
     currentTeam,
     teamList,
@@ -81,7 +78,6 @@ export default function useSideBarState() {
     setHover,
     setIsAlarmOpen,
     setIsTeamListOpen,
-    setEndSelected,
 
     handleNavigate,
     handleTeamSelected,

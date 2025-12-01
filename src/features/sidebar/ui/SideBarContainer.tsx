@@ -26,8 +26,6 @@ export default function SideBarContainer() {
     setIsTeamListOpen,
     isAlarmOpen,
     setIsAlarmOpen,
-    endSelected,
-    setEndSelected,
   } = sidebar;
 
   const teamData = currentTeam
@@ -50,12 +48,10 @@ export default function SideBarContainer() {
         expanded={hover}
         activePath={pathname}
         isAlarmOpen={isAlarmOpen}
-        endSelected={endSelected}
         team={teamData}
         onNavigate={handleNavigate}
         onToggleAlarm={() => setIsAlarmOpen((prev) => !prev)}
         onToggleTeamList={() => setIsTeamListOpen((prev) => !prev)}
-        onEndClick={() => setEndSelected(true)}
       />
 
       {isTeamListOpen && (

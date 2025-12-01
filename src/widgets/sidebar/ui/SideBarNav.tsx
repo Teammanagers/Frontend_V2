@@ -19,10 +19,8 @@ interface SideBarNavProps {
   activePath: string;
   expanded: boolean;
   isAlarmOpen: boolean;
-  endSelected: boolean;
   onNavigate: (path: (teamId: number) => string) => void;
   onToggleAlarm: () => void;
-  onEndClick: () => void;
 }
 
 export default function SideBarNav({
@@ -30,10 +28,8 @@ export default function SideBarNav({
   activePath,
   expanded,
   isAlarmOpen,
-  endSelected,
   onNavigate,
   onToggleAlarm,
-  onEndClick,
 }: SideBarNavProps) {
   const isActive = (path: string) =>
     activePath === path || activePath.startsWith(path);
@@ -210,18 +206,20 @@ export default function SideBarNav({
 
       {/* 종료 */}
       <IconContainer
-        $selected={endSelected}
+        $selected={isActive(PATHS.END(teamId))}
         $expanded={expanded}
         $danger
-        onClick={onEndClick}
+        onClick={() => onNavigate(PATHS.END)}
       >
         <StrokeIcon
           as={EndSvg}
           aria-hidden
-          style={{ color: endSelected ? COLOR_ACTIVE : COLOR_DEFAULT }}
+          style={{
+            color: isActive(PATHS.END(teamId)) ? COLOR_ACTIVE : COLOR_DEFAULT,
+          }}
         />
         {expanded && (
-          <SideBarText $selected={endSelected} $redText>
+          <SideBarText $selected={isActive(PATHS.END(teamId))} $redText>
             프로젝트
             <br />
             종료
