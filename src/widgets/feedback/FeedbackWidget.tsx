@@ -1,30 +1,47 @@
 import styled from 'styled-components';
+import { useGetFeedbackList } from '@/entities/feedback/model/useFeedbackQueries';
 import FeedbackHeader from '@/entities/feedback/ui/FeedbackHeader';
-import FeedbackForm from '@/features/feedback/ui/FeedbackForm';
-import FeedbackList from './FeedbackList';
 import { Resource } from '@/entities/resource/resource.types';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
+import FeedbackForm from '@/features/feedback/ui/FeedbackForm';
+import FeedbackList from '../../entities/feedback/ui/FeedbackList';
 
 export default function FeedbackWidget({
   selectedResource,
+  hasResource,
 }: {
   selectedResource: Resource | null;
+  hasResource: boolean;
 }) {
+  const {
+    data: feedbacks,
+    isPending,
+    isSuccess,
+    isError,
+  } = useGetFeedbackList(selectedResource?.dataId);
+
   return (
     <Container>
-      {selectedResource ? (
+      {selectedResource && isSuccess && (
         <>
           <FeedbackHeader selectedResource={selectedResource} />
           <FeedbackForm />
-          <FeedbackList />
+          <FeedbackList feedbacks={feedbacks} />
         </>
-      ) : (
-        <EmptyResourceWrapper>
-          <EmptyLabel>아직 피드백 남길 자료가 없습니다.</EmptyLabel>
-
-          <AddFeedbackButton />
-        </EmptyResourceWrapper>
       )}
+
+      <EmptyResourceWrapper>
+        {!hasResource && !selectedResource && (
+          <GuideLabel>아직 피드백 남길 자료가 없습니다.</GuideLabel>
+        )}
+
+        {hasResource && !selectedResource && (
+          <>
+            <GuideLabel>자료에 대한 피드백을 남길 수 있습니다.</GuideLabel>
+            <AddFeedbackButton disabled={true} />
+          </>
+        )}
+      </EmptyResourceWrapper>
     </Container>
   );
 }
@@ -52,7 +69,7 @@ const EmptyResourceWrapper = styled.div`
   height: 100%;
 `;
 
-const EmptyLabel = styled.span`
+const GuideLabel = styled.span`
   font-size: 14px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.black};

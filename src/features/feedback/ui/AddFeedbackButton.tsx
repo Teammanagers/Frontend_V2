@@ -3,20 +3,23 @@ import { Theme } from '@/app/styles/theme';
 import FeedbackIcon from '@/shared/assets/resource/feedback.svg?react';
 
 interface IAddResourceButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  disabled?: boolean;
+}
 
 export default function AddFeedbackButton({
+  disabled = false,
   ...props
 }: IAddResourceButtonProps) {
   return (
-    <Container {...props}>
+    <Container $disabled={disabled} {...props}>
       <FeedbackIcon />
       <span>피드백</span>
     </Container>
   );
 }
 
-const Container = styled.button`
+const Container = styled.button<{ $disabled: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,4 +44,16 @@ const Container = styled.button`
       stroke: ${Theme.colors.black};
     }
   }
+
+  ${({ $disabled }) =>
+    $disabled &&
+    `
+      pointer-events: none;
+
+      &:hover {
+        border-color: ${Theme.colors.lightGray};
+        background-color: ${Theme.colors.white};
+        color: ${Theme.colors.lightGray};
+      }
+    `}
 `;

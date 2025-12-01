@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useRef } from 'react';
 import styled from 'styled-components';
-import { useGetResourceList } from '@/entities/resource/model/useResourceQueries';
 import { Resource } from '@/entities/resource/resource.types';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
@@ -10,18 +9,23 @@ import DeleteResourceModal from '@/features/resource/ui/DeleteResourceModal';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
 import ResourceAddController from './ResourceAddController';
 
-export default function EditableResourceList({
-  onSelectedResource,
-}: {
+interface EditableResourceListProps {
+  resources: Resource[]; // 자료 목록 데이터
+  isPending: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+
   /* 선택된 자료를 상위 컴포넌트로 전달하는 콜백 함수 */
   onSelectedResource: Dispatch<SetStateAction<Resource | null>>;
-}) {
-  const {
-    data: resources,
-    isPending,
-    isSuccess,
-    isError,
-  } = useGetResourceList(); // 자료 목록 조회
+}
+
+export default function EditableResourceList({
+  resources,
+  isPending,
+  isSuccess,
+  isError,
+  onSelectedResource,
+}: EditableResourceListProps) {
   // 자료 삭제 로직 훅
   const {
     isDeleteModalOpen,
