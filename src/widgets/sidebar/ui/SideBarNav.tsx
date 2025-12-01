@@ -35,7 +35,8 @@ export default function SideBarNav({
   onToggleAlarm,
   onEndClick,
 }: SideBarNavProps) {
-  const isActive = (path: string) => activePath === path;
+  const isActive = (path: string) =>
+    activePath === path || activePath.startsWith(path);
 
   return (
     <>
