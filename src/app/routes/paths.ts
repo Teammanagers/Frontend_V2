@@ -1,8 +1,9 @@
 import MypageNoticeIcon from '@/shared/assets/mypage/loudspeaker.svg?react';
 import MypageTermOfServiceIcon from '@/shared/assets/mypage/term-of-service.svg?react';
 import MypageProfileIcon from '@/shared/assets/mypage/update-profile.svg?react';
-import { TodoList } from '@/widgets/main';
+import FixedMemoList from '@/widgets/memo/FixedMemoList';
 import RecentResourceList from '@/widgets/resource/RecentResourceList';
+import { MyTodoList } from '@/widgets/todo/MyTodoList';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
 
 // 팀 관련 기본 경로 패턴
@@ -93,13 +94,13 @@ interface RouteConfig {
 
 export const mainRoutes: RouteConfig[] = [
   { label: '다가오는 일정', to: PATHS.CALENDAR, component: UpcomingEventList },
-  { label: '투두리스트', to: PATHS.TODO_LIST, component: TodoList },
+  { label: '투두리스트', to: PATHS.TODO_LIST, component: MyTodoList },
   {
     label: '최근 업데이트 된 자료',
     to: PATHS.RESOURCE,
     component: RecentResourceList,
   },
-  { label: '고정된 메모', to: PATHS.MEMO },
+  { label: '고정된 메모', to: PATHS.MEMO, component: FixedMemoList },
 ];
 
 export const mypageRoutes: RouteConfig[] = [

@@ -1,19 +1,25 @@
-import { UpcomingSchedule } from '@/entities/calendar/ui';
-import Skeleton from '@/shared/components/skeleton/Skeleton';
 import styled from 'styled-components';
+import { UpcomingSchedule } from '@/entities/calendar/ui';
+import FallbackCard from '@/entities/main/ui/FallbackCard';
 import useEventQueries from '@/features/calendar/model/useEventQueries';
+import Skeleton from '@/shared/components/skeleton/Skeleton';
 
 function UpcomingEventList() {
   const { useUpcomingEventQuery } = useEventQueries();
-  const { isPending, isSuccess, data: eventList } = useUpcomingEventQuery();
+  const {
+    isPending,
+    isSuccess,
+    isError,
+    data: eventList,
+  } = useUpcomingEventQuery();
+
+  if (isPending) return <Skeleton width={518} height={222} />;
+  if (isError) return <FallbackCard>일정을 불러올 수 없습니다.</FallbackCard>;
+  if (isSuccess && eventList.length === 0)
+    return <FallbackCard>아직 생성된 일정이 없습니다.</FallbackCard>;
 
   return (
     <Container>
-      {isPending &&
-        Array.from({ length: 3 }).map((_, idx) => (
-          <Skeleton key={`notice-skeleton-${idx}`} width={518} height={66} />
-        ))}
-
       <EventListWrapper>
         {isSuccess &&
           eventList.map((event, idx) => (

@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, useState } from 'react';
 import styled from 'styled-components';
 import { PATHS } from '@/app/routes/paths.ts';
 import useMemoMutations from '@/entities/memo/model/useMemoMutations.ts';
-import Next from '@/shared/assets/memo/next-button.svg?react';
+// import Next from '@/shared/assets/memo/next-button.svg?react';
 import PinIcon from '@/shared/assets/memo/pin.svg?react';
 import { ActionDropdown } from '@/shared/components/dropdown';
 import useToggle from '@/shared/hooks/action/useToggle.ts';
@@ -15,6 +15,7 @@ import { memoSizes } from '@/widgets/memo/memo.constants.ts';
  *
  * @param {'small' | 'large'} size - small은 메인에서, large는 메모에서 사용됩니다.
  * @param memo - 렌더링할 메모 데이터 객체입니다. (예: { id, title, tags, content })
+ * @param isMyMemo - 해당 메모가 로그인한 사용자가 작성한 메모인지를 판별합니다.
  * @param onDeleteRequest - 드롭다운 메뉴에서 "삭제"를 선택했을 때 호출되며, 해당 메모의 id를 전달합니다.
  * @param onMoveRequest - 드롭다운 메뉴에서 "이동"을 선택했을 때 호출되며, 해당 메모의 id를 전달합니다.
  *
@@ -45,10 +46,10 @@ export const Memo = ({
   onDeleteRequest,
   onMoveRequest,
 }: MemoProps) => {
-  const { id, title, tags, content, isFixed } = memo;
+  const { id, title, tags, content, isFixed, createdByName: name } = memo;
 
   const [isPinned, setIsPinned] = useState<boolean>(isFixed);
-  const [isActive, setIsActive] = useState<boolean>(false);
+  // const [isActive, setIsActive] = useState<boolean>(false);
   const { isOpen, setIsOpen, toggle } = useToggle();
 
   const { useTogglePinMemoMutation } = useMemoMutations();
@@ -98,16 +99,19 @@ export const Memo = ({
           {size === 'large' && (
             <PinBtn onClick={handlePinToggle} $pinned={isPinned} />
           )}
-          <ActionDropdown
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            toggle={toggle}
-            action={handleMenuAction}
-            menus={['수정', '이동', '삭제']}
-          />
+          {size === 'large' && (
+            <ActionDropdown
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              toggle={toggle}
+              action={handleMenuAction}
+              menus={['수정', '이동', '삭제']}
+            />
+          )}
         </MenuContainer>
       </MemoTitleContainer>
       <TagContainer>
+        <TagBox $isMine={isMyMemo}>{name}</TagBox>
         {tags.map((tag: string, index) => (
           <TagBox key={index}>{tag}</TagBox>
         ))}
@@ -115,13 +119,15 @@ export const Memo = ({
       <MemoContentContainer>
         <Content>{content}</Content>
       </MemoContentContainer>
-      {size === 'small' && (
+
+      {/* TODO: 캐러셀 구현 시 활성화 */}
+      {/* {size === 'small' && (
         <NextBtn
           $active={isActive}
           onMouseLeave={() => setIsActive(false)}
           onMouseDown={() => setIsActive(true)}
         />
-      )}
+      )} */}
     </MemoContainer>
   );
 };
@@ -187,21 +193,23 @@ const TagContainer = styled.div`
   gap: 6px;
 `;
 
-const TagBox = styled.div`
-  width: auto;
-  padding: 5px 8px;
+const TagBox = styled.div<{ $isMine?: boolean }>`
+  max-width: 50px;
+  padding: 0 8px;
   height: 28px;
-  border: 3px;
   border-radius: 3px;
-  background: ${(props) => props.theme.colors.background};
+  background: ${({ theme, $isMine }) =>
+    $isMine ? theme.colors.mainBlue : theme.colors.background};
   display: flex;
   justify-content: center;
   align-items: center;
-
-  color: ${(props) => props.theme.colors.mainBlue};
+  color: ${({ theme, $isMine }) => ($isMine ? 'white' : theme.colors.mainBlue)};
   font-weight: 500;
   font-size: 12px;
-  line-height: 150%;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const MemoContentContainer = styled.div`
@@ -220,19 +228,19 @@ const Content = styled.p`
   text-overflow: ellipsis;
 `;
 
-const NextBtn = styled(Next)<
-  ButtonHTMLAttributes<HTMLButtonElement> & { $active: boolean }
->`
-  position: absolute;
-  right: 0;
-  top: 50%;
-  opacity: 0;
-  transition: opacity 0.2s;
-  cursor: pointer;
-  stroke: ${({ theme, $active }) =>
-    $active ? theme.colors.mainBlue : '#999999'};
+// const NextBtn = styled(Next)<
+//   ButtonHTMLAttributes<HTMLButtonElement> & { $active: boolean }
+// >`
+//   position: absolute;
+//   right: 0;
+//   top: 50%;
+//   opacity: 0;
+//   transition: opacity 0.2s;
+//   cursor: pointer;
+//   stroke: ${({ theme, $active }) =>
+//     $active ? theme.colors.mainBlue : '#999999'};
 
-  ${MemoContainer}:hover & {
-    opacity: 1;
-  }
-`;
+//   ${MemoContainer}:hover & {
+//     opacity: 1;
+//   }
+// `;

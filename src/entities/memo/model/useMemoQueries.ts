@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import apiRequest from '@/shared/api/apiRequest';
 import { useTeamStore } from '@/shared/model/store/teamStore.ts';
 import { MemoType, FolderType } from '@/shared/types/memo.types';
+import { FixedMemoResponse } from '../memo.type';
 
 interface IMemoResponse {
   memoDto: {
@@ -10,10 +11,23 @@ interface IMemoResponse {
     content: string;
     isFixed: boolean;
     folderId: number;
+    teamId: number;
+    createdAt: string;
+    createdBy: number;
+    createdByName: string;
+    updatedAt: string;
+    updatedBy: number;
+    updatedByName: string;
+    useYn: string;
   };
   memoTagList: {
     id: number;
     name: string;
+    createdAt: string;
+    createdBy: number;
+    updatedAt: string;
+    updatedBy: number;
+    useYn: string;
   }[];
 }
 
@@ -69,6 +83,8 @@ export default function useMemoQueries() {
           content: memo.memoDto.content,
           tags: memo.memoTagList.map((t) => t.name),
           isFixed: memo.memoDto.isFixed,
+          createdBy: memo.memoDto.createdBy,
+          createdByName: memo.memoDto.createdByName,
         })),
       staleTime: 60 * 1000,
     });
@@ -92,6 +108,8 @@ export default function useMemoQueries() {
           content: memo.memoDto.content,
           tags: memo.memoTagList.map((t) => t.name),
           isFixed: memo.memoDto.isFixed,
+          createdBy: memo.memoDto.createdBy,
+          createdByName: memo.memoDto.createdByName,
         })),
       enabled: !!teamId,
     });
@@ -161,3 +179,22 @@ export default function useMemoQueries() {
     useFolderDetailQuery,
   };
 }
+
+// 고정된 메모 조회
+export const useFixedMemoList = () => {
+  const teamId = useTeamStore((state) => state.teamId);
+
+  const { isPending, isError, isSuccess, data } = useQuery({
+    queryKey: ['memo', teamId, 'fixed'],
+    queryFn: () =>
+      apiRequest({
+        url: `/api/v2/memo/fixed?teamId=${teamId}`,
+        method: 'GET',
+      }),
+    select: (res): FixedMemoResponse[] => res.result,
+    staleTime: 60 * 1000 * 5,
+    enabled: !!teamId,
+  });
+
+  return { isPending, isError, isSuccess, data: data ?? [] };
+};

@@ -74,10 +74,10 @@ export default function useEventQueries(yearMonth?: string) {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['event', yearMonth],
         });
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['event', 'upcoming'],
         });
       },
@@ -99,10 +99,10 @@ export default function useEventQueries(yearMonth?: string) {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['event', yearMonth],
         });
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['event', 'upcoming'],
         });
       },
@@ -124,10 +124,10 @@ export default function useEventQueries(yearMonth?: string) {
         });
       },
       onSuccess: () => {
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['event', yearMonth],
         });
-        queryClient.refetchQueries({
+        queryClient.invalidateQueries({
           queryKey: ['event', 'upcoming'],
         });
       },

@@ -8,6 +8,8 @@ export interface MemoType {
   tags: string[];
   content: string;
   isFixed: boolean;
+  createdBy: number;
+  createdByName: string;
 }
 
 export interface MemoProps {
