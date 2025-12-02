@@ -9,6 +9,7 @@ export interface SideBarProps {
   activePath: string; // 현재 경로
   isAlarmOpen: boolean;
   team: TeamProps | null;
+  isLeader: boolean;
 
   onNavigate: (path: (teamId: number) => string) => void;
   onToggleAlarm: () => void;

@@ -9,6 +9,7 @@ export default function SideBar({
   activePath,
   isAlarmOpen,
   team,
+  isLeader,
   onNavigate,
   onToggleAlarm,
   onToggleTeamList,
@@ -32,6 +33,7 @@ export default function SideBar({
         activePath={activePath}
         expanded={expanded}
         isAlarmOpen={isAlarmOpen}
+        isLeader={isLeader}
         onNavigate={onNavigate}
         onToggleAlarm={onToggleAlarm}
       />

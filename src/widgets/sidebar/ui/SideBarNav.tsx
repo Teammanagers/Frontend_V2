@@ -19,6 +19,7 @@ interface SideBarNavProps {
   activePath: string;
   expanded: boolean;
   isAlarmOpen: boolean;
+  isLeader: boolean;
   onNavigate: (path: (teamId: number) => string) => void;
   onToggleAlarm: () => void;
 }
@@ -28,6 +29,7 @@ export default function SideBarNav({
   activePath,
   expanded,
   isAlarmOpen,
+  isLeader,
   onNavigate,
   onToggleAlarm,
 }: SideBarNavProps) {
@@ -218,13 +220,18 @@ export default function SideBarNav({
             color: isActive(PATHS.END(teamId)) ? COLOR_ACTIVE : COLOR_DEFAULT,
           }}
         />
-        {expanded && (
-          <SideBarText $selected={isActive(PATHS.END(teamId))} $redText>
-            프로젝트
-            <br />
-            종료
-          </SideBarText>
-        )}
+        {expanded &&
+          (isLeader ? (
+            <SideBarText $selected={isActive(PATHS.END(teamId))} $redText>
+              프로젝트
+              <br />
+              종료
+            </SideBarText>
+          ) : (
+            <SideBarText $selected={isActive(PATHS.END(teamId))} $redText>
+              팀 나가기
+            </SideBarText>
+          ))}
       </IconContainer>
     </>
   );
