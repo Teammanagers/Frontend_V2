@@ -14,8 +14,6 @@ export default function FixedMemoList() {
   if (isSuccess && memos.length === 0)
     return <FallbackCard>고정된 메모가 없습니다.</FallbackCard>;
 
-  console.log('memos', memos);
-
   return (
     <Container>
       {isSuccess &&
