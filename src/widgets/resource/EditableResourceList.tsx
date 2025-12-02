@@ -7,6 +7,7 @@ import { useResourceDeletion } from '@/features/resource/model/useResourceDeleti
 import DeleteResourceButton from '@/features/resource/ui/DeleteResourceButton';
 import DeleteResourceModal from '@/features/resource/ui/DeleteResourceModal';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
+import { downloadFile } from '@/shared/lib/utils/downloadFile';
 import ResourceAddController from './ResourceAddController';
 
 interface EditableResourceListProps {
@@ -40,6 +41,14 @@ export default function EditableResourceList({
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleDownload = async (fileUrl: string, fileName: string) => {
+    try {
+      await downloadFile({ fileUrl, fileName });
+    } catch (e) {
+      alert(`파일 다운로드에 실패했습니다 ${e}`);
+    }
+  };
+
   return (
     <>
       <Container>
@@ -60,6 +69,12 @@ export default function EditableResourceList({
                 <ResourceWrapper key={resource.dataId}>
                   <ResourceCard
                     data={resource}
+                    onClick={() =>
+                      handleDownload(
+                        resource.fileUrl,
+                        `${resource.fileInfo.originalFileName}.${resource.fileInfo.fileNameExtension}`,
+                      )
+                    }
                     deleteButton={
                       <DeleteResourceButton
                         creatorId={resource.fileInfo.createdBy}
