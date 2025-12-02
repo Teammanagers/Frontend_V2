@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { Resource } from '@/entities/resource/resource.types';
 import ResourceCard from '@/entities/resource/ui/ResourceCard';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
+import { useDownloadResource } from '@/features/resource/model/useDownloadResource';
 import { useResourceDeletion } from '@/features/resource/model/useResourceDeletion';
 import DeleteResourceButton from '@/features/resource/ui/DeleteResourceButton';
 import DeleteResourceModal from '@/features/resource/ui/DeleteResourceModal';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
-import { downloadFile } from '@/shared/lib/utils/downloadFile';
 import ResourceAddController from './ResourceAddController';
 
 interface EditableResourceListProps {
@@ -35,18 +35,12 @@ export default function EditableResourceList({
     confirmDelete,
   } = useResourceDeletion();
 
+  const { handleDownload } = useDownloadResource();
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const handleDownload = async (fileUrl: string, fileName: string) => {
-    try {
-      await downloadFile({ fileUrl, fileName });
-    } catch (e) {
-      alert(`파일 다운로드에 실패했습니다 ${e}`);
-    }
   };
 
   return (
