@@ -12,7 +12,7 @@ export default function AddFeedbackButton({
   ...props
 }: IAddResourceButtonProps) {
   return (
-    <Container $disabled={disabled} {...props}>
+    <Container disabled={disabled} $disabled={disabled} {...props}>
       <FeedbackIcon />
       <span>피드백</span>
     </Container>

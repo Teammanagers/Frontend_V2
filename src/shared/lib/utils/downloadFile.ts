@@ -18,7 +18,7 @@ export const downloadFile = async ({
   fileUrl,
   fileName,
 }: DownloadFileParams) => {
-  if (!fileUrl) throw new Error('파일을 URL이 존재하지 않습니다.');
+  if (!fileUrl) throw new Error('파일 URL이 존재하지 않습니다.');
 
   try {
     const res = await fetch(fileUrl);

@@ -93,7 +93,7 @@ export default function EditableResourceList({
 
             {/* 자료 추가 컨트롤 위젯 */}
             <ResourceAddController
-              resourceCount={resources ? resources.length : 0}
+              resourceCount={resources.length}
               onUploadSuccess={scrollToBottom}
             />
           </>
@@ -147,6 +147,5 @@ const ErrorMessage = styled.p`
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-  text-align: center;
   color: ${({ theme }) => theme.colors.black};
 `;

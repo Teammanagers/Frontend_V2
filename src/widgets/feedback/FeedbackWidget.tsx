@@ -28,18 +28,20 @@ export default function FeedbackWidget({
         </>
       )}
 
-      <EmptyResourceWrapper>
-        {!hasResource && !selectedResource && (
-          <GuideLabel>아직 피드백 남길 자료가 없습니다.</GuideLabel>
-        )}
+      {!selectedResource && (
+        <EmptyResourceWrapper>
+          {!hasResource && (
+            <GuideLabel>아직 피드백 남길 자료가 없습니다.</GuideLabel>
+          )}
 
-        {hasResource && !selectedResource && (
-          <>
-            <GuideLabel>자료에 대한 피드백을 남길 수 있습니다.</GuideLabel>
-            <AddFeedbackButton disabled={true} />
-          </>
-        )}
-      </EmptyResourceWrapper>
+          {hasResource && (
+            <>
+              <GuideLabel>자료에 대한 피드백을 남길 수 있습니다.</GuideLabel>
+              <AddFeedbackButton disabled={true} />
+            </>
+          )}
+        </EmptyResourceWrapper>
+      )}
     </Container>
   );
 }

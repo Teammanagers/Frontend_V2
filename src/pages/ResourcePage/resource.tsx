@@ -35,7 +35,7 @@ export function ResourcePage() {
         {isSuccess && (
           <FeedbackWidget
             selectedResource={selectedResource}
-            hasResource={resources.length > 0}
+            hasResource={resources?.length > 0}
           />
         )}
       </WidgetsWrapper>

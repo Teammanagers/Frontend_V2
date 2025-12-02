@@ -21,5 +21,5 @@ const Container = styled.ul<{ $hasFeedbacks: boolean }>`
   padding: 12px 18px;
   border-bottom: 1px solid
     ${({ $hasFeedbacks, theme }) =>
-      $hasFeedbacks ? theme.colors.lightGray : 'none'};
+      $hasFeedbacks ? theme.colors.lightGray : 'transparent'};
 `;
