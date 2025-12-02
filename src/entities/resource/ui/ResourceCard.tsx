@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { Resource } from '../resource.types';
 import FileThumbnail from '@/entities/resource/ui/FileThumbnail';
 import RoleTag from '@/shared/components/tag/RoleTag';
+import { Resource } from '../resource.types';
 import ResourceMetaData from './ResourceMetaData';
 
 interface ResourceCardProps extends React.HTMLAttributes<HTMLDivElement> {
   data: Resource;
-  onClick?: () => void;
+  onClick: () => void; // 카드 클릭 핸들러 (다운로드)
   deleteButton?: React.ReactNode; // 삭제 버튼 렌더링
 }
 
@@ -15,7 +15,6 @@ export default function ResourceCard({
   onClick,
   deleteButton,
 }: ResourceCardProps) {
-  // 키보드 접근성 처리 (Enter 또는 Space 키로 클릭 이벤트 트리거)
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (onClick && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
@@ -27,8 +26,8 @@ export default function ResourceCard({
     <Container
       role="button"
       onClick={onClick}
-      tabIndex={0}
       onKeyDown={handleKeyDown}
+      tabIndex={0}
     >
       <ThumbnailWithInfo>
         <FileThumbnail extension={data.fileInfo.fileNameExtension} />
@@ -45,8 +44,7 @@ export default function ResourceCard({
       </ThumbnailWithInfo>
 
       <TagAndDeleteWrapper>
-        {/* 업로드 한 사람 이름으로 수정 예정 */}
-        <RoleTag height={28}>김예안</RoleTag>
+        <RoleTag height={28}>{data.tagDto.name}</RoleTag>
         {deleteButton}
       </TagAndDeleteWrapper>
     </Container>

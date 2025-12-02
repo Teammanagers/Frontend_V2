@@ -28,6 +28,8 @@ export default function FixedMemoList() {
               content: memo.memoDto.content,
               tags: memo.memoTagList.map((t) => t.name),
               isFixed: memo.memoDto.isFixed,
+              createdBy: memo.memoDto.createdBy,
+              createdByName: memo.memoDto.createdByName,
             }}
             onDeleteRequest={(id) =>
               handlers.handleDeleteRequest({

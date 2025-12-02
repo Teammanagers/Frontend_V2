@@ -12,11 +12,22 @@ interface ResourceInfo {
   useYn: string;
 }
 
+interface TagDto {
+  id: number;
+  name: string;
+  createdAt: string;
+  createdBy: number;
+  updatedAt: string;
+  updatedBy: number;
+  useYn: string;
+}
+
 interface Resource {
   dataId: number;
-  teamMemberId: number;
   fileInfo: ResourceInfo;
   fileUrl: string;
+  tagDto: TagDto;
+  teamMemberId: number;
 }
 
 // API 응답 타입

@@ -1,28 +1,24 @@
 import styled from 'styled-components';
-import { FeedbackResponse } from '../feedback.types';
+import { Feedback } from '@/entities/feedback/feedback.types';
 import Avatar from '@/shared/components/avatar/Avatar';
 import { DEPT_PADDING_MULTIPLIER } from '../feedback.constants';
 
 interface IFeedbackProps {
-  feedback: FeedbackResponse;
+  feedback: Feedback;
   dept?: 0 | 1 | 2;
 }
 
-export default function Feedback({ feedback, dept = 0 }: IFeedbackProps) {
+export default function FeedbackItem({ feedback, dept = 0 }: IFeedbackProps) {
   return (
     <Container $dept={dept}>
       <UserInfo>
-        <Avatar imgUrl={feedback.imgUrl} size={20} />
+        {/* TODO: 프로필 이미지 url 추가 (서버 API Response 수정 요청 필요) */}
+        <Avatar imgUrl={''} size={20} />
         <div>
-          <strong>{feedback.name}</strong>
+          <strong>{feedback.author.name}</strong>
+          <span>{feedback.author.belong ? feedback.author.belong : ''}</span>
           <span>•</span>
-          <span>
-            {feedback.tagList && feedback.tagList.length > 0
-              ? feedback.tagList[0]
-              : ''}
-          </span>
-          <span>•</span>
-          <span>{feedback.date}</span>
+          <span>{feedback.updatedAt}</span>
         </div>
       </UserInfo>
 
