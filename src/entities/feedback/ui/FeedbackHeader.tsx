@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import RoleTag from '@/shared/components/tag/RoleTag';
 import { Resource } from '@/entities/resource/resource.types';
 import ResourceMetaData from '@/entities/resource/ui/ResourceMetaData';
+import RoleTag from '@/shared/components/tag/RoleTag';
 
 export default function FeedbackHeader({
   selectedResource,
@@ -17,7 +17,7 @@ export default function FeedbackHeader({
           createdAt={selectedResource.fileInfo.createdAt}
         />
         <RoleTag variants="filled" height={24}>
-          작성자
+          {selectedResource.tagDto.name}
         </RoleTag>
       </InnerWrapper>
     </Container>

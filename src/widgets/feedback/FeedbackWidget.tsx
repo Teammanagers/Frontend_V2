@@ -13,12 +13,10 @@ export default function FeedbackWidget({
   selectedResource: Resource | null;
   hasResource: boolean;
 }) {
-  const {
-    data: feedbacks,
-    isPending,
-    isSuccess,
-    isError,
-  } = useGetFeedbackList(selectedResource?.dataId);
+  // TODO: 스켈레톤 100% 작업 후 isPending, isError 처리
+  const { data: feedbacks, isSuccess } = useGetFeedbackList(
+    selectedResource?.dataId,
+  );
 
   return (
     <Container>
