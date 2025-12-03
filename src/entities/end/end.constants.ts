@@ -15,7 +15,7 @@ export const END_TEXT = {
   MODAL: {
     LEADER: {
       SUFFIX: '를 정말 종료하실건가요?',
-      CONTENT: '종료된 프로젝트는 마이페이지에서 확인 가능합니다.',
+      CONTENT: '종료된 프로젝트는 다시 확인이 불가합니다.',
       BUTTON_MAIN: '유지하기',
       BUTTON_SUB: '종료하기',
     },
