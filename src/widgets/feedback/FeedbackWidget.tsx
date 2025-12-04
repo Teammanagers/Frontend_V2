@@ -1,13 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Feedback } from '@/entities/feedback/feedback.types';
 import { useGetFeedbackList } from '@/entities/feedback/model/useFeedbackQueries';
-import FeedbackHeader from '@/entities/feedback/ui/FeedbackHeader';
-import FeedbackList from '@/entities/feedback/ui/FeedbackList';
 import { Resource } from '@/entities/resource/resource.types';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
-import FeedbackForm from '@/features/feedback/ui/FeedbackForm';
-import { useScrollToTarget } from '@/shared/hooks/action/useScrollToTarget';
+import FeedbackContent from './FeedbackContent';
 
 export default function FeedbackWidget({
   selectedResource,
@@ -21,43 +16,13 @@ export default function FeedbackWidget({
     selectedResource?.dataId,
   );
 
-  const { bottomRef, scrollToElement, scrollToBottom } = useScrollToTarget({
-    dependency: feedbacks,
-    elementIdPrefix: 'feedback-',
-  });
-
-  const [replyTarget, setReplyTarget] = useState<Feedback | null>(null);
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const handleReply = (target: Feedback | null) => {
-    setReplyTarget(target);
-    if (textareaRef.current) textareaRef.current.focus();
-  };
-
-  useEffect(() => {
-    setReplyTarget(null);
-  }, [selectedResource]);
-
   return (
     <Container>
       {selectedResource && isSuccess && (
-        <>
-          <FeedbackHeader selectedResource={selectedResource} />
-          <FeedbackForm
-            selectedResource={selectedResource}
-            replyTargetId={replyTarget?.id ?? null}
-            textareaRef={textareaRef}
-            onScrollToTarget={scrollToElement}
-            onScrollToBottom={scrollToBottom}
-          />
-          <FeedbackList
-            feedbacks={feedbacks}
-            replyTargetId={replyTarget?.id ?? null}
-            onReply={handleReply}
-            scrollRef={bottomRef}
-          />
-        </>
+        <FeedbackContent
+          selectedResource={selectedResource}
+          feedbacks={feedbacks}
+        />
       )}
 
       {!selectedResource && (
