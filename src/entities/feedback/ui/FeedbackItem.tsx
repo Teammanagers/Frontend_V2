@@ -6,11 +6,11 @@ import {
 } from '@/features/feedback/feedback.constants';
 import Avatar from '@/shared/components/avatar/Avatar';
 
-interface IFeedbackProps {
+interface FeedbackItemProps {
   feedback: Feedback;
   depth: FeedbackDepth;
   replyTargetId: number | null;
-  onReply: (target: Feedback) => void;
+  onReply: (target: Feedback | null) => void;
 }
 
 export default function FeedbackItem({
@@ -18,7 +18,7 @@ export default function FeedbackItem({
   depth = 0,
   replyTargetId,
   onReply,
-}: IFeedbackProps) {
+}: FeedbackItemProps) {
   const { children } = feedback;
   const hasChildren = children && children.length > 0;
   const shouldRenderChildren = hasChildren && depth < MAX_RENDER_DEPTH;
@@ -26,9 +26,24 @@ export default function FeedbackItem({
   // 답글 대상인 경우 하이라이팅
   const isReplyTarget = replyTargetId !== null && feedback.id === replyTargetId;
 
+  const handleReply = () => {
+    // 이미 선택되어 있는 답글이 아니면 해당 답글을 대상으로 설정
+    if (feedback.id !== replyTargetId || replyTargetId === null) {
+      onReply(feedback);
+      return;
+    }
+
+    // 이미 선택된 경우 답글 해제
+    if (feedback.id === replyTargetId) onReply(null);
+  };
+
   return (
     <>
-      <Container $depth={depth} $isReplyTarget={isReplyTarget}>
+      <Container
+        id={`feedback-${feedback.id}`}
+        $depth={depth}
+        $isReplyTarget={isReplyTarget}
+      >
         <UserInfo>
           {/* TODO: 프로필 이미지 url 추가 (서버 API Response 수정 요청 필요) */}
           <Avatar imgUrl={''} size={20} />
@@ -43,7 +58,9 @@ export default function FeedbackItem({
         <Content>{feedback.content}</Content>
 
         {depth !== 2 && (
-          <ReplyButton onClick={() => onReply(feedback)}>답글달기</ReplyButton>
+          <ReplyButton onClick={handleReply}>
+            {isReplyTarget ? '답글취소' : '답글달기'}
+          </ReplyButton>
         )}
       </Container>
 
