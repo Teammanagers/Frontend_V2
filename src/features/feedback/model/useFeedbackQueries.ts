@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import apiRequest from '@/shared/api/apiRequest';
 
 interface CreateFeedbackVariables {
@@ -11,8 +11,6 @@ interface CreateFeedbackVariables {
 
 /* 피드백 생성 */
 export const useCreateFeedback = () => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async ({ dataId, data }: CreateFeedbackVariables) =>
       await apiRequest({
@@ -21,11 +19,6 @@ export const useCreateFeedback = () => {
         data,
       }),
 
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ['feedbacks', variables.dataId],
-      });
-    },
     onError: () => {
       // TODO: 에러 핸들링
     },

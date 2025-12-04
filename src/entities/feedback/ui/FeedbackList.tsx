@@ -5,13 +5,15 @@ import { Feedback } from '../feedback.types';
 interface FeedbackListProps {
   feedbacks: Feedback[];
   replyTargetId: number | null;
-  onReply: (target: Feedback) => void;
+  onReply: (target: Feedback | null) => void;
+  scrollRef: React.RefObject<HTMLDivElement>;
 }
 
 export default function FeedbackList({
   feedbacks,
   replyTargetId,
   onReply,
+  scrollRef,
 }: FeedbackListProps) {
   if (!feedbacks || feedbacks.length === 0) return null;
 
@@ -26,6 +28,9 @@ export default function FeedbackList({
           onReply={onReply}
         />
       ))}
+
+      {/* 스크롤 타겟 - 피드백 성공 시 이곳으로 스크롤되는 더미 태그 */}
+      <ScrollTarget ref={scrollRef} />
     </Container>
   );
 }
@@ -41,3 +46,5 @@ const Container = styled.ul<{ $hasFeedbacks: boolean }>`
       $hasFeedbacks ? theme.colors.lightGray : 'transparent'};
   overflow-y: auto;
 `;
+
+const ScrollTarget = styled.div``;

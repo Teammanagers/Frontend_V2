@@ -1,36 +1,53 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import styled from 'styled-components';
+import { Resource } from '@/entities/resource/resource.types';
 import FormSubmitButton from '@/shared/components/button/FormSubmitButton';
 import { useCreateFeedback } from '../model/useFeedbackQueries';
 
 interface FeedbackFormProps {
-  selectedResourceId: number | null;
+  selectedResource: Resource | null;
   replyTargetId: number | null;
-  content: string;
-  setContent: React.Dispatch<React.SetStateAction<string>>;
   textareaRef: React.RefObject<HTMLTextAreaElement>;
+  onScrollToTarget: (id: number) => void;
+  onScrollToBottom: () => void;
 }
 
 export default function FeedbackForm({
-  selectedResourceId,
+  selectedResource,
   replyTargetId,
-  content,
-  setContent,
   textareaRef,
+  onScrollToTarget,
+  onScrollToBottom,
 }: FeedbackFormProps) {
   const { mutate: createFeedback } = useCreateFeedback();
+  const queryClient = useQueryClient();
+
+  const [content, setContent] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!selectedResourceId || content.trim() === '') return;
+    if (!selectedResource?.dataId || content.trim() === '') return;
 
     createFeedback(
       {
-        dataId: selectedResourceId,
+        dataId: selectedResource.dataId,
         data: { content, parentId: replyTargetId },
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           setContent('');
+
+          await queryClient.invalidateQueries({
+            queryKey: ['feedbacks', selectedResource?.dataId],
+          });
+
+          // 답글 대상이 있으면 해당 피드백 위치로, 없으면 맨 아래로 스크롤
+          if (replyTargetId) {
+            onScrollToTarget(replyTargetId);
+          } else {
+            onScrollToBottom();
+          }
         },
       },
     );

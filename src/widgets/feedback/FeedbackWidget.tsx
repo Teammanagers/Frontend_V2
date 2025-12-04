@@ -1,12 +1,13 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Feedback } from '@/entities/feedback/feedback.types';
 import { useGetFeedbackList } from '@/entities/feedback/model/useFeedbackQueries';
 import FeedbackHeader from '@/entities/feedback/ui/FeedbackHeader';
+import FeedbackList from '@/entities/feedback/ui/FeedbackList';
 import { Resource } from '@/entities/resource/resource.types';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
 import FeedbackForm from '@/features/feedback/ui/FeedbackForm';
-import FeedbackList from '../../entities/feedback/ui/FeedbackList';
+import { useScrollToTarget } from '@/shared/hooks/action/useScrollToTarget';
 
 export default function FeedbackWidget({
   selectedResource,
@@ -20,17 +21,23 @@ export default function FeedbackWidget({
     selectedResource?.dataId,
   );
 
+  const { bottomRef, scrollToElement, scrollToBottom } = useScrollToTarget({
+    dependency: feedbacks,
+    elementIdPrefix: 'feedback-',
+  });
+
   const [replyTarget, setReplyTarget] = useState<Feedback | null>(null);
-  const [content, setContent] = useState<string>('');
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleReply = (target: Feedback) => {
+  const handleReply = (target: Feedback | null) => {
     setReplyTarget(target);
-    console.log('target', target);
-
     if (textareaRef.current) textareaRef.current.focus();
   };
+
+  useEffect(() => {
+    setReplyTarget(null);
+  }, [selectedResource]);
 
   return (
     <Container>
@@ -38,16 +45,17 @@ export default function FeedbackWidget({
         <>
           <FeedbackHeader selectedResource={selectedResource} />
           <FeedbackForm
-            selectedResourceId={selectedResource.dataId}
+            selectedResource={selectedResource}
             replyTargetId={replyTarget?.id ?? null}
-            content={content}
-            setContent={setContent}
             textareaRef={textareaRef}
+            onScrollToTarget={scrollToElement}
+            onScrollToBottom={scrollToBottom}
           />
           <FeedbackList
             feedbacks={feedbacks}
             replyTargetId={replyTarget?.id ?? null}
             onReply={handleReply}
+            scrollRef={bottomRef}
           />
         </>
       )}
@@ -81,6 +89,7 @@ const Container = styled.section`
   padding: 24px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.white};
+  overflow-y: auto;
 `;
 
 const EmptyResourceWrapper = styled.div`
