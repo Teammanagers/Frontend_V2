@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { PATHS } from '@/app/routes/paths';
-import BellSvg from '@/shared/assets/sidebar/bell.svg?react';
+// import BellSvg from '@/shared/assets/sidebar/bell.svg?react';
 import CalendarSvg from '@/shared/assets/sidebar/calendar.svg?react';
 import EndSvg from '@/shared/assets/sidebar/end.svg?react';
 import FileSvg from '@/shared/assets/sidebar/file.svg?react';
@@ -18,20 +18,20 @@ interface SideBarNavProps {
   teamId: number;
   activePath: string;
   expanded: boolean;
-  isAlarmOpen: boolean;
+  // isAlarmOpen: boolean;
   isLeader: boolean;
   onNavigate: (path: (teamId: number) => string) => void;
-  onToggleAlarm: () => void;
+  // onToggleAlarm: () => void;
 }
 
 export default function SideBarNav({
   teamId,
   activePath,
   expanded,
-  isAlarmOpen,
+  // isAlarmOpen,
   isLeader,
   onNavigate,
-  onToggleAlarm,
+  // onToggleAlarm,
 }: SideBarNavProps) {
   const isActive = (path: string) =>
     activePath === path || activePath.startsWith(path);
@@ -56,19 +56,19 @@ export default function SideBarNav({
         )}
       </IconContainer>
 
-      {/* 알림 */}
-      <IconContainer
-        $selected={isAlarmOpen}
-        $expanded={expanded}
-        onClick={onToggleAlarm}
-      >
-        <StrokeIcon
-          as={BellSvg}
-          aria-hidden
-          style={{ color: isAlarmOpen ? COLOR_ACTIVE : COLOR_DEFAULT }}
-        />
-        {expanded && <SideBarText $selected={isAlarmOpen}>알림</SideBarText>}
-      </IconContainer>
+      {/*/!* 알림 *!/*/}
+      {/*<IconContainer*/}
+      {/*  $selected={isAlarmOpen}*/}
+      {/*  $expanded={expanded}*/}
+      {/*  onClick={onToggleAlarm}*/}
+      {/*>*/}
+      {/*  <StrokeIcon*/}
+      {/*    as={BellSvg}*/}
+      {/*    aria-hidden*/}
+      {/*    style={{ color: isAlarmOpen ? COLOR_ACTIVE : COLOR_DEFAULT }}*/}
+      {/*  />*/}
+      {/*  {expanded && <SideBarText $selected={isAlarmOpen}>알림</SideBarText>}*/}
+      {/*</IconContainer>*/}
 
       {/* 투두 */}
       <IconContainer

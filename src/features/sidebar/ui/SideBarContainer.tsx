@@ -29,8 +29,8 @@ export default function SideBarContainer() {
     handleCreateTeam,
     handleJoinTeam,
     setIsTeamListOpen,
-    isAlarmOpen,
-    setIsAlarmOpen,
+    // isAlarmOpen,
+    // setIsAlarmOpen,
   } = sidebar;
 
   const leaderId = members?.leader.member.id;
@@ -55,11 +55,11 @@ export default function SideBarContainer() {
       <SideBar
         expanded={hover}
         activePath={pathname}
-        isAlarmOpen={isAlarmOpen}
+        // isAlarmOpen={isAlarmOpen}
         team={teamData}
         isLeader={isLeader}
         onNavigate={handleNavigate}
-        onToggleAlarm={() => setIsAlarmOpen((prev) => !prev)}
+        // onToggleAlarm={() => setIsAlarmOpen((prev) => !prev)}
         onToggleTeamList={() => setIsTeamListOpen((prev) => !prev)}
       />
 

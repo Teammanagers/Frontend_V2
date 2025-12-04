@@ -7,7 +7,7 @@ import { TeamProps } from '@/widgets/sidebar';
 
 export default function useSideBarState() {
   const [hover, setHover] = useState(false);
-  const [isAlarmOpen, setIsAlarmOpen] = useState(false);
+  // const [isAlarmOpen, setIsAlarmOpen] = useState(false);
   const [isTeamListOpen, setIsTeamListOpen] = useState(false);
   const [isAddTeamModalOpen, setIsAddTeamModalOpen] = useState(false);
   const [currentTeam, setCurrentTeam] = useState<TeamProps | null>(null);
@@ -68,7 +68,7 @@ export default function useSideBarState() {
 
   return {
     hover,
-    isAlarmOpen,
+    // isAlarmOpen,
     isTeamListOpen,
     isAddTeamModalOpen,
     currentTeam,
@@ -76,7 +76,7 @@ export default function useSideBarState() {
     pathname,
 
     setHover,
-    setIsAlarmOpen,
+    // setIsAlarmOpen,
     setIsTeamListOpen,
 
     handleNavigate,
