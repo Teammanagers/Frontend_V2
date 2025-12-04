@@ -1,10 +1,54 @@
 import styled from 'styled-components';
 import FormSubmitButton from '@/shared/components/button/FormSubmitButton';
+import { useCreateFeedback } from '../model/useFeedbackQueries';
 
-export default function FeedbackForm() {
+interface FeedbackFormProps {
+  selectedResourceId: number | null;
+  replyTargetId: number | null;
+  content: string;
+  setContent: React.Dispatch<React.SetStateAction<string>>;
+  textareaRef: React.RefObject<HTMLTextAreaElement>;
+}
+
+export default function FeedbackForm({
+  selectedResourceId,
+  replyTargetId,
+  content,
+  setContent,
+  textareaRef,
+}: FeedbackFormProps) {
+  const { mutate: createFeedback } = useCreateFeedback();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!selectedResourceId || content.trim() === '') return;
+
+    createFeedback(
+      {
+        dataId: selectedResourceId,
+        data: { content, parentId: replyTargetId },
+      },
+      {
+        onSuccess: () => {
+          setContent('');
+        },
+      },
+    );
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  };
+
   return (
-    <FormContainer>
-      <Textarea placeholder="피드백 내용을 입력해 주세요." maxLength={300} />
+    <FormContainer onSubmit={handleSubmit}>
+      <Textarea
+        ref={textareaRef}
+        value={content}
+        onChange={handleChange}
+        placeholder="피드백 내용을 입력해 주세요."
+        maxLength={300}
+      />
       <FormSubmitButton />
     </FormContainer>
   );

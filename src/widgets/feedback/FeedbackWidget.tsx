@@ -1,4 +1,6 @@
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { Feedback } from '@/entities/feedback/feedback.types';
 import { useGetFeedbackList } from '@/entities/feedback/model/useFeedbackQueries';
 import FeedbackHeader from '@/entities/feedback/ui/FeedbackHeader';
 import { Resource } from '@/entities/resource/resource.types';
@@ -18,13 +20,35 @@ export default function FeedbackWidget({
     selectedResource?.dataId,
   );
 
+  const [replyTarget, setReplyTarget] = useState<Feedback | null>(null);
+  const [content, setContent] = useState<string>('');
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleReply = (target: Feedback) => {
+    setReplyTarget(target);
+    console.log('target', target);
+
+    if (textareaRef.current) textareaRef.current.focus();
+  };
+
   return (
     <Container>
       {selectedResource && isSuccess && (
         <>
           <FeedbackHeader selectedResource={selectedResource} />
-          <FeedbackForm />
-          <FeedbackList feedbacks={feedbacks} />
+          <FeedbackForm
+            selectedResourceId={selectedResource.dataId}
+            replyTargetId={replyTarget?.id ?? null}
+            content={content}
+            setContent={setContent}
+            textareaRef={textareaRef}
+          />
+          <FeedbackList
+            feedbacks={feedbacks}
+            replyTargetId={replyTarget?.id ?? null}
+            onReply={handleReply}
+          />
         </>
       )}
 

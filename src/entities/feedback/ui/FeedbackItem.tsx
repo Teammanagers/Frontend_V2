@@ -9,21 +9,26 @@ import Avatar from '@/shared/components/avatar/Avatar';
 interface IFeedbackProps {
   feedback: Feedback;
   depth: FeedbackDepth;
+  replyTargetId: number | null;
   onReply: (target: Feedback) => void;
 }
 
 export default function FeedbackItem({
   feedback,
   depth = 0,
+  replyTargetId,
   onReply,
 }: IFeedbackProps) {
   const { children } = feedback;
   const hasChildren = children && children.length > 0;
   const shouldRenderChildren = hasChildren && depth < MAX_RENDER_DEPTH;
 
+  // 답글 대상인 경우 하이라이팅
+  const isReplyTarget = replyTargetId !== null && feedback.id === replyTargetId;
+
   return (
     <>
-      <Container $depth={depth}>
+      <Container $depth={depth} $isReplyTarget={isReplyTarget}>
         <UserInfo>
           {/* TODO: 프로필 이미지 url 추가 (서버 API Response 수정 요청 필요) */}
           <Avatar imgUrl={''} size={20} />
@@ -49,6 +54,7 @@ export default function FeedbackItem({
               key={child.id}
               feedback={child}
               depth={(depth + 1) as FeedbackDepth}
+              replyTargetId={replyTargetId}
               onReply={onReply}
             />
           ))}
@@ -58,14 +64,18 @@ export default function FeedbackItem({
   );
 }
 
-const Container = styled.li<{ $depth: FeedbackDepth }>`
+const Container = styled.li<{ $depth: FeedbackDepth; $isReplyTarget: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
   height: fit-content;
   padding: 0 ${({ $depth }) => DEPT_PADDING_MULTIPLIER * $depth}px;
+  border-radius: 6px;
   list-style: none;
+  background-color: ${({ $isReplyTarget, theme }) =>
+    $isReplyTarget ? theme.colors.lightGray : 'transparent'};
+  transition: background-color 0.3s ease-in;
 `;
 
 const UserInfo = styled.div`
