@@ -15,7 +15,7 @@ export default function FeedbackList({
   onReply,
   scrollRef,
 }: FeedbackListProps) {
-  if (!feedbacks || feedbacks.length === 0) return null;
+  if (feedbacks.length === 0) return null;
 
   return (
     <Container $hasFeedbacks={feedbacks.length > 0}>

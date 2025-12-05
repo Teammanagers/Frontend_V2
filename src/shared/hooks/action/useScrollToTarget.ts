@@ -11,9 +11,9 @@ type ScrollTarget =
   | { type: 'ELEMENT'; id: string | number; options?: ScrollConfig };
 
 interface UseScrollToTargetProps {
-  dependency: unknown; // 스크롤 트리거가 될 데이터 (예: 리스트 배열)
-  elementIdPrefix?: string; // ID 앞 접두사 (예: "feedback-", "msg-")
-  scrollDelay?: number; //
+  dependency: unknown;
+  elementIdPrefix?: string;
+  scrollDelay?: number;
 }
 
 /**
@@ -21,7 +21,7 @@ interface UseScrollToTargetProps {
  *
  * @param {unknown} dependency - 스크롤 트리거가 될 의존성 데이터 (예: 리스트 배열). 이 값이 변경될 때 스크롤 로직이 실행됩니다.
  * @param {string} [elementIdPrefix=''] - 타겟 요소 ID의 접두사. (예: `feedback-`로 설정 시 id가 `1`이면 `feedback-1` 요소를 찾아 스크롤)
- * @param {number} [scrollDelay=0] - DOM 렌더링 대기 시간(ms). 렌더링 직후 스크롤이 무시되는 현상을 방지하기 위해 사용합니다.
+ * @param {number} [scrollDelay=0] - 스크롤 동작 전 DOM이 렌더링 가능한 상태가 될 때까지 기다리는 지연 시간(ms). 렌더링 직후 스크롤이 무시되는 현상을 방지하기 위해 사용합니다.
  *
  * @example
  * ```tsx

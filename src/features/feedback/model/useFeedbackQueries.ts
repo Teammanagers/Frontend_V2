@@ -18,9 +18,5 @@ export const useCreateFeedback = () => {
         method: 'POST',
         data,
       }),
-
-    onError: () => {
-      // TODO: 에러 핸들링
-    },
   });
 };

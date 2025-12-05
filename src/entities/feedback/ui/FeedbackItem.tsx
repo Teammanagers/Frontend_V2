@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Feedback, FeedbackDepth } from '@/entities/feedback/feedback.types';
 import {
-  DEPT_PADDING_MULTIPLIER,
+  DEPTH_PADDING_MULTIPLIER,
   MAX_RENDER_DEPTH,
 } from '@/features/feedback/feedback.constants';
 import Avatar from '@/shared/components/avatar/Avatar';
@@ -28,7 +28,7 @@ export default function FeedbackItem({
 
   const handleReply = () => {
     // 이미 선택되어 있는 답글이 아니면 해당 답글을 대상으로 설정
-    if (feedback.id !== replyTargetId || replyTargetId === null) {
+    if (feedback.id !== replyTargetId) {
       onReply(feedback);
       return;
     }
@@ -57,7 +57,7 @@ export default function FeedbackItem({
 
         <Content>{feedback.content}</Content>
 
-        {depth !== 2 && (
+        {depth !== MAX_RENDER_DEPTH && (
           <ReplyButton onClick={handleReply}>
             {isReplyTarget ? '답글취소' : '답글달기'}
           </ReplyButton>
@@ -87,7 +87,7 @@ const Container = styled.li<{ $depth: FeedbackDepth; $isReplyTarget: boolean }>`
   align-items: flex-start;
   gap: 8px;
   height: fit-content;
-  padding: 0 ${({ $depth }) => DEPT_PADDING_MULTIPLIER * $depth}px;
+  padding: 0 ${({ $depth }) => DEPTH_PADDING_MULTIPLIER * $depth}px;
   border-radius: 6px;
   list-style: none;
   background-color: ${({ $isReplyTarget, theme }) =>
