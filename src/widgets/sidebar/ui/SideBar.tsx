@@ -7,13 +7,12 @@ import SideBarNav from '@/widgets/sidebar/ui/SideBarNav';
 export default function SideBar({
   expanded,
   activePath,
-  isAlarmOpen,
-  endSelected,
+  // isAlarmOpen,
   team,
+  isLeader,
   onNavigate,
-  onToggleAlarm,
+  // onToggleAlarm,
   onToggleTeamList,
-  onEndClick,
 }: SideBarProps) {
   const teamId = useTeamStore((state) => state.teamId);
 
@@ -33,11 +32,10 @@ export default function SideBar({
         teamId={teamId}
         activePath={activePath}
         expanded={expanded}
-        isAlarmOpen={isAlarmOpen}
-        endSelected={endSelected}
+        // isAlarmOpen={isAlarmOpen}
+        isLeader={isLeader}
         onNavigate={onNavigate}
-        onToggleAlarm={onToggleAlarm}
-        onEndClick={onEndClick}
+        // onToggleAlarm={onToggleAlarm}
       />
     </SideBarContainer>
   );

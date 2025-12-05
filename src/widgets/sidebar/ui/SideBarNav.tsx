@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { PATHS } from '@/app/routes/paths';
-import BellSvg from '@/shared/assets/sidebar/bell.svg?react';
+// import BellSvg from '@/shared/assets/sidebar/bell.svg?react';
 import CalendarSvg from '@/shared/assets/sidebar/calendar.svg?react';
 import EndSvg from '@/shared/assets/sidebar/end.svg?react';
 import FileSvg from '@/shared/assets/sidebar/file.svg?react';
@@ -18,24 +18,23 @@ interface SideBarNavProps {
   teamId: number;
   activePath: string;
   expanded: boolean;
-  isAlarmOpen: boolean;
-  endSelected: boolean;
+  // isAlarmOpen: boolean;
+  isLeader: boolean;
   onNavigate: (path: (teamId: number) => string) => void;
-  onToggleAlarm: () => void;
-  onEndClick: () => void;
+  // onToggleAlarm: () => void;
 }
 
 export default function SideBarNav({
   teamId,
   activePath,
   expanded,
-  isAlarmOpen,
-  endSelected,
+  // isAlarmOpen,
+  isLeader,
   onNavigate,
-  onToggleAlarm,
-  onEndClick,
+  // onToggleAlarm,
 }: SideBarNavProps) {
-  const isActive = (path: string) => activePath === path;
+  const isActive = (path: string) =>
+    activePath === path || activePath.startsWith(path);
 
   return (
     <>
@@ -57,19 +56,19 @@ export default function SideBarNav({
         )}
       </IconContainer>
 
-      {/* 알림 */}
-      <IconContainer
-        $selected={isAlarmOpen}
-        $expanded={expanded}
-        onClick={onToggleAlarm}
-      >
-        <StrokeIcon
-          as={BellSvg}
-          aria-hidden
-          style={{ color: isAlarmOpen ? COLOR_ACTIVE : COLOR_DEFAULT }}
-        />
-        {expanded && <SideBarText $selected={isAlarmOpen}>알림</SideBarText>}
-      </IconContainer>
+      {/*/!* 알림 *!/*/}
+      {/*<IconContainer*/}
+      {/*  $selected={isAlarmOpen}*/}
+      {/*  $expanded={expanded}*/}
+      {/*  onClick={onToggleAlarm}*/}
+      {/*>*/}
+      {/*  <StrokeIcon*/}
+      {/*    as={BellSvg}*/}
+      {/*    aria-hidden*/}
+      {/*    style={{ color: isAlarmOpen ? COLOR_ACTIVE : COLOR_DEFAULT }}*/}
+      {/*  />*/}
+      {/*  {expanded && <SideBarText $selected={isAlarmOpen}>알림</SideBarText>}*/}
+      {/*</IconContainer>*/}
 
       {/* 투두 */}
       <IconContainer
@@ -209,23 +208,30 @@ export default function SideBarNav({
 
       {/* 종료 */}
       <IconContainer
-        $selected={endSelected}
+        $selected={isActive(PATHS.END(teamId))}
         $expanded={expanded}
         $danger
-        onClick={onEndClick}
+        onClick={() => onNavigate(PATHS.END)}
       >
         <StrokeIcon
           as={EndSvg}
           aria-hidden
-          style={{ color: endSelected ? COLOR_ACTIVE : COLOR_DEFAULT }}
+          style={{
+            color: isActive(PATHS.END(teamId)) ? COLOR_ACTIVE : COLOR_DEFAULT,
+          }}
         />
-        {expanded && (
-          <SideBarText $selected={endSelected} $redText>
-            프로젝트
-            <br />
-            종료
-          </SideBarText>
-        )}
+        {expanded &&
+          (isLeader ? (
+            <SideBarText $selected={isActive(PATHS.END(teamId))} $redText>
+              프로젝트
+              <br />
+              종료
+            </SideBarText>
+          ) : (
+            <SideBarText $selected={isActive(PATHS.END(teamId))} $redText>
+              팀 나가기
+            </SideBarText>
+          ))}
       </IconContainer>
     </>
   );
@@ -266,7 +272,6 @@ const SideBarText = styled.p<ItemProps>`
   margin-left: 16px;
   text-align: center;
   white-space: nowrap;
-  overflow: hidden;
 
   ${({ $redText, theme }) =>
     $redText &&
