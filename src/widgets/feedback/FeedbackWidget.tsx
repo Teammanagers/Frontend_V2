@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import { useGetFeedbackList } from '@/entities/feedback/model/useFeedbackQueries';
-import FeedbackHeader from '@/entities/feedback/ui/FeedbackHeader';
 import { Resource } from '@/entities/resource/resource.types';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
-import FeedbackForm from '@/features/feedback/ui/FeedbackForm';
-import FeedbackList from '../../entities/feedback/ui/FeedbackList';
+import FeedbackContent from './FeedbackContent';
 
 export default function FeedbackWidget({
   selectedResource,
@@ -21,11 +19,10 @@ export default function FeedbackWidget({
   return (
     <Container>
       {selectedResource && isSuccess && (
-        <>
-          <FeedbackHeader selectedResource={selectedResource} />
-          <FeedbackForm />
-          <FeedbackList feedbacks={feedbacks} />
-        </>
+        <FeedbackContent
+          selectedResource={selectedResource}
+          feedbacks={feedbacks}
+        />
       )}
 
       {!selectedResource && (
@@ -57,6 +54,7 @@ const Container = styled.section`
   padding: 24px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.white};
+  overflow-y: auto;
 `;
 
 const EmptyResourceWrapper = styled.div`

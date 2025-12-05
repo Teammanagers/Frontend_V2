@@ -14,4 +14,6 @@ interface Feedback {
   children: Feedback[];
 }
 
-export type { Feedback };
+type FeedbackDepth = 0 | 1 | 2;
+
+export type { Feedback, FeedbackDepth };
