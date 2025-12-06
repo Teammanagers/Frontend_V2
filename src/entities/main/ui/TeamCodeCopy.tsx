@@ -18,7 +18,7 @@ function TeamCodeCopy() {
 
   return (
     <div>
-      {isPending && <Skeleton key="skeleton" width={163} height={76} />}
+      {isPending && <Skeleton key="skeleton" width={'163px'} height={'76px'} />}
 
       {!isPending && (
         <Container>

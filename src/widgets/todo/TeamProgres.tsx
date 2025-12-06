@@ -1,8 +1,8 @@
+import styled from 'styled-components';
 import { ITeamProgressStatus } from '@/entities/todo/todo.type';
 import { ProgressBar, ProgressStatusBadge } from '@/entities/todo/ui';
-import styled from 'styled-components';
 
-interface ITeamProgresProps {
+interface TeamProgresProps {
   teamProgress: ITeamProgressStatus[];
   isPending: boolean;
   isSuccess: boolean;
@@ -13,7 +13,7 @@ export default function TeamProgres({
   teamProgress,
   isPending,
   isSuccess,
-}: ITeamProgresProps) {
+}: TeamProgresProps) {
   return (
     <Container>
       <StatusLabelWrapper>

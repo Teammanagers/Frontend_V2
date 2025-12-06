@@ -20,7 +20,7 @@ function NoticeBanner() {
 
   const { isTeamLeader } = useIsTeamLeader();
 
-  if (isPending) return <Skeleton width={876} height={76} />;
+  if (isPending) return <Skeleton width="876px" height="76px" />;
 
   return (
     <>

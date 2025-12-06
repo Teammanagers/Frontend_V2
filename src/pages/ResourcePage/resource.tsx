@@ -31,7 +31,7 @@ export function ResourcePage() {
         />
 
         {/* 피드백 위젯 */}
-        {isPending && <Skeleton width={534} height={632} />}
+        {isPending && <Skeleton width="534px" height="632px" />}
         {isSuccess && (
           <FeedbackWidget
             selectedResource={selectedResource}

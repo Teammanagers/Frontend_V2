@@ -9,7 +9,7 @@ export default function RecentResourceList() {
   const { data, isPending, isSuccess, isError } = useGetResourceList();
   const { handleDownload } = useDownloadResource();
 
-  if (isPending) return <Skeleton width={518} height={222} />;
+  if (isPending) return <Skeleton width="518px" height="222px" />;
   if (isError) return <FallbackCard>자료를 불러올 수 없습니다.</FallbackCard>;
   if (isSuccess && data.length === 0)
     return <FallbackCard>최근 업데이트 된 자료가 없습니다.</FallbackCard>;

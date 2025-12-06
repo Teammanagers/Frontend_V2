@@ -48,7 +48,7 @@ export default function EditableResourceList({
       <Container>
         {isPending &&
           Array.from({ length: 4 }).map((_, index) => (
-            <Skeleton key={index} width={486} height={66} />
+            <Skeleton key={index} width="486px" height="66px" />
           ))}
 
         {isError && (
