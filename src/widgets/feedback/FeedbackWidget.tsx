@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { useGetFeedbackList } from '@/entities/feedback/model/useFeedbackQueries';
 import { Resource } from '@/entities/resource/resource.types';
 import AddFeedbackButton from '@/features/feedback/ui/AddFeedbackButton';
+import { useDelayLoading } from '@/shared/hooks/useDelayLoading';
 import FeedbackContent from './FeedbackContent';
+import FeedbackSkeleton from './FeedbackSkeleton';
 
 export default function FeedbackWidget({
   selectedResource,
@@ -12,12 +14,20 @@ export default function FeedbackWidget({
   hasResource: boolean;
 }) {
   // TODO: 스켈레톤 100% 작업 후 isPending, isError 처리
-  const { data: feedbacks, isSuccess } = useGetFeedbackList(
-    selectedResource?.dataId,
-  );
+  const {
+    data: feedbacks,
+    isPending,
+    isSuccess,
+  } = useGetFeedbackList(selectedResource?.dataId);
+
+  const shouldShowSkeleton = useDelayLoading(isPending, 300);
 
   return (
     <Container>
+      {selectedResource && isPending && shouldShowSkeleton && (
+        <FeedbackSkeleton />
+      )}
+
       {selectedResource && isSuccess && (
         <FeedbackContent
           selectedResource={selectedResource}
@@ -46,7 +56,6 @@ export default function FeedbackWidget({
 const Container = styled.section`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-start;
   gap: 19px;
   width: 100%;
