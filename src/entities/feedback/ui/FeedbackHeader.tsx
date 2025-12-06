@@ -11,7 +11,7 @@ export default function FeedbackHeader({
   return (
     <Container>
       <InnerWrapper>
-        <Title>제목입니다2</Title>
+        <Title>{selectedResource.fileInfo.originalFileName}</Title>
         <ResourceMetaData
           fileSize={selectedResource.fileInfo.fileSize}
           createdAt={selectedResource.fileInfo.createdAt}
@@ -38,7 +38,11 @@ const InnerWrapper = styled.div`
 `;
 
 const Title = styled.h2`
+  max-width: 270px;
   font-size: 18px;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: ${({ theme }) => theme.colors.black};
 `;
