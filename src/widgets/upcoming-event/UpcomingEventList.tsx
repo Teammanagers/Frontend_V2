@@ -13,7 +13,7 @@ function UpcomingEventList() {
     data: eventList,
   } = useUpcomingEventQuery();
 
-  if (isPending) return <Skeleton width={518} height={222} />;
+  if (isPending) return <Skeleton width="518px" height="222px" />;
   if (isError) return <FallbackCard>일정을 불러올 수 없습니다.</FallbackCard>;
   if (isSuccess && eventList.length === 0)
     return <FallbackCard>아직 생성된 일정이 없습니다.</FallbackCard>;

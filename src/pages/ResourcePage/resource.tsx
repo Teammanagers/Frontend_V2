@@ -21,22 +21,35 @@ export function ResourcePage() {
   return (
     <Container>
       <WidgetsWrapper>
-        {/* 자료 위젯 */}
-        <EditableResourceList
-          resources={resources || []}
-          isPending={isPending}
-          isSuccess={isSuccess}
-          isError={isError}
-          onSelectedResource={setSelectedResource}
-        />
-
         {/* 피드백 위젯 */}
-        {isPending && <Skeleton width={534} height={632} />}
+        {isPending &&
+          Array.from({ length: 2 }).map((_, idx) => (
+            <Skeleton key={idx} width="100%" height="632px" />
+          ))}
+
+        {isError && (
+          <>
+            <ContentSection>
+              자료를 불러오는 중 오류가 발생했습니다.
+            </ContentSection>
+            <ContentSection>
+              피드백을 불러오는 중 오류가 발생했습니다.
+            </ContentSection>
+          </>
+        )}
+
+        {/* 자료 위젯 */}
         {isSuccess && (
-          <FeedbackWidget
-            selectedResource={selectedResource}
-            hasResource={resources?.length > 0}
-          />
+          <>
+            <EditableResourceList
+              resources={resources || []}
+              onSelectedResource={setSelectedResource}
+            />
+            <FeedbackWidget
+              selectedResource={selectedResource}
+              hasResource={resources?.length > 0}
+            />
+          </>
         )}
       </WidgetsWrapper>
     </Container>
@@ -56,4 +69,14 @@ const WidgetsWrapper = styled.div`
   display: flex;
   gap: 20px;
   width: 85dvw;
+`;
+
+const ContentSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 632px;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.white};
 `;

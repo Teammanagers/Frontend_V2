@@ -9,7 +9,7 @@ export default function MemoListSkeleton({ variant }: MemoListSkeletonProps) {
   if (variant === 'empty') {
     return (
       <SkeletonWrapper>
-        <Skeleton width={1088} height={632} />
+        <Skeleton width="1088px" height="632px" />
       </SkeletonWrapper>
     );
   }
@@ -18,9 +18,9 @@ export default function MemoListSkeleton({ variant }: MemoListSkeletonProps) {
     <ListContainer>
       {Array.from({ length: 9 }).map((_, index) => (
         <SkeletonCard key={index}>
-          <Skeleton width={218} height={34} />
-          <Skeleton width={273} height={34} />
-          <Skeleton width={352} height={110} />
+          <Skeleton width="218px" height="34px" />
+          <Skeleton width="273px" height="34px" />
+          <Skeleton width="352px" height="110px" />
         </SkeletonCard>
       ))}
     </ListContainer>

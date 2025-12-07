@@ -52,12 +52,6 @@ interface IAccordionHeaderProps extends IAccordion {
   onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-// 스켈레톤
-interface ISkeletonProps {
-  width: number;
-  height: number;
-}
-
 export type {
   IModal,
   IDropdown,
@@ -66,5 +60,4 @@ export type {
   IActionDropdownProps,
   IAccordionProps,
   IAccordionHeaderProps,
-  ISkeletonProps,
 };

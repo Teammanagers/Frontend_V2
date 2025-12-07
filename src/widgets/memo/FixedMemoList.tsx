@@ -9,7 +9,7 @@ export default function FixedMemoList() {
   const { data: memos, isPending, isSuccess, isError } = useFixedMemoList();
   const { handlers } = useMemoUIState();
 
-  if (isPending) return <Skeleton width={518} height={222} />;
+  if (isPending) return <Skeleton width="518px" height="222px" />;
   if (isError) return <FallbackCard>메모를 불러올 수 없습니다.</FallbackCard>;
   if (isSuccess && memos.length === 0)
     return <FallbackCard>고정된 메모가 없습니다.</FallbackCard>;

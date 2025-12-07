@@ -79,7 +79,7 @@ const FormContainer = styled.form`
 `;
 
 const Textarea = styled.textarea`
-  min-width: 420px;
+  flex: 1;
   height: 76px;
   padding: 8px 12px;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};

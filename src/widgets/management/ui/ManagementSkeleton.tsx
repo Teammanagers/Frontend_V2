@@ -5,10 +5,10 @@ export function TeamInfoSkeleton() {
   return (
     <SkeletonWrapper height={182}>
       <Row>
-        <Skeleton width={180} height={180} />
+        <Skeleton width="180px" height="180px" />
         <RightColumn>
-          <Skeleton width={885} height={79} />
-          <Skeleton width={885} height={78} />
+          <Skeleton width="885px" height="79px" />
+          <Skeleton width="885px" height="78px" />
         </RightColumn>
       </Row>
     </SkeletonWrapper>
@@ -18,7 +18,7 @@ export function TeamInfoSkeleton() {
 export function TeamMemberSkeleton() {
   return (
     <SkeletonWrapper>
-      <Skeleton width={1088} height={181} />
+      <Skeleton width="1088px" height="181px" />
     </SkeletonWrapper>
   );
 }
@@ -26,7 +26,7 @@ export function TeamMemberSkeleton() {
 export function ScheduleSkeleton() {
   return (
     <SkeletonWrapper>
-      <Skeleton width={1088} height={348} />
+      <Skeleton width="1088px" height="348px" />
     </SkeletonWrapper>
   );
 }

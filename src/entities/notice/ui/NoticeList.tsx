@@ -16,7 +16,11 @@ function NoticeList({ isOpen }: { isOpen: boolean }) {
     <Container>
       {isPending &&
         Array.from({ length: 4 }).map((_, idx) => (
-          <Skeleton key={`notice-skeleton-${idx}`} width={498} height={58} />
+          <Skeleton
+            key={`notice-skeleton-${idx}`}
+            width="498px"
+            height="58px"
+          />
         ))}
 
       {isSuccess &&

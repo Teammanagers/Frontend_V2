@@ -7,7 +7,7 @@ import Skeleton from '@/shared/components/skeleton/Skeleton';
 function MyTodoList() {
   const { data: todoList, isPending, isSuccess, isError } = useMyTodoList();
 
-  if (isPending) return <Skeleton width={518} height={222} />;
+  if (isPending) return <Skeleton width="518px" height="222px" />;
   if (isError)
     return <FallbackCard>투두리스트를 불러올 수 없습니다.</FallbackCard>;
 

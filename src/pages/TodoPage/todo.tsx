@@ -1,10 +1,10 @@
+import styled from 'styled-components';
 import { Theme } from '@/app/styles/theme';
 import { transformTeamProgress } from '@/entities/todo/lib/transformTeamProgress';
 import useTodoQuries from '@/features/todo/model/useTodoQuries';
 import LoadingSpinner from '@/shared/components/loadingSpinner/loadingSpinner';
-import TeamProgres from '@/widgets/todo/TeamProgres';
+import TeamProgress from '@/widgets/todo/TeamProgress';
 import { TodoList } from '@/widgets/todo/TodoList';
-import styled from 'styled-components';
 
 export function TodoPage() {
   const { useTeamTodoQuery } = useTodoQuries();
@@ -14,7 +14,7 @@ export function TodoPage() {
 
   return (
     <Container>
-      <TeamProgres
+      <TeamProgress
         teamProgress={teamProgress}
         isPending={isPending}
         isSuccess={isSuccess}
