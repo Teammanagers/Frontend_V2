@@ -2,18 +2,18 @@ import styled from 'styled-components';
 import { ITeamProgressStatus } from '@/entities/todo/todo.type';
 import { ProgressBar, ProgressStatusBadge } from '@/entities/todo/ui';
 
-interface TeamProgresProps {
+interface TeamProgressProps {
   teamProgress: ITeamProgressStatus[];
   isPending: boolean;
   isSuccess: boolean;
 }
 
 // 팀원 투두 진행 상황을 알수 있는 컴포넌트 위젯
-export default function TeamProgres({
+export default function TeamProgress({
   teamProgress,
   isPending,
   isSuccess,
-}: TeamProgresProps) {
+}: TeamProgressProps) {
   return (
     <Container>
       <StatusLabelWrapper>
