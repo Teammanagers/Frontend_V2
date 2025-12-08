@@ -2,9 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { ProfileFormValues, profileSchema } from '../model/profile.schema';
 import ProfileImageUploader from './ProfileImageUploader';
 import mockUserData from '../mock/user.json';
+import { ProfileFormValues, profileSchema } from '../model/profile.schema';
 import { PROFILE_FORM_KEYS, PROFILE_INPUT_FIELDS } from '../profile.constants';
 import RoleTagEditor from './RoleTagEditor';
 
