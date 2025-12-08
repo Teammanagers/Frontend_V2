@@ -33,8 +33,11 @@ export default function SideBarNav({
   onNavigate,
   // onToggleAlarm,
 }: SideBarNavProps) {
-  const isActive = (path: string) =>
-    activePath === path || activePath.startsWith(path);
+  const isActive = (path: string) => {
+    if (path === PATHS.MAIN(teamId)) return activePath === path;
+
+    return activePath === path || activePath.startsWith(path);
+  };
 
   return (
     <>
