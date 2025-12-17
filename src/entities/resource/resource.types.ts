@@ -26,7 +26,7 @@ interface Resource {
   dataId: number;
   fileInfo: ResourceInfo;
   fileUrl: string;
-  tagDto: TagDto;
+  tagDto: TagDto | null;
   teamMemberId: number;
 }
 

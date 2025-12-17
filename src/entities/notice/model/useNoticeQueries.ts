@@ -42,7 +42,7 @@ export default function useNoticeQueries() {
       },
       staleTime: 60 * 1000 * 10, // 10분
       select: (data) => data.result,
-      enabled: isOpen, // 모달 마운트 시에만 쿼리 실행
+      enabled: isOpen && !!teamId, // 모달 마운트 시에만 쿼리 실행
     });
 
     return queryResult;
