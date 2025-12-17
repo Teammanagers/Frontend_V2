@@ -2,22 +2,29 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { User } from '@/entities/user/user.types';
 import ProfileImageUploader from './ProfileImageUploader';
-import mockUserData from '../mock/user.json';
 import { ProfileFormValues, profileSchema } from '../model/profile.schema';
 import { PROFILE_FORM_KEYS, PROFILE_INPUT_FIELDS } from '../profile.constants';
-import RoleTagEditor from './RoleTagEditor';
 
 // 프로필 수정 폼 컴포넌트
-export default function ProfileUpdateForm() {
+export default function ProfileUpdateForm({ user }: { user: User }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  // TODO: 임시 유저 데이터 (실제 API 연동 후 삭제 예정)
-  const MOCK_USER_DATA: ProfileFormValues = mockUserData;
+  const memberDto = user.memberDto;
+  const initProfileValues: ProfileFormValues = {
+    name: memberDto.name || '',
+    telNum: memberDto.telNum || '',
+    belong: memberDto.belong || '',
+    imgUrl: user.imgUrl || '',
+
+    // TOOD: API '역할 태그' 데이터 필드 추가 시 수정 필요
+    // roleTag: data.roleTag || [],
+  };
 
   const methods = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    defaultValues: MOCK_USER_DATA,
+    defaultValues: initProfileValues,
   });
   const { register, handleSubmit, setFocus } = methods;
 
@@ -29,7 +36,6 @@ export default function ProfileUpdateForm() {
   const onSubmit: SubmitHandler<ProfileFormValues> = (data) => {
     console.log('제출된 데이터', data);
     setIsEditing(false);
-    // TODO: 프로필 수정 API 호출 로직 추가
   };
 
   return (
@@ -58,6 +64,7 @@ export default function ProfileUpdateForm() {
             <InputWrapper>
               {PROFILE_INPUT_FIELDS.map((field) => (
                 <Input
+                  key={field.name}
                   type={field.type}
                   disabled={!isEditing}
                   placeholder={field.placeholder}
@@ -67,10 +74,11 @@ export default function ProfileUpdateForm() {
             </InputWrapper>
           </UserInfo>
 
+          {/* TODO: API '역할 태그' 데이터 필드 추가 시 수정 필요 */}
           {/* 자신 있는 역할 */}
-          {MOCK_USER_DATA.roleTag && MOCK_USER_DATA.roleTag?.length > 0 && (
+          {/* {initProfileValues.roleTag && initProfileValues.roleTag?.length > 0 && (
             <RoleTagEditor isEditing={isEditing} />
-          )}
+          )} */}
         </FormBody>
       </FormContainer>
     </FormProvider>

@@ -7,7 +7,7 @@ export interface ProviderInfo {
 }
 
 // 사용자 정보
-export interface User {
+interface MemberDto {
   id: number;
   name: string;
   birth: string | null;
@@ -19,4 +19,9 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   useYn: string;
+}
+
+export interface User {
+  imgUrl: string | null;
+  memberDto: MemberDto;
 }

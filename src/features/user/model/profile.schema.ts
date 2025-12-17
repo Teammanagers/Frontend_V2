@@ -8,7 +8,7 @@ export const profileSchema = z.object({
   [PROFILE_FORM_KEYS.IMG_URL]: z
     .union([z.string().url(), z.instanceof(File)])
     .optional(),
-  [PROFILE_FORM_KEYS.ROLE_TAG]: z.array(z.string()).optional(),
+  // [PROFILE_FORM_KEYS.ROLE_TAG]: z.array(z.string()).optional(),
 });
 
 export type ProfileFormValues = z.infer<typeof profileSchema>;

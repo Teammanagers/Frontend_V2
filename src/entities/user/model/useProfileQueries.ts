@@ -13,6 +13,7 @@ export const useGetProfile = () => {
         method: 'GET',
       });
     },
+    staleTime: 60 * 1000 * 20,
     select: (res) => res.result,
   });
 };
