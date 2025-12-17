@@ -229,7 +229,14 @@ const TagText = styled(NameTagText)`
 `;
 
 const TagInput = styled.input`
-  width: 70px;
+  max-width: 91px;
+  height: 36px;
+  background: ${({ theme }) => theme.colors.background};
+  border-radius: 5px;
+  padding: 0 12px;
+  color: ${({ theme }) => theme.colors.mainBlue};
+  font-weight: 500;
+  font-size: 14px;
 `;
 
 export const TagInputContainer = styled.div`
