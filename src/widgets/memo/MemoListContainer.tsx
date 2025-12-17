@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { PATHS } from '@/app/routes/paths.ts';
 import { IFolderDto } from '@/entities/memo/model/useMemoQueries';
@@ -67,10 +66,6 @@ export function MemoListContainer({ rootFolder }: MemoListContainerProps) {
   const handleFolderClick = (folderId: number) => {
     teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${folderId}`);
   };
-
-  useEffect(() => {
-    console.log(memos);
-  }, [memos]);
 
   if (fid === rootFolder.id && isLoading) {
     return (
