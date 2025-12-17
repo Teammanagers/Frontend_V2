@@ -6,7 +6,7 @@ export const profileSchema = z.object({
   [PROFILE_FORM_KEYS.PHONE]: z.string().max(11),
   [PROFILE_FORM_KEYS.ORGANIZATION]: z.string(),
   [PROFILE_FORM_KEYS.IMG_URL]: z
-    .union([z.string().url(), z.instanceof(File)])
+    .union([z.string().url(), z.literal(''), z.instanceof(File)])
     .optional(),
   // [PROFILE_FORM_KEYS.ROLE_TAG]: z.array(z.string()).optional(),
 });

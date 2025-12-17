@@ -40,7 +40,11 @@ export default function ProfileUpdateForm({ user }: { user: User }) {
 
   return (
     <FormProvider {...methods}>
-      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormContainer
+        onSubmit={handleSubmit(onSubmit, (err) =>
+          console.log('유효성 검사 실패', err),
+        )}
+      >
         <Header>
           <strong>프로필 설정</strong>
           {isEditing ? (

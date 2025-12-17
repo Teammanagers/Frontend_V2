@@ -26,12 +26,12 @@ export const PROFILE_INPUT_FIELDS: ProfileInputField[] = [
   },
   {
     name: PROFILE_FORM_KEYS.PHONE,
-    placeholder: '전화번호',
+    placeholder: '전화번호 또는 이메일을 입력해 주세요.',
     type: 'tel',
   },
   {
     name: PROFILE_FORM_KEYS.ORGANIZATION,
-    placeholder: '소속',
+    placeholder: '학교, 전공 등 자신을 소개할 수 있는 정보를 입력해 주세요.',
     type: 'text',
   },
 ];
