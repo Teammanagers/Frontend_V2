@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import { FetchNoticeResponse } from '../notice.types';
 import dayjs from 'dayjs';
+import styled from 'styled-components';
+import { NoticeResponse } from '../notice.types';
 
 function NoticeItem({
   outDated,
   notice,
 }: {
   outDated: boolean;
-  notice: FetchNoticeResponse;
+  notice: NoticeResponse;
 }) {
   return (
     <Container $outDated={outDated}>
