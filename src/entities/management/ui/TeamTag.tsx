@@ -40,7 +40,7 @@ export const TeamTag = ({
   return (
     <TagContainer>
       {tags.map((tag, index) => (
-        <TagBox
+        <Tag
           key={tag.tagId}
           $isEditing={editTagIndex === index}
           onClick={() => startEditingTag(index)}
@@ -71,7 +71,7 @@ export const TeamTag = ({
           ) : (
             <TagText>{tag.name}</TagText>
           )}
-        </TagBox>
+        </Tag>
       ))}
 
       {showTagInput && editTagIndex === null && (
@@ -116,13 +116,15 @@ const TagContainer = styled.div`
   height: 52px;
 `;
 
-const TagBox = styled.div<{ $isEditing: boolean }>`
+const Tag = styled.div<{ $isEditing: boolean }>`
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 8px 12px;
   border-radius: 5px;
   background: ${({ $isEditing }) => ($isEditing ? 'transparent' : 'white')};
+
+  padding: ${({ $isEditing }) => ($isEditing ? '0' : '8px 12px')};
+  justify-content: ${({ $isEditing }) =>
+    $isEditing ? 'flex-start' : 'center'};
 `;
 
 const TagText = styled.span`
@@ -142,13 +144,15 @@ const AddBtn = styled.button`
 `;
 
 const TagInput = styled.input`
-  width: 100px;
+  width: 91px;
   height: 36px;
   padding: 0 12px;
   border-radius: 5px;
   font-size: 14px;
-  border: 1px solid ${({ theme }) => theme.colors.mainBlue};
   outline: none;
+  background: white;
+  color: ${({ theme }) => theme.colors.mainBlue};
+  font-weight: 500;
 `;
 
 const DeleteBtn = styled(Delete)`
