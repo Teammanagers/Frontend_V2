@@ -1,7 +1,7 @@
-import { User } from '@/entities/user/model/user.types';
+import { useQuery } from '@tanstack/react-query';
+import { User } from '@/entities/user/user.types';
 import apiRequest from '@/shared/api/apiRequest';
 import { APIResponse } from '@/shared/types/api.types';
-import { useQuery } from '@tanstack/react-query';
 
 // 프로필 조회
 export const useGetProfile = () => {
@@ -13,6 +13,7 @@ export const useGetProfile = () => {
         method: 'GET',
       });
     },
+    staleTime: 60 * 1000 * 20,
     select: (res) => res.result,
   });
 };

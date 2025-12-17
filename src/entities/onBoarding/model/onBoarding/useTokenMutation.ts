@@ -2,11 +2,13 @@ import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import apiRequest from '@/shared/api/apiRequest';
+import { useAuthStore } from '@/shared/model/store/authStore';
 
 export const useTokenMutation = () => {
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code');
   const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
 
   const tokenMutation = useMutation({
     mutationFn: async () => {
@@ -18,9 +20,8 @@ export const useTokenMutation = () => {
       return response;
     },
     onSuccess: (data) => {
-      // TODO
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken); // 관리 방식 논의 필요
+      login(data.accessToken, data.refreshToken);
+
       if (data.isNewUser === false) {
         navigate('/select-team');
       } else {

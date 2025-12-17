@@ -7,10 +7,10 @@ import { ROUTE_SEGMENTS } from './paths';
  * 비로그인 사용자가 메인/온보딩 페이지 접근 시 로그인 페이지로 리다이렉트
  */
 export default function AuthGuard() {
-  const isAuthenticated = useAuth();
+  const { isAuth } = useAuth();
   const location = useLocation();
 
-  if (!isAuthenticated)
+  if (!isAuth)
     return (
       <Navigate
         to={`/${ROUTE_SEGMENTS.LOGIN}`}

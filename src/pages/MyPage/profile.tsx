@@ -1,25 +1,39 @@
 import styled from 'styled-components';
+import { useGetProfile } from '@/entities/user/model/useProfileQueries';
 import SocialLoginStatus from '@/entities/user/ui/SocialLoginStatus';
+import { useAuth } from '@/features/auth/lib/useAuth';
 import ProfileUpdateForm from '@/features/user/ui/ProfileUpdateForm';
-import MypageHeader from '@/widgets/mypage/MypageHeader';
 import QuitIcon from '@/shared/assets/mypage/quit.svg?react';
+import MypageHeader from '@/widgets/mypage/MypageHeader';
 
 export default function ProfilePage() {
+  const { data: user, isSuccess } = useGetProfile();
+  const { logout } = useAuth();
+
   return (
     <Container>
       <MypageHeader showBackButton>프로필 수정</MypageHeader>
 
       <ContentWrapper>
-        <ProfileUpdateForm />
+        {isSuccess && (
+          <>
+            <ProfileUpdateForm user={user} />
 
-        <SocialLoginStatusWrapper>
-          {/* TODO: API 연동 후 provider 정보 받아서 넘겨주기 */}
-          <SocialLoginStatus provider="google" />
-        </SocialLoginStatusWrapper>
+            <SocialLoginStatusWrapper>
+              <SocialLoginStatus
+                provider={user.memberDto.providerInfo.provider}
+              />
+            </SocialLoginStatusWrapper>
+          </>
+        )}
 
         <ButtonWrapper>
-          <LogoutButton>로그아웃</LogoutButton>
-          <QuitButton>
+          <LogoutButton type="button" onClick={logout}>
+            로그아웃
+          </LogoutButton>
+          <QuitButton
+            onClick={() => alert('회원 탈퇴 기능은 아직 구현되지 않았습니다.')}
+          >
             <QuitIcon />
             회원 탈퇴
           </QuitButton>
