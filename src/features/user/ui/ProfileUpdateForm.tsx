@@ -18,7 +18,7 @@ export default function ProfileUpdateForm({ user }: { user: User }) {
     belong: memberDto.belong || '',
     imgUrl: user.imgUrl || '',
 
-    // TOOD: API '역할 태그' 데이터 필드 추가 시 수정 필요
+    // TODO: API '역할 태그' 데이터 필드 추가 시 수정 필요
     // roleTag: data.roleTag || [],
   };
 
@@ -42,7 +42,7 @@ export default function ProfileUpdateForm({ user }: { user: User }) {
     <FormProvider {...methods}>
       <FormContainer
         onSubmit={handleSubmit(onSubmit, (err) =>
-          console.log('유효성 검사 실패', err),
+          alert(`프로필 수정에 실패했습니다. ${err}`),
         )}
       >
         <Header>

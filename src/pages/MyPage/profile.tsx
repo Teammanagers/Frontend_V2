@@ -28,7 +28,7 @@ export default function ProfilePage() {
         )}
 
         <ButtonWrapper>
-          <LogoutButton type="button" onClick={() => logout()}>
+          <LogoutButton type="button" onClick={logout}>
             로그아웃
           </LogoutButton>
           <QuitButton
