@@ -53,7 +53,7 @@ export default function EditableResourceList({
                 }
                 deleteButton={
                   <DeleteResourceButton
-                    creatorId={resource.fileInfo.createdBy}
+                    creatorId={resource.teamMemberId}
                     onClick={(e) => {
                       e.stopPropagation();
                       openDeleteModal(e, resource.dataId);

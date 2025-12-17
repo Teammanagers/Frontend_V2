@@ -17,7 +17,7 @@ export default function FeedbackHeader({
           createdAt={selectedResource.fileInfo.createdAt}
         />
         <RoleTag variants="filled" height={24}>
-          {selectedResource.tagDto.name}
+          {selectedResource.tagDto?.name}
         </RoleTag>
       </InnerWrapper>
     </Container>

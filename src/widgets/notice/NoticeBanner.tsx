@@ -31,11 +31,9 @@ function NoticeBanner() {
           </IconWrapper>
 
           <LatestNotice>
-            {isSuccess
-              ? recentNotice.notice.content
-              : isError
-                ? '공지 조회에 실패했습니다'
-                : ''}
+            {isSuccess && !recentNotice && '등록된 공지가 없습니다.'}
+            {isSuccess && recentNotice && recentNotice.notice.content}
+            {isError && '공지 조회에 실패했습니다'}
           </LatestNotice>
         </NoticeContent>
 

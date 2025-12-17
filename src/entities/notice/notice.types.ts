@@ -9,7 +9,7 @@ interface Notice {
   useYn: string;
 }
 
-type FetchNoticeResponse = {
+type NoticeResponse = {
   notice: Notice;
 };
 
@@ -17,4 +17,4 @@ type CreateNoticeRequest = {
   content: string;
 };
 
-export type { FetchNoticeResponse, CreateNoticeRequest };
+export type { NoticeResponse, CreateNoticeRequest };
