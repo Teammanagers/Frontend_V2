@@ -44,7 +44,8 @@ export default function ResourceCard({
       </ThumbnailWithInfo>
 
       <TagAndDeleteWrapper>
-        <RoleTag height={28}>{data.tagDto.name}</RoleTag>
+        {/* TODO: name 필드 추가 후 반영 => ? 삭제 필요 */}
+        <RoleTag height={28}>{data.tagDto?.name}</RoleTag>
         {deleteButton}
       </TagAndDeleteWrapper>
     </Container>
