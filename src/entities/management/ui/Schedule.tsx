@@ -8,7 +8,6 @@ import {
   Weekday,
 } from '@/entities/management/management.types.ts';
 import useTeamMutations from '@/entities/management/model/useTeamMutations.ts';
-import { TagBox, TagText } from '@/entities/management/ui/Member.tsx';
 import { NoSchedule } from '@/entities/management/ui/NoSchedule.tsx';
 import { RegisterSchedule } from '@/entities/management/ui/RegisterSchedule.tsx';
 import { ShowSchedule } from '@/entities/management/ui/ShowSchedule.tsx';
@@ -185,6 +184,22 @@ const TagContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+`;
+
+const TagBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 8px 5px 8px;
+  height: 28px;
+  border-radius: 3px;
+  background: white;
+`;
+
+const TagText = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.mainBlue};
 `;
 
 export const DeleteBtn = styled(Delete)`
