@@ -120,8 +120,7 @@ const Tag = styled.div<{ $isEditing: boolean }>`
   display: flex;
   align-items: center;
   border-radius: 5px;
-  background: ${({ $isEditing }) => ($isEditing ? 'transparent' : 'white')};
-
+  background: white;
   padding: ${({ $isEditing }) => ($isEditing ? '0' : '8px 12px')};
   justify-content: ${({ $isEditing }) =>
     $isEditing ? 'flex-start' : 'center'};
