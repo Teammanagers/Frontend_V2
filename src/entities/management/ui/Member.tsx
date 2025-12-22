@@ -53,7 +53,7 @@ export const Member = ({
       <Name>{memberInfo.name}</Name>
       <TagContainer>
         {tags.map((tag, index) => (
-          <TagBox
+          <Tag
             key={tag.tagId}
             $isEditing={editTagIndex === index}
             onClick={() => startEditingTag(index)}
@@ -80,7 +80,7 @@ export const Member = ({
             ) : (
               <TagText>{tag.name}</TagText>
             )}
-          </TagBox>
+          </Tag>
         ))}
 
         {showTagInput && editTagIndex === null && (
@@ -147,17 +147,18 @@ const TagContainer = styled.div`
   gap: 8px;
 `;
 
-export const TagBox = styled.div<{ $isEditing?: boolean }>`
+const Tag = styled.div<{ $isEditing: boolean }>`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px 8px 5px 8px;
   height: 28px;
-  border-radius: 3px;
-  background: ${({ $isEditing }) => ($isEditing ? 'transparent' : 'white')};
+  align-items: center;
+  border-radius: 5px;
+  background: white;
+  justify-content: ${({ $isEditing }) =>
+    $isEditing ? 'flex-start' : 'center'};
+  padding: 5px 8px;
 `;
 
-export const TagText = styled.span`
+const TagText = styled.span`
   font-size: 12px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.mainBlue};
@@ -165,12 +166,14 @@ export const TagText = styled.span`
 
 const TagInput = styled.input`
   width: 80px;
-  height: 36px;
+  height: 28px;
   padding: 0 10px;
   border-radius: 5px;
   font-size: 12px;
-  border: 1px solid ${({ theme }) => theme.colors.mainBlue};
   outline: none;
+  background: white;
+  color: ${({ theme }) => theme.colors.mainBlue};
+  font-weight: 500;
 `;
 
 const AddBtn = styled.button`

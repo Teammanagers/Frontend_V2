@@ -67,7 +67,11 @@ export const MemoForm = ({
             <NameTagText>{authorName}</NameTagText>
           </NameTag>
           {tags.map((tag, index) => (
-            <Tag key={index} onClick={() => startEditingTag(index)}>
+            <Tag
+              key={index}
+              $isEditing={editTagIndex === index}
+              onClick={() => startEditingTag(index)}
+            >
               {editTagIndex === index ? (
                 <TagInputContainer>
                   <TagInput
@@ -212,16 +216,18 @@ const NameTagText = styled.span`
   padding: 0;
 `;
 
-const Tag = styled.div`
+const Tag = styled.div<{ $isEditing?: boolean }>`
   display: inline-flex;
-  justify-content: center;
   align-items: center;
   height: 36px;
-  padding: 0 12px;
   border-radius: 5px;
   background: ${({ theme }) => theme.colors.background};
   color: ${(props) => props.theme.colors.mainBlue};
   cursor: pointer;
+
+  justify-content: ${({ $isEditing }) =>
+    $isEditing ? 'flex-start' : 'center'};
+  padding: ${({ $isEditing }) => ($isEditing ? '0' : '0 12px')};
 `;
 
 const TagText = styled(NameTagText)`
@@ -229,7 +235,14 @@ const TagText = styled(NameTagText)`
 `;
 
 const TagInput = styled.input`
-  width: 70px;
+  width: 91px;
+  height: 36px;
+  background: ${({ theme }) => theme.colors.background};
+  border-radius: 5px;
+  padding: 0 12px;
+  color: ${({ theme }) => theme.colors.mainBlue};
+  font-weight: 500;
+  font-size: 14px;
 `;
 
 export const TagInputContainer = styled.div`
