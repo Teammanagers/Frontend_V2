@@ -11,7 +11,7 @@ export default function useNoticeQueries() {
   // 최신 공지 조회
   const useRecentNoticeQuery = () => {
     const queryResult = useQuery({
-      queryKey: ['notice', 'recent'],
+      queryKey: ['notice', teamId, 'recent'],
       queryFn: async () => {
         return await apiRequest({
           url: `/api/v2/team/${teamId}/notice`,
@@ -33,7 +33,7 @@ export default function useNoticeQueries() {
       Error,
       NoticeResponse[]
     >({
-      queryKey: ['notice'],
+      queryKey: ['notice', teamId, 'list'],
       queryFn: async () => {
         return await apiRequest({
           url: `/api/v2/team/${teamId}/notice/list`,
@@ -60,7 +60,7 @@ export default function useNoticeQueries() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['notice'],
+          queryKey: ['notice', teamId],
         });
       },
     });

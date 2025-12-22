@@ -17,7 +17,7 @@ export default function useEventQueries(yearMonth?: string) {
     data: FetchEventResponse[];
   } => {
     const { isPending, isError, error, isSuccess, data } = useQuery({
-      queryKey: ['event', 'upcoming'],
+      queryKey: ['event', 'upcoming', teamId],
       queryFn: async () => {
         return await apiRequest({
           url: `/api/v2/calendar/upcoming?teamId=${teamId}`,

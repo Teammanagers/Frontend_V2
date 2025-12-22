@@ -16,7 +16,7 @@ export const useGetResourceList = () => {
     Error,
     Resource[]
   >({
-    queryKey: ['resource', 'list'],
+    queryKey: ['resource', 'list', teamId],
     queryFn: async () => {
       return await apiRequest({
         url: `/api/v2/data/${teamId}`,
