@@ -30,7 +30,7 @@ export default function MemberTodoAccordion({
           key={`${teamMember.teamMemberId}-todo-${todo.id}`}
           todo={todo}
           buttonType={
-            // TODO: 내 투두이면 'menu', 아니면 'alarm' 렌더링
+            // TODO: 내 투두아닐 때 'alarm' 렌더링 (깨우기 기능 추가 시 변경 필요)
             isMe ? 'menu' : 'none'
           }
         />

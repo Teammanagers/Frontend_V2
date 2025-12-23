@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 import styled from 'styled-components';
 import { Theme } from '@/app/styles/theme';
-import PlustIcon from '@/shared/assets/common/plus.svg?react';
+import PlusIcon from '@/shared/assets/common/plus.svg?react';
 
 type AddTodoButtonProps = ComponentProps<'button'> & {
   isMe: boolean;
@@ -11,7 +11,7 @@ export default function AddTodoButton({ isMe, ...props }: AddTodoButtonProps) {
   return (
     <Button {...props}>
       <Label>{isMe ? '내가 해야할 일' : '팀원이 해야할 일'}</Label>
-      <PlustIcon width={24} height={24} stroke="#1d1d1d" strokeWidth={2} />
+      <PlusIcon width={24} height={24} stroke="#1d1d1d" strokeWidth={2} />
     </Button>
   );
 }
