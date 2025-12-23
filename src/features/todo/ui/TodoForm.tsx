@@ -51,6 +51,7 @@ export default function TodoForm({
           value={inputValue}
           onChange={handleInputChange}
           placeholder={'할 일을 입력해주세요'}
+          maxLength={30}
         />
         <Button variant={mode === 'add' ? 'filled' : 'outlined'}>
           {mode === 'add' ? '등록' : '수정'}
