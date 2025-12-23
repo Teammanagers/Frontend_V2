@@ -48,6 +48,7 @@ const TodoStatusButton = styled.button<{ $todoStatus: Status }>`
   align-items: center;
   width: 20px;
   height: 20px;
+  flex-shrink: 0;
   padding: 0;
   border: none;
   border-radius: 2px;

@@ -66,4 +66,5 @@ const FormContainer = styled.form`
   justify-content: center;
   gap: 8px;
   align-items: center;
+  width: 100%;
 `;

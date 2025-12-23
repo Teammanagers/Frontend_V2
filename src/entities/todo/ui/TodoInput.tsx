@@ -1,14 +1,15 @@
-import { Theme } from '@/app/styles/theme';
+import { ComponentProps } from 'react';
 import styled from 'styled-components';
+import { Theme } from '@/app/styles/theme';
 
-interface ITodoInput extends React.InputHTMLAttributes<HTMLInputElement> {}
+type TodoInputProps = ComponentProps<'input'>;
 
-export default function TodoInput({ ...props }: ITodoInput) {
+export default function TodoInput({ ...props }: TodoInputProps) {
   return <Input {...props} />;
 }
 
 const Input = styled.input`
-  width: 302px;
+  flex: 1;
   height: 30px;
   padding-left: 8px;
   border-radius: 4px;
