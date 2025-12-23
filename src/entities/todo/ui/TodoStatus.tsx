@@ -1,15 +1,27 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { useTodoStatus } from '@/features/todo/model/useTodoStatus';
 import CheckIcon from '@/shared/assets/todo/check.svg?react';
-import { Status } from '../todo.type';
+import { Status, TodoItem } from '../todo.type';
 
-interface ITodoStatus extends ButtonHTMLAttributes<HTMLButtonElement> {
-  todoStatus: Status;
+interface TodoStatusProps extends ComponentProps<'button'> {
+  todo: TodoItem;
+  modalToggle: () => void;
 }
 
-function TodoStatus({ todoStatus, ...props }: ITodoStatus) {
+function TodoStatus({ todo, modalToggle, ...props }: TodoStatusProps) {
+  const { todoStatus, handleTodoStatus } = useTodoStatus(
+    todo.status,
+    todo.id,
+    modalToggle,
+  );
+
   return (
-    <TodoStatusButton $todoStatus={todoStatus} {...props}>
+    <TodoStatusButton
+      $todoStatus={todoStatus}
+      onClick={handleTodoStatus}
+      {...props}
+    >
       <IconWrapper $todoStatus={todoStatus}>
         {todoStatus === 'IN_PROGRESS' || <CheckIcon />}
 
@@ -36,6 +48,7 @@ const TodoStatusButton = styled.button<{ $todoStatus: Status }>`
   align-items: center;
   width: 20px;
   height: 20px;
+  flex-shrink: 0;
   padding: 0;
   border: none;
   border-radius: 2px;

@@ -23,7 +23,7 @@ function MyTodoList() {
             )}
             {todoList?.todoList.map((todo, idx) => (
               <TodoWrapper key={`todo-${idx}`}>
-                <Todo buttonType="menu" {...todo} />
+                <Todo buttonType="menu" todo={todo} />
               </TodoWrapper>
             ))}
           </TodosWrapper>

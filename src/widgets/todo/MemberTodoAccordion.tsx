@@ -15,6 +15,8 @@ export default function MemberTodoAccordion({
     useTodoForm();
   const myTeamMemberId = useTeamStore((state) => state.teamMemberId);
 
+  const isMe = teamMember.teamMemberId === myTeamMemberId;
+
   return (
     <Accordion
       key={teamMember.teamMemberId}
@@ -26,11 +28,11 @@ export default function MemberTodoAccordion({
       {teamMember.todoList.map((todo) => (
         <Todo
           key={`${teamMember.teamMemberId}-todo-${todo.id}`}
+          todo={todo}
           buttonType={
-            // 내 투두이면 'menu', 아니면 'alarm' 렌더링
-            teamMember.teamMemberId === myTeamMemberId ? 'menu' : 'alarm'
+            // TODO: 내 투두아닐 때 'alarm' 렌더링 (깨우기 기능 추가 시 변경 필요)
+            isMe ? 'menu' : 'none'
           }
-          {...todo}
         />
       ))}
 
@@ -38,7 +40,7 @@ export default function MemberTodoAccordion({
       {isInputActive ? (
         <TodoForm mode="add" />
       ) : (
-        <AddTodoButton onClick={handleTriggerBtnClick} />
+        <AddTodoButton isMe={isMe} onClick={handleTriggerBtnClick} />
       )}
     </Accordion>
   );

@@ -9,14 +9,15 @@ import { ImageUploadModal } from './ImageUploadModal';
 import TodoForm from './TodoForm';
 import useTodoQuries from '../model/useTodoQuries';
 
-interface TodoProps extends TodoItem {
+interface TodoProps {
+  todo: TodoItem;
   buttonType: ButtonType;
 }
 
-function Todo({ buttonType, ...todoInfo }: TodoProps) {
+function Todo({ todo, buttonType }: TodoProps) {
   // api 호출
   const { useDeleteTodoMutation } = useTodoQuries();
-  const { mutate: deleteTodo } = useDeleteTodoMutation(todoInfo.id);
+  const { mutate: deleteTodo } = useDeleteTodoMutation(todo.id);
 
   // 드롭다운, 모달 토글 훅
   const {
@@ -60,12 +61,12 @@ function Todo({ buttonType, ...todoInfo }: TodoProps) {
           {isInputActive ? (
             <TodoForm
               mode="edit"
-              todoId={todoInfo.id}
-              initialValue={todoInfo.title}
+              todoId={todo.id}
+              initialValue={todo.title}
               setIsInputActive={setIsInputActive}
             />
           ) : (
-            <TodoPreview modalToggle={modalToggle} {...todoInfo} />
+            <TodoPreview todo={todo} modalToggle={modalToggle} />
           )}
 
           {!isInputActive && buttonComponents[buttonType]}
