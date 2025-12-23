@@ -28,11 +28,11 @@ export default function MemberTodoAccordion({
       {teamMember.todoList.map((todo) => (
         <Todo
           key={`${teamMember.teamMemberId}-todo-${todo.id}`}
+          todo={todo}
           buttonType={
             // TODO: 내 투두이면 'menu', 아니면 'alarm' 렌더링
             isMe ? 'menu' : 'none'
           }
-          {...todo}
         />
       ))}
 
