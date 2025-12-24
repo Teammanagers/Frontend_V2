@@ -72,6 +72,7 @@ export const FolderModal = ({
           <FolderInput
             placeholder="폴더명을 설정해주세요"
             value={folderName}
+            maxLength={30}
             onChange={(e) => setFolderName(e.target.value)}
           />
         </InputContainer>
