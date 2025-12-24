@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { usePopoverRender } from '@/features/calendar/lib';
 import { useCalendarStore } from '@/features/calendar/model';
-import { EventEditorModal } from '@/features/calendar/ui';
 import useEventQueries from '@/features/calendar/model/useEventQueries';
+import { EventEditorModal } from '@/features/calendar/ui';
+import { useCalendarViewModel } from '@/widgets/calendar/model/useCalendarViewModel';
 import EventCalendar from '@/widgets/calendar/ui/EventCalendar';
 import { UpcomingEventList } from '@/widgets/upcoming-event';
-import { useCalendarViewModel } from '@/widgets/calendar/model/useCalendarViewModel';
 
 export function CalendarPage() {
   const selectedDate = useCalendarStore((state) => state.selectedDate);
@@ -29,7 +29,7 @@ export function CalendarPage() {
         {/* 다가오는 일정 */}
         <UpcomingSchedulesWrapper>
           <UpcomingScheduleTitle>다가오는 일정</UpcomingScheduleTitle>
-          <UpcomingEventList />
+          <UpcomingEventList limit={5} variant="list" />
         </UpcomingSchedulesWrapper>
       </Container>
 
@@ -51,6 +51,7 @@ const UpcomingSchedulesWrapper = styled.div`
   flex-direction: column;
   gap: 16px;
   width: 436px;
+  height: 520px;
 `;
 
 const UpcomingScheduleTitle = styled.h2`

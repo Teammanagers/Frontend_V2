@@ -28,7 +28,7 @@ export function MainPage() {
                 navLink={
                   <MainSectionLink to={item.to}>{item.label}</MainSectionLink>
                 }
-                content={<ContentComponent />}
+                content={<ContentComponent {...(item.props || {})} />}
               />
             </SectionWrapper>
           );
