@@ -165,7 +165,7 @@ const TagText = styled.span`
 `;
 
 const TagInput = styled.input`
-  width: 80px;
+  width: 70px;
   height: 28px;
   padding: 0 10px;
   border-radius: 5px;
