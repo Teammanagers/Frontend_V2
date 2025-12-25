@@ -5,8 +5,8 @@ import useEventQueries from '@/features/calendar/model/useEventQueries';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
 
 interface UpcomingEventListProps {
-  limit?: 3 | 5; // 표시할 최대 일정 수: 메인 위젯(3), 캘린더 페이지(5)
-  variant?: 'card' | 'list'; // 스켈레톤 variant: card: 카드형 / list: 리스트형
+  limit?: 3 | 5; // 표시할 최대 일정 수: 메인(3), 캘린더(5)
+  variant?: 'card' | 'list'; // 렌더링 스타일: card: 카드형 (메인) / list: 리스트형 (캘린더)
 }
 
 function UpcomingEventList({
