@@ -89,11 +89,20 @@ interface RouteConfig {
   label: string; // 네비게이션 링크에 표시될 텍스트
   to: AppPath | ((teamId: number) => string); // 경로
   component?: React.ComponentType; // 해당 경로에 렌더링될 컴포넌트
+  props?: Record<string, unknown>;
   icon?: React.ComponentType; // 메뉴에서 렌더링 될 아이콘
 }
 
 export const mainRoutes: RouteConfig[] = [
-  { label: '다가오는 일정', to: PATHS.CALENDAR, component: UpcomingEventList },
+  {
+    label: '다가오는 일정',
+    to: PATHS.CALENDAR,
+    component: UpcomingEventList,
+    props: {
+      limit: 3,
+      variant: 'card',
+    },
+  },
   { label: '투두리스트', to: PATHS.TODO_LIST, component: MyTodoList },
   {
     label: '최근 업데이트 된 자료',
