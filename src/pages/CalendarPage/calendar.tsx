@@ -10,8 +10,8 @@ import { UpcomingEventList } from '@/widgets/upcoming-event';
 export function CalendarPage() {
   const selectedDate = useCalendarStore((state) => state.selectedDate);
 
-  // 달 변경에 따른 이벤트 데이터 패칭 시 사용할 [연도-월] 쿼리 포맷
-  const { yearMonth } = useCalendarViewModel();
+  const { yearMonth, calendarHeight, handleDateChange, updateMonth } =
+    useCalendarViewModel();
 
   // 해당 달의 이벤트 데이터 가져오기
   const { useEventQuery } = useEventQueries(yearMonth);
@@ -24,7 +24,12 @@ export function CalendarPage() {
     <>
       <Container>
         {/* 캘린더 */}
-        <EventCalendar handleTileContent={handleTileContent} />
+        <EventCalendar
+          calendarHeight={calendarHeight}
+          updateMonth={updateMonth}
+          handleDateChange={handleDateChange}
+          handleTileContent={handleTileContent}
+        />
 
         {/* 다가오는 일정 */}
         <UpcomingSchedulesWrapper>

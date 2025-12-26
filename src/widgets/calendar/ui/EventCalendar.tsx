@@ -1,9 +1,12 @@
-import styled from 'styled-components';
 import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
-import { useCalendarViewModel } from '../model/useCalendarViewModel';
+import styled from 'styled-components';
+import { Value } from '@/entities/calendar/calendar.types';
 
 interface IEventCalendarProps {
+  calendarHeight: string;
+  updateMonth: (activeStartDate: Date | null) => void;
+  handleDateChange: (newDate: Value) => void;
   handleTileContent: (props: {
     date: Date;
     view: string;
@@ -11,11 +14,12 @@ interface IEventCalendarProps {
 }
 
 export default function EventCalendar({
+  calendarHeight,
+  updateMonth,
+  handleDateChange,
   handleTileContent,
 }: IEventCalendarProps) {
   // 캘린더 UI 및 날짜 관련 로직
-  const { calendarHeight, handleDateChange, updateMonth } =
-    useCalendarViewModel();
 
   return (
     <>
