@@ -1,8 +1,8 @@
+import dayjs from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
-import dayjs from 'dayjs';
-import { useCalendarStore } from './calendarStore';
 import { CalendarEvent } from '@/entities/calendar/calendar.types';
+import { useCalendarStore } from './calendarStore';
 
 interface RequestData {
   planId: number;
@@ -52,7 +52,7 @@ const useEditorModalViewModel = (date: Date) => {
         content: '',
       });
     }
-  }, [modalMode, selectedEvent]);
+  }, [modalMode, selectedEvent, formattedDate]);
 
   // 일정 추가, 수정, 삭제, 완료 API 호출
   // mutation을 외부에서 주입 받으면서 함수가 매번 새로 생성되며 리렌더링되는 것 방지 (useCallback)
@@ -84,28 +84,23 @@ const useEditorModalViewModel = (date: Date) => {
 
       toggleModal();
     },
-    [modalMode, selectedEvent],
+    [selectedEvent, toggleModal],
   );
-
-  // inputValue 초기화
-  const resetInputValue = () => {
-    setInputValue({
-      date: formattedDate,
-      title: '',
-      content: '',
-    });
-  };
 
   // 모달이 닫힌 후 0.5초 후에 inputValue 초기화 -> 닫히면서 inputValue가 초기화되는 현상 방지
   useEffect(() => {
     if (!isModalOpen) {
       const timeoutId = setTimeout(() => {
-        resetInputValue();
+        setInputValue({
+          date: formattedDate,
+          title: '',
+          content: '',
+        });
       }, 500);
 
       return () => clearTimeout(timeoutId);
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, formattedDate]);
 
   // 일정 추가하기 버튼 활성화 여부 (일정 제목, 내용이 비어있지 않은 경우)
   const isValid =
@@ -113,7 +108,6 @@ const useEditorModalViewModel = (date: Date) => {
 
   return {
     selectedEvent,
-    formattedDate,
     isModalOpen,
     toggleModal,
     modalMode,

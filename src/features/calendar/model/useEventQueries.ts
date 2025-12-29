@@ -42,7 +42,7 @@ export default function useEventQueries(yearMonth?: string) {
     data: FetchEventResponse[];
   } => {
     const { isPending, isError, error, isSuccess, data } = useQuery({
-      queryKey: ['event', yearMonth],
+      queryKey: ['event', yearMonth, teamId],
       enabled: !!yearMonth,
       queryFn: async () => {
         return await apiRequest({
@@ -75,10 +75,10 @@ export default function useEventQueries(yearMonth?: string) {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['event', yearMonth],
+          queryKey: ['event', yearMonth, teamId],
         });
         queryClient.invalidateQueries({
-          queryKey: ['event', 'upcoming'],
+          queryKey: ['event', 'upcoming', teamId],
         });
       },
     });
@@ -100,10 +100,10 @@ export default function useEventQueries(yearMonth?: string) {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['event', yearMonth],
+          queryKey: ['event', yearMonth, teamId],
         });
         queryClient.invalidateQueries({
-          queryKey: ['event', 'upcoming'],
+          queryKey: ['event', 'upcoming', teamId],
         });
       },
     });
@@ -125,10 +125,10 @@ export default function useEventQueries(yearMonth?: string) {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['event', yearMonth],
+          queryKey: ['event', yearMonth, teamId],
         });
         queryClient.invalidateQueries({
-          queryKey: ['event', 'upcoming'],
+          queryKey: ['event', 'upcoming', teamId],
         });
       },
     });
