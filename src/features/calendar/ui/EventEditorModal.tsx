@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { CalendarEvent } from '@/entities/calendar/calendar.types';
 import { useEditorModalViewModel } from '@/features/calendar/model';
@@ -9,6 +10,8 @@ import Modal from '@/shared/components/modal/Modal';
 import { inputChangeHandler } from '@/shared/lib/utils/inputChangeHandler';
 
 function EventEditorModal({ date }: { date: Date }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const {
     useCreateEventMutation,
     useEditEventMutation,
@@ -30,6 +33,13 @@ function EventEditorModal({ date }: { date: Date }) {
     isValid,
   } = useEditorModalViewModel(date);
 
+  // 모달 마운트 시 인풋 포커스
+  useEffect(() => {
+    if (isModalOpen && (modalMode === 'register' || modalMode === 'edit')) {
+      inputRef.current?.focus();
+    }
+  }, [isModalOpen, modalMode]);
+
   return (
     <Modal isOpen={isModalOpen} toggle={toggleModal}>
       <ModalWrapper>
@@ -46,6 +56,7 @@ function EventEditorModal({ date }: { date: Date }) {
         {modalMode === 'read' && <Title>{selectedEvent?.planDto.title}</Title>}
         {(modalMode === 'register' || modalMode === 'edit') && (
           <TitleInput
+            ref={inputRef}
             name="title"
             value={inputValue.title}
             placeholder="일정 제목"
