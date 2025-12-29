@@ -1,8 +1,8 @@
+import dayjs from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
-import dayjs from 'dayjs';
-import { useCalendarStore } from './calendarStore';
 import { CalendarEvent } from '@/entities/calendar/calendar.types';
+import { useCalendarStore } from './calendarStore';
 
 interface RequestData {
   planId: number;
@@ -52,7 +52,7 @@ const useEditorModalViewModel = (date: Date) => {
         content: '',
       });
     }
-  }, [modalMode, selectedEvent]);
+  }, [modalMode, selectedEvent, formattedDate]);
 
   // 일정 추가, 수정, 삭제, 완료 API 호출
   // mutation을 외부에서 주입 받으면서 함수가 매번 새로 생성되며 리렌더링되는 것 방지 (useCallback)
@@ -113,7 +113,6 @@ const useEditorModalViewModel = (date: Date) => {
 
   return {
     selectedEvent,
-    formattedDate,
     isModalOpen,
     toggleModal,
     modalMode,
