@@ -1,30 +1,28 @@
-import { useShallow } from 'zustand/shallow';
-import { useCallback, useEffect } from 'react';
 import dayjs from 'dayjs';
+import { useCallback, useEffect } from 'react';
+import { useShallow } from 'zustand/shallow';
 import { FetchEventResponse } from '@/entities/calendar/calendar.types';
-import { EventSummaryPopover } from '@/features/calendar/ui/EventSummaryPopover';
 import { Dot } from '@/entities/calendar/ui';
+import { EventSummaryPopover } from '@/features/calendar/ui/EventSummaryPopover';
 import { useCalendarStore } from '../model';
 
 interface UsePopoverRenderProps {
   eventList: FetchEventResponse[];
-  isSuccess: boolean | undefined;
 }
 
 // 이벤트 데이터를 받아와서 팝오버를 렌더링하는 훅
-const usePopoverRender = ({ eventList, isSuccess }: UsePopoverRenderProps) => {
-  const { selectedDate, isPopoverOpen, setIsPopoverOpen } = useCalendarStore(
+const usePopoverRender = ({ eventList }: UsePopoverRenderProps) => {
+  const { selectedDate, setIsPopoverOpen } = useCalendarStore(
     useShallow((state) => ({
       selectedDate: state.selectedDate,
-      isPopoverOpen: state.isPopoverOpen,
       setIsPopoverOpen: state.setIsPopoverOpen,
     })),
   );
 
   // 날짜 선택 시 팝오버 열기
   useEffect(() => {
-    setIsPopoverOpen(true);
-  }, [selectedDate]);
+    if (selectedDate instanceof Date) setIsPopoverOpen(true);
+  }, [selectedDate, setIsPopoverOpen]);
 
   const handleTileContent = useCallback(
     ({ date }: { date: Date }) => {
@@ -53,7 +51,7 @@ const usePopoverRender = ({ eventList, isSuccess }: UsePopoverRenderProps) => {
         </>
       );
     },
-    [selectedDate, isPopoverOpen, isSuccess, eventList],
+    [selectedDate, eventList],
   );
 
   return handleTileContent;

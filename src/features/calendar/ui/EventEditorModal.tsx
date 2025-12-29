@@ -1,12 +1,12 @@
-import Modal from '@/shared/components/modal/Modal';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
+import { CalendarEvent } from '@/entities/calendar/calendar.types';
+import { useEditorModalViewModel } from '@/features/calendar/model';
+import useEventQueries from '@/features/calendar/model/useEventQueries';
 import DeleteIcon from '@/shared/assets/common/delete.svg?react';
 import { Button } from '@/shared/components/button/Button';
-import { CalendarEvent } from '@/entities/calendar/calendar.types';
-import dayjs from 'dayjs';
+import Modal from '@/shared/components/modal/Modal';
 import { inputChangeHandler } from '@/shared/lib/utils/inputChangeHandler';
-import useEventQueries from '@/features/calendar/model/useEventQueries';
-import { useEditorModalViewModel } from '@/features/calendar/model';
 
 function EventEditorModal({ date }: { date: Date }) {
   const {
@@ -20,7 +20,6 @@ function EventEditorModal({ date }: { date: Date }) {
 
   const {
     selectedEvent,
-    formattedDate,
     isModalOpen,
     toggleModal,
     modalMode,
@@ -39,7 +38,7 @@ function EventEditorModal({ date }: { date: Date }) {
         </DeleteIconWrapper>
 
         {/* 날짜 */}
-        <Date>{formattedDate}</Date>
+        <Date>{dayjs(date).format('YYYY-MM-DD')}</Date>
 
         <Line />
 

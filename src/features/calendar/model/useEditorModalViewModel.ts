@@ -84,28 +84,23 @@ const useEditorModalViewModel = (date: Date) => {
 
       toggleModal();
     },
-    [modalMode, selectedEvent],
+    [selectedEvent, toggleModal],
   );
-
-  // inputValue 초기화
-  const resetInputValue = () => {
-    setInputValue({
-      date: formattedDate,
-      title: '',
-      content: '',
-    });
-  };
 
   // 모달이 닫힌 후 0.5초 후에 inputValue 초기화 -> 닫히면서 inputValue가 초기화되는 현상 방지
   useEffect(() => {
     if (!isModalOpen) {
       const timeoutId = setTimeout(() => {
-        resetInputValue();
+        setInputValue({
+          date: formattedDate,
+          title: '',
+          content: '',
+        });
       }, 500);
 
       return () => clearTimeout(timeoutId);
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, formattedDate]);
 
   // 일정 추가하기 버튼 활성화 여부 (일정 제목, 내용이 비어있지 않은 경우)
   const isValid =

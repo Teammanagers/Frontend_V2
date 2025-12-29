@@ -15,10 +15,10 @@ export function CalendarPage() {
 
   // 해당 달의 이벤트 데이터 가져오기
   const { useEventQuery } = useEventQueries(yearMonth);
-  const { data: eventList, isSuccess } = useEventQuery();
+  const { data: eventList } = useEventQuery();
 
   // 팝오버 렌더링
-  const handleTileContent = usePopoverRender({ eventList, isSuccess });
+  const handleTileContent = usePopoverRender({ eventList });
 
   return (
     <>
