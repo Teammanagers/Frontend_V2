@@ -4,7 +4,6 @@ import { IFolderDto } from '@/entities/memo/model/useMemoQueries';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import { useFolderPathBuilder } from '@/features/memo/model/useFolderPathBuilder.ts';
 import { useMemoUIState } from '@/features/memo/model/useMemoUIState.ts';
-import LoadingSpinner from '@/shared/components/loadingSpinner/loadingSpinner.tsx';
 import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 import { MemoList } from '@/widgets/memo/MemoList.tsx';
 
@@ -61,26 +60,13 @@ export function MemoListContainer({ rootFolder }: MemoListContainerProps) {
   const isEmpty =
     isReady && (memos?.length ?? 0) === 0 && (folders?.length ?? 0) === 0;
 
+  const isRootFolder = fid === rootFolder.id;
+
   const myMemoIds = (myMemos ?? []).map((memo) => memo.id);
 
   const handleFolderClick = (folderId: number) => {
     teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${folderId}`);
   };
-
-  if (fid === rootFolder.id && isLoading) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <LoadingSpinner size={48} />
-      </div>
-    );
-  }
 
   return (
     <MemoList
@@ -89,6 +75,7 @@ export function MemoListContainer({ rootFolder }: MemoListContainerProps) {
       myMemosIds={myMemoIds}
       isEmpty={isEmpty}
       isLoading={isLoading}
+      isRootFolder={isRootFolder}
       uiState={{
         deleteTarget,
         moveTarget,

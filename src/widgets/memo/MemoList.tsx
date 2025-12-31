@@ -1,5 +1,6 @@
+import styled from 'styled-components';
 import { MemoListViewProps } from '@/entities/memo/memo.type.ts';
-import MemoListView, { Container } from '@/widgets/memo/MemoListView.tsx';
+import MemoListView from '@/widgets/memo/MemoListView.tsx';
 import MemoListSkeleton from '@/widgets/memo/ui/MemoListSkeleton.tsx';
 
 export const MemoList = ({
@@ -8,6 +9,7 @@ export const MemoList = ({
   myMemosIds,
   isEmpty,
   isLoading,
+  isRootFolder,
   uiState,
   handlers,
   onFolderClick,
@@ -32,9 +34,9 @@ export const MemoList = ({
   }
 
   // 나열 스켈레톤
-  if (!isEmpty && isLoading) {
+  if (!isEmpty && isLoading && !isRootFolder) {
     return (
-      <Container $center={true}>
+      <Container>
         <MemoListSkeleton variant="list" />
       </Container>
     );
@@ -55,3 +57,7 @@ export const MemoList = ({
     />
   );
 };
+
+const Container = styled.div`
+  margin-top: 52px;
+`;
