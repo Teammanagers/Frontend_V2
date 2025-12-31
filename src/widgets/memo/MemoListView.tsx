@@ -22,7 +22,7 @@ export default function MemoListView({
   onFolderClick,
 }: MemoListViewProps) {
   return (
-    <Container $center={state === 'empty'}>
+    <>
       {state === 'empty' ? (
         <AddButtonLarge onClick={handlers.handleOpenAddModal} />
       ) : (
@@ -118,19 +118,9 @@ export default function MemoListView({
           parentId={currentFolderId}
         />
       )}
-    </Container>
+    </>
   );
 }
-
-export const Container = styled.div<{ $center?: boolean }>`
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: ${({ $center }) => ($center ? 'center' : 'flex-start')};
-  padding-top: ${({ $center }) => ($center ? '0' : '48px')};
-`;
 
 const BreadCrumbWrapper = styled.div`
   width: 1088px;

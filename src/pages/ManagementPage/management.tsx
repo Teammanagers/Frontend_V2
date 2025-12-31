@@ -7,6 +7,7 @@ import { TeamInfo } from '@/entities/management/ui/TeamInfo.tsx';
 import { TeamMember } from '@/entities/management/ui/TeamMember.tsx';
 import { useTeamById } from '@/entities/team/model/useTeamQueries';
 import { IMemberResponse } from '@/shared/types/member.types.ts';
+import { PageWrapper } from '@/shared/ui/PageWrapper.tsx';
 import {
   ScheduleSkeleton,
   TeamInfoSkeleton,
@@ -37,20 +38,20 @@ export function ManagementPage() {
 
   if (!isReady || isLoading) {
     return (
-      <Wrapper>
+      <PageWrapper>
         <ManagementContainer>
           <TeamInfoSkeleton />
           <TeamMemberSkeleton />
           <ScheduleSkeleton />
         </ManagementContainer>
-      </Wrapper>
+      </PageWrapper>
     );
   }
   const transformedMySchedule = transformScheduleData(mySchedule);
   const transformedPartialSchedule = transformScheduleData(schedule);
 
   return (
-    <Wrapper>
+    <PageWrapper>
       <ManagementContainer>
         <TeamInfo
           title={team.team.title}
@@ -68,17 +69,9 @@ export function ManagementPage() {
           setSelectedMembers={setSelectedMembers}
         />
       </ManagementContainer>
-    </Wrapper>
+    </PageWrapper>
   );
 }
-
-const Wrapper = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const ManagementContainer = styled.div`
   display: flex;
