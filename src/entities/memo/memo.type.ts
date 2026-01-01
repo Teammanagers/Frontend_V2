@@ -35,6 +35,7 @@ export interface MemoListViewProps {
   myMemosIds: number[];
   isEmpty?: boolean;
   isLoading?: boolean;
+  isRootFolder?: boolean;
   uiState: MemoListViewUIState;
   handlers: MemoListViewHandlers;
   onFolderClick?: (folderId: number) => void;

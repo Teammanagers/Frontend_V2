@@ -1,5 +1,7 @@
+import styled from 'styled-components';
 import useMemoQueries from '@/entities/memo/model/useMemoQueries.ts';
 import LoadingSpinner from '@/shared/components/loadingSpinner/loadingSpinner.tsx';
+import { PageWrapper } from '@/shared/ui/PageWrapper.tsx';
 import { MemoListContainer } from '@/widgets/memo/MemoListContainer';
 
 export function MemoPage() {
@@ -8,22 +10,26 @@ export function MemoPage() {
 
   if (isPending) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
+      <Wrapper>
         <LoadingSpinner size={48} />
-      </div>
+      </Wrapper>
     );
   }
 
-  if (rootFolder) {
-    return <MemoListContainer rootFolder={rootFolder} />;
-  }
+  if (!rootFolder) return null;
 
-  return null;
+  return (
+    <PageWrapper>
+      <MemoListContainer rootFolder={rootFolder} />
+    </PageWrapper>
+  );
 }
+
+const Wrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  margin: 74px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
