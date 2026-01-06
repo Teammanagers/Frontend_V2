@@ -14,6 +14,7 @@ export const TeamInfo = ({
   imageUrl,
   teamCode,
   tagList,
+  isTeamLeader,
 }: TeamInfoProps) => {
   const [profileImage, setProfileImage] = useState<string | null>(imageUrl);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -106,7 +107,9 @@ export const TeamInfo = ({
               ) : (
                 <>
                   <Title>{teamName}</Title>
-                  <EditBtn onClick={() => setIsEditing(true)} />
+                  {isTeamLeader && (
+                    <EditBtn onClick={() => setIsEditing(true)} />
+                  )}
                 </>
               )}
             </InfoBox>
