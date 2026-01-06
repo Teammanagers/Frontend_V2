@@ -4,18 +4,18 @@ import { Button } from '@/shared/components/button/Button.tsx';
 
 interface ModalStateProps {
   teamName: string;
-  isLeader: boolean;
+  isTeamLeader: boolean;
   onClose: () => void;
   onEnd: () => void;
 }
 
 export const EndModal = ({
   teamName,
-  isLeader,
+  isTeamLeader,
   onClose,
   onEnd,
 }: ModalStateProps) => {
-  const text = isLeader ? END_TEXT.MODAL.LEADER : END_TEXT.MODAL.MEMBER;
+  const text = isTeamLeader ? END_TEXT.MODAL.LEADER : END_TEXT.MODAL.MEMBER;
 
   return (
     <ModalContainer>

@@ -19,7 +19,7 @@ interface SideBarNavProps {
   activePath: string;
   expanded: boolean;
   // isAlarmOpen: boolean;
-  isLeader: boolean;
+  isTeamLeader: boolean;
   onNavigate: (path: (teamId: number) => string) => void;
   // onToggleAlarm: () => void;
 }
@@ -29,7 +29,7 @@ export default function SideBarNav({
   activePath,
   expanded,
   // isAlarmOpen,
-  isLeader,
+  isTeamLeader,
   onNavigate,
   // onToggleAlarm,
 }: SideBarNavProps) {
@@ -224,7 +224,7 @@ export default function SideBarNav({
           }}
         />
         {expanded &&
-          (isLeader ? (
+          (isTeamLeader ? (
             <SideBarText $selected={isActive(PATHS.END(teamId))} $redText>
               프로젝트
               <br />
