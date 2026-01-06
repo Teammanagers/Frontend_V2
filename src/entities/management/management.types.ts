@@ -8,6 +8,7 @@ export interface TeamInfoProps {
   imageUrl: string | null;
   teamCode: string;
   tagList: TeamTag[];
+  isTeamLeader: boolean;
 }
 
 export interface TimeSlot {

@@ -5,6 +5,7 @@ import useTeamQueries from '@/entities/management/model/useTeamQueries.ts';
 import { Schedule } from '@/entities/management/ui/Schedule.tsx';
 import { TeamInfo } from '@/entities/management/ui/TeamInfo.tsx';
 import { TeamMember } from '@/entities/management/ui/TeamMember.tsx';
+import { useIsTeamLeader } from '@/entities/team/model/useIsTeamLeader.ts';
 import { useTeamById } from '@/entities/team/model/useTeamQueries';
 import { IMemberResponse } from '@/shared/types/member.types.ts';
 import { PageWrapper } from '@/shared/ui/PageWrapper.tsx';
@@ -36,6 +37,8 @@ export function ManagementPage() {
   const isLoading = isTeamLoading || isMembersLoading || isMyScheduleLoading;
   const isReady = !!team && !!members && !!mySchedule;
 
+  const { isTeamLeader } = useIsTeamLeader();
+
   if (!isReady || isLoading) {
     return (
       <PageWrapper>
@@ -58,6 +61,7 @@ export function ManagementPage() {
           imageUrl={team.imgUrl}
           teamCode={team.team.code}
           tagList={team.teamTagList}
+          isTeamLeader={isTeamLeader}
         />
         <TeamMember members={transformedMembers} />
         <Schedule
