@@ -61,7 +61,7 @@ export function ManagementPage() {
           imageUrl={team.imgUrl}
           teamCode={team.team.code}
           tagList={team.teamTagList}
-          isLeader={isTeamLeader}
+          isTeamLeader={isTeamLeader}
         />
         <TeamMember members={transformedMembers} />
         <Schedule
