@@ -18,8 +18,13 @@ import {
 export function ManagementPage() {
   const [selectedMembers, setSelectedMembers] = useState<IMemberResponse[]>([]);
 
-  const { useMyScheduleQuery, usePartialScheduleQuery, useTeamMemberQuery } =
-    useTeamQueries();
+  const {
+    useScheduleQuery,
+    useMyScheduleQuery,
+    usePartialScheduleQuery,
+    useTeamMemberQuery,
+  } = useTeamQueries();
+  const { data: schedule, isPending: isScheduleLoading } = useScheduleQuery();
   const { data: members, isPending: isMembersLoading } = useTeamMemberQuery();
   const { data: team, isPending: isTeamLoading } = useTeamById();
   const { data: mySchedule, isPending: isMyScheduleLoading } =
@@ -31,11 +36,15 @@ export function ManagementPage() {
 
   const teamMemberIds = selectedMembers.map((m) => m.teamMemberId);
 
-  const { data: schedule, isFetching: isScheduleFetching } =
+  const { data: partialSchedule, isFetching: isPartialScheduleFetching } =
     usePartialScheduleQuery(teamMemberIds);
 
-  const isLoading = isTeamLoading || isMembersLoading || isMyScheduleLoading;
-  const isReady = !!team && !!members && !!mySchedule;
+  const isLoading =
+    isScheduleLoading ||
+    isTeamLoading ||
+    isMembersLoading ||
+    isMyScheduleLoading;
+  const isReady = !!schedule && !!team && !!members && !!mySchedule;
 
   const { isTeamLeader } = useIsTeamLeader();
 
@@ -51,7 +60,8 @@ export function ManagementPage() {
     );
   }
   const transformedMySchedule = transformScheduleData(mySchedule);
-  const transformedPartialSchedule = transformScheduleData(schedule);
+  const transformedPartialSchedule = transformScheduleData(partialSchedule);
+  console.log(schedule, transformedPartialSchedule);
 
   return (
     <PageWrapper>
@@ -66,8 +76,10 @@ export function ManagementPage() {
         <TeamMember members={transformedMembers} />
         <Schedule
           members={transformedMembers}
-          schedule={transformedPartialSchedule}
-          isScheduleFetching={isScheduleFetching}
+          schedule={schedule}
+          isScheduleLoading={isScheduleLoading}
+          partialSchedule={transformedPartialSchedule}
+          isPartialScheduleFetching={isPartialScheduleFetching}
           mySchedule={transformedMySchedule}
           selectedMembers={selectedMembers}
           setSelectedMembers={setSelectedMembers}

@@ -22,7 +22,8 @@ import useToggle from '@/shared/hooks/action/useToggle.ts';
 import { IMemberResponse } from '@/shared/types/member.types.ts';
 
 interface IScheduleProps extends ScheduleProps {
-  isScheduleFetching: boolean;
+  isScheduleLoading: boolean;
+  isPartialScheduleFetching: boolean;
   members: IMemberResponse[];
   selectedMembers: IMemberResponse[];
   setSelectedMembers: Dispatch<SetStateAction<IMemberResponse[]>>;
@@ -31,7 +32,9 @@ interface IScheduleProps extends ScheduleProps {
 export const Schedule = ({
   members,
   schedule,
-  isScheduleFetching,
+  partialSchedule,
+  isScheduleLoading,
+  isPartialScheduleFetching,
   mySchedule,
   selectedMembers,
   setSelectedMembers,
@@ -40,6 +43,10 @@ export const Schedule = ({
   const { mutate: registerSchedule } = useRegisterScheduleMutation();
 
   const { isOpen, setIsOpen, toggle } = useToggle();
+
+  useEffect(() => {
+    console.log('팀 스케줄? ', schedule);
+  }, [schedule]);
 
   useEffect(() => {
     if (members?.length && selectedMembers.length === 0) {
@@ -71,7 +78,7 @@ export const Schedule = ({
   } = useSchedule(mySchedule, handleSubmit);
 
   const renderSchedule = () => {
-    if (!schedule || isScheduleFetching) {
+    if (isScheduleLoading || isPartialScheduleFetching) {
       return (
         <ScheduleWrapper>
           <LoadingSpinner size={48} />
@@ -79,11 +86,19 @@ export const Schedule = ({
       );
     }
 
-    if (Object.values(schedule ?? {}).some((day) => day.value.length > 0)) {
-      return <ShowSchedule schedule={schedule!} />;
+    if (!schedule || Object.keys(schedule).length === 0) {
+      return <NoSchedule />;
     }
 
-    return <NoSchedule />;
+    if (!partialSchedule) {
+      return (
+        <ScheduleWrapper>
+          <LoadingSpinner size={48} />
+        </ScheduleWrapper>
+      );
+    }
+
+    return <ShowSchedule schedule={partialSchedule} />;
   };
 
   const hasMySchedule = checkHasSchedule(mySchedule);
