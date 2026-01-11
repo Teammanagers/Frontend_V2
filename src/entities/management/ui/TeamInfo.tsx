@@ -80,9 +80,12 @@ export const TeamInfo = ({
 
   return (
     <Container>
-      <ProfileContainer onClick={handleImgClick}>
+      <ProfileContainer
+        onClick={isTeamLeader ? handleImgClick : undefined}
+        $disabled={!isTeamLeader}
+      >
         {profileImage ? <ProfileImg src={profileImage} /> : <DefaultImg />}
-        <UploadIconStyled />
+        {isTeamLeader && <UploadIconStyled />}
         <HiddenInput
           type="file"
           accept="image/jpeg, image/png"
@@ -149,11 +152,11 @@ const Container = styled.div`
   gap: 24px;
   width: 100%;
 `;
-const ProfileContainer = styled.div`
+const ProfileContainer = styled.div<{ $disabled: boolean }>`
   position: relative;
   width: 180px;
   height: 180px;
-  cursor: pointer;
+  cursor: ${({ $disabled }) => ($disabled ? 'default' : 'pointer')};
 `;
 
 const ProfileImg = styled.img`
