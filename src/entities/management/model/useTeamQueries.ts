@@ -11,7 +11,22 @@ interface IScheduleResponse {
 export default function useTeamQueries() {
   const teamId = useTeamStore((state) => state.teamId);
 
-  // 팀 스케줄 부분 조회 (팀 스케줄 조회)
+  // 팀 스케줄 조회
+  const useScheduleQuery = () => {
+    const { isPending, isError, isSuccess, data } = useQuery({
+      queryKey: ['management', 'schedule', teamId],
+      queryFn: () =>
+        apiRequest({
+          url: `/api/v2/schedule/teams/${teamId}`,
+          method: 'GET',
+        }),
+      select: (res) => res.result,
+      staleTime: 60 * 1000,
+    });
+    return { isPending, isError, isSuccess, data };
+  };
+
+  // 팀 스케줄 부분 조회
   const usePartialScheduleQuery = (teamMemberIds: number[]) => {
     const enabled = teamMemberIds.length > 0;
     const sortedIds = [...teamMemberIds].sort((a, b) => a - b);
@@ -68,6 +83,7 @@ export default function useTeamQueries() {
   };
 
   return {
+    useScheduleQuery,
     usePartialScheduleQuery,
     useMyScheduleQuery,
     useTeamMemberQuery,
