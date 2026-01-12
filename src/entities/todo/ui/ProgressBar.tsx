@@ -28,7 +28,7 @@ const Container = styled.section<{ $totalCount: number }>`
   height: 12px;
   border-radius: 76px;
   background-color: ${({ theme, $totalCount }) =>
-    $totalCount === 0 && theme.colors.white};
+    $totalCount === 0 ? theme.colors.white : 'transparent'};
   overflow: hidden;
 `;
 

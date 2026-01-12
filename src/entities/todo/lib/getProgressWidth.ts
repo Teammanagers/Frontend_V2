@@ -7,7 +7,7 @@ const getCountByLabel = (label: string, progressArr: ITeamProgressStatus[]) => {
 
 // 전체 count에 대한 비율을 계산하는 함수
 const calculateWidth = (total: number, count: number | undefined) => {
-  if (total === 0) return;
+  if (total === 0) return 0;
 
   return ((count ?? 0) / total) * 100;
 };
@@ -22,10 +22,9 @@ const getProgressWidth = (
 ) => {
   // 전체 count를 구함
   const totalCount = getTotalCount(taemProgress);
-
   const count = getCountByLabel(label, taemProgress); // 해당 label의 count를 가져옴
 
-  return calculateWidth(totalCount, count) ?? 0;
+  return calculateWidth(totalCount, count);
 };
 
 export { getProgressWidth, getTotalCount };
