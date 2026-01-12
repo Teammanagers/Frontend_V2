@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { ITeamProgressStatus } from '../todo.type';
 import { getProgressWidth } from '../lib/getProgressWidth';
+import { ITeamProgressStatus } from '../todo.type';
 
 function ProgressBar({
   teamProgress,
@@ -24,14 +24,16 @@ const Container = styled.section`
   display: flex;
   width: 100%;
   height: 12px;
-  border-radius: 76px;
+
+  & div {
+    border-radius: 76px;
+  }
 `;
 
 const TODO = styled.div<{ $todoProgress: number | undefined }>`
   width: ${({ $todoProgress }) => $todoProgress}%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.silver};
-  border-radius: 76px 0 0 76px;
   transition: width 0.4s ease-in-out;
 `;
 
@@ -46,6 +48,5 @@ const COMPLETED = styled.div<{ $completedProgress: number | undefined }>`
   width: ${({ $completedProgress }) => $completedProgress}%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.mainBlue};
-  border-radius: 0 76px 76px 0;
   transition: width 0.4s ease-in-out;
 `;
