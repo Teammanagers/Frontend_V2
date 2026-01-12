@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getProgressWidth } from '../lib/getProgressWidth';
+import { getProgressWidth, getTotalCount } from '../lib/getProgressWidth';
 import { ITeamProgressStatus } from '../todo.type';
 
 function ProgressBar({
@@ -7,8 +7,10 @@ function ProgressBar({
 }: {
   teamProgress: ITeamProgressStatus[];
 }) {
+  const totalCount = getTotalCount(teamProgress);
+
   return (
-    <Container>
+    <Container $totalCount={totalCount}>
       <TODO $todoProgress={getProgressWidth('진행 전', teamProgress)} />
       <PROCEEDING
         $proceedingProgress={getProgressWidth('진행 중', teamProgress)}
@@ -20,33 +22,39 @@ function ProgressBar({
 
 export { ProgressBar };
 
-const Container = styled.section`
+const Container = styled.section<{ $totalCount: number }>`
   display: flex;
   width: 100%;
   height: 12px;
-
-  & div {
-    border-radius: 76px;
-  }
+  border-radius: 76px;
+  background-color: ${({ theme, $totalCount }) =>
+    $totalCount === 0 && theme.colors.white};
+  overflow: hidden;
 `;
 
-const TODO = styled.div<{ $todoProgress: number | undefined }>`
-  width: ${({ $todoProgress }) => $todoProgress}%;
+const BarSegment = styled.div<{ $width?: number }>`
+  width: ${({ $width }) => $width ?? 0}%;
   height: 100%;
+  transition: width 0.5s ease-in-out;
+`;
+
+const TODO = styled(BarSegment).attrs<{ $todoProgress: number }>((props) => ({
+  $width: props.$todoProgress,
+}))`
   background-color: ${({ theme }) => theme.colors.silver};
-  transition: width 0.4s ease-in-out;
 `;
 
-const PROCEEDING = styled.div<{ $proceedingProgress: number | undefined }>`
-  width: ${({ $proceedingProgress }) => $proceedingProgress}%;
-  height: 100%;
+const PROCEEDING = styled(BarSegment).attrs<{ $proceedingProgress: number }>(
+  (props) => ({
+    $width: props.$proceedingProgress,
+  }),
+)`
   background-color: ${({ theme }) => theme.colors.subLightBlue};
-  transition: width 0.4s ease-in-out;
 `;
-
-const COMPLETED = styled.div<{ $completedProgress: number | undefined }>`
-  width: ${({ $completedProgress }) => $completedProgress}%;
-  height: 100%;
+const COMPLETED = styled(BarSegment).attrs<{ $completedProgress: number }>(
+  (props) => ({
+    $width: props.$completedProgress,
+  }),
+)`
   background-color: ${({ theme }) => theme.colors.mainBlue};
-  transition: width 0.4s ease-in-out;
 `;
