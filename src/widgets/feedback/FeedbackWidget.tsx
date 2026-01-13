@@ -13,7 +13,6 @@ export default function FeedbackWidget({
   selectedResource: Resource | null;
   hasResource: boolean;
 }) {
-  // TODO: 스켈레톤 100% 작업 후 isPending, isError 처리
   const {
     data: feedbacks,
     isPending,
