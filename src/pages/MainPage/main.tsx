@@ -28,7 +28,7 @@ export function MainPage() {
                 navLink={
                   <MainSectionLink to={item.to}>{item.label}</MainSectionLink>
                 }
-                content={<ContentComponent />}
+                content={<ContentComponent {...item.props} />}
               />
             </SectionWrapper>
           );
@@ -43,7 +43,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 32px;
-  padding: 74px 0 74px 0;
+  padding: 74px 0;
 `;
 
 const MainHeader = styled.header`

@@ -63,7 +63,7 @@ const Container = styled.div`
   gap: 20px;
   width: 100%;
   height: 100vh;
-  padding: 74px 0 74px 0;
+  padding: 74px 0;
 `;
 
 const WidgetsWrapper = styled.div`
