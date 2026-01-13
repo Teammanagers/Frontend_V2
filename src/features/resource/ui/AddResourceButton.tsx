@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import PlusIcon from '@/shared/assets/common/plus.svg?react';
 import { Theme } from '@/app/styles/theme';
+import PlusIcon from '@/shared/assets/common/plus.svg?react';
 
 export type AddResourceButtonSize = 'small' | 'large';
 
@@ -29,7 +29,7 @@ const Container = styled.button<{ $size: 'small' | 'large' }>`
   justify-content: center;
   gap: ${({ $size }) => ($size === 'large' ? '8px' : '7px')};
   width: ${({ $size }) => ($size === 'large' ? '100%' : '80px')};
-  height: ${({ $size }) => ($size === 'large' ? '66px' : '68px')};
+  min-height: ${({ $size }) => ($size === 'large' ? '66px' : '68px')};
   border: 1px solid ${Theme.colors.lightGray};
   border-radius: 6px;
   background-color: ${Theme.colors.white};

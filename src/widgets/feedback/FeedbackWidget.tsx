@@ -54,6 +54,7 @@ export default function FeedbackWidget({
 }
 
 const Container = styled.section`
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
