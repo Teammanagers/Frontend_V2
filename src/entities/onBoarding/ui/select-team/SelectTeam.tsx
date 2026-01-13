@@ -41,7 +41,6 @@ const SelectTeamContainer = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 139px;
 `;
@@ -58,6 +57,7 @@ const PageTitle = styled.span`
 `;
 
 const TeamListContainer = styled.div`
+  margin-top: 23.04vh;
   display: flex;
   justify-content: space-between;
   gap: 20px;
