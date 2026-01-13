@@ -59,7 +59,7 @@ const Container = styled.section`
   justify-content: flex-start;
   gap: 19px;
   width: 100%;
-  height: 632px;
+  height: 100%;
   padding: 24px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.white};

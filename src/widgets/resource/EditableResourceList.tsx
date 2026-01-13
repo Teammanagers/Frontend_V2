@@ -88,13 +88,14 @@ export default function EditableResourceList({
 }
 
 const Container = styled.section`
+  flex: 1;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
   width: 100%;
-  height: 632px;
+  height: 100%;
   padding: 24px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.white};
