@@ -40,6 +40,7 @@ const Container = styled.div`
   height: 100vh;
   background-color: #f9fbff;
   margin: 0;
+  padding: 74px 0;
 `;
 
 const LoadingContainer = styled.div`

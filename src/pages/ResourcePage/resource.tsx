@@ -63,12 +63,15 @@ const Container = styled.div`
   gap: 20px;
   width: 100%;
   height: 100vh;
+  padding: 74px 0;
 `;
 
 const WidgetsWrapper = styled.div`
   display: flex;
   gap: 20px;
   width: 85dvw;
+  height: 100%;
+  max-height: 632px;
 `;
 
 const ContentSection = styled.div`

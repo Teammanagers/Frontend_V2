@@ -13,7 +13,6 @@ export default function FeedbackWidget({
   selectedResource: Resource | null;
   hasResource: boolean;
 }) {
-  // TODO: 스켈레톤 100% 작업 후 isPending, isError 처리
   const {
     data: feedbacks,
     isPending,
@@ -54,12 +53,13 @@ export default function FeedbackWidget({
 }
 
 const Container = styled.section`
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   gap: 19px;
   width: 100%;
-  height: 632px;
+  height: 100%;
   padding: 24px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.white};
