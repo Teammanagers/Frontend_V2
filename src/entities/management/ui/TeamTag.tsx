@@ -40,7 +40,7 @@ export const TeamTag = ({
   });
 
   return (
-    <TagContainer>
+    <TagContainer $isTeamLeader={isTeamLeader}>
       {tags.map((tag, index) => (
         <Tag
           key={tag.tagId}
@@ -120,11 +120,12 @@ export const TeamTag = ({
   );
 };
 
-const TagContainer = styled.div`
+const TagContainer = styled.div<{ $isTeamLeader: boolean }>`
   display: flex;
   align-items: center;
   gap: 12px;
   height: 52px;
+  cursor: ${({ $isTeamLeader }) => ($isTeamLeader ? 'pointer' : 'auto')};
 `;
 
 const Tag = styled.div<{ $isEditing: boolean }>`
