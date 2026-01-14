@@ -7,6 +7,7 @@ import Plus from '@/shared/assets/common/plus.svg?react';
 
 interface TeamTagManagerProps {
   tagList: { name: string }[];
+  isTeamLeader: boolean;
   onCreateTeamTag: (tagName: string) => void;
   onDeleteTeamTag: (tagId: number) => void;
   onEditTeamTag: (tagId: number, tagName: string) => void;
@@ -14,6 +15,7 @@ interface TeamTagManagerProps {
 
 export const TeamTag = ({
   tagList,
+  isTeamLeader,
   onCreateTeamTag,
   onDeleteTeamTag,
   onEditTeamTag,
@@ -43,7 +45,10 @@ export const TeamTag = ({
         <Tag
           key={tag.tagId}
           $isEditing={editTagIndex === index}
-          onClick={() => startEditingTag(index)}
+          onClick={() => {
+            if (!isTeamLeader) return;
+            startEditingTag(index);
+          }}
         >
           {editTagIndex === index ? (
             <TagInputContainer>
@@ -95,7 +100,13 @@ export const TeamTag = ({
         </TagInputContainer>
       )}
 
-      {!showTagInput && tags.length < 3 && (
+      {tags.length === 0 && !isTeamLeader && (
+        <NoTag>
+          <TagText>아직 등록된 태그가 없어요.</TagText>
+        </NoTag>
+      )}
+
+      {isTeamLeader && !showTagInput && tags.length < 3 && (
         <AddBtn
           onClick={() => {
             setShowTagInput(true);
@@ -130,6 +141,16 @@ const TagText = styled.span`
   font-size: 14px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.mainBlue};
+`;
+
+const NoTag = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 181px;
+  height: 36px;
+  border-radius: 5px;
+  background: white;
 `;
 
 const AddBtn = styled.button`

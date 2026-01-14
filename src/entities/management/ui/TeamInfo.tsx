@@ -134,6 +134,7 @@ export const TeamInfo = ({
           <InfoTitle>Tag</InfoTitle>
           <TeamTag
             tagList={tagList.map(({ id, name }) => ({ tagId: id, name }))}
+            isTeamLeader={isTeamLeader}
             onCreateTeamTag={(tagName) => {
               createTeamTag({ tagName });
             }}
