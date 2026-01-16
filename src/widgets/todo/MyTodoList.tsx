@@ -3,9 +3,12 @@ import FallbackCard from '@/entities/main/ui/FallbackCard';
 import { useMyTodoList } from '@/entities/todo/model/useTodoQueries';
 import { Todo } from '@/features/todo/ui/Todo';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
+import { useTeamStore } from '@/shared/model/store/teamStore';
 
 function MyTodoList() {
   const { data: todoList, isPending, isSuccess, isError } = useMyTodoList();
+  const myTeamMemberId = useTeamStore((state) => state.teamMemberId);
+  const isMe = todoList?.teamMemberId === myTeamMemberId;
 
   if (isPending) return <Skeleton width="518px" height="222px" />;
   if (isError)
@@ -23,7 +26,7 @@ function MyTodoList() {
             )}
             {todoList?.todoList.map((todo, idx) => (
               <TodoWrapper key={`todo-${idx}`}>
-                <Todo buttonType="menu" todo={todo} />
+                <Todo buttonType="menu" todo={todo} isMe={isMe} />
               </TodoWrapper>
             ))}
           </TodosWrapper>
