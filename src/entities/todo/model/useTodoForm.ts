@@ -5,8 +5,9 @@ export const useTodoForm = () => {
   const [isInputActive, setIsInputActive] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
 
-  const handleTriggerBtnClick = () => {
+  const handleTriggerBtnClick = (callbackFn?: () => void) => {
     setIsInputActive((prev) => !prev);
+    if (callbackFn) callbackFn();
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

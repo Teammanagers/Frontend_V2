@@ -33,11 +33,22 @@ export default function useTodoQuries() {
   // 투두 생성
   const useCreateTodoMutation = () => {
     const { mutate, data, isPending, isError, isSuccess } = useMutation({
-      mutationFn: async (data: { title: string }) => {
+      mutationFn: async ({
+        title,
+        teamMemberId,
+      }: {
+        title: string;
+        teamMemberId: number | null;
+      }) => {
+        if (teamMemberId == null) {
+          throw new Error(
+            '투두를 생성할 때 teamMemberId는 null이 아니어야 합니다.',
+          );
+        }
         await apiRequest({
-          url: `/api/v2/todo?teamId=${teamId}`,
+          url: `/api/v2/todo?teamMemberId=${teamMemberId}`,
           method: 'POST',
-          data,
+          data: { title },
         });
       },
       onSuccess: () => {

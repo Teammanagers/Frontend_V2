@@ -12,9 +12,10 @@ import useTodoQuries from '../model/useTodoQuries';
 interface TodoProps {
   todo: TodoItem;
   buttonType: ButtonType;
+  isMe: boolean;
 }
 
-function Todo({ todo, buttonType }: TodoProps) {
+function Todo({ todo, buttonType, isMe }: TodoProps) {
   // api 호출
   const { useDeleteTodoMutation } = useTodoQuries();
   const { mutate: deleteTodo } = useDeleteTodoMutation(todo.id);
@@ -66,7 +67,7 @@ function Todo({ todo, buttonType }: TodoProps) {
               setIsInputActive={setIsInputActive}
             />
           ) : (
-            <TodoPreview todo={todo} modalToggle={modalToggle} />
+            <TodoPreview todo={todo} modalToggle={modalToggle} isMe={isMe} />
           )}
 
           {!isInputActive && buttonComponents[buttonType]}
