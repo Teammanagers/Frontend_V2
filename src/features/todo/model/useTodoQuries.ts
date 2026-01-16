@@ -40,6 +40,11 @@ export default function useTodoQuries() {
         title: string;
         teamMemberId: number | null;
       }) => {
+        if (teamMemberId == null) {
+          throw new Error(
+            '투두를 생성할 때 teamMemberId는 null이 아니어야 합니다.',
+          );
+        }
         await apiRequest({
           url: `/api/v2/todo?teamMemberId=${teamMemberId}`,
           method: 'POST',
