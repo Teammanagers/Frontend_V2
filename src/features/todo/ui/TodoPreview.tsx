@@ -5,12 +5,17 @@ import { TodoStatus } from '@/entities/todo/ui/TodoStatus';
 interface TodoPreviewProps {
   todo: TodoItem;
   modalToggle: () => void;
+  isMe: boolean;
 }
 
-export default function TodoPreview({ todo, modalToggle }: TodoPreviewProps) {
+export default function TodoPreview({
+  todo,
+  modalToggle,
+  isMe,
+}: TodoPreviewProps) {
   return (
     <Container>
-      <TodoStatus todo={todo} modalToggle={modalToggle} />
+      <TodoStatus todo={todo} modalToggle={modalToggle} isMe={isMe} />
       <Content>{todo.title}</Content>
     </Container>
   );

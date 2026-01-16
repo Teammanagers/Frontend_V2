@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { useIsTeamLeader } from '@/entities/team/model/useIsTeamLeader';
 import { useTodoStatus } from '@/features/todo/model/useTodoStatus';
 import CheckIcon from '@/shared/assets/todo/check.svg?react';
 import { Status, TodoItem } from '../todo.type';
@@ -7,19 +8,22 @@ import { Status, TodoItem } from '../todo.type';
 interface TodoStatusProps extends ComponentProps<'button'> {
   todo: TodoItem;
   modalToggle: () => void;
+  isMe: boolean;
 }
 
-function TodoStatus({ todo, modalToggle, ...props }: TodoStatusProps) {
+function TodoStatus({ todo, modalToggle, isMe, ...props }: TodoStatusProps) {
   const { todoStatus, handleTodoStatus } = useTodoStatus(
     todo.status,
     todo.id,
     modalToggle,
   );
+  const { isTeamLeader } = useIsTeamLeader();
 
   return (
     <TodoStatusButton
       $todoStatus={todoStatus}
       onClick={handleTodoStatus}
+      disabled={!isMe && !isTeamLeader}
       {...props}
     >
       <IconWrapper $todoStatus={todoStatus}>

@@ -39,6 +39,7 @@ export default function MemberTodoAccordion({
             // TODO: 내 투두아닐 때 'alarm' 렌더링 (깨우기 기능 추가 시 변경 필요)
             isMe || isTeamLeader ? 'menu' : 'none'
           }
+          isMe={isMe}
         />
       ))}
 
