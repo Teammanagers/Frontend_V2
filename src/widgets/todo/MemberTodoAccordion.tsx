@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIsTeamLeader } from '@/entities/team/model/useIsTeamLeader';
 import { useTodoForm } from '@/entities/todo/model/useTodoForm';
 import { MemberTodos } from '@/entities/todo/todo.type';
@@ -22,6 +22,10 @@ export default function MemberTodoAccordion({
   const [selectedTeamMemberId, setSelectedTeamMemberId] = useState<
     number | null
   >(null);
+
+  useEffect(() => {
+    if (!isInputActive) setSelectedTeamMemberId(null);
+  }, [isInputActive]);
 
   return (
     <Accordion
