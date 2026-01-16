@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useIsTeamLeader } from '@/entities/team/model/useIsTeamLeader';
 import { useTodoForm } from '@/entities/todo/model/useTodoForm';
 import { MemberTodos } from '@/entities/todo/todo.type';
 import AddTodoButton from '@/entities/todo/ui/AddTodoButton';
@@ -14,8 +16,12 @@ export default function MemberTodoAccordion({
   const { isInputActive, setIsInputActive, handleTriggerBtnClick } =
     useTodoForm();
   const myTeamMemberId = useTeamStore((state) => state.teamMemberId);
-
   const isMe = teamMember.teamMemberId === myTeamMemberId;
+  const { isTeamLeader } = useIsTeamLeader();
+
+  const [selectedTeamMemberId, setSelectedTeamMemberId] = useState<
+    number | null
+  >(null);
 
   return (
     <Accordion
@@ -31,16 +37,23 @@ export default function MemberTodoAccordion({
           todo={todo}
           buttonType={
             // TODO: 내 투두아닐 때 'alarm' 렌더링 (깨우기 기능 추가 시 변경 필요)
-            isMe ? 'menu' : 'none'
+            isMe || isTeamLeader ? 'menu' : 'none'
           }
         />
       ))}
 
       {/* 투두 추가 폼 */}
       {isInputActive ? (
-        <TodoForm mode="add" />
+        <TodoForm mode="add" selectedTeamMemberId={selectedTeamMemberId} />
       ) : (
-        <AddTodoButton isMe={isMe} onClick={handleTriggerBtnClick} />
+        <AddTodoButton
+          isMe={isMe}
+          onClick={() =>
+            handleTriggerBtnClick(() =>
+              setSelectedTeamMemberId(teamMember.teamMemberId),
+            )
+          }
+        />
       )}
     </Accordion>
   );

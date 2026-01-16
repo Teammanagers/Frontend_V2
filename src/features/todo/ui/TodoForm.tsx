@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { useIsTeamLeader } from '@/entities/team/model/useIsTeamLeader';
 import { useTodoForm } from '@/entities/todo/model/useTodoForm';
 import { Button } from '@/entities/todo/ui';
 import TodoInput from '@/entities/todo/ui/TodoInput';
@@ -11,6 +12,7 @@ interface TodoFormProps {
   todoId?: number;
   initialValue?: string; // 선택적으로 초기값을 받을 수 있도록
   setIsInputActive?: React.Dispatch<React.SetStateAction<boolean>>; // 수정 모드에서 입력 활성화 상태를 변경할 수 있는 함수
+  selectedTeamMemberId?: number | null;
 }
 
 // 투두 -> [수정, 등록] 모드 변환 컴포넌트
@@ -19,9 +21,11 @@ export default function TodoForm({
   todoId,
   initialValue,
   setIsInputActive,
+  selectedTeamMemberId,
 }: TodoFormProps) {
   const { inputValue, setInputValue, handleInputChange } = useTodoForm();
   const myTeamMemberId = useTeamStore((state) => state.teamMemberId);
+  const { isTeamLeader } = useIsTeamLeader();
 
   const { useCreateTodoMutation, useEditTodoMutation } = useTodoQuries();
   const { mutate: createTodo } = useCreateTodoMutation();
@@ -30,9 +34,15 @@ export default function TodoForm({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!inputValue.trim()) return; // 빈 입력 방지
+    let teamMemberId;
 
     if (mode === 'add') {
-      createTodo({ title: inputValue, teamMemberId: myTeamMemberId }); // 투두 생성 API 요청
+      teamMemberId = myTeamMemberId;
+      if (isTeamLeader && selectedTeamMemberId) {
+        teamMemberId = selectedTeamMemberId;
+      }
+
+      createTodo({ title: inputValue, teamMemberId }); // 투두 생성 API 요청
       setInputValue('');
     } else if (mode === 'edit' && todoId) {
       editTodo({ todoId, data: { title: inputValue } }); // 투두 수정 API 요청
