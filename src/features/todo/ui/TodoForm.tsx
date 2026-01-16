@@ -34,14 +34,12 @@ export default function TodoForm({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!inputValue.trim()) return; // 빈 입력 방지
-    let teamMemberId;
+    const teamMemberId =
+      isTeamLeader && selectedTeamMemberId
+        ? selectedTeamMemberId
+        : myTeamMemberId;
 
     if (mode === 'add') {
-      teamMemberId = myTeamMemberId;
-      if (isTeamLeader && selectedTeamMemberId) {
-        teamMemberId = selectedTeamMemberId;
-      }
-
       createTodo({ title: inputValue, teamMemberId }); // 투두 생성 API 요청
       setInputValue('');
     } else if (mode === 'edit' && todoId) {
