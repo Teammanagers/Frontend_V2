@@ -11,6 +11,7 @@ import MakeTeamPage from '@/pages/MakeTeamPage/make-team';
 import { ManagementPage } from '@/pages/ManagementPage';
 import { ExtraMemoPage, RedirectToRootFolder } from '@/pages/MemoPage';
 import { MyPage } from '@/pages/MyPage';
+import Portfolio from '@/pages/MyPage/portfolio.tsx';
 import ProfilePage from '@/pages/MyPage/profile';
 import NoticePage from '@/pages/NoticePage/notice';
 import Redirect from '@/pages/RedirectPage/redirect';
@@ -86,6 +87,10 @@ export default function AppRoutes() {
             <Route
               path={ROUTE_SEGMENTS.MY_PAGE_PROFILE}
               element={<ProfilePage />}
+            />
+            <Route
+              path={ROUTE_SEGMENTS.MY_PAGE_PORTFOLIO}
+              element={<Portfolio />}
             />
 
             {/* 공지 페이지 */}

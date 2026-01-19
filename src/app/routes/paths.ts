@@ -1,4 +1,5 @@
 import MypageNoticeIcon from '@/shared/assets/mypage/loudspeaker.svg?react';
+import MypagePortfolio from '@/shared/assets/mypage/portfolio.svg?react';
 import MypageTermOfServiceIcon from '@/shared/assets/mypage/term-of-service.svg?react';
 import MypageProfileIcon from '@/shared/assets/mypage/update-profile.svg?react';
 import FixedMemoList from '@/widgets/memo/FixedMemoList';
@@ -29,6 +30,7 @@ export const ROUTE_SEGMENTS = {
   MEMO_EDIT: 'edit/:memoId',
   MY_PAGE: 'mypage',
   MY_PAGE_PROFILE: 'mypage/profile',
+  MY_PAGE_PORTFOLIO: 'mypage/portfolio',
   NOTICE: 'notice',
   END: 'end',
 } as const;
@@ -66,6 +68,8 @@ export const PATHS = {
   MY_PAGE: (teamId: number) => `${basePath(teamId)}/${ROUTE_SEGMENTS.MY_PAGE}`,
   PROFILE: (teamId: number) =>
     `${basePath(teamId)}/${ROUTE_SEGMENTS.MY_PAGE_PROFILE}`,
+  PORTFOLIO: (teamId: number) =>
+    `${basePath(teamId)}/${ROUTE_SEGMENTS.MY_PAGE_PORTFOLIO}`,
 
   /* 공지사항 페이지 */
   NOTICE: (teamId: number) => `${basePath(teamId)}/${ROUTE_SEGMENTS.NOTICE}`,
@@ -114,6 +118,7 @@ export const mainRoutes: RouteConfig[] = [
 
 export const mypageRoutes: RouteConfig[] = [
   { label: '프로필 수정', to: PATHS.PROFILE, icon: MypageProfileIcon },
+  { label: '포트폴리오', to: PATHS.PORTFOLIO, icon: MypagePortfolio },
   { label: '공지사항', to: PATHS.NOTICE, icon: MypageNoticeIcon },
   {
     label: '이용약관 및 개인정보처리방침',
