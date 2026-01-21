@@ -1,34 +1,28 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { ProjectCard } from '@/entities/mypage/ui/ProjectCard.tsx';
+import { MOCK_PROJECTS } from '@/entities/portfolio/model/portfolio.mock.ts';
+import { ProjectCard } from '@/entities/portfolio/ui/ProjectCard.tsx';
 
-const MOCK_PROJECTS = [
-  {
-    id: 1,
-    name: '팀매니저 ver.1',
-    duration: '2024.07 ~ 2024.08',
-  },
-  {
-    id: 2,
-    name: '팀매니저 ver.2',
-    duration: '2024.09 ~ ing',
-  },
-];
+interface ProjectListProps {
+  projects: typeof MOCK_PROJECTS;
+  selectedProjectId: number;
+  onSelectProject: (id: number) => void;
+}
 
-export function ProjectList() {
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
-    MOCK_PROJECTS[0].id,
-  );
+export function ProjectList({
+  projects,
+  selectedProjectId,
+  onSelectProject,
+}: ProjectListProps) {
   return (
     <ListContainer>
-      {MOCK_PROJECTS.map((project) => (
+      {projects.map((project) => (
         <ProjectCard
           key={project.id}
           id={project.id}
           name={project.name}
           duration={project.duration}
           selected={project.id === selectedProjectId}
-          onSelect={setSelectedProjectId}
+          onSelect={onSelectProject}
         />
       ))}
     </ListContainer>

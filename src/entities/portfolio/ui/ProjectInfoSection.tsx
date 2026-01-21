@@ -7,18 +7,14 @@ interface ProjectInfoSectionProps {
   tags: string[];
 }
 
-export function ProjectInfoSection({
-  id,
-  title,
-  tags,
-}: ProjectInfoSectionProps) {
+export function ProjectInfoSection({ title, tags }: ProjectInfoSectionProps) {
   return (
     <Container>
       <Title>{title}</Title>
 
       <TagContainer>
         {tags.map((tag) => (
-          <Tag key={id} text={tag} />
+          <Tag key={tag} text={tag} />
         ))}
       </TagContainer>
     </Container>
