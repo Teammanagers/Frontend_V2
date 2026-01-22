@@ -22,6 +22,10 @@ export default function Portfolio() {
       ? null
       : (projects.find((project) => project.id === selectedProjectId) ?? null);
 
+  const handleSelectProject = (projectId: number) => {
+    setSelectedProjectId((prev) => (prev === projectId ? null : projectId));
+  };
+
   return (
     <Container>
       <MypageHeader showBackButton>포트폴리오</MypageHeader>
@@ -31,7 +35,7 @@ export default function Portfolio() {
           projects={projects}
           hasProjects={hasProjects}
           selectedProjectId={selectedProjectId}
-          onSelectProject={setSelectedProjectId}
+          onSelectProject={handleSelectProject}
         />
         <ProjectDetail
           hasProjects={hasProjects}
