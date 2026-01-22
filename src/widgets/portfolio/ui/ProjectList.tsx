@@ -4,15 +4,26 @@ import { ProjectCard } from '@/entities/portfolio/ui/ProjectCard.tsx';
 
 interface ProjectListProps {
   projects: typeof MOCK_PROJECTS;
-  selectedProjectId: number;
+  hasProjects: boolean;
+  selectedProjectId: number | null;
   onSelectProject: (id: number) => void;
 }
 
 export function ProjectList({
   projects,
+  hasProjects,
   selectedProjectId,
   onSelectProject,
 }: ProjectListProps) {
+  if (!hasProjects) {
+    return (
+      <ListContainer>
+        <Wrapper>
+          <ContainerText>아직 끝난 프로젝트가 없습니다.</ContainerText>
+        </Wrapper>
+      </ListContainer>
+    );
+  }
   return (
     <ListContainer>
       {projects.map((project) => (
@@ -39,4 +50,18 @@ const ListContainer = styled.div`
   gap: 20px;
   background: white;
   border-radius: 10px;
+`;
+
+export const Wrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ContainerText = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
 `;

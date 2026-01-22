@@ -45,6 +45,7 @@ const CardContainer = styled.div<{ $selected: boolean }>`
     ${({ $selected, theme }) =>
       $selected ? theme.colors.mainBlue : theme.colors.lightGray};
   padding: 0 16px;
+  cursor: pointer;
 
   background: ${({ $selected, theme }) =>
     $selected ? theme.colors.background : 'white'};
@@ -74,5 +75,4 @@ const ArrowWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 `;

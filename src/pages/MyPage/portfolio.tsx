@@ -9,13 +9,18 @@ import { ProjectDetail } from '@/widgets/portfolio/ui/ProjectDetail.tsx';
 import { ProjectList } from '@/widgets/portfolio/ui/ProjectList.tsx';
 
 export default function Portfolio() {
-  const [selectedProjectId, setSelectedProjectId] = useState<number>(
-    MOCK_PROJECTS[0].id,
+  const projects = MOCK_PROJECTS;
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+    null,
   );
 
-  const selectedProject = MOCK_PROJECTS.find(
-    (project) => project.id === selectedProjectId,
-  );
+  // 프로젝트 존재 여부
+  const hasProjects = projects.length > 0;
+
+  const selectedProject =
+    selectedProjectId === null
+      ? null
+      : (projects.find((project) => project.id === selectedProjectId) ?? null);
 
   return (
     <Container>
@@ -23,17 +28,16 @@ export default function Portfolio() {
 
       <ContentWrapper>
         <ProjectList
-          projects={MOCK_PROJECTS}
+          projects={projects}
+          hasProjects={hasProjects}
           selectedProjectId={selectedProjectId}
           onSelectProject={setSelectedProjectId}
         />
-        {selectedProject && (
-          <ProjectDetail
-            projectName={selectedProject.name}
-            projectDuration={selectedProject.duration}
-            projectInfo={projectInfoMock}
-          />
-        )}
+        <ProjectDetail
+          hasProjects={hasProjects}
+          selectedProject={selectedProject}
+          projectInfo={projectInfoMock}
+        />
       </ContentWrapper>
     </Container>
   );
