@@ -109,6 +109,7 @@ const InputContainer = styled.div<{ $size?: InputSize }>`
         : 'rgba(204, 204, 204, 1)'};
   border-radius: 6px;
   overflow: hidden;
+  display: flex;
 `;
 
 // 기본 input 요소 (child가 없을 때, 컨테이너가 Input인 것처럼 보이게)
