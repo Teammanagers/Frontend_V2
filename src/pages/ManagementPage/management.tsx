@@ -61,7 +61,6 @@ export function ManagementPage() {
   }
   const transformedMySchedule = transformScheduleData(mySchedule);
   const transformedPartialSchedule = transformScheduleData(partialSchedule);
-  console.log(schedule, transformedPartialSchedule);
 
   return (
     <PageWrapper>

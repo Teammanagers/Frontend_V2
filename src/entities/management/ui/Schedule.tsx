@@ -45,10 +45,6 @@ export const Schedule = ({
   const { isOpen, setIsOpen, toggle } = useToggle();
 
   useEffect(() => {
-    console.log('팀 스케줄? ', schedule);
-  }, [schedule]);
-
-  useEffect(() => {
     if (members?.length && selectedMembers.length === 0) {
       setSelectedMembers(members);
     }

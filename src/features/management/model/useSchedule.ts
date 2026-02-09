@@ -64,7 +64,6 @@ export const useSchedule = (
   };
 
   const submit = () => {
-    console.log('등록된 시간:', weeklyTimes);
     onSubmit?.(weeklyTimes);
     setShowRegister(false);
   };
