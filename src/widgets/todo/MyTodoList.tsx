@@ -18,7 +18,7 @@ function MyTodoList() {
     <>
       {isSuccess && (
         <MyTodoListWrapper>
-          {todoList?.todoList && todoList?.todoList.length > 0 && (
+          {(todoList?.todoList.length ?? 0) > 0 && (
             <MyTodoTitle>내가 해야할 일</MyTodoTitle>
           )}
 
