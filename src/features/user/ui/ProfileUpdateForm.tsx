@@ -6,6 +6,7 @@ import { User } from '@/entities/user/user.types';
 import ProfileImageUploader from './ProfileImageUploader';
 import { ProfileFormValues, profileSchema } from '../model/profile.schema';
 import { PROFILE_FORM_KEYS, PROFILE_INPUT_FIELDS } from '../profile.constants';
+import { useUpdateProfileMutation } from '../api/profile.mutations';
 
 // 프로필 수정 폼 컴포넌트
 export default function ProfileUpdateForm({ user }: { user: User }) {
@@ -28,13 +29,16 @@ export default function ProfileUpdateForm({ user }: { user: User }) {
   });
   const { register, handleSubmit, setFocus } = methods;
 
+  const { mutate: update } = useUpdateProfileMutation();
+
   // 편집 모드 진입 시 첫 번째 입력란에 포커스 설정
   useEffect(() => {
     if (isEditing) setFocus(PROFILE_FORM_KEYS.USERNAME);
   }, [isEditing, setFocus]);
 
   const onSubmit: SubmitHandler<ProfileFormValues> = (data) => {
-    console.log('제출된 데이터', data);
+    // TODO: 프로필 수정 AP에 img 필드 추가 시 이미지 폼 데이터 처리 로직으로 수정 필요
+    update(data);
     setIsEditing(false);
   };
 
