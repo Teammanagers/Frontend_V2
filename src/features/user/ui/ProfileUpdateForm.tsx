@@ -4,9 +4,9 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { User } from '@/entities/user/user.types';
 import ProfileImageUploader from './ProfileImageUploader';
+import { useUpdateProfileMutation } from '../api/profile.mutations';
 import { ProfileFormValues, profileSchema } from '../model/profile.schema';
 import { PROFILE_FORM_KEYS, PROFILE_INPUT_FIELDS } from '../profile.constants';
-import { useUpdateProfileMutation } from '../api/profile.mutations';
 
 // 프로필 수정 폼 컴포넌트
 export default function ProfileUpdateForm({ user }: { user: User }) {
@@ -26,15 +26,19 @@ export default function ProfileUpdateForm({ user }: { user: User }) {
   const methods = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: initProfileValues,
+    mode: 'onChange',
   });
-  const { register, handleSubmit, setFocus } = methods;
+  const { register, handleSubmit, setFocus, trigger } = methods;
 
   const { mutate: update } = useUpdateProfileMutation();
 
   // 편집 모드 진입 시 첫 번째 입력란에 포커스 설정
   useEffect(() => {
-    if (isEditing) setFocus(PROFILE_FORM_KEYS.USERNAME);
-  }, [isEditing, setFocus]);
+    if (isEditing) {
+      setFocus(PROFILE_FORM_KEYS.USERNAME);
+      trigger();
+    }
+  }, [isEditing, setFocus, trigger]);
 
   const onSubmit: SubmitHandler<ProfileFormValues> = (data) => {
     // TODO: 프로필 수정 AP에 img 필드 추가 시 이미지 폼 데이터 처리 로직으로 수정 필요
@@ -52,7 +56,17 @@ export default function ProfileUpdateForm({ user }: { user: User }) {
         <Header>
           <strong>프로필 설정</strong>
           {isEditing ? (
-            <UpdateCompleteButton type="submit">수정 완료</UpdateCompleteButton>
+            <UpdateCompleteButton
+              disabled={
+                !methods.formState.isValid || methods.formState.isSubmitting
+              }
+              type="submit"
+              $disabled={
+                !methods.formState.isValid || methods.formState.isSubmitting
+              }
+            >
+              수정 완료
+            </UpdateCompleteButton>
           ) : (
             <UpdateTriggerButton
               type="button"
@@ -72,11 +86,11 @@ export default function ProfileUpdateForm({ user }: { user: User }) {
             <InputWrapper>
               {PROFILE_INPUT_FIELDS.map((field) => (
                 <Input
+                  {...register(field.name)}
                   key={field.name}
                   type={field.type}
                   disabled={!isEditing}
                   placeholder={field.placeholder}
-                  {...register(field.name)}
                 />
               ))}
             </InputWrapper>
@@ -111,7 +125,7 @@ const Header = styled.div`
   }
 `;
 
-const ButtonBase = styled.button`
+const ButtonBase = styled.button<{ $disabled?: boolean }>`
   width: 96px;
   height: 36px;
   border-radius: 4px;
@@ -127,6 +141,19 @@ const UpdateCompleteButton = styled(ButtonBase)`
   &:hover {
     background-color: ${({ theme }) => theme.colors.subLightBlue};
   }
+
+  ${({ $disabled, theme }) =>
+    $disabled &&
+    `
+    background-color: ${theme.colors.silver};
+    border-color: ${theme.colors.silver};
+    color: ${theme.colors.white};
+    &:hover {
+      background-color: ${theme.colors.silver};
+      border-color: ${theme.colors.silver};
+      cursor: not-allowed;
+    }
+  `}
 `;
 
 const UpdateTriggerButton = styled(ButtonBase)`
