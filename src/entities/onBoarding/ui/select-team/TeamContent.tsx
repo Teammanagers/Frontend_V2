@@ -37,11 +37,13 @@ export const TeamCard: React.FC<TeamCardProps> = ({ team }) => {
         <TeamImage src={team.img} width={160} height={160} alt={team.title} />
       </ImgContainer>
       <TeamName>{team.title}</TeamName>
-      <Tags>
-        {team.tags.map((tag, index) => (
-          <Tag key={index}>{tag}</Tag>
-        ))}
-      </Tags>
+      {team.tags?.length > 0 && (
+        <Tags>
+          {team.tags.map((tag, index) => (
+            <Tag key={index}>{tag}</Tag>
+          ))}
+        </Tags>
+      )}
     </TeamContent>
   );
 };
@@ -55,9 +57,7 @@ export const AddTeamCard = () => {
         <img src={plus} width={128} height={80} alt="새 팀 생성" />
       </PlusImgContainer>
       <TeamName>새로운 팀 생성하기</TeamName>
-      <PlusTags>
-        <Tag>{null}</Tag>
-      </PlusTags>
+      <PlusTags></PlusTags>
     </TeamContent>
   );
 };
@@ -116,15 +116,17 @@ const TeamName = styled.span`
 const Tags = styled.div`
   display: flex;
   gap: 8px;
-  background-color: white;
+  background-color: #f9fbff;
 `;
 
 const PlusTags = styled.div`
   display: flex;
   gap: 8px;
+  background-color: #f9fbff;
 `;
 
 const Tag = styled.div`
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
