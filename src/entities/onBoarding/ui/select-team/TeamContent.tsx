@@ -116,7 +116,7 @@ const TeamName = styled.span`
 const Tags = styled.div`
   display: flex;
   gap: 8px;
-  background-color: white;
+  background-color: #f9fbff;
 `;
 
 const PlusTags = styled.div`
@@ -125,6 +125,7 @@ const PlusTags = styled.div`
 `;
 
 const Tag = styled.div`
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
