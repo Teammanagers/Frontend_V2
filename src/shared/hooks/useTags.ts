@@ -18,6 +18,7 @@ import { TagsProps, TeamTag } from '@/shared/types/tag.types.ts';
  * @returns {boolean} showTagInput - 태그 입력창의 노출 여부
  * @returns {string} newTag - 현재 입력 중인 태그 값
  * @returns {number|null} editTagIndex - 수정 중인 태그의 인덱스 (수정 모드가 아닐 경우 null)
+ * @returns {(value: string) => void} handleChangeTag - 입력 값을 업데이트하며 최대 길이를 제한하는 함수
  * @returns {(e: KeyboardEvent<HTMLInputElement>) => Promise<void>} handleAddTag - 태그 추가 핸들러
  * @returns {(e: KeyboardEvent<HTMLInputElement>, index: number) => Promise<void>} handleEditTag - 태그 수정 핸들러
  * @returns {(index: number) => void} startEditingTag - 태그 수정 모드로 전환하는 함수
@@ -25,11 +26,11 @@ import { TagsProps, TeamTag } from '@/shared/types/tag.types.ts';
  * @returns {(tags: TeamTag[]) => void} setTags - 태그 배열을 업데이트하는 함수
  * @returns {(show: boolean) => void} setShowTagInput - 태그 입력창 노출 여부를 업데이트하는 함수
  * @returns {(index: number | null) => void} setEditTagIndex - 수정 중인 태그 인덱스를 업데이트하는 함수
- * @returns {(tag: string) => void} setNewTag - 입력 중인 태그 값을 업데이트하는 함수
  *
  */
 
 const MAX_TAG_COUNT = 3;
+const MAX_TAG_LENGTH = 5;
 
 export const useTags = ({
   initialTags = [],
@@ -42,6 +43,10 @@ export const useTags = ({
   const [showTagInput, setShowTagInput] = useState<boolean>(false); // 태그 입력 인풋창 보여줄지
   const [newTag, setNewTag] = useState<string>(''); // 새로운 태그 입력값
   const [editTagIndex, setEditTagIndex] = useState<number | null>(null); // 태그 수정시 인덱스값
+
+  const handleChangeTag = (value: string) => {
+    setNewTag(value.slice(0, MAX_TAG_LENGTH));
+  };
 
   const handleAddTag = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && newTag.trim() !== '') {
@@ -128,6 +133,7 @@ export const useTags = ({
     showTagInput,
     newTag,
     editTagIndex,
+    handleChangeTag,
     handleAddTag,
     handleEditTag,
     startEditingTag,
@@ -135,6 +141,5 @@ export const useTags = ({
     setTags,
     setShowTagInput,
     setEditTagIndex,
-    setNewTag,
   };
 };
