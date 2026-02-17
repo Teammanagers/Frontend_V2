@@ -66,9 +66,6 @@ export default function MakeTeamSecondStage({
         </PasswordInputContainer>
       </InputContainer>
       <BtnContainer>
-        <Button size="xxl" style="sub">
-          이메일로 보내기
-        </Button>
         <Button
           size="xxl"
           style="main"
