@@ -48,6 +48,7 @@ export const useTags = ({
     setNewTag(value.slice(0, MAX_TAG_LENGTH));
   };
 
+  // 태그 생성
   const handleAddTag = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && newTag.trim() !== '') {
       if (tags.length >= MAX_TAG_COUNT) return; // 추가
@@ -67,6 +68,7 @@ export const useTags = ({
     }
   };
 
+  // 태그 수정
   const handleEditTag = async (
     e: KeyboardEvent<HTMLInputElement>,
     index: number,
@@ -91,11 +93,8 @@ export const useTags = ({
 
       // 팀 태그와 역할 태그에 따라 다른 콜백 호출
       if (tagId !== undefined) {
-        if (onEditTeamTag) {
-          await onEditTeamTag(tagId, newTag.trim());
-        } else if (onEditRoleTag) {
-          await onEditRoleTag(tagId, newTag.trim());
-        }
+        if (onEditTeamTag) await onEditTeamTag(tagId, newTag.trim());
+        else if (onEditRoleTag) await onEditRoleTag(tagId, newTag.trim());
       }
     }
   };
@@ -106,6 +105,14 @@ export const useTags = ({
     setShowTagInput(true);
   };
 
+  // 입력 중 태그 취소
+  const cancelNewTag = () => {
+    setNewTag('');
+    setShowTagInput(false);
+    setEditTagIndex(null);
+  };
+
+  // 실제 데이터에서 태그 삭제
   const handleDeleteTag = async (index: number) => {
     const tagId = tags[index]?.tagId;
     if (tagId !== undefined && onDeleteRoleTag) {
@@ -137,6 +144,7 @@ export const useTags = ({
     handleAddTag,
     handleEditTag,
     startEditingTag,
+    cancelNewTag,
     handleDeleteTag,
     setTags,
     setShowTagInput,
