@@ -120,7 +120,10 @@ export const useTags = ({
     }
   }, [tags]);
 
+  const isTagFull = tags.length >= MAX_TAG_COUNT;
+
   return {
+    isTagFull,
     tags,
     showTagInput,
     newTag,

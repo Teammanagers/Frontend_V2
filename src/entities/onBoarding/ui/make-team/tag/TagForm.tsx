@@ -6,6 +6,7 @@ import { useTagContext } from '../MakeTeamTagProvider';
 
 export default function TagForm() {
   const {
+    isTagFull,
     tags,
     showTagInput,
     setShowTagInput,
@@ -53,7 +54,7 @@ export default function TagForm() {
         )}
       </TagContainer>
       <OptionContainer>
-        {!showTagInput && (
+        {!showTagInput && !isTagFull && (
           <PlusBtnContainer onClick={() => setShowTagInput(true)}>
             <img src={pluxBtn} width={24} height={24} alt="태그 추가" />
           </PlusBtnContainer>

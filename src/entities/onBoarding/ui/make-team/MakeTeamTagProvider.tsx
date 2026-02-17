@@ -3,6 +3,7 @@ import { useTags } from '@/shared/hooks/useTags';
 import { TeamTag } from '@/shared/types/tag.types.ts';
 
 interface MakeTeamTagContextType {
+  isTagFull: boolean;
   tags: TeamTag[];
   showTagInput: boolean;
   setShowTagInput: (show: boolean) => void;
@@ -23,6 +24,7 @@ export default function MakeTeamTagProvider({
   children,
 }: MakeTeamTagProviderProps) {
   const {
+    isTagFull,
     tags,
     setTags,
     showTagInput,
@@ -47,6 +49,7 @@ export default function MakeTeamTagProvider({
   return (
     <MakeTeamTagContext.Provider
       value={{
+        isTagFull,
         tags,
         showTagInput,
         setShowTagInput,
