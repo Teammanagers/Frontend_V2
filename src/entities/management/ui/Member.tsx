@@ -25,13 +25,14 @@ export const Member = ({
     showTagInput,
     newTag,
     editTagIndex,
+    handleChangeTag,
     handleAddTag,
     handleEditTag,
     startEditingTag,
+    cancelNewTag,
     handleDeleteTag,
     setShowTagInput,
     setEditTagIndex,
-    setNewTag,
   } = useTags({
     initialTags: member.grantedRoleList.map((role) => ({
       tagId: role.id,
@@ -63,7 +64,7 @@ export const Member = ({
                 <TagInput
                   value={newTag}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setNewTag(e.target.value)
+                    handleChangeTag(e.target.value)
                   }
                   onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
                     handleEditTag(e, index)
@@ -88,7 +89,7 @@ export const Member = ({
             <TagInput
               value={newTag}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setNewTag(e.target.value)
+                handleChangeTag(e.target.value)
               }
               onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
                 handleAddTag(e)
@@ -96,13 +97,7 @@ export const Member = ({
               maxLength={5}
               autoFocus
             />
-            <DeleteBtn
-              onClick={() => {
-                setShowTagInput(false);
-                setNewTag('');
-                setEditTagIndex(null);
-              }}
-            />
+            <DeleteBtn onClick={cancelNewTag} />
           </TagInputContainer>
         )}
         {!showTagInput && tags.length < 3 && (

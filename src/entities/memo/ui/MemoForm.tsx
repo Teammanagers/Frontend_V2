@@ -41,6 +41,7 @@ export const MemoForm = ({
     handleAddTag,
     handleEditTag,
     startEditingTag,
+    cancelNewTag,
     handleDeleteTag,
     setShowTagInput,
     setEditTagIndex,
@@ -97,7 +98,7 @@ export const MemoForm = ({
                 maxLength={5}
                 autoFocus
               />
-              <DeleteBtn onClick={() => handleDeleteTag(-1)} />
+              <DeleteBtn onClick={cancelNewTag} />
             </TagInputContainer>
           )}
           {!showTagInput && tags.length < 3 && (
