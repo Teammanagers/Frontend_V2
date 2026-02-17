@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MemoListViewProps } from '@/entities/memo/memo.type.ts';
+import LoadingSpinner from '@/shared/components/loadingSpinner/loadingSpinner.tsx';
 import MemoListView from '@/widgets/memo/MemoListView.tsx';
 import MemoListSkeleton from '@/widgets/memo/ui/MemoListSkeleton.tsx';
 
@@ -16,8 +17,16 @@ export const MemoList = ({
   currentFolderId,
   canAddFolder,
 }: MemoListViewProps) => {
+  if (isRootFolder && isLoading) {
+    return (
+      <Wrapper>
+        <LoadingSpinner size={48} />
+      </Wrapper>
+    );
+  }
+
   // 빈 화면 UI
-  if (isEmpty && !isLoading) {
+  if (isEmpty && !isLoading && isRootFolder) {
     return (
       <MemoListView
         state="empty"
@@ -57,6 +66,14 @@ export const MemoList = ({
     />
   );
 };
+
+const Wrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Container = styled.div`
   margin-top: 52px;
