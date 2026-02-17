@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import pluxBtn from '@/shared/assets/common/add-tag.svg?url';
 import removeBtn from '@/shared/assets/common/delete-tag.svg?url';
@@ -15,8 +16,19 @@ export default function TagForm() {
     inputRef,
   } = useTagContext();
 
+  const [inputWidth, setInputWidth] = useState(36);
+  const measureRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (measureRef.current) {
+      const width = measureRef.current.offsetWidth;
+      setInputWidth(Math.max(36, width + 24));
+    }
+  }, [newTag]);
+
   return (
     <TagFormContainer>
+      <MeasureSpan ref={measureRef}>{newTag || ''}</MeasureSpan>
       <TagContainer>
         {tags.map((tag, index) => (
           <EachTag key={tag.tagId}>
@@ -30,17 +42,18 @@ export default function TagForm() {
             />
           </EachTag>
         ))}
-      </TagContainer>
-      <OptionContainer>
-        {showTagInput ? (
+        {showTagInput && (
           <Input
             value={newTag}
             onChange={(e) => setNewTag(e.target.value)}
             onKeyDown={handleAddTag}
             ref={inputRef}
-            placeholder="Enter키를 누르면 태그가 등록됩니다."
+            style={{ width: `${inputWidth}px` }}
           />
-        ) : (
+        )}
+      </TagContainer>
+      <OptionContainer>
+        {!showTagInput && (
           <PlusBtnContainer onClick={() => setShowTagInput(true)}>
             <img src={pluxBtn} width={24} height={24} alt="태그 추가" />
           </PlusBtnContainer>
@@ -50,13 +63,37 @@ export default function TagForm() {
   );
 }
 
+const MeasureSpan = styled.span`
+  position: absolute;
+  visibility: hidden;
+  white-space: nowrap;
+  color: rgba(92, 158, 255, 1);
+  font-size: inherit;
+  font-family: inherit;
+`;
+
+const Input = styled.input`
+  height: 36px;
+  background-color: rgba(249, 251, 255, 1);
+  padding: 6px 12px;
+  color: rgba(92, 158, 255, 1);
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+
+  &::placeholder {
+    color: rgba(92, 158, 255, 0.5);
+  }
+`;
+
 const TagFormContainer = styled.div`
   min-height: 60px;
   width: 100%;
   background-color: white;
   display: flex;
   align-items: center;
-  padding: 12px 18px 12px 18px;
+  padding: 12px 18px;
+  position: relative;
 `;
 
 const EachTag = styled.div`
@@ -67,7 +104,7 @@ const EachTag = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(249, 251, 255, 1);
-  padding: 6px 12px 6px 12px;
+  padding: 6px 12px;
   color: rgba(92, 158, 255, 1);
   white-space: nowrap;
   flex-shrink: 0;
@@ -78,14 +115,9 @@ const TagContainer = styled.div`
   gap: 8px;
 `;
 
-const Input = styled.input`
-  width: 100%;
-  flex: 1;
-`;
-
 const OptionContainer = styled.div`
-  width: 100%;
   margin-left: 8px;
+  flex-shrink: 0;
 `;
 
 const PlusBtnContainer = styled.div`
