@@ -11,7 +11,7 @@ export interface TeamTag extends Tag {
 export interface TagsProps {
   initialTags?: TeamTag[];
   onEditTeamTag?: (tagId: number, newName: string) => void;
-  onCreateRoleTag?: (name: string) => void;
+  onCreateRoleTag?: (name: string) => Promise<number>;
   onEditRoleTag?: (tagId: number, newName: string) => void;
   onDeleteRoleTag?: (tagId: number) => void;
 }

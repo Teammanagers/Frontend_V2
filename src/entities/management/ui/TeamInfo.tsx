@@ -29,7 +29,7 @@ export const TeamInfo = ({
     useEditTeamTagMutation,
   } = useTeamMutations();
   const { mutate: editTeam } = useEditTeamMutation();
-  const { mutate: createTeamTag } = useCreateTeamTagMutation();
+  const { mutateAsync: createTeamTag } = useCreateTeamTagMutation();
   const { mutate: deleteTeamTag } = useDeleteTeamTagMutation();
   const { mutate: editTeamTag } = useEditTeamTagMutation();
 
@@ -135,8 +135,10 @@ export const TeamInfo = ({
           <TeamTag
             tagList={tagList.map(({ id, name }) => ({ tagId: id, name }))}
             isTeamLeader={isTeamLeader}
-            onCreateTeamTag={(tagName) => {
-              createTeamTag({ tagName });
+            onCreateTeamTag={async (tagName) => {
+              const res = await createTeamTag({ tagName });
+              console.log(res.result.tagId);
+              return res.result.tagId;
             }}
             onDeleteTeamTag={(tagId) => deleteTeamTag(tagId)}
             onEditTeamTag={(tagId, tagName) => editTeamTag({ tagId, tagName })}

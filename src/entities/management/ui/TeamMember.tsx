@@ -20,12 +20,14 @@ export const TeamMember = ({ members }: ITeamMemberProps) => {
     useEditMemberTagMutation,
     useDeleteMemberTagMutation,
   } = useTeamMutations();
-  const { mutate: createMemberTag } = useCreateMemberTagMutation();
+  const { mutateAsync: createMemberTag } = useCreateMemberTagMutation();
   const { mutate: editMemberTag } = useEditMemberTagMutation();
   const { mutate: deleteMemberTag } = useDeleteMemberTagMutation();
 
-  const handleAddTag = (memberId: number, tagName: string) => {
-    createMemberTag({ memberId, tagName });
+  const handleAddTag = async (memberId: number, tagName: string) => {
+    const res = await createMemberTag({ memberId, tagName });
+    console.log(res.result.tagId);
+    return res.result.tagId;
   };
 
   const handleEditTag = (tagId: number, memberId: number, tagName: string) => {

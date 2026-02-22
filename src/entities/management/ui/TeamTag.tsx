@@ -8,7 +8,7 @@ import Plus from '@/shared/assets/common/plus.svg?react';
 interface TeamTagManagerProps {
   tagList: { name: string }[];
   isTeamLeader: boolean;
-  onCreateTeamTag: (tagName: string) => void;
+  onCreateTeamTag: (tagName: string) => Promise<number>;
   onDeleteTeamTag: (tagId: number) => void;
   onEditTeamTag: (tagId: number, tagName: string) => void;
 }

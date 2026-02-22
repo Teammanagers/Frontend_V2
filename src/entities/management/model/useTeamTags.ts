@@ -2,7 +2,7 @@ import { useTags } from '@/shared/hooks/useTags';
 
 interface ITeamTagInput {
   initialTags: { name: string }[];
-  onCreateTeamTag: (tagName: string) => void;
+  onCreateTeamTag: (tagName: string) => Promise<number>;
   onDeleteTeamTag: (tagId: number) => void;
   onEditTeamTag: (tagId: number, tagName: string) => void;
 }

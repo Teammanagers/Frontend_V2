@@ -9,7 +9,7 @@ import { IMemberResponse } from '@/shared/types/member.types.ts';
 
 interface IMemberProps {
   member: IMemberResponse;
-  onCreateRoleTag: (tagName: string) => void;
+  onCreateRoleTag: (tagName: string) => Promise<number>;
   onEditRoleTag: (tagId: number, tagName: string) => void;
   onDeleteRoleTag: (tagId: number) => void;
 }
