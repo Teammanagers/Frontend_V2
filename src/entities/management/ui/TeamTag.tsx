@@ -8,7 +8,7 @@ import Plus from '@/shared/assets/common/plus.svg?react';
 interface TeamTagManagerProps {
   tagList: { name: string }[];
   isTeamLeader: boolean;
-  onCreateTeamTag: (tagName: string) => void;
+  onCreateTeamTag: (tagName: string) => Promise<number>;
   onDeleteTeamTag: (tagId: number) => void;
   onEditTeamTag: (tagId: number, tagName: string) => void;
 }
@@ -25,13 +25,14 @@ export const TeamTag = ({
     showTagInput,
     newTag,
     editTagIndex,
+    handleChangeTag,
     handleAddTag,
     handleEditTag,
     startEditingTag,
+    cancelNewTag,
     handleDeleteTag,
     setShowTagInput,
     setEditTagIndex,
-    setNewTag,
   } = useTeamTags({
     initialTags: tagList,
     onCreateTeamTag,
@@ -55,7 +56,7 @@ export const TeamTag = ({
               <TagInput
                 value={newTag}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setNewTag(e.target.value)
+                  handleChangeTag(e.target.value)
                 }
                 onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
                   handleEditTag(e, index)
@@ -84,19 +85,13 @@ export const TeamTag = ({
           <TagInput
             value={newTag}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setNewTag(e.target.value)
+              handleChangeTag(e.target.value)
             }
             onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleAddTag(e)}
             maxLength={5}
             autoFocus
           />
-          <DeleteBtn
-            onClick={() => {
-              setShowTagInput(false);
-              setNewTag('');
-              setEditTagIndex(null);
-            }}
-          />
+          <DeleteBtn onClick={cancelNewTag} />
         </TagInputContainer>
       )}
 

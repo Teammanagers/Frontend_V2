@@ -42,7 +42,7 @@ export default function useTeamMutations() {
 
   // 팀 태그 생성
   const useCreateTeamTagMutation = () => {
-    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+    const { mutateAsync, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ tagName }: { tagName: string }) => {
         return await apiRequest({
           url: `/api/v2/tag/team/${teamId}`,
@@ -57,12 +57,12 @@ export default function useTeamMutations() {
       },
       onError: (err) => console.error(err),
     });
-    return { mutate, data, isPending, isError, isSuccess };
+    return { mutateAsync, data, isPending, isError, isSuccess };
   };
 
   // 팀 태그 삭제
   const useDeleteTeamTagMutation = () => {
-    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+    const { mutateAsync, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async (tagId: number) => {
         await apiRequest({
           url: `/api/v2/tag/${tagId}/team/${teamId}`,
@@ -75,7 +75,7 @@ export default function useTeamMutations() {
         });
       },
     });
-    return { mutate, data, isPending, isError, isSuccess };
+    return { mutateAsync, data, isPending, isError, isSuccess };
   };
 
   // 팀 태그 수정
@@ -99,7 +99,7 @@ export default function useTeamMutations() {
 
   // 팀원 태그 생성
   const useCreateMemberTagMutation = () => {
-    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+    const { mutateAsync, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ memberId, tagName }: ICreateMemberTagInput) => {
         return await apiRequest({
           url: `/api/v2/tag/team/${teamId}/member/${memberId}`,
@@ -113,7 +113,7 @@ export default function useTeamMutations() {
         });
       },
     });
-    return { mutate, data, isPending, isError, isSuccess };
+    return { mutateAsync, data, isPending, isError, isSuccess };
   };
 
   // 팀원 태그 수정
@@ -137,7 +137,7 @@ export default function useTeamMutations() {
 
   // 팀원 태그 삭제
   const useDeleteMemberTagMutation = () => {
-    const { mutate, data, isPending, isError, isSuccess } = useMutation({
+    const { mutateAsync, data, isPending, isError, isSuccess } = useMutation({
       mutationFn: async ({ memberId, tagId }: IDeleteMemberTag) => {
         return await apiRequest({
           url: `/api/v2/tag/${tagId}/team/${teamId}/member/${memberId}`,
@@ -150,7 +150,7 @@ export default function useTeamMutations() {
         });
       },
     });
-    return { mutate, data, isPending, isError, isSuccess };
+    return { mutateAsync, data, isPending, isError, isSuccess };
   };
 
   // 스케줄 등록 및 수정

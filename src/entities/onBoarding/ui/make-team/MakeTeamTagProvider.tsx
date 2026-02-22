@@ -8,7 +8,7 @@ interface MakeTeamTagContextType {
   showTagInput: boolean;
   setShowTagInput: (show: boolean) => void;
   newTag: string;
-  setNewTag: (tag: string) => void;
+  handleChangeTag: (value: string) => void;
   handleAddTag: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   handleRMTag: (index: number) => void;
   inputRef: React.RefObject<HTMLInputElement>;
@@ -30,7 +30,7 @@ export default function MakeTeamTagProvider({
     showTagInput,
     setShowTagInput,
     newTag,
-    setNewTag,
+    handleChangeTag,
     handleAddTag,
   } = useTags({ initialTags: [] });
 
@@ -54,7 +54,7 @@ export default function MakeTeamTagProvider({
         showTagInput,
         setShowTagInput,
         newTag,
-        setNewTag,
+        handleChangeTag,
         handleAddTag,
         handleRMTag,
         inputRef,

@@ -37,13 +37,14 @@ export const MemoForm = ({
     showTagInput,
     newTag,
     editTagIndex,
+    handleChangeTag,
     handleAddTag,
     handleEditTag,
     startEditingTag,
+    cancelNewTag,
     handleDeleteTag,
     setShowTagInput,
     setEditTagIndex,
-    setNewTag,
   } = useTags({ initialTags });
 
   return (
@@ -76,7 +77,7 @@ export const MemoForm = ({
                 <TagInputContainer>
                   <TagInput
                     value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
+                    onChange={(e) => handleChangeTag(e.target.value)}
                     onKeyDown={(e) => handleEditTag(e, index)}
                     maxLength={5}
                     autoFocus
@@ -92,12 +93,12 @@ export const MemoForm = ({
             <TagInputContainer>
               <TagInput
                 value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
+                onChange={(e) => handleChangeTag(e.target.value)}
                 onKeyDown={handleAddTag}
                 maxLength={5}
                 autoFocus
               />
-              <DeleteBtn onClick={() => handleDeleteTag(-1)} />
+              <DeleteBtn onClick={cancelNewTag} />
             </TagInputContainer>
           )}
           {!showTagInput && tags.length < 3 && (

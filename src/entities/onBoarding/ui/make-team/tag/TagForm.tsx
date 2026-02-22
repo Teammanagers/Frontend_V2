@@ -11,7 +11,7 @@ export default function TagForm() {
     showTagInput,
     setShowTagInput,
     newTag,
-    setNewTag,
+    handleChangeTag,
     handleAddTag,
     handleRMTag,
     inputRef,
@@ -46,7 +46,7 @@ export default function TagForm() {
         {showTagInput && (
           <Input
             value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
+            onChange={(e) => handleChangeTag(e.target.value)}
             onKeyDown={handleAddTag}
             ref={inputRef}
             style={{ width: `${inputWidth}px` }}

@@ -20,20 +20,22 @@ export const TeamMember = ({ members }: ITeamMemberProps) => {
     useEditMemberTagMutation,
     useDeleteMemberTagMutation,
   } = useTeamMutations();
-  const { mutate: createMemberTag } = useCreateMemberTagMutation();
+  const { mutateAsync: createMemberTag } = useCreateMemberTagMutation();
   const { mutate: editMemberTag } = useEditMemberTagMutation();
-  const { mutate: deleteMemberTag } = useDeleteMemberTagMutation();
+  const { mutateAsync: deleteMemberTag } = useDeleteMemberTagMutation();
 
-  const handleAddTag = (memberId: number, tagName: string) => {
-    createMemberTag({ memberId, tagName });
+  const handleAddTag = async (memberId: number, tagName: string) => {
+    const res = await createMemberTag({ memberId, tagName });
+    console.log(res.result.tagId);
+    return res.result.tagId;
   };
 
   const handleEditTag = (tagId: number, memberId: number, tagName: string) => {
     editMemberTag({ tagId, memberId, tagName });
   };
 
-  const handleDeleteTag = (memberId: number, tagId: number) => {
-    deleteMemberTag({ tagId, memberId });
+  const handleDeleteTag = async (memberId: number, tagId: number) => {
+    await deleteMemberTag({ tagId, memberId });
   };
 
   const paginatedMembers = members.slice(

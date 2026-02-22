@@ -7,7 +7,7 @@ export const TagFormLib = () => {
     showTagInput,
     setShowTagInput,
     newTag,
-    setNewTag,
+    handleChangeTag,
     handleAddTag,
     setTags,
   } = useTags({
@@ -31,7 +31,7 @@ export const TagFormLib = () => {
     showTagInput,
     setShowTagInput,
     newTag,
-    setNewTag,
+    handleChangeTag,
     handleAddTag,
     handleRMTag,
     inputRef,

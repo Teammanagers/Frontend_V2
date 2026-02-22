@@ -18,6 +18,7 @@ import { TagsProps, TeamTag } from '@/shared/types/tag.types.ts';
  * @returns {boolean} showTagInput - 태그 입력창의 노출 여부
  * @returns {string} newTag - 현재 입력 중인 태그 값
  * @returns {number|null} editTagIndex - 수정 중인 태그의 인덱스 (수정 모드가 아닐 경우 null)
+ * @returns {(value: string) => void} handleChangeTag - 입력 값을 업데이트하며 최대 길이를 제한하는 함수
  * @returns {(e: KeyboardEvent<HTMLInputElement>) => Promise<void>} handleAddTag - 태그 추가 핸들러
  * @returns {(e: KeyboardEvent<HTMLInputElement>, index: number) => Promise<void>} handleEditTag - 태그 수정 핸들러
  * @returns {(index: number) => void} startEditingTag - 태그 수정 모드로 전환하는 함수
@@ -25,11 +26,11 @@ import { TagsProps, TeamTag } from '@/shared/types/tag.types.ts';
  * @returns {(tags: TeamTag[]) => void} setTags - 태그 배열을 업데이트하는 함수
  * @returns {(show: boolean) => void} setShowTagInput - 태그 입력창 노출 여부를 업데이트하는 함수
  * @returns {(index: number | null) => void} setEditTagIndex - 수정 중인 태그 인덱스를 업데이트하는 함수
- * @returns {(tag: string) => void} setNewTag - 입력 중인 태그 값을 업데이트하는 함수
  *
  */
 
 const MAX_TAG_COUNT = 3;
+const MAX_TAG_LENGTH = 5;
 
 export const useTags = ({
   initialTags = [],
@@ -43,25 +44,44 @@ export const useTags = ({
   const [newTag, setNewTag] = useState<string>(''); // 새로운 태그 입력값
   const [editTagIndex, setEditTagIndex] = useState<number | null>(null); // 태그 수정시 인덱스값
 
-  const handleAddTag = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && newTag.trim() !== '') {
-      if (tags.length >= MAX_TAG_COUNT) return; // 추가
-
-      const isDuplicated = tags.some((tag) => tag.name === newTag.trim());
-      if (isDuplicated) {
-        alert('이미 존재하는 태그입니다!');
-        return;
-      }
-
-      if (onCreateRoleTag) {
-        onCreateRoleTag(newTag.trim());
-      }
-      setTags([...tags, { tagId: Date.now(), name: newTag.trim() }]);
-      setNewTag('');
-      setShowTagInput(false);
-    }
+  const handleChangeTag = (value: string) => {
+    setNewTag(value.slice(0, MAX_TAG_LENGTH));
   };
 
+  // 태그 생성
+  const handleAddTag = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return;
+    if (e.nativeEvent.isComposing) return;
+    if (e.repeat) return;
+
+    e.preventDefault();
+
+    const trimmed = newTag.trim();
+    if (!trimmed) return;
+
+    if (tags.length >= MAX_TAG_COUNT) return; // 추가
+
+    const isDuplicated = tags.some((tag) => tag.name === trimmed);
+    if (isDuplicated) {
+      alert('이미 존재하는 태그입니다!');
+      return;
+    }
+
+    // 역할이 있으면 -> 팀, 멤버 태그
+    if (onCreateRoleTag) {
+      const createdTagId = await onCreateRoleTag(trimmed);
+
+      setTags((prev) => [...prev, { tagId: createdTagId, name: trimmed }]);
+    } else {
+      // 메모 태그
+      setTags((prev) => [...prev, { tagId: Date.now(), name: trimmed }]);
+    }
+
+    setNewTag('');
+    setShowTagInput(false);
+  };
+
+  // 태그 수정
   const handleEditTag = async (
     e: KeyboardEvent<HTMLInputElement>,
     index: number,
@@ -86,11 +106,8 @@ export const useTags = ({
 
       // 팀 태그와 역할 태그에 따라 다른 콜백 호출
       if (tagId !== undefined) {
-        if (onEditTeamTag) {
-          await onEditTeamTag(tagId, newTag.trim());
-        } else if (onEditRoleTag) {
-          await onEditRoleTag(tagId, newTag.trim());
-        }
+        if (onEditTeamTag) await onEditTeamTag(tagId, newTag.trim());
+        else if (onEditRoleTag) await onEditRoleTag(tagId, newTag.trim());
       }
     }
   };
@@ -101,6 +118,14 @@ export const useTags = ({
     setShowTagInput(true);
   };
 
+  // 입력 중 태그 취소
+  const cancelNewTag = () => {
+    setNewTag('');
+    setShowTagInput(false);
+    setEditTagIndex(null);
+  };
+
+  // 실제 데이터에서 태그 삭제
   const handleDeleteTag = async (index: number) => {
     const tagId = tags[index]?.tagId;
     if (tagId !== undefined && onDeleteRoleTag) {
@@ -128,13 +153,14 @@ export const useTags = ({
     showTagInput,
     newTag,
     editTagIndex,
+    handleChangeTag,
     handleAddTag,
     handleEditTag,
     startEditingTag,
+    cancelNewTag,
     handleDeleteTag,
     setTags,
     setShowTagInput,
     setEditTagIndex,
-    setNewTag,
   };
 };
