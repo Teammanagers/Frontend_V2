@@ -50,7 +50,6 @@ export const useTags = ({
 
   // 태그 생성
   const handleAddTag = async (e: KeyboardEvent<HTMLInputElement>) => {
-    console.log('handleadd실행됨!!!!!!!!!!!!!!!');
     if (e.key !== 'Enter') return;
     if (e.nativeEvent.isComposing) return;
     if (e.repeat) return;
