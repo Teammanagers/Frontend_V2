@@ -13,5 +13,5 @@ export interface TagsProps {
   onEditTeamTag?: (tagId: number, newName: string) => void;
   onCreateRoleTag?: (name: string) => Promise<number>;
   onEditRoleTag?: (tagId: number, newName: string) => void;
-  onDeleteRoleTag?: (tagId: number) => void;
+  onDeleteRoleTag?: (tagId: number) => Promise<void>;
 }

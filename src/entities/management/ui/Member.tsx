@@ -11,7 +11,7 @@ interface IMemberProps {
   member: IMemberResponse;
   onCreateRoleTag: (tagName: string) => Promise<number>;
   onEditRoleTag: (tagId: number, tagName: string) => void;
-  onDeleteRoleTag: (tagId: number) => void;
+  onDeleteRoleTag: (tagId: number) => Promise<void>;
 }
 
 export const Member = ({

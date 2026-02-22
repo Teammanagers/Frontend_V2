@@ -30,7 +30,7 @@ export const TeamInfo = ({
   } = useTeamMutations();
   const { mutate: editTeam } = useEditTeamMutation();
   const { mutateAsync: createTeamTag } = useCreateTeamTagMutation();
-  const { mutate: deleteTeamTag } = useDeleteTeamTagMutation();
+  const { mutateAsync: deleteTeamTag } = useDeleteTeamTagMutation();
   const { mutate: editTeamTag } = useEditTeamTagMutation();
 
   const fileInputRef = useRef<HTMLInputElement>(null);

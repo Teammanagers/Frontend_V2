@@ -22,7 +22,7 @@ export const TeamMember = ({ members }: ITeamMemberProps) => {
   } = useTeamMutations();
   const { mutateAsync: createMemberTag } = useCreateMemberTagMutation();
   const { mutate: editMemberTag } = useEditMemberTagMutation();
-  const { mutate: deleteMemberTag } = useDeleteMemberTagMutation();
+  const { mutateAsync: deleteMemberTag } = useDeleteMemberTagMutation();
 
   const handleAddTag = async (memberId: number, tagName: string) => {
     const res = await createMemberTag({ memberId, tagName });
@@ -34,8 +34,8 @@ export const TeamMember = ({ members }: ITeamMemberProps) => {
     editMemberTag({ tagId, memberId, tagName });
   };
 
-  const handleDeleteTag = (memberId: number, tagId: number) => {
-    deleteMemberTag({ tagId, memberId });
+  const handleDeleteTag = async (memberId: number, tagId: number) => {
+    await deleteMemberTag({ tagId, memberId });
   };
 
   const paginatedMembers = members.slice(
