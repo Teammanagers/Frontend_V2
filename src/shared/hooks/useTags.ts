@@ -49,23 +49,37 @@ export const useTags = ({
   };
 
   // 태그 생성
-  const handleAddTag = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && newTag.trim() !== '') {
-      if (tags.length >= MAX_TAG_COUNT) return; // 추가
+  const handleAddTag = async (e: KeyboardEvent<HTMLInputElement>) => {
+    console.log('handleadd실행됨!!!!!!!!!!!!!!!');
+    if (e.key !== 'Enter') return;
+    if (e.nativeEvent.isComposing) return;
+    if (e.repeat) return;
 
-      const isDuplicated = tags.some((tag) => tag.name === newTag.trim());
-      if (isDuplicated) {
-        alert('이미 존재하는 태그입니다!');
-        return;
-      }
+    e.preventDefault();
 
-      if (onCreateRoleTag) {
-        onCreateRoleTag(newTag.trim());
-      }
-      setTags([...tags, { tagId: Date.now(), name: newTag.trim() }]);
-      setNewTag('');
-      setShowTagInput(false);
+    const trimmed = newTag.trim();
+    if (!trimmed) return;
+
+    if (tags.length >= MAX_TAG_COUNT) return; // 추가
+
+    const isDuplicated = tags.some((tag) => tag.name === trimmed);
+    if (isDuplicated) {
+      alert('이미 존재하는 태그입니다!');
+      return;
     }
+
+    // 역할이 있으면 -> 팀, 멤버 태그
+    if (onCreateRoleTag) {
+      const createdTagId = await onCreateRoleTag(trimmed);
+
+      setTags((prev) => [...prev, { tagId: createdTagId, name: trimmed }]);
+    } else {
+      // 메모 태그
+      setTags((prev) => [...prev, { tagId: Date.now(), name: trimmed }]);
+    }
+
+    setNewTag('');
+    setShowTagInput(false);
   };
 
   // 태그 수정
