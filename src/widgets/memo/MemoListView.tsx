@@ -20,6 +20,7 @@ export default function MemoListView({
   currentFolderId,
   canAddFolder,
   onFolderClick,
+  onMemoClick,
 }: MemoListViewProps) {
   return (
     <>
@@ -58,6 +59,7 @@ export default function MemoListView({
                 size="large"
                 memo={memo}
                 isMyMemo={myMemosIds?.includes(memo.id)}
+                onMemoClick={() => onMemoClick(memo.id)}
                 onDeleteRequest={(id) =>
                   handlers.handleDeleteRequest({
                     type: 'memo',

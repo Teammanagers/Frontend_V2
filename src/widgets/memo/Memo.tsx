@@ -42,6 +42,7 @@ export const Memo = ({
   size,
   memo,
   isMyMemo,
+  onMemoClick,
   onDeleteRequest,
   onMoveRequest,
 }: MemoProps) => {
@@ -90,10 +91,14 @@ export const Memo = ({
   };
 
   return (
-    <MemoContainer $size={selectedSize} $pinned={isPinned}>
+    <MemoContainer
+      onClick={onMemoClick}
+      $size={selectedSize}
+      $pinned={isPinned}
+    >
       <MemoTitleContainer>
         <MemoTitle>{title}</MemoTitle>
-        <MenuContainer>
+        <MenuContainer onClick={(e) => e.stopPropagation()}>
           {size === 'large' && (
             <PinBtn onClick={handlePinToggle} $pinned={isPinned} />
           )}
@@ -140,6 +145,7 @@ const MemoContainer = styled.div<{
   gap: 8px;
   background: white;
   padding: 16px 18px;
+  cursor: pointer;
 `;
 
 const MemoTitleContainer = styled.div`

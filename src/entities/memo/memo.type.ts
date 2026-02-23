@@ -39,6 +39,7 @@ export interface MemoListViewProps {
   uiState: MemoListViewUIState;
   handlers: MemoListViewHandlers;
   onFolderClick?: (folderId: number) => void;
+  onMemoClick: (memoId: number) => void;
   currentFolderId: number;
   canAddFolder?: boolean;
 }
