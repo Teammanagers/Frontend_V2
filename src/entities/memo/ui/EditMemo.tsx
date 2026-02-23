@@ -64,7 +64,7 @@ export const EditMemo = () => {
         onBack={() =>
           teamNavigate((teamId) => `${PATHS.MEMO(teamId)}/${memoDto.folderId}`)
         }
-        submitButtonText="메모 수정"
+        submitButtonText="수정 완료"
         onDelete={onDelete}
         showDeleteButton={true}
       />
