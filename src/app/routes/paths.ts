@@ -1,5 +1,5 @@
 import MypageNoticeIcon from '@/shared/assets/mypage/loudspeaker.svg?react';
-import MypagePortfolio from '@/shared/assets/mypage/portfolio.svg?react';
+// import MypagePortfolio from '@/shared/assets/mypage/portfolio.svg?react';
 import MypageTermOfServiceIcon from '@/shared/assets/mypage/term-of-service.svg?react';
 import MypageProfileIcon from '@/shared/assets/mypage/update-profile.svg?react';
 import FixedMemoList from '@/widgets/memo/FixedMemoList';
@@ -119,7 +119,7 @@ export const mainRoutes: RouteConfig[] = [
 
 export const mypageRoutes: RouteConfig[] = [
   { label: '프로필 수정', to: PATHS.PROFILE, icon: MypageProfileIcon },
-  { label: '포트폴리오', to: PATHS.PORTFOLIO, icon: MypagePortfolio },
+  // { label: '포트폴리오', to: PATHS.PORTFOLIO, icon: MypagePortfolio },
   { label: '공지사항', to: PATHS.NOTICE, icon: MypageNoticeIcon },
   {
     label: '이용약관 및 개인정보처리방침',
