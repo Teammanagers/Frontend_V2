@@ -18,6 +18,7 @@ export interface MemoProps {
   isMyMemo?: boolean;
   onDeleteRequest: (id: number) => void;
   onMoveRequest: (id: number) => void;
+  onMemoClick?: () => void;
 }
 
 export interface FolderType {

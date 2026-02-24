@@ -14,6 +14,7 @@ export const MemoList = ({
   uiState,
   handlers,
   onFolderClick,
+  onMemoClick,
   currentFolderId,
   canAddFolder,
 }: MemoListViewProps) => {
@@ -38,6 +39,7 @@ export const MemoList = ({
         currentFolderId={currentFolderId}
         canAddFolder={canAddFolder}
         onFolderClick={onFolderClick}
+        onMemoClick={onMemoClick}
       />
     );
   }
@@ -63,6 +65,7 @@ export const MemoList = ({
       currentFolderId={currentFolderId}
       canAddFolder={canAddFolder}
       onFolderClick={onFolderClick}
+      onMemoClick={onMemoClick}
     />
   );
 };
