@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '@/shared/components/button/Button';
+import Skeleton from '@/shared/components/skeleton/Skeleton';
 import { AddTeamCard, TeamCard } from './TeamContent';
 import { useGetName } from '../../model/selectTeam/useGetName';
 import { useGetTeamList } from '../../model/selectTeam/useGetTeamList';
 
 export default function SelectTeam() {
-  const { teamList } = useGetTeamList();
+  const { teamList, isLoading } = useGetTeamList();
   const navigate = useNavigate();
   const { name } = useGetName();
   return (
@@ -14,14 +15,27 @@ export default function SelectTeam() {
       {name ? (
         <PageTitle>{name}님이 현재 진행하고 있는 팀 프로젝트예요!</PageTitle>
       ) : (
-        <PageTitle>안녕하세요!</PageTitle>
+        <PageTitle>팀 정보를 불러오고 있습니다..</PageTitle>
       )}
 
       <TeamListContainer>
+        {isLoading &&
+          Array.from({ length: 3 }).map(() => (
+            <SkeletonWrapper>
+              <Skeleton width="160px" height="160px" variant="circle" />
+              <Skeleton width="140px" height="43px" />
+              <SkeletonTags>
+                <Skeleton width="60px" height="36px" />
+                <Skeleton width="60px" height="36px" />
+              </SkeletonTags>
+            </SkeletonWrapper>
+          ))}
+
         {teamList &&
           teamList.map((team) => <TeamCard key={team.id} team={team} />)}
-        {teamList.length < 4 && <AddTeamCard />}
+        {!isLoading && teamList.length < 4 && <AddTeamCard />}
       </TeamListContainer>
+
       <BtnContainer>
         <BtnSpan>다른 팀의 초대를 받았나요?</BtnSpan>
         <Button
@@ -75,4 +89,18 @@ const BtnSpan = styled.span`
   font-weight: 400;
   font-size: 12px;
   line-height: 150%;
+`;
+
+const SkeletonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 257px;
+`;
+
+const SkeletonTags = styled.div`
+  display: flex;
+  items-center: center;
+  gap: 8px;
 `;
