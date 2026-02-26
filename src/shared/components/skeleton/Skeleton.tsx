@@ -45,7 +45,6 @@ const Container = styled.div<{
 }>`
   width: ${({ $width }) => $width};
   height: ${({ $height }) => $height};
-  // border-radius: 10px;
   animation: ${SkeletonLoading} 0.7s linear infinite alternate;
 
   ${({ $variant }) =>
