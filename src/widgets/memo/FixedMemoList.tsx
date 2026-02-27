@@ -1,11 +1,14 @@
 import styled from 'styled-components';
+import { PATHS } from '@/app/routes/paths.ts';
 import FallbackCard from '@/entities/main/ui/FallbackCard';
 import { useFixedMemoList } from '@/entities/memo/model/useMemoQueries';
 import { useMemoUIState } from '@/features/memo/model/useMemoUIState';
 import Skeleton from '@/shared/components/skeleton/Skeleton';
+import { useTeamNavigate } from '@/shared/hooks/useTeamNavigate.ts';
 import { Memo } from './Memo';
 
 export default function FixedMemoList() {
+  const teamNavigate = useTeamNavigate();
   const { data: memos, isPending, isSuccess, isError } = useFixedMemoList();
   const { handlers } = useMemoUIState();
 
@@ -31,6 +34,12 @@ export default function FixedMemoList() {
               createdBy: memo.memoDto.createdBy,
               createdByName: memo.memoDto.createdByName,
             }}
+            onMemoClick={() =>
+              teamNavigate(
+                (teamId) =>
+                  `${PATHS.MEMO(teamId)}/${memo.memoDto.folderId}/${memo.memoDto.id}`,
+              )
+            }
             onDeleteRequest={(id) =>
               handlers.handleDeleteRequest({
                 type: 'memo',
