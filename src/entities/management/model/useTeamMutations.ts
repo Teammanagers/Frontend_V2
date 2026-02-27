@@ -52,7 +52,7 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', 'tag', teamId],
+          queryKey: ['team', teamId],
         });
       },
       onError: (err) => console.error(err),
@@ -71,7 +71,7 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', 'tag', teamId],
+          queryKey: ['team', teamId],
         });
       },
     });
@@ -90,7 +90,7 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', 'tag', teamId],
+          queryKey: ['team', teamId],
         });
       },
     });
