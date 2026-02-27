@@ -107,9 +107,9 @@ export default function useTeamMutations() {
           data: { tagName },
         });
       },
-      onSuccess: (_, variables) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'teamMember', 'tag', variables.memberId],
+          queryKey: ['management', 'member', teamId],
         });
       },
     });
@@ -126,9 +126,9 @@ export default function useTeamMutations() {
           data: { tagName },
         });
       },
-      onSuccess: (_, variables) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'teamMember', 'tag', variables.memberId],
+          queryKey: ['management', 'member', teamId],
         });
       },
     });
@@ -144,9 +144,9 @@ export default function useTeamMutations() {
           method: 'DELETE',
         });
       },
-      onSuccess: (_, variables) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'teamMember', 'tag', variables.memberId],
+          queryKey: ['management', 'member', teamId],
         });
       },
     });
