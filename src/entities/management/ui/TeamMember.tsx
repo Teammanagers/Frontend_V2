@@ -26,7 +26,6 @@ export const TeamMember = ({ members }: ITeamMemberProps) => {
 
   const handleAddTag = async (memberId: number, tagName: string) => {
     const res = await createMemberTag({ memberId, tagName });
-    console.log(res.result.tagId);
     return res.result.tagId;
   };
 
