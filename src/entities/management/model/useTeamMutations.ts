@@ -52,7 +52,7 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', 'tag', teamId],
+          queryKey: ['team', teamId],
         });
       },
       onError: (err) => console.error(err),
@@ -71,7 +71,7 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', 'tag', teamId],
+          queryKey: ['team', teamId],
         });
       },
     });
@@ -90,7 +90,7 @@ export default function useTeamMutations() {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'team', 'tag', teamId],
+          queryKey: ['team', teamId],
         });
       },
     });
@@ -107,9 +107,9 @@ export default function useTeamMutations() {
           data: { tagName },
         });
       },
-      onSuccess: (_, variables) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'teamMember', 'tag', variables.memberId],
+          queryKey: ['management', 'member', teamId],
         });
       },
     });
@@ -126,9 +126,9 @@ export default function useTeamMutations() {
           data: { tagName },
         });
       },
-      onSuccess: (_, variables) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'teamMember', 'tag', variables.memberId],
+          queryKey: ['management', 'member', teamId],
         });
       },
     });
@@ -144,9 +144,9 @@ export default function useTeamMutations() {
           method: 'DELETE',
         });
       },
-      onSuccess: (_, variables) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ['management', 'teamMember', 'tag', variables.memberId],
+          queryKey: ['management', 'member', teamId],
         });
       },
     });

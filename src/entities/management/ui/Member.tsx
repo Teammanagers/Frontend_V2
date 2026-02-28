@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent } from 'react';
+import { ChangeEvent, KeyboardEvent, useMemo } from 'react';
 import styled from 'styled-components';
 import { TagInputContainer } from '@/entities/memo/ui/MemoForm.tsx';
 import Delete from '@/shared/assets/common/delete-tag.svg?react';
@@ -20,6 +20,15 @@ export const Member = ({
   onEditRoleTag,
   onDeleteRoleTag,
 }: IMemberProps) => {
+  const mappedTags = useMemo(
+    () =>
+      member.grantedRoleList.map((role) => ({
+        tagId: role.id,
+        name: role.name,
+      })),
+    [member.grantedRoleList],
+  );
+
   const {
     tags,
     showTagInput,
@@ -34,10 +43,7 @@ export const Member = ({
     setShowTagInput,
     setEditTagIndex,
   } = useTags({
-    initialTags: member.grantedRoleList.map((role) => ({
-      tagId: role.id,
-      name: role.name,
-    })),
+    initialTags: mappedTags,
     onCreateRoleTag,
     onEditRoleTag,
     onDeleteRoleTag,

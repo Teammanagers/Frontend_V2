@@ -137,7 +137,6 @@ export const TeamInfo = ({
             isTeamLeader={isTeamLeader}
             onCreateTeamTag={async (tagName) => {
               const res = await createTeamTag({ tagName });
-              console.log(res.result.tagId);
               return res.result.tagId;
             }}
             onDeleteTeamTag={(tagId) => deleteTeamTag(tagId)}

@@ -140,6 +140,10 @@ export const useTags = ({
   };
 
   useEffect(() => {
+    setTags(initialTags);
+  }, [initialTags]);
+
+  useEffect(() => {
     if (tags.length < 3) {
       setShowTagInput(false);
     }
