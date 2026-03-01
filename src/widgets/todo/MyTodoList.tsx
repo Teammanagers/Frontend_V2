@@ -51,6 +51,7 @@ const MyTodoListWrapper = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.subLightBlue};
   padding: 16px 16px 14px 16px;
   border-radius: 8px;
+  overflow: auto;
 `;
 
 const MyTodoTitle = styled.h2`
@@ -63,7 +64,6 @@ const TodosWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 9px;
-  overflow: auto;
 `;
 
 const TodoWrapper = styled.li`
