@@ -1,5 +1,5 @@
-import { IDropdownMenu } from '@/shared/types';
 import styled from 'styled-components';
+import { IDropdownMenu } from '@/shared/types';
 
 /**
  * DropdownMenu 컴포넌트는 드롭다운 메뉴 항목을 위한 컨테이너를 제공합니다.

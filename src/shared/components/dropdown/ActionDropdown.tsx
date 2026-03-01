@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import DropdownMenuIcon from '@/shared/assets/common/dropdown-menu.svg?react';
-import Dropdown from './plate/Dropdown';
 import { IActionDropdownProps } from '@/shared/types';
+import Dropdown from './plate/Dropdown';
 
 /**
  * ActionDropdown 컴포넌트는 수정 및 삭제 버튼을 포함한 드롭다운 메뉴를 렌더링합니다.
