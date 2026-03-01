@@ -10,7 +10,7 @@ import { IDropdownTrigger } from '@/shared/types';
 
 const DropdownTrigger = ({ children, onClick }: IDropdownTrigger) => {
   return (
-    <Container onClick={onClick}>
+    <Container type="button" aria-label="메뉴 열기" onClick={onClick}>
       <IconWrapper>{children}</IconWrapper>
     </Container>
   );
