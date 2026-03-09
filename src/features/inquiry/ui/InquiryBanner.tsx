@@ -13,7 +13,7 @@ export default function InquiryBanner() {
           발전에 큰 도움이 됩니다! :)
         </p>
 
-        <button onClick={() => toggle()}>이용경험 작성</button>
+        <button onClick={toggle}>이용경험 작성</button>
       </Container>
 
       <InquiryModal isOpen={isOpen} toggle={toggle} />
