@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import FormSubmitButton from '@/shared/components/button/FormSubmitButton';
 import Modal from '@/shared/components/modal/Modal';
@@ -9,11 +10,15 @@ export default function InquiryModal({
   isOpen: boolean;
   toggle: () => void;
 }) {
+  const [inputValue, setInputValue] = useState('');
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     toggle();
+    setInputValue('');
   };
+
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalWrapper>
@@ -27,7 +32,11 @@ export default function InquiryModal({
         </TitleWrapper>
 
         <FormWrapper onSubmit={handleSubmit}>
-          <Textarea placeholder="이용 경험을 남겨주세요." />
+          <Textarea
+            value={inputValue}
+            placeholder="이용 경험을 남겨주세요."
+            onChange={(e) => setInputValue(e.target.value)}
+          />
           <FormSubmitButton type="submit" />
         </FormWrapper>
       </ModalWrapper>
