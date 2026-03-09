@@ -34,10 +34,11 @@ export default function InquiryModal({
         <FormWrapper onSubmit={handleSubmit}>
           <Textarea
             value={inputValue}
+            aria-label="이용 경험을 남겨주세요."
             placeholder="이용 경험을 남겨주세요."
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <FormSubmitButton type="submit" />
+          <FormSubmitButton aria-label="제출" type="submit" />
         </FormWrapper>
       </ModalWrapper>
     </Modal>
