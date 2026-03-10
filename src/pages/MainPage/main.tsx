@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { mainRoutes } from '@/app/routes/paths';
 import MainSectionLink from '@/entities/main/ui/MainSectionLink';
 import { TeamCodeCopy } from '@/entities/main/ui/TeamCodeCopy';
+import InquiryBanner from '@/features/inquiry/ui/InquiryBanner';
 import { NoticeBanner } from '@/widgets/notice/NoticeBanner';
 import MainSectionLayout from '../_layouts/MainSectionLayout';
 
@@ -33,6 +34,8 @@ export function MainPage() {
             </SectionWrapper>
           );
         })}
+
+        <InquiryBanner />
       </ContentWrapper>
     </Container>
   );
